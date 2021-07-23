@@ -265,11 +265,11 @@ install_pgdb: `authservice/out/install_pgdb.sh`
 
 In addition, sample Ansible roles to automatically build and deploy a testbed environment are provided:
 
-https://github.com/intel-secl/utils/tree/v4.0/develop/tools/ansible-role
+https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ansible-role
 
 Also provided are sample API calls organized by workflows for Postman:
 
-https://github.com/intel-secl/utils/tree/v4.0/develop/tools/api-collections
+https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections
 
 ## Hardware Considerations
 
@@ -2200,7 +2200,7 @@ rm -rf go1.14.4.linux-amd64.tar.gz
 
   ```
   mkdir -p /root/intel-secl/build/fs && cd /root/intel-secl/build/fs
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.0.0
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v5.0.0
   repo sync
   ```
 
@@ -2248,7 +2248,7 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
   ```
   mkdir -p /root/intel-secl/build/cc-crio && cd /root/intel-secl/build/cc-crio
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.0.0
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v5.0.0
   repo sync
   ```
 

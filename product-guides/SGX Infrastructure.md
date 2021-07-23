@@ -254,7 +254,7 @@ Intel® Security Libraries is distributed as open source code and must be compil
 
 Instructions and sample scripts for building the Intel® SecL-DC components can be found here (Section 1 to 6)
 
-https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20RHEL.md
+https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20RHEL.md
 
 After the components have been built, the installation binaries and database scripts can be found in the binaries directory created by the build scripts.
 
@@ -280,7 +280,7 @@ DB scripts:
 
 Intel® Security Libraries is distributed as open source code and must be compiled into OCI images before installation.
 
-Instructions and sample scripts for building the Intel® SecL-DC components  as containerized images for Kubernetes deployments can be found in [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#build)
+Instructions and sample scripts for building the Intel® SecL-DC components  as containerized images for Kubernetes deployments can be found in [Quick Start guide](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#build)
 
 After the components have been built, the OCI images and pre-req scripts can be found in the `K8s` directory created by the build scripts.
 
@@ -499,18 +499,18 @@ The containerized deployment utilizes K8s orchestrator to deploy SGX components.
 * Ensure based on the deployment model , `microk8s` or `kubeadm` in installed. Supported versions in [Requirements for Containerized Deployment with K8s](#requirements-for-containerized-deployment-with-k8s)
 * Docker runtime is configured for each of these deployments. Supported versions in [Requirements for Containerized Deployment with K8s](#requirements-for-containerized-deployment-with-k8s)
 * The build would generate a script for platform dependencies under `<working directory>/k8s/platform dependencies`
-* Follow the deployment pre-reqs as given in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deployment) based on the chosen deployment model
+* Follow the deployment pre-reqs as given in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deployment) based on the chosen deployment model
 
 ### Deploy Steps
 
-* The deploy steps are detailed in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deploy-steps) based on the deployment model. Follow the instructions for the deployment using the scripts
+* The deploy steps are detailed in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deploy-steps) based on the deployment model. Follow the instructions for the deployment using the scripts
 
 ### Additional Details
 
-* [Default Service and Agent Mount Paths - Single Node](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-and-agent-mount-paths)
-* [Default Service and Agent Mount Paths - Multi Node](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#multi-node-deployments)
-* [Default Service Ports](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-ports)
-* [NFS Setup Pre-reqs - Multi Node](https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#setup-1)
+* [Default Service and Agent Mount Paths - Single Node](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-and-agent-mount-paths)
+* [Default Service and Agent Mount Paths - Multi Node](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#multi-node-deployments)
+* [Default Service Ports](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-ports)
+* [NFS Setup Pre-reqs - Multi Node](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#setup-1)
 
 ## Installing the Certificate Management Service
 
@@ -1062,7 +1062,7 @@ When the installation completes, the SGX Quote Verification Service is available
 
 * To setup k8 cluster on RHEL 8.2, follow https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos 
 
-* To setup k8 cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v4.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Ubuntu.md
+* To setup k8 cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Ubuntu.md
 Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and follow from step 3 onwards.
 
 * Once the master/worker setup is done, follow below steps on Master Node:
