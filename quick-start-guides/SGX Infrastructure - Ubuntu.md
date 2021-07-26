@@ -137,7 +137,7 @@ add-apt-repository ppa:projectatomic/ppa
 apt-get update
 apt-get install skopeo
 apt-get install makeself
-
+export PATH=/usr/local/bin:$PATH
 ```
 
 > Note: After skopeo installation, if /etc/containers/policy.json file not available then follow below steps:

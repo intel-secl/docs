@@ -341,13 +341,13 @@ A single-node deployment uses Microk8s to deploy the entire control plane in a p
 
 **Single Node:**
 
-![k8s-single-node](.\Images\)
+![k8s-single-node](.\Images\single-node-ws.jpg)
 
 A multi-node deployment is a more typical Kubernetes architecture, where the Intel SecL management plane is simply deployed as a Pod, with the Intel SecL agents (the WLA and the TA, depending on use case) deployed as a DaemonSet.
 
 **Multi Node:**
 
-![K8s Deployment-fsws](.\images\)
+![K8s Deployment-fsws](.\images\k8s-deployment-ws.jpg)
 
 
 
@@ -355,13 +355,13 @@ A multi-node deployment is a more typical Kubernetes architecture, where the Int
 
 Every service including databases will be deployed as separate K8s deployment with 1 replica, i.e(1 pod per deployment). Each deployment will be further exposed through k8s service and also will be having corresponding Persistent Volume Claims(PV) for configuration and log directories and mounted on persistent storage. In case of daemonsets/agents, the configuration and log directories will be mounted on respective Baremetal worker nodes.
 
-![](.\images\)
+![](.\images\service-deployment.jpg)
 
 ![Each pod consist of only one container with service](.\images\daemonsets-ws.jpg)
 
 For stateful services which requires database like shvs, aas, scs, A separate database deployment will be created for each of such services. The data present on the database deployment will also made to persist on a NFS, through K8s persistent storage mechanism
 
-![database deployment](.\Images\)
+![database deployment](.\Images\hvs-db.jpg)
 
 
 
@@ -373,7 +373,7 @@ For stateful services which requires database like shvs, aas, scs, A separate da
 
 **Networking Outside the Cluster:**
 
-![Networking outside cluster](.\Images\)
+![Networking outside cluster](.\Images\within-cluster-communication-ws.jpg)
 
 Installing/Configuring the Database
 -----------------------------------
@@ -456,7 +456,7 @@ The NATS server should be deployed on the control plane and will need network co
 
 While NATS is not installed by Intel SecL directly, sample instructions for deploying a NATS server for use with Intel SecL can be found below (this is intended to be a sample only; please consult https://nats.io for official NATS documentation) :
 
-```
+```shell
 ##Download and install the NATS-server binary (see https://github.com/nats-io/nats-server/releases/latest) 
 rpm -i https://github.com/nats-io/nats-server/releases/download/v2.3.0/nats-server-v2.3.0-amd64.rpm
 
@@ -471,7 +471,7 @@ wget https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssl_1.6.0_li
 
 Use the following **additional** options in populate-users.env and run populate-users:
 
-```
+```ini
 ISECL_INSTALL_COMPONENTS=TA,HVS,AAS,NATS
 NATS_CERT_SAN_LIST=<NATS server ip>,<NATS server FQDN>,localhost 
 NATS_CERT_COMMON_NAME=NATS TLS Certificate
@@ -481,7 +481,7 @@ Note that the ISECL_INSTALL_COMPONENTS list should reflect the actual components
 
 To generate a long-lived token for use in environments where the Trust Agent may not be provisioned for an extended period of time beyond the usual lifetime of an authentication token, add the following to populate-users.env:
 
-```
+```ini
 CUSTOM_CLAIMS_COMPONENTS=<List of services for which the long-lived installation token will be valid.  Typically this is only the Trust Agent, and so the only component in the list is typically "TA">
 CUSTOM_CLAIMS_TOKEN_VALIDITY_SECS=<duration in seconds for the token to last>
 CCC_ADMIN_USERNAME=<username for generating long-lived tokens>
@@ -492,13 +492,13 @@ When populate-users is run, there will now be an additional "Custom Claims Token
 
 When installing the HVS, add the following to hvs.env:
 
-```
+```ini
 NATS_SERVERS=nats://<server ip>:4222
 ```
 
 Alternatively, if the HVS is already installed, add the following in /etc/hvs/config.yml :
 
-```
+```yaml
 nats:
   servers:
   - nats://<NATS server IP>:4222
@@ -508,7 +508,7 @@ Be sure to restart the HVS after changing the configuration.
 
 Download TLS certificates for the NATS server from the CMS:
 
-```
+```shell
 export NATS_CERT_COMMON_NAME="NATS TLS Certificate" 
 export CMS_ENDPOINT_URL=https://<CMS server ip or hostname>:8445/cms/v1 
 export NATS_CERT_SAN_LIST=" <NATS server ip>,<NATS server FQDN>,localhost" 
@@ -526,7 +526,7 @@ Create a “server.conf” configuration file for nats-server (be sure the paths
 
  
 
-```
+```json
 listen: 0.0.0.0:4222 
 
 tls: { 
@@ -539,13 +539,13 @@ tls: {
 
 1. Append the operator/account credentials from the AAS installation to the server.conf (the following can be run if NATS will run on the same machine as the AAS):  
 
-   ```
+   ```shell
    cat /etc/authservice/nats/server.conf >> server.conf 
    ```
 
 The final server.conf should look like the following:
 
-```
+```json
 listen: 0.0.0.0:4222
 
 tls: {
@@ -566,11 +566,11 @@ resolver_preload: {
 
 Start NATS server:  
 
-```
+```shell
 ./nats-server -c server.conf 
 ```
 
-## 
+
 
 Installing the Certificate Management Service
 ---------------------------------------------
@@ -1054,9 +1054,9 @@ Tboot requires configuration of the grub boot loader after installation. To inst
 
    Note that the step "copy platform SINIT to /boot" should not be required, as datacenter platforms include the SINIT in the system BIOS package.
 
-2. Ensure that multiboot2.mod and relocator.mod are available for grub2
+2. Ensure that `multiboot2.mod` and `relocator.mod` are available for grub2
 
-   This step may not be necessary for all OS versions.  In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).
+   This step may not be necessary for all OS versions, for instance, this step is NA in case of Tboot installation on Ubuntu 18.04. In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).
 
    These files must be present in this directory:
 
@@ -1067,7 +1067,7 @@ Tboot requires configuration of the grub boot loader after installation. To inst
 
    If the files are not present in this directory, they can be moved from their installation location:
 
-   ```
+   ```shell
    cp /usr/lib/grub/x86_64-efi/multiboot2.mod /boot/efi/EFI/redhat/x86_64-efi/
    cp /usr/lib/grub/x86_64-efi/relocator.mod /boot/efi/EFI/redhat/x86_64-efi/
    ```
@@ -1083,31 +1083,31 @@ Tboot requires configuration of the grub boot loader after installation. To inst
 3. Generate a new `grub.cfg` with the tboot boot option
 
     ```shell
+    # For RHEL
     grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+    
+    # For Ubuntu
+    grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
     ```
 
 4. Update the default boot option
 
    Ensure that the `GRUB_DEFAULT` value is set to the tboot option.
 
-   a. Update /etc/default/grub and set the GRUB_DEFAULT value to "saved"
+   a. Update `/etc/default/grub` and set the GRUB_DEFAULT value to `'tboot-1.10.1'`
 
    ```
-   GRUB_DEFAULT=saved
+   GRUB_DEFAULT='tboot-1.10.1'
    ```
 
-   b. Set the grub default option to tboot using the following
+   c. Regenerate `grub.cfg`:
 
-   ```
-   grub2-set-default 2
-   ```
-
-   Note that option 2 will be the correct Grub option assuming an otherwise-default installation of  RHEL.  A different option may be needed depending on the system configuration.
-
-   c. Regenerate grub.cfg:
-
-   ```
-   grub2-mkconfig -o /boot/grub2/grub.cfg
+   ```shell
+   # For RHEL
+   grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+   
+   # For Ubuntu
+   grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
    ```
 
 5. Reboot the system
@@ -1786,10 +1786,12 @@ After installation, the Hub must be configured to integrate with a Cloud orchest
 
 4. Restart kubelet 
 
+   ```
    systemctl restart kubelet
-   
+   ```
+
    Logs will be appended to older logs in
-   
+
     /var/log/isecl-k8s-extensions
 
 5. Whenever the CRD's are deleted and restarted for updates, the CRD's
@@ -1886,7 +1888,7 @@ Ubuntu 18.04
 3.  Execute the KBS installer.
 
     ```shell
-    ./kbs-3.6.0.bin
+    ./kbs-4.0.0.bin
     ```
 
 #### Configure the Key Broker to use a KMIP-compliant Key Management Server
@@ -2165,16 +2167,25 @@ The following steps need to be performed on a RHEL 8.3 Build machine (VM/Physica
 
 ####  System Tools and Utilities
 
-```
-dnf install -y git wget tar python3 gcc gcc-c++ zip tar make yum-utils openssl-devel
+```shell
+# RedHat Enterprise Linux 8.3
+dnf install -y git wget tar python3 gcc gcc-c++ zip make yum-utils openssl-devel
 dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
+ln -s /usr/bin/python3 /usr/bin/python
+ln -s /usr/bin/pip3 /usr/bin/pip
+
+# Ubuntu-18.04
+apt update
+apt remove -y gcc gcc-7
+apt install -y python3-problem-report git wget tar python3 gcc-8 make makeself openssl libssl-dev libgpg-error-dev
+cp /usr/bin/gcc-8 /usr/bin/gcc
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
 ```
 
 ####  Repo tool
 
-```
+```shell
 tmpdir=$(mktemp -d)
 git clone https://gerrit.googlesource.com/git-repo $tmpdir
 install -m 755 $tmpdir/repo /usr/local/bin
@@ -2183,7 +2194,7 @@ rm -rf $tmpdir
 
 ####  Golang
 
-```
+```shell
 wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
 tar -xzf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
@@ -2192,13 +2203,62 @@ export PATH=$GOROOT/bin:$PATH
 rm -rf go1.14.4.linux-amd64.tar.gz
 ```
 
+#### Docker
+
+```shell
+# RedHat Enterprise Linux-8.3
+dnf module enable -y container-tools
+dnf install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf install -y docker-ce-19.03.13 docker-ce-cli-19.03.13
+
+systemctl enable docker
+systemctl start docker
+
+# Ubuntu-18.04
+apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+    
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+apt-get update
+apt-get install docker-ce=5:19.03.13~3-0~ubuntu-bionic docker-ce-cli=5:19.03.13~3-0~ubuntu-bionic containerd.io
+
+systemctl enable docker
+systemctl start docker
+```
+
+Apply the below steps **only if** running behind a proxy
+
+```shell
+mkdir -p /etc/systemd/system/docker.service.d
+touch /etc/systemd/system/docker.service.d/proxy.conf
+
+#Add the below lines in proxy.conf
+[Service]
+Environment="HTTP_PROXY=<http_proxy>"
+Environment="HTTPS_PROXY=<https_proxy>"
+Environment="NO_PROXY=<no_proxy>"
+
+systemctl daemon-reload
+systemctl restart docker
+```
+
 ###  Building OCI Container images and K8s Manifests
 
-####  Platform Integrity Attestation Only
+####  Foundational Security
 
 - Sync the repos
 
-  ```
+  ```shell
   mkdir -p /root/intel-secl/build/fs && cd /root/intel-secl/build/fs
   repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v5.0.0
   repo sync
@@ -2206,31 +2266,37 @@ rm -rf go1.14.4.linux-amd64.tar.gz
 
 - Run the `pre-requisites` setup script
 
-  ```
+  ```shell
   cd utils/build/foundational-security/
   chmod +x fs-prereq.sh
   ./fs-prereq.sh -s
+  ```
+
+- Install skopeo
+
+  ```shell
+  # RHEL 8.x
+  dnf install -y skopeo
+  
+  # Ubuntu 18.04
+  add-apt-repository ppa:projectatomic/ppa
+  apt-get update
+  apt-get install skopeo
   ```
 
 - Build
 
   - Single-node: 
 
-    - A "single-node" deployment will deploy all of the Intel SecL services into a single microk8s deployment on a single **bare metal** container host.   Because all resources are deployed onto a single worker, only local resources are required.  This deployment type is best used for POCs and demos due to the requirement of a physical server.
-
-    #Single node cluster with microk8s
-    make k8s-aio
+    - A "single-node" deployment will deploy all of the Intel SecL services into a single microk8s deployment on a single **bare metal** container host.   Because all resources are deployed onto a single worker, only local resources are required.  This deployment type is best used for POCs and demos due to the requirement of a physical server
+    - Single node cluster with microk8s - `make k8s-aio`
 
     
 
   - Multi-node: `kubeadm` (1.17.17)
 
     - A "multi-node" deployment will deploy the Intel SecL services using kubeadm as a Kubernetes pod, using NFS shared storage.
-
-    #Multi node cluster with kubeadm
-    make k8s
-
-  
+    - Multi node cluster with kubeadm - `make k8s`
 
 - After the build process is complete, the container images, Kubernetes manifests and deployment scripts can be found in the following folder:
 
@@ -2246,7 +2312,7 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
 - Sync the repos
 
-  ```
+  ```shell
   mkdir -p /root/intel-secl/build/cc-crio && cd /root/intel-secl/build/cc-crio
   repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v5.0.0
   repo sync
@@ -2254,7 +2320,7 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
 - Run the `pre-requisites` script
 
-  ```
+  ```shell
   cd utils/build/workload-security
   chmod +x ws-prereq.sh
   ./ws-prereq.sh -c
@@ -2262,7 +2328,9 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
 - Build
 
-  ```
+  ```shell
+  cd /root/intel-secl/build/cc-crio
+  
   #Single node cluster with microk8s
   make k8s-aio
   
@@ -2272,13 +2340,13 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
 - The container images, Kubernetes manifests and deployment scripts will output to the following folder:
 
-  ```
-  /root/intel-secl/build/fs/k8s
+  ```shell
+  /root/intel-secl/build/cc-crio/k8s/
   ```
 
-## Intel® SecL-DC Foundational Security Pod Deployment
+## Intel® SecL-DC Foundational Security K8s Deployment
 
-This section details deployment of Intel SecL services as a Kubernetes Pod, using a privileged DaemonSet for the Trust Agent and Workload Agent.
+This section details deployment of Intel SecL services as a Kubernetes deployment, using a privileged DaemonSet for the Trust Agent and Workload Agent.
 
 ###  Pre-requisites
 
@@ -2292,7 +2360,7 @@ This section details deployment of Intel SecL services as a Kubernetes Pod, usin
 
 - Push all container images to container registry.
 
-  ```
+  ```shell
   # Without TLS enabled
   skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/<image-name>:<image-tag> --dest-tls-verify=false
   
@@ -2306,25 +2374,20 @@ This section details deployment of Intel SecL services as a Kubernetes Pod, usin
 
   #### Foundational Security 
 
-  - Copy `platform-dependencies` directory to each of the `TXT/SUEFI` enabled physical servers
+  - `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
 
-  - Run the `install-ta-prereqs.sh` script on the physical servers
+  - Only for Ubuntu, run the following command
 
-  - Reboot the server
-
-  - Only for Ubuntu, run the following commands
-
-    ```
+    ```shell
     $ modprobe msr
     ```
 
   #### Workload Security 
 
-  ##### Container Confidentiality with CRIO runtime 
+  ##### Container Confidentiality with CRIO runtime
 
-  - Copy `platform-dependencies` and `container-runtime` directory to each of the `TXT/SUEFI` enabled physical servers
-
-  - Run the `install-ta-prereqs.sh` script on the physical servers from `platform-dependencies`
+  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  * Copy `container-runtime` directory to each of the physical servers  
 
   - Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`
 
@@ -2332,7 +2395,7 @@ This section details deployment of Intel SecL services as a Kubernetes Pod, usin
 
   - For Ubuntu worker nodes only, run the following command
 
-    ```
+    ```shell
     $ modprobe msr
     ```
 
@@ -2354,7 +2417,7 @@ A single-node deployment utilizes Microk8s to deploy all services onto a single 
 
 - The Kubernetes cluster admin can configure the existing bare metal worker nodes or register fresh bare metal worker nodes with labels. For example, a label like `node.type: TXT-ENABLED` or `node.type: SUEFI-ENABLED` respectively for `TXT/SUEFI` enabled servers can be used by the cluster admin to distinguish the baremetal worker node and the same label can be used in ISECL Agent pod configuration to schedule on all worker nodes marked with the label. The same label is being used as default in the Kubernetes manifests. This can be edited in `k8s/manifests/ta/daemonset.yml` , `k8s/manifests/wla/daemonset.yml`
 
-  ```
+  ```shell
   #Label node for TXT
   kubectl label node <node-name> node.type=TXT-ENABLED
   
@@ -2377,19 +2440,20 @@ The bootstrap script will facilitate the deployment of all Intel SecL Foundation
 
 ######  Update .env file
 
-```
-#Kubernetes Distribution: microk8s or kubeadm
+```shell
+#Kubernetes Distribution - microk8s
 K8S_DISTRIBUTION=microk8s
-K8S_MASTER_IP=<K8s control node IP>
-K8S_MASTER_HOSTNAME=<K8s control node Hostname>
+K8S_CONTROL_PLANE_IP=
+K8S_CONTROL_PLANE_HOSTNAME=
 
 # cms
 CMS_BASE_URL=https://cms-svc.isecl.svc.cluster.local:8445/cms/v1
-CMS_SAN_LIST=cms-svc.isecl.svc.cluster.local,<Kubernetes control node IP or Hostname>
+CMS_SAN_LIST=cms-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
+CMS_K8S_ENDPOINT_URL=https://<k8s control-plane IP>:30445/cms/v1
 
 # authservice
 AAS_API_URL=https://aas-svc.isecl.svc.cluster.local:8444/aas/v1
-AAS_API_CLUSTER_ENDPOINT_URL=https://<Kubernetes control node IP>:30444/aas/v1
+AAS_API_CLUSTER_ENDPOINT_URL=https://<K8s control-plane IP>:30444/aas/v1
 AAS_ADMIN_USERNAME=admin@aas
 AAS_ADMIN_PASSWORD=aasAdminPass
 AAS_DB_USERNAME=aasdbuser
@@ -2398,8 +2462,8 @@ AAS_DB_HOSTNAME=aasdb-svc.isecl.svc.cluster.local
 AAS_DB_PORT="5432"
 AAS_DB_NAME=aasdb
 AAS_DB_SSLMODE=verify-full
-AAS_DB_SSLCERT=/etc/postgresql/server.crt
-AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<Kubernetes control node IP or Hostname>
+AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
+#NATS_ACCOUNT_NAME=ISecL-account
 
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
@@ -2408,7 +2472,6 @@ WLS_DB_USERNAME=wlsdbuser
 WLS_DB_PASSWORD=wlsdbpassword
 WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
 WLS_DB_NAME=wlsdb
-WLS_DB_SSLCERTSRC=/etc/postgresql/server.crt
 WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
@@ -2420,25 +2483,28 @@ HVS_DB_USERNAME=hvsdbuser
 HVS_DB_PASSWORD=hvsdbpassword
 HVS_DB_HOSTNAME=hvsdb-svc.isecl.svc.cluster.local
 HVS_DB_NAME=hvsdb
-HVS_CERT_SAN_LIST=hvs-svc.isecl.svc.cluster.local,<K8s Master IP/K8s Master Hostname>
-HVS_DB_SSLCERTSRC=/etc/postgresql/server.crt
+HVS_CERT_SAN_LIST=hvs-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
 HVS_DB_PORT="5432"
 HVS_URL=https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2/
+
+#Nats Servers configuration for TA and HVS
+#NATS_SERVERS=nats://<K8s control-plane IP/Hostname>:30222
 
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
 IHUB_SERVICE_PASSWORD=hubAdminPass
-IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<Kubernetes control node IP or Hostname>
+IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
 # For microk8s
 # K8S_API_SERVER_CERT=/var/snap/microk8s/current/certs/server.crt
-K8S_API_SERVER_CERT=
+K8S_API_SERVER_CERT=/var/snap/microk8s/current/certs/server.crt
 # This is valid for multinode deployment, should be populated once ihub is deployed successfully
 IHUB_PUB_KEY_PATH=
 HVS_BASE_URL=https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2
 
 # TrustAgent
-TA_CERT_SAN_LIST=<ta-san-list>
-TPM_OWNER_SECRET=<tpm-owner-secret>(Can be left empty; set this to a 40 byte hex value to use a defined value for the TPM ownership secret)
+# e.g TA_CERT_SAN_LIST=*.example.com,192.168.1.*
+TA_CERT_SAN_LIST=
+TPM_OWNER_SECRET=
 
 # Workload Agent
 WLA_SERVICE_USERNAME=wlauser@wls
@@ -2446,9 +2512,10 @@ WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
 ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
-KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<Kubernetes control node IP>,<Kubernetes control node Hostname>
-KMIP_SERVER_IP=<kmip-server-ip>
-KMIP_SERVER_PORT=<kmip-server-port>
+KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+KMIP_HOSTNAME=<KMIP IP/Hostname>
+KMIP_SERVER_IP=
+KMIP_SERVER_PORT=
 # Retrieve the following KMIP server’s client certificate, client key and root ca certificate from the KMIP server.
 # This key and certificates will be available in KMIP server, /etc/pykmip is the default path copy them to this system manifests/kbs/kmip-secrets path
 KMIP_CLIENT_CERT_NAME=client_certificate.pem
@@ -2459,27 +2526,34 @@ KMIP_ROOT_CERT_NAME=root_certificate.pem
 # For microk8s
 # K8S_CA_KEY=/var/snap/microk8s/current/certs/ca.key
 # K8S_CA_CERT=/var/snap/microk8s/current/certs/ca.crt
-K8S_CA_KEY=
-K8S_CA_CERT=
+K8S_CA_KEY=/var/snap/microk8s/current/certs/ca.key
+K8S_CA_CERT=/var/snap/microk8s/current/certs/ca.crt
 
 # populate users.env
 ISECL_INSTALL_COMPONENTS="AAS,HVS,WLS,IHUB,KBS,WLA,TA,WPM"
 
-GLOBAL_ADMIN_USERNAME=<global_admin_username>
-GLOBAL_ADMIN_PASSWORD=<global_admin_password>
+#NATS_CERT_SAN_LIST=
+#NATS_TLS_COMMON_NAME=
 
-INSTALL_ADMIN_USERNAME=<install_admin_username>
-INSTALL_ADMIN_PASSWORD=<install_admin_password>
+GLOBAL_ADMIN_USERNAME=
+GLOBAL_ADMIN_PASSWORD=
 
-WPM_SERVICE_USERNAME=<wpm_service_username>
-WPM_SERVICE_PASSWORD=<wpm_service_password>
+INSTALL_ADMIN_USERNAME=
+INSTALL_ADMIN_PASSWORD=
+
+WPM_SERVICE_USERNAME=
+WPM_SERVICE_PASSWORD=
+
+CUSTOM_CLAIMS_COMPONENTS=
+CCC_ADMIN_USERNAME=
+CCC_ADMIN_PASSWORD=
 ```
 
 ######  Run scripts on Kubernetes Controller Node
 
 - These bootstrap scripts are sample scripts to allow for a quick start of Intel SecL services and agents.
 
-```
+```shell
 #Pre-reqs.sh
 ./pre-requisites.sh
 
@@ -2511,7 +2585,7 @@ WPM_SERVICE_PASSWORD=<wpm_service_password>
 
 - Perform the following steps for isecl-scheduler
 
-```
+```shell
 #Copy scheduler-policy.json
 cp manifests/k8s-extensions-scheduler/config/scheduler-policy.json /opt/isecl-k8s-extensions/
 
@@ -2541,7 +2615,7 @@ A multi-node deployment will deploy Intel SecL control plane services as a pod o
 
 - The Kubernetes cluster admin can configure the existing bare metal worker nodes or register fresh bare metal worker nodes with labels. For example, a label like `node.type: TXT-ENABLED` or `node.type: SUEFI-ENABLED` respectively for `TXT/SUEFI` enabled servers can be used by the cluster admin to distinguish the baremetal worker node and the same label can be used in ISECL Agent pod configuration to schedule on all worker nodes marked with the label. The same label is being used as default in the K8s manifests. This can be edited in `k8s/manifests/ta/daemonset.yml` , `k8s/manifests/wla/daemonset.yml`
 
-  ```
+  ```shell
   #Label node for TXT
   kubectl label node <node-name> node.type=TXT-ENABLED
   
@@ -2553,15 +2627,15 @@ A multi-node deployment will deploy Intel SecL control plane services as a pod o
 
   - Snapshot showing directory structure for which user needs to create on NFS volumes manually or using custom scripts.
 
-  [![NFS Directory Structure FS/WS Usecase](./images/nfs-fsws-structure.png)]()
+  ![NFS structure](./Images/nfs-fsws-structure.jpg)
 
   - Snapshot showing ownership and permissions for directories for which user needs to manually grant the ownership.
 
-  [![NFS Directory Permissions FS/WS Usecase](./images/nfs-fsws-permissions.png)]()
+  ![NFS Directory Permissions FS/WS Usecase](./Images/nfs-fsws-permissions.jpg)
 
   - Snapshot for configuring PV and PVC , user need to provide the NFS server IP or hostname and paths for each of the service directories. Sample manifest for creating `config-pv` for cms service
 
-    ```
+    ```yaml
     ---
     apiVersion: v1
     kind: PersistentVolume
@@ -2582,7 +2656,7 @@ A multi-node deployment will deploy Intel SecL control plane services as a pod o
 
   - Sample manifest for creating config-pvc for cms service
 
-    ```
+    ```yaml
       ---
       apiVersion: v1
       kind: PersistentVolumeClaim
@@ -2612,19 +2686,20 @@ A multi-node deployment will deploy Intel SecL control plane services as a pod o
 
 ######  Update .env file
 
-```
-#Kubernetes Distribution microk8s or kubeadm
+```shell
+#Kubernetes Distribution - kubeadm
 K8S_DISTRIBUTION=kubeadm
-K8S_MASTER_IP=<Kubernetes control node IP>
-K8S_MASTER_HOSTNAME=<Kubernetes control node Hostname>
+K8S_CONTROL_PLANE_IP=
+K8S_CONTROL_PLANE_HOSTNAME=
 
 # cms
 CMS_BASE_URL=https://cms-svc.isecl.svc.cluster.local:8445/cms/v1
-CMS_SAN_LIST=cms-svc.isecl.svc.cluster.local,<Kubernetes control node IP or hostname>
+CMS_SAN_LIST=cms-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
+CMS_K8S_ENDPOINT_URL=https://<k8s control-plane IP>:30445/cms/v1
 
 # authservice
 AAS_API_URL=https://aas-svc.isecl.svc.cluster.local:8444/aas/v1
-AAS_API_CLUSTER_ENDPOINT_URL=https://<Kubernetes control node IP or hostname>:30444/aas/v1
+AAS_API_CLUSTER_ENDPOINT_URL=https://<K8s control-plane IP>:30444/aas/v1
 AAS_ADMIN_USERNAME=admin@aas
 AAS_ADMIN_PASSWORD=aasAdminPass
 AAS_DB_USERNAME=aasdbuser
@@ -2633,8 +2708,8 @@ AAS_DB_HOSTNAME=aasdb-svc.isecl.svc.cluster.local
 AAS_DB_PORT="5432"
 AAS_DB_NAME=aasdb
 AAS_DB_SSLMODE=verify-full
-AAS_DB_SSLCERT=/etc/postgresql/server.crt
-AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<Kubernetes control node IP or hostname>
+AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
+#NATS_ACCOUNT_NAME=ISecL-account
 
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
@@ -2643,7 +2718,6 @@ WLS_DB_USERNAME=wlsdbuser
 WLS_DB_PASSWORD=wlsdbpassword
 WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
 WLS_DB_NAME=wlsdb
-WLS_DB_SSLCERTSRC=/etc/postgresql/server.crt
 WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
@@ -2655,25 +2729,28 @@ HVS_DB_USERNAME=hvsdbuser
 HVS_DB_PASSWORD=hvsdbpassword
 HVS_DB_HOSTNAME=hvsdb-svc.isecl.svc.cluster.local
 HVS_DB_NAME=hvsdb
-HVS_CERT_SAN_LIST=hvs-svc.isecl.svc.cluster.local,<Kubernetes control node IP or hostname>
-HVS_DB_SSLCERTSRC=/etc/postgresql/server.crt
+HVS_CERT_SAN_LIST=hvs-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
 HVS_DB_PORT="5432"
 HVS_URL=https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2/
+
+#Nats Servers configuration for TA and HVS
+#NATS_SERVERS=nats://<K8s control-plane IP/Hostname>:30222
 
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
 IHUB_SERVICE_PASSWORD=hubAdminPass
-IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<Kubernetes control node IP or hostname>
+IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-plane Hostname>
 # For Kubeadm
 # K8S_API_SERVER_CERT=/etc/kubernetes/pki/apiserver.crt
-K8S_API_SERVER_CERT=
+K8S_API_SERVER_CERT=/etc/kubernetes/pki/apiserver.crt
 # This is valid for multinode deployment, should be populated once ihub is deployed successfully
 IHUB_PUB_KEY_PATH=
-HVS_BASE_URL=https://hvs-svc.isecl.svc.cluster.local:8443/mtwilson/v2
+HVS_BASE_URL=https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2
 
 # TrustAgent
-TA_CERT_SAN_LIST=<ta-san-list>
-TPM_OWNER_SECRET=<tpm-owner-secret>(Can be left empty; set to 40 hex bytes to use a defined TPM owner secret)
+# e.g TA_CERT_SAN_LIST=*.example.com,192.168.1.*
+TA_CERT_SAN_LIST=
+TPM_OWNER_SECRET=
 
 # Workload Agent
 WLA_SERVICE_USERNAME=wlauser@wls
@@ -2681,9 +2758,10 @@ WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
 ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
-KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<Kubernetes ontrol node IP>,<Kubernetes control node Hostname>
-KMIP_SERVER_IP=<kmip-server-ip>
-KMIP_SERVER_PORT=<kmip-server-port>
+KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+KMIP_HOSTNAME=<KMIP IP/Hostname>
+KMIP_SERVER_IP=
+KMIP_SERVER_PORT=
 # Retrieve the following KMIP server’s client certificate, client key and root ca certificate from the KMIP server.
 # This key and certificates will be available in KMIP server, /etc/pykmip is the default path copy them to this system manifests/kbs/kmip-secrets path
 KMIP_CLIENT_CERT_NAME=client_certificate.pem
@@ -2694,27 +2772,34 @@ KMIP_ROOT_CERT_NAME=root_certificate.pem
 # For Kubeadm
 # K8S_CA_KEY=/etc/kubernetes/pki/ca.key
 # K8S_CA_CERT=/etc/kubernetes/pki/ca.crt
-K8S_CA_KEY=
-K8S_CA_CERT=
+K8S_CA_KEY=/etc/kubernetes/pki/ca.key
+K8S_CA_CERT=/etc/kubernetes/pki/ca.crt
 
 # populate users.env
 ISECL_INSTALL_COMPONENTS="AAS,HVS,WLS,IHUB,KBS,WLA,TA,WPM"
 
-GLOBAL_ADMIN_USERNAME=<global_admin_username>
-GLOBAL_ADMIN_PASSWORD=<global_admin_password>
+#NATS_CERT_SAN_LIST=
+#NATS_TLS_COMMON_NAME=
 
-INSTALL_ADMIN_USERNAME=<install_admin_username>
-INSTALL_ADMIN_PASSWORD=<install_admin_password>
+GLOBAL_ADMIN_USERNAME=
+GLOBAL_ADMIN_PASSWORD=
 
-WPM_SERVICE_USERNAME=<wpm_service_username>
-WPM_SERVICE_PASSWORD=<wpm_service_password>
+INSTALL_ADMIN_USERNAME=
+INSTALL_ADMIN_PASSWORD=
+
+WPM_SERVICE_USERNAME=
+WPM_SERVICE_PASSWORD=
+
+CUSTOM_CLAIMS_COMPONENTS=
+CCC_ADMIN_USERNAME=
+CCC_ADMIN_PASSWORD=
 ```
 
 ######  Run scripts on Kubernetes Controller Node
 
 - The following bootstrap scripts are sample scripts to allow for a quick start of Intel SecL services and agents.
 
-```
+```shell
 #Pre-reqs.sh
 ./pre-requisites.sh
 
@@ -2761,7 +2846,7 @@ cp manifests/k8s-extensions-scheduler/config/scheduler-policy.json /opt/isecl-k8
 
 - Configure kube-scheduler to establish communication with isecl-scheduler. Add `scheduler-policy.json` under kube-scheduler section, `mountPath` under container section and `hostPath` under volumes section in` /etc/kubernetes/manifests/kube-scheduler.yaml` as mentioned below
 
-```
+```yaml
 spec:
   containers:
   - command:
@@ -2783,7 +2868,7 @@ volumes:
 
 - Restart `kubelet` which restart all the k8s services including kube-scheduler
 
-```
+```shell
 systemctl restart kubelet
 ```
 
@@ -2793,7 +2878,7 @@ systemctl restart kubelet
 
 Single node Deployments use `hostPath` mounting pod(container) files directly on the host.
 
-```
+```yaml
 #Certificate-Management-Service
 Config: /etc/cms
 Logs: /var/log/cms
@@ -2841,7 +2926,7 @@ WLA-Socket: /var/run/workload-agent
 
 Multi node Deployments use Kubernetes persistent volume and persistent volume claims for mounting pod(container) files on NFS volumes for all services.  Agents will use `hostPath` for persistent storage. F
 
-```
+```yaml
 #Certificate-Management-Service
 Config: <NFS-vol-base-path>/isecl/cms/config
 Logs: <NFS-vol-base-path>/isecl/cms/logs
@@ -2888,7 +2973,7 @@ WLA-Socket: /var/run/workload-agent
 
 For both single-node and multi-node deployments, the following ports are used:
 
-```
+```yaml
 CMS: 30445
 AAS: 30444
 HVS: 30443

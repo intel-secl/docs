@@ -124,7 +124,7 @@ dnf install git wget tar python3 gcc gcc-c++ zip tar make yum-utils openssl-deve
 dnf install https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
-
+export PATH=/usr/local/bin:$PATH
 ```
 
 ***Repo Tool***

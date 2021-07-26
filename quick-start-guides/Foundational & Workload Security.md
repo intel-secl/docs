@@ -1,49 +1,52 @@
-# **Foundational & Workload Security Quick Start Guide**
+# Quick Start Guide - Foundational & Workload Security
 
 Table of Contents
 -----------------
+   
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
-   * [<strong>Foundational &amp; Workload Security Quick Start Guide</strong>](#foundational--workload-security-quick-start-guide)
-      * [Table of Contents](#table-of-contents)
-      * [<strong>1. Hardware &amp; OS Requirements</strong>](#1-hardware--os-requirements)
-         * [Physical Server requirements](#physical-server-requirements)
-         * [OS Requirements](#os-requirements)
-         * [User Access](#user-access)
-      * [<strong>2. Deployment Model</strong>](#2-deployment-model)
-      * [<strong>3. Build Services and packages</strong>](#3-build-services-and-packages)
-         * [Pre-requisites](#pre-requisites)
-         * [Building](#building)
-            * [Foundational Security Usecase](#foundational-security-usecase)
-            * [Workload Security Usecase](#workload-security-usecase)
-               * [VM Confidentiality](#vm-confidentiality)               
-               * [Container Confidentiality with CRIO Runtime](#container-confidentiality-with-crio-runtime)
-      * [<strong>4. Deployment</strong>](#4-deployment)
-         * [Pre-requisites](#pre-requisites-1)
-            * [Installing Ansible](#installing-ansible)
-         * [Download the Ansible Role](#download-the-ansible-role)
-         * [Usecase Setup Options](#usecase-setup-options)
-         * [Update Ansible Inventory](#update-ansible-inventory)
-         * [Create and Run Playbook](#create-and-run-playbook)
-         * [Additional Examples &amp; Tips](#additional-examples--tips)
-            * [TPM is already owned](#tpm-is-already-owned)
-            * [GRUB Default option for Booting into MLE](#grub-default-option-for-booting-into-mle)
-            * [UEFI SecureBoot Enabled](#uefi-secureBoot-enabled)
-            * [Deploying for Workload Confidentiality with CRIO Runtime](#deploying-for-workload-confidentiality-with-crio-runtime)           
-            * [In case of Misconfigurations](#in-case-of-misconfigurations)
-      * [<strong>5. Usecase Workflows API Collections</strong>](#5-usecase-workflows-api-collections)
-         * [Pre-requisites](#pre-requisites-2)
-         * [Use Case Collections](#use-case-collections)
-         * [Downloading API Collections](#downloading-api-collections)
-         * [Running API Collections](#running-api-collections)
-      * [<strong>Appendix</strong>](#appendix)
-         * [Running behind Proxy](#running-behind-proxy)
-         * [Git Config Sample (~/.gitconfig)](#git-config-sample-gitconfig)
-         * [Rebuilding Repos](#rebuilding-repos)
-         * [Installing the Intel® SecL Kubernetes Extensions and Integration Hub](#installing-the-intel-secl-kubernetes-extensions-and-integration-hub)
-            * [Deploy Intel® SecL Custom Controller](#deploy-intel-secl-custom-controller)
-            * [Installing the Intel® SecL Integration Hub](#installing-the-intel-secl-integration-hub)
-            * [Deploy Intel® SecL Extended Scheduler](#deploy-intel-secl-extended-scheduler)
-            * [Configuring kube-scheduler to establish communication with isecl-scheduler](#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler)
+<!-- code_chunk_output -->
+
+- [Quick Start Guide - Foundational & Workload Security](#quick-start-guide-foundational-workload-security)
+  - [**1. Hardware & OS Requirements**](#1-hardware-os-requirements)
+    - [Physical Server requirements](#physical-server-requirements)
+    - [OS Requirements](#os-requirements)
+    - [User Access](#user-access)
+  - [**2. Deployment Model**](#2-deployment-model)
+  - [**3. Build Services and packages**](#3-build-services-and-packages)
+    - [Pre-requisites](#pre-requisites)
+    - [Building](#building)
+      - [Foundational Security Usecase](#foundational-security-usecase)
+      - [Workload Security Usecase](#workload-security-usecase)
+        - [VM Confidentiality](#vm-confidentiality)
+        - [Container Confidentiality with CRIO Runtime](#container-confidentiality-with-crio-runtime)
+  - [**4. Deployment**](#4-deployment)
+    - [Pre-requisites](#pre-requisites-1)
+      - [Installing Ansible](#installing-ansible)
+    - [Download the Ansible Role](#download-the-ansible-role)
+    - [Usecase Setup Options](#usecase-setup-options)
+    - [Update Ansible Inventory](#update-ansible-inventory)
+    - [Create and Run Playbook](#create-and-run-playbook)
+    - [Additional Examples & Tips](#additional-examples-tips)
+      - [TPM is already owned](#tpm-is-already-owned)
+      - [UEFI SecureBoot enabled](#uefi-secureboot-enabled)
+      - [In case of Misconfigurations](#in-case-of-misconfigurations)
+  - [**5. Usecase Workflows API Collections**](#5-usecase-workflows-api-collections)
+    - [Pre-requisites](#pre-requisites-2)
+    - [Use Case Collections](#use-case-collections)
+    - [Downloading API Collections](#downloading-api-collections)
+    - [Running API Collections](#running-api-collections)
+  - [**Appendix**](#appendix)
+    - [Running behind Proxy](#running-behind-proxy)
+    - [Git Config Sample (~/.gitconfig)](#git-config-sample-~gitconfig)
+    - [Rebuilding Repos](#rebuilding-repos)
+    - [Installing the Intel® SecL Kubernetes Extensions and Integration Hub](#installing-the-intel-secl-kubernetes-extensions-and-integration-hub)
+      - [Deploy Intel® SecL Custom Controller](#deploy-intel-secl-custom-controller)
+      - [Installing the Intel® SecL Integration Hub](#installing-the-intel-secl-integration-hub)
+      - [Deploy Intel® SecL Extended Scheduler](#deploy-intel-secl-extended-scheduler)
+      - [Configuring kube-scheduler to establish communication with isecl-scheduler](#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler)
+
+<!-- /code_chunk_output -->
 
 
 
@@ -56,10 +59,6 @@ Table of Contents
   > **Note:** At least one "Static Root of Trust" mechanism must be used (TXT and/or BtG). For Legacy BIOS systems, tboot must be used. For UEFI mode systems, UEFI SecureBoot must be used* Use the chart below for a guide to acceptable configuration options. Only dTPM is supported on Intel® SecL-DC platform hardware. 
 
   ![hardware-options](./images/trusted-boot-options.PNG)
-
-> **Note:** A security bug related to UEFI mode and Grub2 modules has resulted in some modules required by tboot to not be available on RedHat 8 UEFI systems. Tboot therefore cannot be used currently on RedHat 8. A future tboot release is expected to resolve this dependency issue and restore support for UEFI mode.
-
-> **Note:** An issue in the latest version of tboot(version 1.9.12) has caused it to be unusable on RHEL 8.3 legacy mode machines. This will be fixed in an upcoming version of tboot. Its is recommeded to use tboot version 1.9.10 for the time being.
 
 ### OS Requirements
 
@@ -127,12 +126,15 @@ The below steps needs to be carried out on the Build and Deployment VM
   rm -rf $tmpdir
   ```
 
-* Extract Install `go` version > `go1.13` & <= `go1.14.4` from `https://golang.org/dl/` 
-  and set `GOROOT` & `PATH`
-
-  ```shell
-  export GOROOT=<path_to_go>
+* Golang installation
+  
+```shell
+  wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
+  tar -xzf go1.14.4.linux-amd64.tar.gz
+  sudo mv go /usr/local
+  export GOROOT=/usr/local/go
   export PATH=$GOROOT/bin:$PATH
+  rm -rf go1.14.4.linux-amd64.tar.gz
   ```
   
 ### Building
@@ -429,6 +431,28 @@ ansible-playbook <playbook-name> \
 
 ### Additional Examples & Tips
 
+#### TBoot Installation
+
+Tboot needs to be built by the user from tboot source and the `tboot.gz` & `tboot-syms` files needs to be copied under the `binaries` folder. The supported version of Tboot as of 4.0 release is `tboot-1.10.1`.The options must then be provided during runtime in the playbook:
+
+```shell
+ansible-playbook <playbook-name> \
+--extra-vars setup=<setup var from supported usecases> \
+--extra-vars binaries_path=<path where built binaries are copied to> \
+--extra-vars tboot_gz_file=<path where built binaries are copied to>/tboot.gz
+--extra-vars tboot_syms_file=<path where built binaries are copied to>/tboot-syms
+```
+
+or 
+
+Update the following in `vars/main.yml`
+
+```yaml
+# The TPM Storage Root Key(SRK) Password to be used if TPM is already owned
+tboot_gz_file: "<binaries_path>/tboot.gz"
+tboot_syms_file: "<binaries_path>/tboot-syms"
+```
+
 #### TPM is already owned
 
 If the Trusted Platform Module(TPM) is already owned, the owner secret(SRK) can be provided directly during runtime in the playbook:
@@ -439,6 +463,7 @@ ansible-playbook <playbook-name> \
 --extra-vars binaries_path=<path where built binaries are copied to> \
 --extra-vars tpm_secret=<tpm owner secret>
 ```
+
 or
 
 Update the following vars in `vars/main.yml`
@@ -446,26 +471,6 @@ Update the following vars in `vars/main.yml`
 ```yaml
 # The TPM Storage Root Key(SRK) Password to be used if TPM is already owned
 tpm_owner_secret: <tpm_secret>
-```
-
-#### GRUB Default option for Booting into MLE
-
-The grub2_default option would vary from OEM to OEM for booting after installing tboot. The grub option to be selected for booting into TBOOT/MLE mode, use `grubby --info <option:0/1...>` to determine which one has no boot menu assigned to it during runtime in the playbook as below. Default is 3.
-
-> **NOTE:** This is not required in case of UEFI Secure boot mode
-
-```shell
-ansible-playbook <playbook-name> \
---extra-vars setup=<setup var from supported usecases> \
---extra-vars binaries_path=<path where built binaries are copied to> \
---extra-vars grub_default_option=<grub_default_option>
-```
-or
-
-Update the following vars in `vars/main.yml`
-
-```yaml
-grub_default_option: "3"
 ```
 
 #### UEFI SecureBoot enabled
@@ -477,10 +482,12 @@ ansible-playbook <playbook-name> \
 --extra-vars setup=<setup var from supported usecases> \
 --extra-vars binaries_path=<path where built binaries are copied to> \
 --extra-vars uefi_secureboot=yes \
--- extra-vars grub_file_path=<uefi mode grub file path>
+--extra-vars grub_file_path=<uefi mode grub file path>
 ```
 
 or
+
+Update the following vars in `vars/main.yml`
 
 ```yaml
 # UEFI mode or UEFI SecureBoot mode

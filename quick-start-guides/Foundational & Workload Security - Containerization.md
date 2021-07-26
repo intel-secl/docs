@@ -1,12 +1,16 @@
 # Quick start Guide - Foundation & Workload Security - Containerization
 
 
+Table of Contents
+-----------------
+
+
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [Quick start Guide - Foundation & Workload Security - Containerization](#quick-start-guide---foundation--workload-security---containerization)
-  - [Hardware & OS Requirements](#hardware--os-requirements)
+- [Quick start Guide - Foundation & Workload Security - Containerization](#quick-start-guide-foundation-workload-security-containerization)
+  - [Hardware & OS Requirements](#hardware-os-requirements)
     - [Physical Server requirements](#physical-server-requirements)
     - [Machines](#machines)
     - [OS Requirements](#os-requirements)
@@ -19,7 +23,7 @@
     - [Enterprise Managed Services](#enterprise-managed-services)
     - [TXT/SUEFI Enabled Host](#txtsuefi-enabled-host)
     - [Firewall Settings](#firewall-settings)
-  - [Rpms & Debs Requirement](#rpms--debs-requirement)
+  - [Rpms & Debs Requirement](#rpms-debs-requirement)
     - [RHEL](#rhel)
     - [Ubuntu](#ubuntu)
   - [Deployment Model](#deployment-model)
@@ -64,13 +68,14 @@
   - [Appendix](#appendix)
     - [Hardware feature detection](#hardware-feature-detection)
     - [Running behind Proxy](#running-behind-proxy)
-    - [Git Config Sample (~/.gitconfig)](#git-config-sample-gitconfig)
+    - [Git Config Sample (~/.gitconfig)](#git-config-sample-~gitconfig)
     - [Rebuilding Repos](#rebuilding-repos)
     - [Setup Task Flow](#setup-task-flow)
     - [Configuration Update Flow](#configuration-update-flow)
     - [Cleanup workflows](#cleanup-workflows)
       - [Single-node](#single-node-2)
       - [Multi-node](#multi-node-2)
+- [Only in case of KBS, perform one more step along with above 2 steps](#only-in-case-of-kbs-perform-one-more-step-along-with-above-2-steps)
 
 <!-- /code_chunk_output -->
 
@@ -380,33 +385,23 @@ systemctl restart docker
 * On each worker node with `TXT/BTG` enabled and registered to K8s control-plane, the following pre-req needs to be done on `RHEL-8.3`/`Ubuntu-18.04` systems
 
   * Foundational Security
-    
+
+    * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+
     * Only for `Ubuntu-18.04`, run the following commands
-    
+
       ```shell
       $ modprobe msr
       ```
+
   * Workload Security
-    * Container Confidentiality with Docker runtime
-      * Copy `container-runtime` directory to each of the `TXT/BTG` enabled physical servers       
-        
-      * Run the `install-prereqs-docker.sh` script on the physical servers from `container-runtime`
-      
-        > **Note:** `container-runtime` scripts need to be run on `TXT/BTG/SUEFI` enabled services
-      
-      * Reboot the server
-      
-      * Only for `Ubuntu-18.04`, run the following command
-      
-        ```shell
-        $ modprobe msr
-        ```
-      
     * Container Confidentiality with CRIO runtime
       
-    * Copy `container-runtime` directory to each of the `TXT/BTG` enabled physical servers  
+      * `Tboot-1.10.1`  or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation) 
+        
+      * Copy `container-runtime` directory to each of the  physical servers  
       
-    * Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`
+      * Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`
       
         > **Note:** `container-runtime` scripts need to be run on `TXT/BTG/SUEFI` enabled services
       
