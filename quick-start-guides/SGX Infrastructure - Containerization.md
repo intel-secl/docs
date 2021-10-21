@@ -83,7 +83,7 @@ Table of Contents
 
 * K8s control-plane Node Setup on CSP (VMs/Physical Nodes + SGX enabled Physical Nodes)
 
-* K8s control-plane Setup on Enterprise (VMs/Physical Nodes)
+* K8s control-plane Node Setup on Enterprise (VMs/Physical Nodes)
 
 ### OS Requirements
 
@@ -369,8 +369,8 @@ The bootstrap script would facilitate the deployment of all SGX components at a 
 ```shell
 #Kubernetes Distribution microk8s or kubeadm
 K8S_DISTRIBUTION=microk8s
-K8S_CONTROL_PLANE_IP=<K8s control-plane IP>
-K8S_CONTROL_PLANE_HOSTNAME=<K8s control-plane Hostname>
+K8S_MASTER_IP=<K8s control-plane IP>
+K8S_MASTER_HOSTNAME=<K8s control-plane hostname>
 
 # cms
 CMS_SAN_LIST=cms-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
@@ -397,7 +397,17 @@ SHVS_ADMIN_USERNAME=shvsuser@shvs
 SHVS_ADMIN_PASSWORD=shvspassword
 SHVS_DB_USERNAME=shvsdbuser
 SHVS_DB_PASSWORD=shvsdbpassword
-SHVS_CERT_SAN_LIST=shvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+SHVS_CERT_SAN_LIST=shvs-svc.isecl.svc.cluster.local,K8s control-plane IP/Hostname>
+
+# SGX Quote Verification Service bootstrap
+SQVS_INCLUDE_TOKEN="true"
+SQVS_NOSETUP="false"
+#SGX_TRUSTED_ROOT_CA_FILE 
+#For production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_icx_prod.pem
+#For production CascadeLake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_clx_prod.pem
+#For pre production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca.pem
+SGX_TRUSTED_ROOT_CA_FILE=
+SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
@@ -578,7 +588,7 @@ systemctl restart snap.microk8s.daemon-kubelet.service
 
 * Update all the K8s manifests with the image names to be pulled from the registry
 
-* The key field in `tolerations` and `nodeAffinity` in case of isecl-scheduler and isecl-controller needs to be updated in the respective manifests under the `manifests/k8s-extensions-controller`  and `manifests/k8s-extensions-scheduler` directories to `node-role.kubernetes.io/master`
+* The key field in `tolerations` and `nodeAffinity` in case of isecl-scheduler and isecl-controller needs to be updated in the respective manifests under the `manifests/k8s-extensions-controller`  and `manifests/k8s-extensions-scheduler` directories to `node-role.kubernetes.io/master
 * All NFS PV yaml files needs to be updated with the  `path: /<NFS-vol-path>`  and `server: <NFS Server IP/Hostname>` under each service manifest file for `config`, `logs` , `db-data`
 
 ##### Deploy steps
@@ -618,10 +628,20 @@ SHVS_DB_USERNAME=shvsdbuser
 SHVS_DB_PASSWORD=shvsdbpassword
 SHVS_CERT_SAN_LIST=shvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 
+# SGX Quote Verification Service bootstrap
+SQVS_INCLUDE_TOKEN="true"
+SQVS_NOSETUP="false"
+#SGX_TRUSTED_ROOT_CA_FILE 
+#For production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_icx_prod.pem
+#For production CascadeLake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_clx_prod.pem
+#For pre production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca.pem
+SGX_TRUSTED_ROOT_CA_FILE=
+SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s ontrol-plane Hostname>
+
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
 IHUB_SERVICE_PASSWORD=hubAdminPass
-IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+IH_CERT_SAN_LIST=ihub-svc.isecl.svc.cluster.local,<control-plane IP/Hostname>
 # For Kubeadm
 # K8S_API_SERVER_CERT=/etc/kubernetes/pki/apiserver.crt
 K8S_API_SERVER_CERT=/etc/kubernetes/pki/apiserver.crt
@@ -633,7 +653,7 @@ KBS_SERVICE_USERNAME=admin@kbs
 KBS_SERVICE_PASSWORD=kbsAdminPass
 # For SKC Virtualization use case set ENDPOINT_URL=https://<K8s control-plane IP>:30448/v1
 ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
-KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>, <k8s control-plane Hostname>
 
 KMIP_SERVER_IP=<KMIP Server IP>
 KMIP_SERVER_PORT=<KMIP Server Port>
@@ -873,13 +893,13 @@ SGXAgent: 31001
 
 ## Usecase Workflows API Collections
 
-The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v3.6/develop/tools/api-collections) repository
+The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections) repository
 
 ### Pre-requisites
 
 * Postman client should be [downloaded](https://www.postman.com/downloads/) on supported platforms or on the web to get started with the usecase collections.
 
-  >  **Note:** The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v3.6/develop/tools/api-collections)
+  >  **Note:** The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections)
 
 ### Use Case Collections
 

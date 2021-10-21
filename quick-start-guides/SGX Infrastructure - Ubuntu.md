@@ -458,11 +458,11 @@ ansible-playbook <playbook-name> --extra-vars setup=<setup var from supported us
 * Push images to private registry using skopeo command, (this can be done from build vm also)
   
   ```shell
-     skopeo copy oci-archive:isecl-k8s-controller-v4.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.0
-     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.0
+     skopeo copy oci-archive:isecl-k8s-controller-v5.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v5.0.0
+     skopeo copy oci-archive:isecl-k8s-scheduler-v5.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v5.0.0
   ```
   
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.0). It will automatically pull the images from registry.
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v5.0.0). It will automatically pull the images from registry.
   
 
 ##### Deploy isecl-controller

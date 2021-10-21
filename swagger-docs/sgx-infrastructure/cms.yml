@@ -195,7 +195,7 @@ paths:
       x-sample-call-endpoint: https://cms.com:8443/cms/v1/version
       x-sample-call-output: |-
         Service Name: Certificate Management Service
-        Version: v3.4.0-0f0162ea
+        Version: v4.0.0-8bf1ac2f
         Build Date: 2021-03-08T12:31:46+0000
 schemes:
 - https

@@ -4,7 +4,7 @@
 
 ### July 2021
 
-### Revision 4.0
+### Revision 5.0
 
 Notice: This document contains information on products in the design phase of development. The information here is subject to change without notice. Do not finalize a design with this information.
 
@@ -29,7 +29,7 @@ processor; (ii) cause the processor and other system components to fail; (iii) c
 Check with memory manufacturer for warranty and additional details.
 
 Tests document performance of components on a particular test, in specific systems. Differences in hardware, software, or configuration
-will affect actual performance. Consult other sources of information to evaluate performance as you consider your purchase. For more complete information about performance and benchmark results, visit http://www.intel.com/performance.
+will affect actual performance. Consult other sources of information to evaluate performance as you consider your purchase. For more complete information about performance and benchmark results, visit <https://www.intel.com/performance>.
 
 Cost reduction scenarios described are intended as examples of how a given Intel- based product, in the specified circumstances and
 configurations, may affect future costs and provide cost savings. Circumstances will vary. Intel does not guarantee any costs or cost
@@ -42,7 +42,7 @@ Intel does not control or audit third-party benchmark data or the web sites refe
 
 Intel is a sponsor and member of the Benchmark XPRT Development Community, and was the major developer of the XPRT family of benchmarks. Principled Technologies is the publisher of the XPRT family of benchmarks. You should consult other information and performance tests to assist you in fully evaluating your contemplated purchases.
 
-Copies of documents which have an order number and are referenced in this document may be obtained by calling 1-800-548-4725 or by visiting w[ww.intel.com/design/literature.htm.](http://www.intel.com/design/literature.htm)
+Copies of documents which have an order number and are referenced in this document may be obtained by calling 1-800-548-4725 or by visiting [www.intel.com/design/literature.htm.](https://www.intel.com/design/literature.htm)
 
 Intel, the Intel logo, Intel TXT, and Xeon are trademarks of Intel Corporation in the U.S. and/or other countries.
 
@@ -50,13 +50,354 @@ Intel, the Intel logo, Intel TXT, and Xeon are trademarks of Intel Corporation i
 
 Copyright © 2021, Intel Corporation. All Rights Reserved.
 
-Revision History
+## Revision History
 
-[[_TOC_]]
+| Revision  Number | Description                     | Date          |
+| ---------------- | ------------------------------- | ------------- |
+| 3.0              | Initial release | August 2020   |
+| 3.1              | Updated for version 3.1 release | October 2020  |
+| 3.2              | Updated for version 3.2 release | November 2020 |
+| 3.3              | Updated for version 3.3 release | December 2020 |
+| 3.3.1            | Updated for version 3.3.1 release | January 2021 |
+| 3.4 | Updated for version 3.4 release | February 2021 |
+| 3.5 | Updated for version 3.5 release | March 2021 |
+| 3.6 | Updated for version 3.6 release | May 2021 |
+| 4.0 | Updated for version 4.0 release | July 2021 |
+| 3.6.1 | Updated for version 3.6.1 release | October 2021 |
 
-# 1 Introduction 
+- [Intel® Security Libraries - Datacenter SGX Attestation Infrastructure and Secure Key Caching](#intel-security-libraries---datacenter-sgx-attestation-infrastructure-and-secure-key-caching)
+  - [Product Guide](#product-guide)
+    - [July 2021](#july-2021)
+    - [Revision 4.0](#revision-40)
+  - [Revision History](#revision-history)
+  - [1 Introduction](#1-introduction)
+  - [1.1 Overview](#11-overview)
+  - [Trusted Execution Environment](#trusted-execution-environment)
+    - [Intel Software Guard Extensions](#intel-software-guard-extensions)
+      - [SGX ECDSA Attestation](#sgx-ecdsa-attestation)
+      - [PCK Certificates Provisioning](#pck-certificates-provisioning)
+  - [Key Protection](#key-protection)
+    - [HSM](#hsm)
+    - [PKCS\#11](#pkcs11)
+  - [Features](#features)
+    - [SGX Attestation Infrastructure](#sgx-attestation-infrastructure)
+    - [SGX Support in Orchestrators](#sgx-support-in-orchestrators)
+    - [Key Protection](#key-protection-1)
+  - [SGX Attestation Infrastructure and SKC Components](#sgx-attestation-infrastructure-and-skc-components)
+  - [Certificate Management Service](#certificate-management-service)
+  - [Authentication and Authorization Service](#authentication-and-authorization-service)
+  - [SGX Caching Service](#sgx-caching-service)
+  - [SGX Host Verification Service](#sgx-host-verification-service)
+  - [SGX Agent](#sgx-agent)
+  - [Integration Hub](#integration-hub)
+  - [Key Broker Service (SKC Only)](#key-broker-service-skc-only)
+  - [SGX Quote Verification Service](#sgx-quote-verification-service)
+  - [The Workload SGX Dependencies](#the-workload-sgx-dependencies)
+  - [The SKC Client (Secure Key Caching Use case Only)](#the-skc-client-secure-key-caching-use-case-only)
+  - [Definitions, Acronyms, and Abbreviation](#definitions-acronyms-and-abbreviation)
+  - [Architecture Overview](#architecture-overview)
+  - [SGX Attestation Support and SGX Support in Orchestrators](#sgx-attestation-support-and-sgx-support-in-orchestrators)
+  - [Key Protection](#key-protection-2)
+  - [SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#skc-virtualization-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+  - [Intel® Security Libraries Installation](#intel-security-libraries-installation)
+  - [Building from Source](#building-from-source)
+  - [Building from Source - OCI images & K8s Manifests](#building-from-source---oci-images--k8s-manifests)
+  - [Hardware Considerations](#hardware-considerations)
+    - [Supported **Hardware**](#supported-hardware)
+    - [BIOS Requirements](#bios-requirements)
+    - [OS Requirements (Intel® SGX does not supported on 32-bit OS):](#os-requirements-intel-sgx-does-not-supported-on-32-bit-os)
+    - [Requirements for Containerized Deployment with K8s](#requirements-for-containerized-deployment-with-k8s)
+      - [Operating System:](#operating-system)
+      - [Kubernetes](#kubernetes)
+      - [Container Runtime](#container-runtime)
+      - [Storage:](#storage)
+  - [Recommended Service Layout](#recommended-service-layout)
+  - [Recommended Service Layout & Architecture - Containerized Deployment with K8s](#recommended-service-layout--architecture---containerized-deployment-with-k8s)
+    - [Using the provided Database Installation Script](#using-the-provided-database-installation-script)
+    - [Provisioning the Database](#provisioning-the-database)
+    - [Database Server TLS Certificate](#database-server-tls-certificate)
+  - [Installation of Containerized Services and Agent in K8s Cluster](#installation-of-containerized-services-and-agent-in-k8s-cluster)
+    - [Pre-requisites](#pre-requisites)
+    - [Deploy Steps](#deploy-steps)
+    - [Additional Details](#additional-details)
+  - [Installing the Certificate Management Service](#installing-the-certificate-management-service)
+    - [Required For](#required-for)
+    - [Supported Operating System](#supported-operating-system)
+    - [Recommended Hardware](#recommended-hardware)
+    - [Installation](#installation)
+  - [Installing the Authentication and Authorization Service](#installing-the-authentication-and-authorization-service)
+    - [Required For](#required-for-1)
+    - [Prerequisites](#prerequisites)
+    - [Package Dependencies](#package-dependencies)
+    - [Supported Operating Systems](#supported-operating-systems)
+    - [Recommended Hardware](#recommended-hardware-1)
+    - [Installation](#installation-1)
+    - [Creating Users](#creating-users)
+    - [Creating Users and Roles](#creating-users-and-roles)
+  - [Installing the Caching Service](#installing-the-caching-service)
+    - [Required For](#required-for-2)
+    - [Prerequisites (CSP & Enterprise)](#prerequisites-csp--enterprise)
+    - [Package Dependencies](#package-dependencies-1)
+    - [Supported Operating System](#supported-operating-system-1)
+    - [Recommended Hardware](#recommended-hardware-2)
+    - [Installation](#installation-2)
+  - [Installing the SGX Host Verification Service](#installing-the-sgx-host-verification-service)
+    - [Required For](#required-for-3)
+    - [Prerequisites](#prerequisites-1)
+    - [Package Dependencies](#package-dependencies-2)
+    - [Supported Operating Systems](#supported-operating-systems-1)
+    - [Recommended Hardware](#recommended-hardware-3)
+    - [Installation](#installation-3)
+  - [Installing the SGX Agent](#installing-the-sgx-agent)
+    - [Required for](#required-for-4)
+    - [Prerequisites](#prerequisites-2)
+    - [Package Dependencies](#package-dependencies-3)
+    - [Supported Operating Systems](#supported-operating-systems-2)
+    - [Installation](#installation-4)
+  - [Installing the SQVS](#installing-the-sqvs)
+    - [Required for](#required-for-5)
+    - [Prerequisites](#prerequisites-3)
+    - [Package Dependencies](#package-dependencies-4)
+    - [Supported Operating Systems](#supported-operating-systems-3)
+    - [Recommended Hardware](#recommended-hardware-4)
+    - [Installation](#installation-5)
+  - [Setup K8S Cluster and Deploy Isecl-k8s-extensions](#setup-k8s-cluster-and-deploy-isecl-k8s-extensions)
+    - [Untar packages and push OCI images to registry](#untar-packages-and-push-oci-images-to-registry)
+        - [Deploy isecl-controller](#deploy-isecl-controller)
+        - [Deploy isecl-scheduler](#deploy-isecl-scheduler)
+        - [Configure kube-scheduler to establish communication with isecl-scheduler](#configure-kube-scheduler-to-establish-communication-with-isecl-scheduler)
+  - [Installing the Integration Hub](#installing-the-integration-hub)
+    - [Required For](#required-for-6)
+    - [Prerequisites](#prerequisites-4)
+    - [Package Dependencies](#package-dependencies-5)
+    - [Supported Operating Systems](#supported-operating-systems-4)
+    - [Recommended Hardware](#recommended-hardware-5)
+      - [Installing the Integration Hub](#installing-the-integration-hub-1)
+  - [Integration with OpenStack (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#integration-with-openstack-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+  - [Installing the Key Broker Service](#installing-the-key-broker-service)
+    - [Required for](#required-for-7)
+    - [Prerequisites](#prerequisites-5)
+    - [Package Dependencies](#package-dependencies-6)
+    - [Supported Operating Systems](#supported-operating-systems-5)
+    - [Recommended Hardware](#recommended-hardware-6)
+    - [Installation](#installation-6)
+  - [Installing the SKC Library](#installing-the-skc-library)
+    - [Required For](#required-for-8)
+    - [Package Dependencies](#package-dependencies-7)
+    - [Supported Operation System](#supported-operation-system)
+    - [Recommended Hardware](#recommended-hardware-7)
+    - [Installation](#installation-7)
+      - [Deploying SKC Library as a Container (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#deploying-skc-library-as-a-container-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+  - [Authentication](#authentication)
+  - [Create Token](#create-token)
+  - [User Management](#user-management)
+    - [Username and Password Requirement](#username-and-password-requirement)
+    - [Create User](#create-user)
+    - [Search Users by Username](#search-users-by-username)
+    - [Change User Password](#change-user-password)
+    - [Delete User](#delete-user)
+  - [Roles and Permission](#roles-and-permission)
+    - [Create Roles](#create-roles)
+    - [Search Roles](#search-roles)
+    - [Delete Role](#delete-role)
+    - [Assign Role to User](#assign-role-to-user)
+    - [List Roles Assigned to User](#list-roles-assigned-to-user)
+    - [Remove Role from User](#remove-role-from-user)
+    - [Role Definitions](#role-definitions)
+  - [SGX Agent](#sgx-agent-1)
+- [SGX Features Provisioning](#sgx-features-provisioning)
+  - [Host Registration](#host-registration)
+- [Setup Task Flows for K8s Deployments](#setup-task-flows-for-k8s-deployments)
+- [Configuration Update Flows for K8s Deployments](#configuration-update-flows-for-k8s-deployments)
+- [Intel Security Libraries Configuration Settings](#intel-security-libraries-configuration-settings)
+  - [SGX Host Verification Service](#sgx-host-verification-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options)
+    - [Configuration Options](#configuration-options)
+    - [Command-Line Options](#command-line-options)
+      - [Available Commands](#available-commands)
+      - [Help](#help)
+      - [Start](#start)
+      - [Stop](#stop)
+      - [Status](#status)
+      - [Uninstall](#uninstall)
+      - [Version](#version)
+      - [Setup \[task\]](#setup-task)
+    - [Setup tasks and its Configuration Options for SGX Host Verification Service](#setup-tasks-and-its-configuration-options-for-sgx-host-verification-service)
+    - [Directory Layout](#directory-layout)
+      - [Bin](#bin)
+      - [Configuration](#configuration)
+      - [Logs](#logs)
+  - [SGX Agent](#sgx-agent-2)
+    - [Installation Answer File Options](#installation-answer-file-options-1)
+    - [Configuration Options](#configuration-options-1)
+    - [Command-Line Options](#command-line-options-1)
+      - [Available Commands](#available-commands-1)
+      - [Help](#help-1)
+      - [Start](#start-1)
+      - [Stop](#stop-1)
+      - [Status](#status-1)
+      - [Uninstall](#uninstall-1)
+      - [Version](#version-1)
+    - [Setup Tasks and its Configuration Options for SGX Agent](#setup-tasks-and-its-configuration-options-for-sgx-agent)
+    - [Directory Layout](#directory-layout-1)
+      - [Linux](#linux)
+      - [Bin](#bin-1)
+      - [Configuration](#configuration-1)
+      - [Logs](#logs-1)
+  - [Integration Hub](#integration-hub-1)
+    - [Installation Answer File Options](#installation-answer-file-options-2)
+    - [Configuration Options](#configuration-options-2)
+    - [Command-Line Options](#command-line-options-2)
+      - [Available Commands](#available-commands-2)
+      - [Help](#help-2)
+      - [Start](#start-2)
+      - [Stop](#stop-2)
+      - [Status](#status-2)
+      - [Uninstall](#uninstall-2)
+      - [Version](#version-2)
+      - [Setup \[task\]](#setup-task-1)
+    - [Setup Tasks and its Configuration Options for Integration Hub](#setup-tasks-and-its-configuration-options-for-integration-hub)
+    - [Directory Layout](#directory-layout-2)
+      - [Bin](#bin-2)
+      - [Configuration](#configuration-2)
+      - [Logs](#logs-2)
+  - [Certificate Management Service](#certificate-management-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-3)
+    - [Configuration Options](#configuration-options-3)
+    - [Command-Line Options](#command-line-options-3)
+      - [Available Commands](#available-commands-3)
+      - [Help](#help-3)
+      - [Start](#start-3)
+      - [Stop](#stop-3)
+      - [Status](#status-3)
+      - [Uninstall](#uninstall-3)
+      - [Version](#version-3)
+      - [Tlscertsha384](#tlscertsha384)
+      - [Setup \[task\]](#setup-task-2)
+        - [cms setup server \[\--port=\<port\>\]](#cms-setup-server---portport)
+        - [cms setup root_ca \[\--force\]](#cms-setup-root_ca---force)
+        - [cms setup tls \[\--force\] \[\--host_names=\<host_names\>\]](#cms-setup-tls---force---host_nameshost_names)
+        - [cms setup cms-auth-token \[\--force\]](#cms-setup-cms-auth-token---force)
+    - [Setup Tasks and its Configuration Options for Certificate Management Service](#setup-tasks-and-its-configuration-options-for-certificate-management-service)
+    - [Directory Layout](#directory-layout-3)
+      - [Bin](#bin-3)
+      - [Configuration](#configuration-3)
+      - [Logs](#logs-3)
+      - [Cacerts](#cacerts)
+  - [Authentication and Authorization Service](#authentication-and-authorization-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-4)
+    - [Configuration Options](#configuration-options-4)
+    - [Command-Line Options](#command-line-options-4)
+      - [Available Commands](#available-commands-4)
+      - [Help](#help-4)
+      - [Start](#start-4)
+      - [Stop](#stop-4)
+      - [Status](#status-4)
+      - [Uninstall](#uninstall-4)
+      - [Version](#version-4)
+      - [Setup \[task\]](#setup-task-3)
+        - [authservice setup all](#authservice-setup-all)
+        - [authservice setup database \[-force\] \[-arguments=\<argument_value\>\]](#authservice-setup-database--force--argumentsargument_value)
+        - [authservice setup server \[\--port=\<port\>\]](#authservice-setup-server---portport)
+        - [authservice setup admin \[\--user=\<username\>\] \[-pass=\<password\>\]](#authservice-setup-admin---userusername--passpassword)
+        - [authservice setup jwt](#authservice-setup-jwt)
+    - [Setup Tasks and its Configuration Options for Authentication and Authorization Service](#setup-tasks-and-its-configuration-options-for-authentication-and-authorization-service)
+    - [Directory Layout](#directory-layout-4)
+      - [Bin](#bin-4)
+      - [Configuration](#configuration-4)
+      - [Logs](#logs-4)
+      - [Dbscripts](#dbscripts)
+  - [Key Broker Service](#key-broker-service)
+    - [Installation Answer File Options](#installation-answer-file-options-5)
+    - [Configuration Options](#configuration-options-5)
+    - [Command-Line Options](#command-line-options-5)
+      - [Available Commands](#available-commands-5)
+      - [Help](#help-5)
+      - [Start](#start-5)
+      - [Stop](#stop-5)
+      - [Status](#status-5)
+      - [Uninstall](#uninstall-5)
+      - [Version](#version-5)
+      - [Setup \[task\]](#setup-task-4)
+    - [Setup Tasks and its Configuration Options for Key Broker Service](#setup-tasks-and-its-configuration-options-for-key-broker-service)
+    - [Directory Layout](#directory-layout-5)
+      - [Bin](#bin-5)
+      - [Configuration](#configuration-5)
+      - [Logs](#logs-5)
+  - [SGX Caching Service](#sgx-caching-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-6)
+    - [Configuration Options](#configuration-options-6)
+    - [Command-Line Options](#command-line-options-6)
+      - [Available Commands](#available-commands-6)
+      - [Help](#help-6)
+      - [Start](#start-6)
+      - [Stop](#stop-6)
+      - [Status](#status-6)
+      - [Uninstall](#uninstall-6)
+      - [Version](#version-6)
+      - [Setup \[task\]](#setup-task-5)
+    - [Setup Tasks and its Configuration Options for SGX Caching Service](#setup-tasks-and-its-configuration-options-for-sgx-caching-service)
+    - [Directory Layout](#directory-layout-6)
+      - [Bin](#bin-6)
+      - [Configuration](#configuration-6)
+      - [Logs](#logs-6)
+  - [SGX Quote Verification Service](#sgx-quote-verification-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-7)
+    - [Configuration Options](#configuration-options-7)
+    - [Command-Line Options](#command-line-options-7)
+      - [Available Commands](#available-commands-7)
+      - [Help](#help-7)
+      - [Start](#start-7)
+      - [Stop](#stop-7)
+      - [Status](#status-7)
+      - [Uninstall](#uninstall-7)
+      - [Version](#version-7)
+      - [Setup \[task\]](#setup-task-6)
+    - [Setup Tasks and its Configuration Options for SGX Quote Verification Service](#setup-tasks-and-its-configuration-options-for-sgx-quote-verification-service)
+    - [Directory Layout](#directory-layout-7)
+      - [Bin](#bin-7)
+      - [Configuration](#configuration-7)
+      - [Logs](#logs-7)
+- [Uninstallation](#uninstallation)
+  - [Certificate Management Service](#certificate-management-service-2)
+  - [Authentication and Authorization Service](#authentication-and-authorization-service-2)
+  - [SGX Host Verification Service](#sgx-host-verification-service-2)
+  - [SGX_Agent](#sgx_agent)
+  - [Integration Hub](#integration-hub-2)
+  - [SGX Caching Service](#sgx-caching-service-2)
+  - [SGX Quote Verification Service](#sgx-quote-verification-service-2)
+  - [Key Broker Service](#key-broker-service-1)
+  - [SKC Library](#skc-library)
+  - [isecl-k8s-extensions](#isecl-k8s-extensions)
+  - [TLS Certificates](#tls-certificates)
+- [Binary Upgrades](#binary-upgrades)
+  - [Backward Compatibility](#backward-compatibility)
+  - [Upgrade Order](#upgrade-order)
+  - [Upgrade Process](#upgrade-process)
+    - [Binary Installations](#binary-installations)
+- [Container Upgrades](#container-upgrades)
+  - [Backup and roll back applicable to all services](#backup-and-roll-back-applicable-to-all-services)
+  - [Backward Compatibility](#backward-compatibility-1)
+  - [Upgrade Order](#upgrade-order-1)
+  - [Upgrade Process](#upgrade-process-1)
+    - [Container Installations](#container-installations)
+      - [Individual services upgrade except KBS](#individual-services-upgrade-except-kbs)
+      - [KBS Upgrade](#kbs-upgrade)
+- [Appendix](#appendix)
+    - [SGX Attestation flow](#sgx-attestation-flow)
+    - [Creating RSA Keys in Key Broker Service](#creating-rsa-keys-in-key-broker-service)
+  - [Configuration for NGINX testing on RHEL 8.2](#configuration-for-nginx-testing-on-rhel-82)
+  - [Configuration for NGINX testing for Ubuntu 18.04](#configuration-for-nginx-testing-for-ubuntu-1804)
+- [KBS key-transfer flow validation](#kbs-key-transfer-flow-validation)
+- [Note on Key Transfer Policy](#note-on-key-transfer-policy)
+- [Note on SKC Library Deployment](#note-on-skc-library-deployment)
+  - [Extracting SGX Enclave values for Key Transfer Policy](#extracting-sgx-enclave-values-for-key-transfer-policy)
 
-## 1.1 Overview
+## 1 Introduction 
+
+## 1 Introduction
+
+### 1.1 Overview
 
 The SGX Attestation infrastructure and Secure Key Caching (SKC) are part of the Intel Security Libraries for datacenter (ISecL-DC). Intel Security Libraries for Datacenter is a collection of software applications and development libraries intended to help turn Intel platform security features into real-world security use cases.
 
@@ -76,7 +417,7 @@ A Trusted Execution Environment (TEE) provides a computer secure area where code
 
 Intel Software Guard Extensions (SGX) is an Intel platform security feature that implements the TEE paradigm. A portion of RAM called EPC (Enclave Page Cache) is used by applications to load secure isolated areas called SGX enclaves. Code and data inside SGX enclaves are encrypted and only decrypted inside the Intel CPU. From the host application perspective, an SGX enclave looks like a dynamic library. Any part of the application that is not contained in an SGX enclave is considered untrusted while the SGX enclave is considered trusted. Communications between the untrusted part and the trusted part (the SGX enclave) of an application uses a special calls called ECALLS and call from the enclave to the untrusted part of the application use OCALLS. A signed claim called SGX quote can be generated for an enclave. The SGX quote may contain a measurement of the code and the data of the enclave. An SGX quote allows to prove to a remote verifier (relying party) that an application includes the expected SGX enclave.
 
-#### SGX ECDSA Attestation 
+#### SGX ECDSA Attestation
 
 SGX ECDSA attestation is the process that allows an application (relying party) to verify that a remote piece of code and data that it's interacting with is contained in a genuine Intel SGX enclave. The remote enclave can generate a signed claim called an SGX quote. A valid SGX quote signature generated on an SGX enabled platform can be chained up to a trusted Intel signing key. The SGX quote contains the measurement of the enclave (MREnclave), the enclave developer's signature (MRSigner), the security patch level of the platform (Trusted Computing Base or TCB) and any user data that the enclave wants to include in the quote. Typically, the user data in an SGX quote contains the hash of the public key part of a public/private key pair generated inside the enclave. The public key is transferred along with the SGX quote to the relying party. The latter generates a Symmetric Wrapping Key (SWK) and wraps it with the public key of the enclave. The wrapped SWK is provisioned into the SGX enclave, which can unwrap it since it has the corresponding private key. The relying party can then provision secrets into the SGX enclave after wrapping them with the SWK. For an enclave to generate an SGX quote, a PCK certificate for the host platform must be obtained from Intel SGX Provisioning Certification Service (PCS).
 
@@ -104,7 +445,7 @@ PKCS\#11 is the standard cryptographic programming interface supported by HSMs. 
 
 ## Features
 
-### SGX Attestation Infrastructure 
+### SGX Attestation Infrastructure
 
 The SGX Attestation Infrastructure allows to fetch PCK certificates and SGX collateral from Intel SGX Provisioning Certification Service (PCS). It makes the PCK certificates available to workloads that use the SKC Client, which allows them to generate SGX quotes. The SGX Attestation Infrastructure also includes components that perform the verification of SGX quotes.
 
@@ -116,7 +457,7 @@ The SGX Attestation Infrastructure can optionally push the SGX information on co
 
 SKC leverages the SGX Attestation Infrastructure to protect keys in an SGX enclave at rest and in use. Applications use the SKC Client -- a set of libraries -- to retrieves keys at runtime from KBS. KBS performs an SGX enclave attestation. If the attestation is successful, KBS generates a Symmetric Wrapping Key (SWK), wraps it with the enclave public key and provisions it into the enclave, which can unwrap it since it has the corresponding private key. Application can then be provisioned into the SGX enclave after being wrapped with the SWK. Application keys are therefore never exposed to any software outside of the enclave.
 
-# SGX Attestation Infrastructure and SKC Components
+## SGX Attestation Infrastructure and SKC Components
 
 The components documented in this section are used by the SGX Attestation Infrastructure and therefore by SKC, which leverages the SGX Attestation Infrastructure. Components that are exclusively used by SKC have (SKC Only) in the corresponding sub-section title.
 
@@ -158,7 +499,7 @@ The Integration Hub (IHUB) allows to support SGX in Kubernetes and Open stack. I
 
 ## Key Broker Service (SKC Only)
 
-The Key Broker Service (KBS) is typically deployed in the tenant environment, not the Cloud Service Provider (CSP) environment. KBS is effectively a policy compliance engine. Its job is to manage key transfer requests from SKC Clients, releasing keys only to those that meet policy requirements. A user admin can create and register keys in KBS. He can also create key policies and assign them to keys. A key policy specifies the conditions that the SKC Client must fulfill for keys that have the policy assigned to them to be released. Most of the information about an SKC Client is contained in the SGX quote that it sends to KBS. The SGX quote also contains a hash of the enclave's public key. KBS gets the public key along the quote so the hash in the quote allows to verify that the public key is genuine. If the SGX quote verification (attestation) is successful, KBS generates a Symmetric Wrapping Key (SWK), wraps it with the enclave public key and provisions it into the enclave, which can unwrap it since it has the corresponding private key. Application can then be provisioned into the SGX enclave after being wrapped with the SWK. Application keys are therefore never exposed to any software outside of the enclave. 
+The Key Broker Service (KBS) is typically deployed in the tenant environment, not the Cloud Service Provider (CSP) environment. KBS is effectively a policy compliance engine. Its job is to manage key transfer requests from SKC Clients, releasing keys only to those that meet policy requirements. A user admin can create and register keys in KBS. He can also create key policies and assign them to keys. A key policy specifies the conditions that the SKC Client must fulfill for keys that have the policy assigned to them to be released. Most of the information about an SKC Client is contained in the SGX quote that it sends to KBS. The SGX quote also contains a hash of the enclave's public key. KBS gets the public key along the quote so the hash in the quote allows to verify that the public key is genuine. If the SGX quote verification (attestation) is successful, KBS generates a Symmetric Wrapping Key (SWK), wraps it with the enclave public key and provisions it into the enclave, which can unwrap it since it has the corresponding private key. Application can then be provisioned into the SGX enclave after being wrapped with the SWK. Application keys are therefore never exposed to any software outside of the enclave.
 
 KBS is shared with other Intel® SecL-DC components.
 
@@ -168,7 +509,7 @@ The SGX Quote Verification Service (SQVS) is typically deployed in the tenant en
 
 ## The Workload SGX Dependencies
 
-This is a set of dependencies needed by SGX workloads. 
+This is a set of dependencies needed by SGX workloads.
 
 ## The SKC Client (Secure Key Caching Use case Only)
 
@@ -176,7 +517,7 @@ The SKC Client refers to a suite of libraries that applications that require key
 
 The SKC Client is typically deployed inside a tenant VM or container. It can also be used on bare metal. In all these deployments, the underlying platform is typically owned by a Cloud Service Provider (CSP) and is considered untrusted.
 
-# Definitions, Acronyms, and Abbreviation
+## Definitions, Acronyms, and Abbreviation
 
 SKC -- Secure Key Caching
 
@@ -192,15 +533,15 @@ CSP -- Cloud Service Provider
 
 PCS -- Provisioning Certification Service
 
-CRLs -- Certificate Revocation Lists 
+CRLs -- Certificate Revocation Lists
 
 AAS -- Authentication and Authorization Service
 
 SWK -- Symmetric Wrapping Key
 
-CRDs -- Custom Resource Definitions 
+CRDs -- Custom Resource Definitions
 
-# Architecture Overview 
+## Architecture Overview 
 
 As indicated in the Features section, SKC provides 3 features essentially:
 
@@ -219,13 +560,13 @@ The high-level architectures of these features are presented in the next sub-sec
 
 ## SGX Attestation Support and SGX Support in Orchestrators
 
-The diagram below shows the infrastructure that CSPs need to deploy to support SGX attestation and optionally, integration with orchestrators (Kubernetes and OpenStack). 
+The diagram below shows the infrastructure that CSPs need to deploy to support SGX attestation and optionally, integration with orchestrators (Kubernetes and OpenStack).
 
 THE SGX Agent pushes platform information to SGX Caching Service (SCS), which uses it to get the PCK Certificate and other SGX collateral from the Intel SGX Provisioning Certification Service (PCS) and caches them locally. When a workload on the platform needs to generate an SGX Quote, it retrieves the PCK Certificate of the platform from SCS.
 
 If SGX Host Verification Service (SHVS) URL is configured, the SGX Agent fetches the TCB Status from SCS and updates SHVS with SGX platform enablement information and TCB status periodically. The platform information is made available to Kubernetes and Openstack via the SGX Hub (IHUB), which pulls it from SHVS.
 
-The SGX Quote Verification Service (SQVS) allows attesting applications to verify SGX quotes and extract the SGX quote attributes to verify compliance with a user-defined SGX enclave policy. SQVS uses the SGX Caching Service to retrieve SGX collateral needed to verify SGX quotes from the Intel SGX Provisioning Certification Service (PCS). SQVS typically runs in the attesting application owner network environment. Typically, a separate instance of the SGX Caching Service is setup in the attesting application owner network environment. 
+The SGX Quote Verification Service (SQVS) allows attesting applications to verify SGX quotes and extract the SGX quote attributes to verify compliance with a user-defined SGX enclave policy. SQVS uses the SGX Caching Service to retrieve SGX collateral needed to verify SGX quotes from the Intel SGX Provisioning Certification Service (PCS). SQVS typically runs in the attesting application owner network environment. Typically, a separate instance of the SGX Caching Service is setup in the attesting application owner network environment.
 
 ![](Images/image-20200727163158892.png)
 
@@ -246,13 +587,13 @@ Step 6 is optional (keys can be stored in KBS). Keys policies in step 2 are call
 Virtualization enabled on SGX Host machines, uses SGX key features. With Virtualization being enabled on SGX host, SKC Library which uses Intel crypto tool kit to protect keys in SGX Enclave can be configured on Virtual Machines which are created on SGX Hosts. This enhancement further provides the privilege for a workload on a VM  allowing successful Secure Key transfer flow which meets the policy requirements. Hence virtualization on SGX Hosts supports key transfer flow for Workload on bare metal, Workload inside a VM, Workload in a container and Workload in a container inside a VM enabled on SGX Host.
 
 
-# Intel® Security Libraries Installation
+## Intel® Security Libraries Installation
 
 ## Building from Source
 
 Intel® Security Libraries is distributed as open source code and must be compiled into installation binaries before installation.
 
-Instructions and sample scripts for building the Intel® SecL-DC components can be found here (Section 1 to 6)
+Instructions and sample scripts for building the Intel® SecL-DC components can be found in
 
 https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20RHEL.md
 
@@ -260,14 +601,14 @@ After the components have been built, the installation binaries and database scr
 
 Generated component binaries/installers are:
 
-- CMS: cms-v4.0.0.bin
-- AAS: authservice-v4.0.0.bin
-- SCS: scs-v4.0.0.bin
-- SHVS: shvs-v4.0.0.bin
-- IHUB: ihub-v4.0.0.bin
-- SQVS: sqvs-v4.0.0.bin
-- KBS: kbs-v4.0.0.bin
-- K8S-Extensions: isecl-k8s-extensions-v4.0.0.tar.gz
+- CMS: cms-v5.0.0.bin
+- AAS: authservice-v5.0.0.bin
+- SCS: scs-v5.0.0.bin
+- SHVS: shvs-v5.0.0.bin
+- IHUB: ihub-v5.0.0.bin
+- SQVS: sqvs-v5.0.0.bin
+- KBS: kbs-v5.0.0.bin
+- K8S-Extensions: isecl-k8s-extensions-v5.0.0.tar.gz
 - SGX-Agent: agent_untar.sh, sgx_agent.sha2 and sgx_agent.tar
 - SKC-Library: skclib_untar.sh, skc_library.sha2 and skc_library.tar
 
@@ -286,16 +627,16 @@ After the components have been built, the OCI images and pre-req scripts can be 
 
 Generated components `OCI images`  under `<working directory>/k8s/container-images`:
 
-* Authentication Authorization Service: `aas-v4.0.0.tar`
-* Certificate Management Service: `cms-v4.0.0.tar`
-* Integration Hub: `ihub-v4.0.0.tar`
-* Key Broker Service: `kbs-v4.0.0.tar`
-* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.0.0.tar`
-* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.0.0.tar`
-* SGX Caching Service: `scs-v4.0.0.tar`
-* SGX Quote Verification Service: `sqvs-v4.0.0.tar`
-* SGX Host Verification Service: `shvs-v4.0.0.tar`
-* SGX Agent: `sgx-agent-v4.0.0.tar`
+* Authentication Authorization Service: `aas-v5.0.0.tar`
+* Certificate Management Service: `cms-v5.0.0.tar`
+* Integration Hub: `ihub-v5.0.0.tar`
+* Key Broker Service: `kbs-v5.0.0.tar`
+* K8s Extensions Custom Controller: `isecl-k8s-controller-v5.0.0.tar`
+* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v5.0.0.tar`
+* SGX Caching Service: `scs-v5.0.0.tar`
+* SGX Quote Verification Service: `sqvs-v5.0.0.tar`
+* SGX Host Verification Service: `shvs-v5.0.0.tar`
+* SGX Agent: `sgx-agent-v5.0.0.tar`
 * SKC Library: `skc-lib-4.0.0.tar`
 
 Generated Components `K8s Manifests` directories under `<working directory>/k8s/manifests`:
@@ -406,7 +747,6 @@ The containerized deployment makes use of Kubernetes orchestrator for single nod
 ![k8s-single-node](./Images/k8s-single-node.png)
 
 
-
 **Multi Node:**
 
 ![K8s Deployment-sqx](./Images/k8s-deployment-sgx.jpg)
@@ -429,19 +769,17 @@ For stateful services which requires database like shvs, aas, scs, A separate da
 
 ![Networking within cluster](./Images/within-cluster-communication-sgx.jpg)
 
-
-
 **Networking Outside the Cluster:**
 
 ![Networking outside cluster](./Images/inter-cluster-communication-sgx.jpg)
 
 **SKC Virtualization:**
 
-![](.\Images\sgx-virtualization-model.jpg)
+![SGX Virtualization Model](./Images/sgx-virtualization-model.jpg)
 
 Follow the [Installation of Containerized Services and Agent in K8s Cluster](#Installation of Containerized Services and Agent in K8s Cluster) for installation instructions once deployment model is chosen
 
-### Using the provided Database Installation Script 
+### Using the provided Database Installation Script
 
 Install a sample Postgresql 11 database using the install_pgdb.sh script provided in binaries directory. This script will automatically install the Postgresql database and client packages required.
 
@@ -465,7 +803,7 @@ Each Intel® SecL service that uses a database (the Authentication and Authoriza
 
 If a single shared database server will be used for each Intel® SecL service (for example, if all management plane services will be installed on a single VM), run install_pgdb.sh script only once and create_db.sh script for each component that uses a database.
 
-If separate database servers will be used (for example, if the management plane services will reside on separate systems and will use their own local database servers), execute the install_pgdb.sh script on each server hosting a database and create_db.sh script for each component that uses a DB. 
+If separate database servers will be used (for example, if the management plane services will reside on separate systems and will use their own local database servers), execute the install_pgdb.sh script on each server hosting a database and create_db.sh script for each component that uses a DB.
 
 Command to install postgres DB:
 ```
@@ -490,7 +828,7 @@ The database client for Intel® SecL services will validate that the Subject Alt
 
 ## Installation of Containerized Services and Agent in K8s Cluster
 
-The containerized deployment utilizes K8s orchestrator to deploy SGX components. The deployments are fairly automated once the pre-reqs are in place for K8s cluster deployments. 
+The containerized deployment utilizes K8s orchestrator to deploy SGX components. The deployments are fairly automated once the pre-reqs are in place for K8s cluster deployments.
 
 > **Note:** The K8s manifests are declarative in nature and the same can be modified as required for SGX services deployments for single node and multi node deployments. Modifications would require specific steps to ensure services and agents get updated as per the required configuration. More details for the same present in Setup Task Flows for K8s Deployments, Configuration Update Flows for K8s Deployments and [Intel Security Libraries Configuration Settings ](#intel-security-libraries-configuration-settings)
 
@@ -518,7 +856,7 @@ The containerized deployment utilizes K8s orchestrator to deploy SGX components.
 
 The CMS is REQUIRED for all use cases.
 
-### Supported Operating System 
+### Supported Operating System
 
 The Intel® Security Libraries Certificate Management Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
@@ -554,7 +892,7 @@ For all configuration options and their descriptions, refer to the Intel® SecL 
 
 3.  Execute the installer binary.
 
-./cms-v4.0.0.bin
+./cms-v5.0.0.bin
 
 When the installation completes, the Certificate Management Service is available. The services can be verified by running cms status from the command line.
 
@@ -569,7 +907,7 @@ In addition, the SHA384 digest of the CMS TLS certificate will be needed for ins
 cms tlscertsha384
 
 
-## Installing the Authentication and Authorization Service 
+## Installing the Authentication and Authorization Service
 
 ### Required For
 
@@ -591,7 +929,7 @@ The Intel® SecL-DC Authentication and Authorization Service (AAS) requires a Po
 
 The Intel® Security Libraries Authentication and Authorization Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
-### Recommended Hardware 
+### Recommended Hardware
 
 -   1 vCPUs
 
@@ -620,36 +958,36 @@ cms setup cms-auth-token --force
 Create the authservice.env installation answer file in /root/ directory as below:
 
       CMS_BASE_URL=https://< CMS IP or hostname>:8445/cms/v1/
-    
+
       CMS_TLS_CERT_SHA384=<CMS TLS certificate sha384>
-      
+
       AAS_DB_SSLMODE=verify-full
-    
+
       AAS_DB_HOSTNAME=<IP or hostname of database server>
-    
+
       AAS_DB_PORT=<database port number; default is 5432>
-    
+
       AAS_DB_NAME=<database name>
-    
+
       AAS_DB_USERNAME=<database username>
-    
+
       AAS_DB_PASSWORD=<database password>
-    
+
       AAS_DB_SSLCERTSRC=<path to database TLS certificate; the default location is typically /usr/local/pgsql/data/server.crt>
-    
+
       AAS_ADMIN_USERNAME=<username for AAS administrative user>
-    
+
       AAS_ADMIN_PASSWORD=<password for AAS administrative user>
-    
+
       AAS_JWT_TOKEN_DURATION_MINS=2880
-    
+
       SAN_LIST=<comma-separated list of IPs and hostnames for the AAS; this should match the value for the AAS_TLS_SAN in the cms.env file from the CMS installation>
-    
+
       BEARER_TOKEN=<bearer token from CMS installation>
 
 Execute the AAS installer:
 
-./authservice-v4.0.0.bin
+./authservice-v5.0.0.bin
 
 Note: the AAS_ADMIN credentials specified in this answer file will have administrator rights for the AAS and can be used to create other users, create new roles, and assign roles to users.
 
@@ -659,7 +997,7 @@ Before deployment is initiated, user account and roles must be generated for eac
 
 Creating these required users and roles is facilitated by the populate-user script.
 
-### Creating Users and Roles 
+### Creating Users and Roles
 
 During installation of each services, number of user accounts and roles specific to services must be generated. Most of these accounts will be service users, which is used by the various services to function together. Another set of users will be used for installation permissions, and administrative user will be created to provide the initial authentication interface for the actual user based on the organizational requirements. Creating these required users and roles is facilitated by a script that will accept credentials and configuration settings from an answer file and automate the process.
 Create the `populate-users.env` file using the following values:
@@ -718,7 +1056,7 @@ The script will automatically generate the following users:
 
 These user accounts will be used during installation of each components of SGX Attestation or SKC. In general, whenever credentials are required by an installation answer file, the variable name should match the name of the corresponding variable used in the `populate-users.env` file.
 
-The populate-users script will also output an installation token. This token has all privileges needed for installation of the services, and uses the credentials provided with the `INSTALL_ADMIN_USERNAME` and `INSTALL_ADMIN_PASSWORD`. The remaining Intel ® SecL-DC services require this token (set as the `BEARER_TOKEN` variable in the installation env files) to grant the appropriate privileges for installation. By default this token will be valid for two hours; the populate-users script can be rerun with the same `populate-users.env` file to regenerate the token if more time is required, or the `INSTALL_ADMIN_USERNAME` and `INSTALL_ADMIN_PASSWORD` can be used to generate an authentication token. 
+The populate-users script will also output an installation token. This token has all privileges needed for installation of the services, and uses the credentials provided with the `INSTALL_ADMIN_USERNAME` and `INSTALL_ADMIN_PASSWORD`. The remaining Intel ® SecL-DC services require this token (set as the `BEARER_TOKEN` variable in the installation env files) to grant the appropriate privileges for installation. By default this token will be valid for two hours; the populate-users script can be rerun with the same `populate-users.env` file to regenerate the token if more time is required, or the `INSTALL_ADMIN_USERNAME` and `INSTALL_ADMIN_PASSWORD` can be used to generate an authentication token.
 
 
 ## Installing the Caching Service
@@ -751,11 +1089,11 @@ sample database. If this script will not be used, a Postgresql 11 database
 
 must be installed by the user before executing the SCS installation.
 
-### Supported Operating System 
+### Supported Operating System
 
 The Intel® Security Libraries SGX Caching Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
-### Recommended Hardware 
+### Recommended Hardware
 
 -   4 vCPUs
 
@@ -781,48 +1119,48 @@ copy install_pgdb.sh and create_db.sh to /root/ directory
 2. Create the scs.env installation answer file in /root/ directory as below:
 
        SCS_DB_USERNAME=<database username>
-        
+
        SCS_DB_PASSWORD=<database password>
-        
+
        SCS_DB_HOSTNAME=<IP or hostname of database server>
-        
+
        SCS_DB_PORT=<Database port; 5432 by default>
-        
+
        SCS_DB_NAME=<name of the SCS database; pgscsdb by default>
-        
+
        SCS_DB_SSLCERTSRC=<path to database TLS certificate; the default location is typically /usr/local/pgsql/data/server.crt>
-        
+
        INTEL_PROVISIONING_SERVER=<hostname of INTEL PCS Server>
-        
+
        INTEL_PROVISIONING_SERVER_API_KEY=<subscription key>
-        
+
        SCS_REFRESH_HOURS=<time in hours to refresh SGX collaterals; 1 hour by default>
-        
+
        SCS_ADMIN_USERNAME=<username for SCS service account>
-        
+
        SCS_ADMIN_PASSWORD=<password for SCS service account>
-        
+
        CMS_BASE_URL=https://<IP or hostname to CMS>:8445/cms/v1/
-        
+
        CMS_TLS_CERT_SHA384=<sha384 of CMS TLS certificate>
-        
+
        AAS_API_URL=https://<IP or hostname to AAS>:8444/aas/v1
-       
+
        RETRY_COUNT=3
-       
+
        WAIT_TIME=1
-        
+
        SAN_LIST=<comma-separated list of IPs and hostnames for the SCS>
-        
-       BEARER_TOKEN=<Installation token> 
+
+       BEARER_TOKEN=<Installation token>
 
 Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh script
 
 Execute the SCS installer binary:
 
-./scs-v4.0.0.bin
+./scs-v5.0.0.bin
 
-## Installing the SGX Host Verification Service 
+## Installing the SGX Host Verification Service
 
 ### Required For
 
@@ -849,7 +1187,7 @@ The Intel® Security Libraries SGX Host Verification Service requires the follow
 
 If they are not already installed, the SGX Host Verification Service installer attempts to install these automatically using the package manager. Automatic installation requires access to package repositories (the RHEL/Ubuntu subscription repositories, the EPEL repository, or a suitable mirror), which may require an Internet connection. If the packages are to be installed from the package repository, be sure to update the repository package lists before installation.
 
-### Supported Operating Systems 
+### Supported Operating Systems
 
 The Intel® Security Libraries SGX Host Verification Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
@@ -882,65 +1220,65 @@ To install the SGX Host Verification Service, follow these steps:
 
 A sample minimal shvs.env file is provided below. For all configuration options and their descriptions, refer to the Intel® SecL Configuration section on the SGX Host Verification Service.
 
-     SHVS_DB_HOSTNAME=<hostname or IP address to database server> 
-    
-     SHVS_DB_USERNAME=<Database administrative username> 
-    
+     SHVS_DB_HOSTNAME=<hostname or IP address to database server>
+
+     SHVS_DB_USERNAME=<Database administrative username>
+
      SHVS_DB_PORT=<Database port, default is 5432>
-    
-     SHVS_DB_PASSWORD=<Database password> 
-    
+
+     SHVS_DB_PASSWORD=<Database password>
+
      SHVS_DB_NAME=<Database schema>
-    
-     SHVS_ADMIN_USERNAME=<SGX Host Verification Service username> 
-    
-     SHVS_ADMIN_PASSWORD=<SGX HostVerification Service password> 
-    
-     CMS_TLS_CERT_SHA384=<Certificate Management Service TLS digest> 
-    
+
+     SHVS_ADMIN_USERNAME=<SGX Host Verification Service username>
+
+     SHVS_ADMIN_PASSWORD=<SGX HostVerification Service password>
+
+     CMS_TLS_CERT_SHA384=<Certificate Management Service TLS digest>
+
      SHVS_DB_SSLCERTSRC=/usr/local/pgsql/data/server.crt
-     
+
      SHVS_SCHEDULER_TIMER=10
-     
+
      #Maximum allowed time before a platform enablement record in SHVS database is considered as stale
      SHVS_HOST_PLATFORM_EXPIRY_TIME=240
-     
+
      SHVS_AUTO_REFRESH_TIMER=120
-    
-     BEARER_TOKEN=<Installation token> 
-    
+
+     BEARER_TOKEN=<Installation token>
+
      AAS_API_URL=https://<Authentication and Authorization Service IP or Hostname>:8444/aas/v1
-    
+
      CMS_BASE_URL=https://<Certificate Management Service IP or Hostname>:8445/cms/v1/
-    
+
      SCS_BASE_URL=https://<SGX Caching Service IP or Hostname>:9000/scs/sgx/
-    
-     SAN_LIST=<Comma-separated list of IP addresses and hostnames for the SHVS> 
+
+     SAN_LIST=<Comma-separated list of IP addresses and hostnames for the SHVS>
 
 Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh script
 
 Execute the installer binary.
 
-./shvs-v4.0.0.bin
+./shvs-v5.0.0.bin
 
 When the installation completes, the SGX Host Verification Service is available. The service can be verified by running **shvs** status from the SGX Host Verification Service command line.
 
 \# shvs status
 
-## Installing the SGX Agent 
+## Installing the SGX Agent
 
 ### Required for
 
-The SGX Agent is REQUIRED for all use cases. 
+The SGX Agent is REQUIRED for all use cases.
 
 The SGX Agent pushes SGX platform data to SGX Caching Service (SCS). SGX Agent gets current TCB Status for the platform from SCS. If SGX Host Verification Service (SHVS) URL is configured, the SGX Agent pushes platform enablement information and TCB Status to SHVS.
 
-### Prerequisites 
+### Prerequisites
 
 -   The following must be completed before installing the SGX Agent:
 
     -   Certificate Management Service, Authentication and Authorization Service,SGX Caching Service and SGX Host Verification Service must be installed and available.
-    -   Make sure system date and time of SGX machine and CSP machine both are in sync. Also, if the system is configured to read the RTC time in the local time zone, then use RTC in UTC by running`timedatectl set-local-rtc 0` command on both the machine. Otherwise SGX Agent deployment will fail with certificate expiry error. 
+    -   Make sure system date and time of SGX machine and CSP machine both are in sync. Also, if the system is configured to read the RTC time in the local time zone, then use RTC in UTC by running`timedatectl set-local-rtc 0` command on both the machine. Otherwise SGX Agent deployment will fail with certificate expiry error.
 
 ### Package Dependencies
 
@@ -981,7 +1319,7 @@ Note: In case orchestration support is not needed, please comment/delete SHVS_IP
 
 SGX ECDSA Attestation / SGX Quote Verification by KBS
 
-### Prerequisites 
+### Prerequisites
 
 -   The following must be completed before installing the SQVS:
 
@@ -997,7 +1335,7 @@ The Intel® Security Libraries Quote Verification Service requires the following
 
 Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
-### Recommended Hardware 
+### Recommended Hardware
 
 -   4 vCPUs
 
@@ -1021,26 +1359,30 @@ NOTE: Retrieve appropriate Trusted RootCA certificate files for SGX platform (tr
 
 A sample minimal sqvs.env file is provided below. For all configuration options and their descriptions, refer to the Configuration section on the SGX Quote Verification Service.
 
-       SGX_TRUSTED_ROOT_CA_PATH=< Path where trusted root ca cert for PCS is stored, by default /tmp/trusted_rootca.pem > 
-    
+       SGX_TRUSTED_ROOT_CA_PATH=< Path where trusted root ca cert for PCS is stored, by default /tmp/trusted_rootca.pem >
+
        SCS_BASE_URL=https://< SCS IP or Hostname >:9000/scs/sgx/certification/v1
-    
-       CMS_TLS_CERT_SHA384=< Certificate Management Service TLS digest > 
-    
-       BEARER_TOKEN=< Installation token > 
-    
+
+       CMS_TLS_CERT_SHA384=< Certificate Management Service TLS digest >
+
+       BEARER_TOKEN=< Installation token >
+
        AAS_API_URL=https://< Authentication and Authorization Service IP or Hostname >:8444/aas/v1
-    
-       CMS_BASE_URL=https://< Certificate Management Service IP or Hostname >:8445/cms/v1/ 
-    
-       SAN_LIST=< *Comma-separated list of IP addresses and hostnames for the SQVS* > 
-       
+
+       CMS_BASE_URL=https://< Certificate Management Service IP or Hostname >:8445/cms/v1/
+
+       SAN_LIST=< *Comma-separated list of IP addresses and hostnames for the SQVS* >
+
        SQVS_NOSETUP=false
-       
+
        SQVS_PORT=12000
-       
+
+       SIGN_QUOTE_RESPONSE=false
+
+       RESPONSE_SIGNING_KEY_LENGTH=3072
+
        SQVS_LOGLEVEL=info
-       
+
        SQVS_INCLUDE_TOKEN=true
 
 Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh script
@@ -1049,7 +1391,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 3.  Execute the sqvs installer binary.
 
-./sqvs-v4.0.0.bin
+./sqvs-v5.0.0.bin
 
 When the installation completes, the SGX Quote Verification Service is available. The service can be verified by sqvs status from the sqvs command line.
 
@@ -1060,9 +1402,9 @@ When the installation completes, the SGX Quote Verification Service is available
 
 * Setup master and worker node for k8s. Worker node should be setup on SGX enabled host machine. Master node can be any system.
 
-* To setup k8 cluster on RHEL 8.2, follow https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos 
+* To setup k8s cluster on RHEL 8.2, follow https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos
 
-* To setup k8 cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Ubuntu.md
+* To setup k8s cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Ubuntu.md
 Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and follow from step 3 onwards.
 
 * Once the master/worker setup is done, follow below steps on Master Node:
@@ -1070,24 +1412,24 @@ Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and 
 ### Untar packages and push OCI images to registry
 
 * Copy tar output isecl-k8s-extensions-*.tar.gz from build system's binaries folder to /opt/ directory on the Master Node and extract the contents.
-  
+
   ```shell
     cd /opt/
     tar -xvzf isecl-k8s-extensions-*.tar.gz
     cd isecl-k8s-extensions/
   ```
-  
+
 * Configure private registry
 
 * Push images to private registry using skopeo command, (this can be done from build vm also)
-  
+
   ```shell
-     skopeo copy oci-archive:isecl-k8s-controller-v4.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.0
-     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.0
+     skopeo copy oci-archive:isecl-k8s-controller-v5.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v5.0.0
+     skopeo copy oci-archive:isecl-k8s-scheduler-v5.0.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v5.0.0
   ```
-  
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.0). It will automatically pull the images from registry.
-  
+
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v5.0.0). It will automatically pull the images from registry.
+
 
 ##### Deploy isecl-controller
 
@@ -1142,7 +1484,7 @@ For IHUB installation, make sure to update below configuration in /root/binaries
 
 The isecl-scheduler default configuration is provided for common cluster support in /opt/isecl-k8s-extensions/yamls/isecl-scheduler.yaml.
 
-Variables HVS_IHUB_PUBLIC_KEY_PATH and SGX_IHUB_PUBLIC_KEY_PATH are by default set to default paths. 
+Variables HVS_IHUB_PUBLIC_KEY_PATH and SGX_IHUB_PUBLIC_KEY_PATH are by default set to default paths.
 
 Please use and set only required variables based on the use case.
 
@@ -1293,12 +1635,12 @@ To install the SGX Integration Hub, follow these steps:
 
 2. Create the ihub.env installation answer file in /root/ directory as below
 ```
-    IHUB_SERVICE_USERNAME=< IHUB service user username > 
-    IHUB_SERVICE_PASSWORD=< IHUB service user password > 
+    IHUB_SERVICE_USERNAME=< IHUB service user username >
+    IHUB_SERVICE_PASSWORD=< IHUB service user password >
     SHVS_BASE_URL=< https://< SHVS IP or Hostname >:13000/sgx-hvs/v2
-    CMS_TLS_CERT_SHA384=< CMS TLS digest > 
-    BEARER_TOKEN=<Installation token> 
- 
+    CMS_TLS_CERT_SHA384=< CMS TLS digest >
+    BEARER_TOKEN=<Installation token>
+
     AAS_API_URL=https://< AAS IP or Hostname >:8444/aas/v1
     CMS_BASE_URL=https://< CMS IP or Hostname >:8445/cms/v1
     POLL_INTERVAL_MINUTES=2
@@ -1323,12 +1665,12 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 4.  Execute the installer binary.
 
-./ihub-v4.0.0.bin
+./ihub-v5.0.0.bin
 
 In case installation fails, its recommended to run the following command to clear failed service instance
 
 ```
-systemctl reset-failed 
+systemctl reset-failed
 ```
 
 Copy IHUB public key to the master node and restart kubelet.
@@ -1338,7 +1680,7 @@ Copy IHUB public key to the master node and restart kubelet.
     systemctl restart kubelet
 ```
 
-Run this command to validate if the data has been pushed to CRD: 
+Run this command to validate if the data has been pushed to CRD:
 
 ```
     kubectl get -o json hostattributes.crd.isecl.intel.com
@@ -1391,7 +1733,7 @@ Validate if pod can be launched on the node. Run following commands:
 ```
     kubectl apply -f pod.yml
     kubectl get pods
-    kubectl describe pods nginx 
+    kubectl describe pods nginx
 ```
 
 Pod should be in running state and launched on the host as per values in pod.yml. Validate running below commands on sgx host:
@@ -1438,8 +1780,8 @@ openstack server list
 ```
 To remove a Trait that is not required for an Image:
 ```
-openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_TRUE 
-openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_FALSE 
+openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_TRUE
+openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_FALSE
 ```
 Scheduling Instances
 Once Trait requirements are set for Images and the Integration Hub is configured to push attributes to OpenStack, instances can be launched in OpenStack as normal. As long as the OpenStack Nova scheduler is used to schedule the workloads, only compliant Compute Nodes will be scheduled to run instances of controlled Images.
@@ -1490,45 +1832,45 @@ NA
 
 2. Create the installation answer file kbs.env /root/ directory as below:
 
-       KBS_SERVICE_USERNAME=< KBS service user username > 
-        
-       KBS_SERVICE_PASSWORD=< KBS service user password > 
-       
+       KBS_SERVICE_USERNAME=< KBS service user username >
+
+       KBS_SERVICE_PASSWORD=< KBS service user password >
+
        SERVER_PORT=9443
-        
+
        AAS_API_URL=https://<AAS IP or hostname>:8444/aas/v1
-        
+
        CMS_BASE_URL=https://<CMS IP or hostname>:8445/cms/v1/
-        
+
        SQVS_URL=https://<SQVS IP or hostname>:12000/svs/v1
-       
+
        ### KEY_MANAGER is set to KMIP
-        
+
        KEY_MANAGER=KMIP
-       
+
        ENDPOINT_URL=https://<KBS Hostname>:9443/v1
-       
+
        TLS_COMMON_NAME="KBS TLS Certificate"
-       
+
        SKC_CHALLENGE_TYPE="SGX"
-        
+
        CMS_TLS_CERT_SHA384=<SHA384 hash of CMS TLS certificate>
-        
+
        TLS_SAN_LIST=<KBS Hostname/IP>
-        
+
        BEARER_TOKEN=<Installation token from AAS>
-       
+
        ## Session Expiry Time Between KBS and SKC Library in Minutes
        SESSION_EXPIRY_TIME=60
        
        KMIP_SERVER_IP=<IP address of KMIP server>
-       
+
        KMIP_SERVER_PORT=<Port number of KMIP server>
-       
+
        ## KMIP_VERSION variable can be used to mention KMIP protocol version.
        ## This is an OPTIONAL field, default value is set to '2.0'. KBS supports KMIP version '1.4' and '2.0'.
        KMIP_VERSION=<kmip version>
-       
+
        ## KMIP_HOSTNAME can be used to configure TLS config with ServerName.
        ## KMIP server certificate should contain SAN(IP/DNS) or valid COMMON NAME and this value can be provided in KMIP_HOSTNAME. Only FQDN names are allowed.
        ## This is an OPTIONAL field; if KMIP_HOSTNAME is not provided then KMIP_SERVER_IP will be considered as ServerName in TLS configuration.
@@ -1541,11 +1883,11 @@ NA
        KMIP_PASSWORD=<Password of KMIP server>
        
        ### Retrieve the following certificates and keys from the KMIP server
-       
+
        KMIP_CLIENT_KEY_PATH=<path>/client_key.pem
-       
+
        KMIP_ROOT_CERT_PATH=<path>/root_certificate.pem
-       
+
        KMIP_CLIENT_CERT_PATH=<path>/client_certificate.pem
 
 Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh script
@@ -1559,11 +1901,11 @@ rsa-create.py available in kbs_scripts can be used to create the private key and
 
 ##  Installing the SKC Library
 
-### Required For 
+### Required For
 
 The SKC_Library enables secure transfer of application keys from KBS after performing SGX attestation. It stores the keys in the SGX enclave and performs crypto operations ensuring the keys are never exposed in use, at rest and in transit outside of enclave.
 
-### Package Dependencies 
+### Package Dependencies
 
 The Intel® Security Libraries SKC Library requires the following packages and their dependencies
 
@@ -1571,11 +1913,11 @@ Openssl
 
 Curl
 
-### Supported Operation System 
+### Supported Operation System
 
 The Intel® Security Libraries SKC Library supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
 
-### Recommended Hardware 
+### Recommended Hardware
 
 -   Icelake Server with SGX enabled in BIOS
 
@@ -1620,7 +1962,7 @@ Save and Close
 ```
 Use the following steps to configure SKC library running in a container and to validate key transfer in container on bare metal and inside a VM on SGX enabled hosts.
 
-Note: All the configuration files required for SKC Library container are modified in the resources directory only 
+Note: All the configuration files required for SKC Library container are modified in the resources directory only
 
 1. Docker should be installed, enabled and services should be active
 
@@ -1634,29 +1976,29 @@ Note: All the configuration files required for SKC Library container are modifie
 
 6. Refer to openssl and nginx sub sections of QSG in the "Configuration for NGINX testing" to configure nginx.conf and openssl.conf present resource in the directory.
 
-7. Update keyID in the keys.txt and nginx.conf. 
+7. Update keyID in the keys.txt and nginx.conf.
 
 8. Under [core] section of pkcs11-apimodule.ini in the "/root/resources/" directory add preload_keys=/root/keys.txt.
 
 9. Update skc_library.conf with IP addresses where SKC services are deployed.
 
-10. On the SGX Compute node, load the skc library docker image provided in the tar file. 
+10. On the SGX Compute node, load the skc library docker image provided in the tar file.
    docker load < <SKC_Library>.tar
-   
+
 11. Provide valid paramenets in the docker run command and execute the docker run command. Update the genertaed RSA Key ID and <keys>.crt in the resources directory.
     docker run -p 8080:2443 -p 80:8080 --mount type=bind,source=/root/<KBS_cert>.crt,target=/root/<KBS_cert>.crt --mount type=bind,source=/root/resources/sgx_default_qcnl.conf,target=/etc/sgx_default_qcnl.conf --mount type=bind,source=/root/resources/nginx.conf,target=/etc/nginx/nginx.conf --mount type=bind,source=/root/resources/keys.txt,target=/root/keys.txt,readonly --mount type=bind,source=/root/resources/pkcs11-apimodule.ini,target=/opt/skc/etc/pkcs11-apimodule.ini,readonly --mount type=bind,source=/root/resources/openssl.cnf,target=/etc/pki/tls/openssl.cnf --mount type=bind,source=/root/resources/skc_library.conf,target=/skc_library.conf --add-host=<SHC_HOSTNAME>:<SGX_HOST_IP> --add-host=<KBS_Hostname>:<KBS host IP> --mount type=bind,source=/dev/sgx,target=/dev/sgx --cap-add=SYS_MODULE --privileged=true <SKC_LIBRARY_IMAGE_NAME>
-    
+
     Note: In the above docker run command, source refers to the actual path of the files located on the host and the target always refers to the files which would be mounted inside the container
-  
+
 12. Restore index.html for the transferred key inside the container
     Get the container id using "docker ps" command
-    docker exec -it <container_id> /bin/sh 
-   
+    docker exec -it <container_id> /bin/sh
+
     Download index.html
     wget https://localhost:2443 --no-check-certificate
 ```
 
-# Authentication
+## Authentication
 
 Authentication is centrally managed by the Authentication and Authorization Service (AAS). This service uses a Bearer Token authentication method. This service also centralizes the creation of roles and users, allowing much easier management of users, passwords, and permissions across all Intel® SecL-DC services.
 
@@ -1714,7 +2056,7 @@ Usernames have the following requirements:
 
 -   (Update it relevant to SKC)
 
-### Create User 
+### Create User
 
 POST https://\<IP or hostname of AAS\>:8444/aas/v1/users
 
@@ -1824,19 +2166,19 @@ Authorization: Bearer \<token\>
 
 }
 
-### List Roles Assigned to User 
+### List Roles Assigned to User
 
 GET https://\<AAS IP or Hostname\>:8444/aas/v1/users/\<user ID\>/roles
 
 Authorization: Bearer \<token\>
 
-### Remove Role from User 
+### Remove Role from User
 
 DELETE https://\<AAS IP or Hostname\>:8444/aas/v1/users/\<user ID\>/roles/\<role ID\>
 
 Authorization: Bearer \<token\>
 
-### Role Definitions 
+### Role Definitions
 
 Following are the set of roles which are required during installation and runtime.
 
@@ -1868,7 +2210,7 @@ The SGX Agent communicates with SGX Caching Service (SCS) and SGX Host Verificat
 
 # SGX Features Provisioning
 
-## Host Registration 
+## Host Registration
 
 Host Registration creates a host record with host information in the SGX Host Verification Service database when SGX Agent update SGX enablement information for the first time.
 
@@ -1897,13 +2239,13 @@ Configuration Update flows have been updated to have K8s native flow to be more 
 
 > **Note:** Incase of agents, setup tasks or configuration updates done through above flows will be applied for all the agents running on different BMs. In order to run setup task or update configuration for individual agents, then user need to perform `kubectl exec -it <pod_name> /bin/bash` into a particular agent pod and run the specific setup task.
 
-# Intel Security Libraries Configuration Settings 
+# Intel Security Libraries Configuration Settings
 
 > **Note:** All the answer file options would remain common for containerized K8s deployments with the except of URLS where Kubernetes DNS would be used. The respective `configMap.yml` for each service and agent would carry the defaults for the same when built under `<working directory>/k8s/manifests/<service/agent/db names>`
 
-##  SGX Host Verification Service 
+##  SGX Host Verification Service
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Key                            | Sample Value                                            | Description                                                  |
 | ------------------------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
@@ -1926,11 +2268,11 @@ Configuration Update flows have been updated to have K8s native flow to be more 
 | SHVS_AUTO_REFRESH_TIMER        | 120                                                     | SHVS Auto-refresh timeout                                    |
 
 
-### Configuration Options 
+### Configuration Options
 
 The SGX Host Verification Service configuration is in path /etc/shvs/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The SGX Host Verification Service supports several command-line options that can be executed only as the Root user:
 
@@ -1940,37 +2282,37 @@ shvs \<command\>
 
 #### Available Commands
 
-#### Help 
+#### Help
 
 shvs help
 
 Displays the list of available CLI commands.
 
-#### Start 
+#### Start
 
 shvs start
 
 Starts the SGX Host Verification service
 
-#### Stop 
+#### Stop
 
 shvs stop
 
 Stops the SGX Host Verification service
 
-#### Status 
+#### Status
 
 shvs status
 
 Reports whether the service is currently running.
 
-#### Uninstall 
+#### Uninstall
 
 shvs uninstall \[\--purge\]
 
 Removes the service. Use \--purge option to remove configuration directory(/etc/shvs/)
 
-#### Version 
+#### Version
 
 shvs version
 
@@ -2005,10 +2347,10 @@ Available Tasks for setup:
             SHVS_DB_SSLCERT path to where the certificate file of database. Only applicable
                          for db-sslmode=<verify-ca|verify-full. If left empty, the cert
                          will be copied to /etc/shvs/shvs-dbcert.pem
-                         alternatively, set environment variable 
+                         alternatively, set environment variable
             - SHVS_DB_SSLCERTSRC <path to where the database ssl/tls certificate file>
                          mandatory if db-sslcert does not already exist
-                         alternatively, set environment variable 
+                         alternatively, set environment variable
 
     update_service_config    Updates Service Configuration
                              Required env variables:
@@ -2033,7 +2375,7 @@ Available Tasks for setup:
                              Required env variables specific to setup task are:
                                  - CMS_BASE_URL=<url>                                : for CMS API url
                                  - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>    : to ensure that SHVS is talking to the right CMS instance
-                                 
+
     download_cert TLS        Generates Key pair and CSR, gets it signed from CMS
                              Required env variable if SHVS_NOSETUP=true or variable not set in config.yml:
                                  - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>      : to ensure that SHVS is talking to the right CMS instance
@@ -2046,25 +2388,25 @@ Available Tasks for setup:
                                  - CERT_PATH=<cert_path>            : Path of file/directory where TLS certificate needs to be stored
 ```
 
-### Directory Layout 
+### Directory Layout
 
 The SGX Host Verification Service installs by default to /opt/shvs with the following folders.
 
-#### Bin 
+#### Bin
 
 This folder contains executable scripts.
 
-#### Configuration 
+#### Configuration
 
 This folder /etc/shvs contains certificates, keys, and configuration files.
 
-#### Logs 
+#### Logs
 
 This folder contains log files: /var/log/shvs/
 
 ## SGX Agent
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Key                 | Sample Value                                     | Description                                                  |
 | ------------------- | ------------------------------------------------ | ------------------------------------------------------------ |
@@ -2077,11 +2419,11 @@ This folder contains log files: /var/log/shvs/
 | SGX_AGENT_NOSETUP   | false                                            | Skips setup during installation if set to true               |
 
 
-### Configuration Options 
+### Configuration Options
 
 The SGX Agent configuration is in path /etc/sgx_agent/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The SGX Agent supports several command-line options that can be executed only as the Root user:
 
@@ -2089,29 +2431,29 @@ Syntax:
 
 sgx_agent \<command\>
 
-#### Available Commands 
+#### Available Commands
 
-#### Help 
+#### Help
 
 Show the help message.
 
-#### Start 
+#### Start
 
 sgx_agent start
 
-Start the SGX Agent service. 
+Start the SGX Agent service.
 
-#### Stop 
+#### Stop
 
 sgx_agent stop
 
-Stop the SGX Agent service. 
+Stop the SGX Agent service.
 
-#### Status 
+#### Status
 
 sgx_agent status
 
-Get the status of the SGX Agent Service. 
+Get the status of the SGX Agent Service.
 
 #### Uninstall
 
@@ -2162,17 +2504,17 @@ Available Tasks for setup:
 
 ```
 
-### Directory Layout 
+### Directory Layout
 
-#### Linux 
+#### Linux
 
 The Linux SGX Agent installs by default to /opt/sgx_agent, with the following subfolders:
 
-#### Bin 
+#### Bin
 
 Contains executables and scripts.
 
-#### Configuration 
+#### Configuration
 
 Contains the config.yml configuration file.
 
@@ -2203,11 +2545,11 @@ This folder contains log files: /var/log/sgx_agent
 | POLL_INTERVAL_MINUTES   | 2                                                            | IHUB Polling Interval in Minutes                             |
 | INSTANCE_NAME           | ihub                                                         | IHUB default instance name                                   |
 
-### Configuration Options 
+### Configuration Options
 
 The Integration Hub configuration can be found in /etc/ihub/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The Integrtion HUB supports several command-line options that can be executed only as the Root user:
 
@@ -2215,9 +2557,9 @@ Syntax:
 
 ihub \<command\>
 
-#### Available Commands 
+#### Available Commands
 
-#### Help 
+#### Help
 
 ihub help
 
@@ -2241,13 +2583,13 @@ ihub status
 
 Reports whether the service is currently running.
 
-#### Uninstall 
+#### Uninstall
 
 ihub uninstall \[\--purge\] \[\--exec\]
 
 Removes the service. Use \--purge option to remove configuration directory(/etc/ihub/). Use \--exec option to remove ihub instance specific directories
 
-#### Version 
+#### Version
 
 ihub version
 
@@ -2289,7 +2631,7 @@ Following environment variables are optionally used in download-cert-tls
 
 Following environment variables are required for 'attestation-service-connection' setup:
     SHVS_BASE_URL       Base URL for the SGX Host Verification Service
-    
+
 Following environment variables are required for 'tenant-service-connection' setup:
     TENANT      Type of Tenant Service (OpenStack or Kubernetes)
 Following environment variables are required for Kubernetes tenant:
@@ -2302,7 +2644,7 @@ Following environment variables are required for OpenStack tenant:
     OPENSTACK_USERNAME          UserName for OpenStack deployment
     OPENSTACK_PASSWORD          Password for OpenStack deployment
     OPENSTACK_AUTH_URL          Keystone API endpoint for OpenStack deployment
-    
+
 Following environment variables are required for update-service-config setup:
     LOG_LEVEL           Log level
     LOG_MAX_LENGTH      Max length of log statement
@@ -2341,11 +2683,11 @@ This folder contains log files: /var/log/ihub/
 | AAS_TLS_SAN | < Comma-separated list of IPs/hostnames for the AAS> | SAN list populated in special JWT token; this token is used by AAS to get TLS certificate signed from CMS. SAN list in this token and CSR generated by AAS must match. |
 
 
-### Configuration Options 
+### Configuration Options
 
 The CMS configuration can be found in /etc/cms/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The Certificate Management Service supports several command-line options that can be executed only as the Root user:
 
@@ -2355,37 +2697,37 @@ cms \<command\>
 
 #### Available Commands
 
-#### Help 
+#### Help
 
 cms help
 
 Displays the list of available CLI commands.
 
-#### Start 
+#### Start
 
 cms start
 
 Starts the services.
 
-#### Stop 
+#### Stop
 
 cms stop
 
 Stops the service.
 
-#### Status 
+#### Status
 
 cms status
 
 Reports whether the service is currently running.
 
-#### Uninstall 
+#### Uninstall
 
 cms uninstall \[\--purge\]
 
 Uninstalls the service, including the deletion of all files and folders.
 
-#### Version 
+#### Version
 
 cms version
 
@@ -2397,7 +2739,7 @@ cms tlscertsha384
 
 Shows the SHA384 digest of the TLS certificate.
 
-#### Setup \[task\] 
+#### Setup \[task\]
 
 Runs a specific setup task.
 
@@ -2407,19 +2749,19 @@ cms setup [task]
 
 Available Tasks for setup:
 
-##### cms setup server \[\--port=\<port\>\] 
+##### cms setup server \[\--port=\<port\>\]
 
 -   Setup http server on \<port\>
 
 -   Environment variable CMS_PORT=\<port\> can be set alternatively
 
-#####  cms setup root_ca \[\--force\] 
+#####  cms setup root_ca \[\--force\]
 
 -   Create its own self signed Root CA keypair in /etc/cms for quality of life
 
 -   Option \[\--force\] overwrites any existing files, and always generate new Root CA keypair
 
-##### cms setup tls \[\--force\] \[\--host_names=\<host_names\>\] 
+##### cms setup tls \[\--force\] \[\--host_names=\<host_names\>\]
 
 -   Create its own root_ca signed TLS keypair in /etc/cms for quality of life
 
@@ -2484,11 +2826,11 @@ Following environment variables are required for 'intermediate-ca' setup:
     CMS_CA_LOCALITY             CA Certificate Locality
 ```
 
-### Directory Layout 
+### Directory Layout
 
 The Certificate Management Service installs by default to /opt/cms with the following folders.
 
-#### Bin 
+#### Bin
 
 This folder contains executable scripts.
 
@@ -2500,13 +2842,13 @@ This folder /etc/cms contains certificates, keys, and configuration files.
 
 This folder contains log files: /var/log/cms/
 
-#### Cacerts 
+#### Cacerts
 
 This folder contains the CMS root CA certificate.
 
 ## Authentication and Authorization Service
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Key                    | Sample Value                          | Description                                                  |
 | ---------------------- | ------------------------------------- | ------------------------------------------------------------ |
@@ -2529,7 +2871,7 @@ This folder contains the CMS root CA certificate.
 
 
 
-### Configuration Options 
+### Configuration Options
 
 The AAS configuration can be found in /etc/authservice/config.yml.
 
@@ -2589,11 +2931,11 @@ authservice setup [task]
 
 Available Tasks for setup:
 
-##### authservice setup all 
+##### authservice setup all
 
  Runs all setup tasks
 
-##### authservice setup database \[-force\] \[-arguments=\<argument_value\>\] 
+##### authservice setup database \[-force\] \[-arguments=\<argument_value\>\]
 
 -   Available arguments are:
 
@@ -2617,7 +2959,7 @@ mandatory if db-sslcert does not already exist alternatively, set environment va
 
 -   Run this command with environment variable AAS_DB_REPORT_MAX_ROWS and AAS_DB_REPORT_NUM_ROTATIONS can update db rotation arguments
 
-##### authservice setup server \[\--port=\<port\>\] 
+##### authservice setup server \[\--port=\<port\>\]
 
 -   Setup http server on \<port\>
 
@@ -2633,13 +2975,13 @@ mandatory if db-sslcert does not already exist alternatively, set environment va
 
 -   Environment variable AAS_TLS_HOST_NAMES=\<host_names\> can be set alternatively
 
-##### authservice setup admin \[\--user=\<username\>\] \[-pass=\<password\>\] 
+##### authservice setup admin \[\--user=\<username\>\] \[-pass=\<password\>\]
 
 -   Environment variable AAS_ADMIN_USERNAME=\<username\> can be set alternatively
 
 -   Environment variable AAS_ADMIN_PASSWORD=\<password\> can be set alternatively
 
-##### authservice setup jwt 
+##### authservice setup jwt
 
 -   Create jwt signing key and jwt certificate signed by CMS
 
@@ -2708,7 +3050,7 @@ Following environment variables are optionally used in jwt
     CERT_FILE           The file to which certificate is saved
     KEY_FILE            The file to which private key is saved
     COMMON_NAME         The common name of signed certificate
-    
+
 Following environment variables are required for 'update-service-config' setup:
     AUTH_DEFENDER_LOCKOUT_DURATION_MINS         Auth defender lockout duration in minutes
     SERVER_MAX_HEADER_BYTES                     Max Length Of Request Header in Bytes
@@ -2728,11 +3070,11 @@ Following environment variables are required for 'update-service-config' setup:
 
 ```
 
-### Directory Layout 
+### Directory Layout
 
 The Authentication and Authorization Service installs by default to /opt/authservice with the following folders.
 
-#### Bin 
+#### Bin
 
 Contains executable scripts and binaries.
 
@@ -2751,7 +3093,7 @@ This folder /opt/authservice/dbscripts Contains database scripts
 
 ## Key Broker Service
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Variable Name        | Default Value                                 | Notes                                              |
 | -------------------- | --------------------------------------------- | -------------------------------------------------- |
@@ -2769,11 +3111,11 @@ This folder /opt/authservice/dbscripts Contains database scripts
 | TLS_SAN_LIST         | < KBS IP/Hostname >                           | IP addresses/hostnames to be included in SAN list. |
 | KEY_MANAGER          | KMIP                                          | Key Manager Backend to store keys                  |
 
-### Configuration Options 
+### Configuration Options
 
 The Key Broker Service configuration is in path /etc/kbs/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The Key Broker Service supports several command-line options that can be executed only as the Root user:
 
@@ -2785,7 +3127,7 @@ kbs \<command\>
 
 #### Help
 
-kbs help 
+kbs help
 
 Displays the list of available CLI commands.
 
@@ -2875,11 +3217,11 @@ Following environment variables are optionally used in download-cert-tls
 
 ```
 
-### Directory Layout 
+### Directory Layout
 
 The Key Broker Service installs by default to /opt/kbs with the following folders.
 
-#### Bin 
+#### Bin
 
 Contains executable scripts and binaries.
 
@@ -2894,7 +3236,7 @@ This folder contains log files: /var/log/kbs
 
 ## SGX Caching Service
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Key                               | Sample Value                                                 | Description                                                  |
 | --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -2918,11 +3260,11 @@ This folder contains log files: /var/log/kbs
 | SAN_LIST                          | 127.0.0.1,localhost                                          | Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service. |
 
 
-### Configuration Options 
+### Configuration Options
 
 The SGX Caching Service configuration can be found in /etc/scs/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The SGX Caching Service supports several command-line options that can be executed only as the Root user:
 
@@ -2932,37 +3274,37 @@ scs \<command\>
 
 #### Available Commands
 
-#### Help 
+#### Help
 
 scs help
 
 Displays the list of available CLI commands.
 
-#### Start 
+#### Start
 
 scs start
 
 Starts the SGX Caching Service
 
-#### Stop 
+#### Stop
 
 scs stop
 
 Stops the SGX Caching Service
 
-#### Status 
+#### Status
 
 scs status
 
 Reports whether the SGX Caching Service is currently running
 
-#### Uninstall 
+#### Uninstall
 
 scs uninstall \[\--purge\]
 
 uninstall the SGX Caching Service. \--purge option needs to be applied to remove configuration files
 
-#### Version 
+#### Version
 
 scs version
 
@@ -2985,7 +3327,7 @@ scs setup [task]
                                   - get required env variables from all the setup tasks
                               Optional env variables:
                                   - get optional env variables from all the setup tasks
-                                                                    
+
     scs setup database
         - Avaliable arguments are:
             - SCS_DB_HOSTNAME
@@ -3036,7 +3378,7 @@ scs setup [task]
 
 ```
 
-### Directory Layout 
+### Directory Layout
 
 The SGX Caching Service installs by default to /opt/scs with the following folders.
 
@@ -3055,7 +3397,7 @@ This folder contains log files: /var/log/scs
 
 ## SGX Quote Verification Service
 
-### Installation Answer File Options 
+### Installation Answer File Options
 
 | Key                      | Sample Value                                                 | Description                                                  |
 | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -3068,15 +3410,18 @@ This folder contains log files: /var/log/scs
 | SQVS_LOG_LEVEL           | INFO (default), DEBUG                                        | Defines the log level  for the SQVS. Defaults to INFO.       |
 | SQVS_PORT                | 12000                                                        | SQVS Secure Port                                             |
 | SQVS_NOSETUP             | false                                                        | Skips setup during installation if set to true               |
+| SIGN_QUOTE_RESPONSE      | false                                                        | If set to false, the SQVS response is not signed, signed if set to true              |
+| RESPONSE_SIGNING_KEY_LENGTH    | 3072                                                   | if SIGN_QUOTE_RESPONSE is set to true, then create RSA signing key of length defined by RESPONSE_SIGNING_KEY_LENGTH     |
+
 | SAN_LIST                 | 127.0.0.1,localhost                                          | Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service. |
 | SQVS_INCLUDE_TOKEN       | true                                                         | If true, SQVS will authenticate KBS before Quote Verifiation |
 
 
-### Configuration Options 
+### Configuration Options
 
 The SGX Quote Verification Service configuration can be found in /etc/sqvs/config.yml.
 
-### Command-Line Options 
+### Command-Line Options
 
 The SGX Quote Verifiction Service supports several command-line options that can be executed only as the Root user:
 
@@ -3086,37 +3431,37 @@ sqvs \<command\>
 
 #### Available Commands
 
-#### Help 
+#### Help
 
 sqvs help
 
 Displays the list of available CLI commands.
 
-#### Start 
+#### Start
 
 sqvs start
 
 Starts the SGX Quote Verification Service
 
-#### Stop 
+#### Stop
 
 sqvs stop
 
 Stops the SGX Quote Verification Service
 
-#### Status 
+#### Status
 
 sqvs status
 
 Reports whether the SGX Quote Verification Service is currently running.
 
-#### Uninstall 
+#### Uninstall
 
 sqvs uninstall \[\--purge\]
 
 uninstalls the SGX Quote Verification Service. \--purge option needs to be applied to remove configuration files
 
-#### Version 
+#### Version
 
 sqvs version
 
@@ -3170,6 +3515,15 @@ Available Tasks for setup:
                                 - KEY_PATH=<key_path>              : Path of file where TLS key needs to be stored
                                 - CERT_PATH=<cert_path>            : Path of file/directory where TLS certificate needs to be stored
 
+    create_signing_key_pair  Generates Key pair and CSR and downloads Signing certificate from CMS
+                             - Option [--force] overwrites any existing files and always downloads new Signing cert
+                             Required env variable if SQVS_NOSETUP=true or variable not set in config.yml:
+                                 - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>      : to ensure that AAS is talking to the right CMS instance
+                             Required env variables specific to setup task are:
+                                 - CMS_BASE_URL=<url>               : for CMS API url
+                                 - BEARER_TOKEN=<token>             : for authenticating with CMS
+
+
 ```
 
 ### Directory Layout
@@ -3189,7 +3543,7 @@ This folder /etc/sqvs contains certificates, keys, and configuration files.
 This folder contains log files: /var/log/sqvs
 
 
-# Uninstallation 
+# Uninstallation
 
 This section describes steps used for uninstalling Intel SecL-DC services.
 
@@ -3228,7 +3582,7 @@ Removes following directories:
 4.  /etc/authservice
 
 
-## SGX Host Verification Service 
+## SGX Host Verification Service
 
 To uninstall the SGX Host Verification Service, run the following command:
 
@@ -3245,9 +3599,9 @@ Removes following directories:
 4.  /etc/shvs
 
 
-## SGX_Agent 
+## SGX_Agent
 
-To uninstall the SGX Agent, run the following command: 
+To uninstall the SGX Agent, run the following command:
 
 sgx_agent uninstall \--purge
 
@@ -3261,7 +3615,7 @@ Removes following directories:
 
 4.  /etc/sgx_agent
 
-## Integration Hub 
+## Integration Hub
 
 To uninstall the Integration Hub, run the following command:
 
@@ -3293,7 +3647,7 @@ Removes the following directories:
 
 4.  /etc/scs
 
-## SGX Quote Verification Service 
+## SGX Quote Verification Service
 
 To uninstall the SGX Quote Verification Service, run the following command:
 
@@ -3381,7 +3735,7 @@ typically these are the same variables set in the service installation
 
 
 
-# Binary Upgrades
+## Binary Upgrades
 
 ***NOTE:***  Before performing any upgrade, Intel strongly recommends backing up the database for the SHVS, SCS, and AAS.  See Postgres documentation for detailed options for backing up databases.  Below is a sample method for backing up an entire database server:
 
@@ -3389,7 +3743,7 @@ typically these are the same variables set in the service installation
 Backup to tar file:
 pg_dump --dbname <database_name> --username=<database username> -F t > <database_backup_file>.tar
 Restore from tar file:
-pg_restore --dbname=<database_name> --username=<database username><database_backup_file>.tar	
+pg_restore --dbname=<database_name> --username=<database username><database_backup_file>.tar
 ```
 
 Some upgrades may involve changes to database content, and a backup will ensure that data is not lost in the case of an error during the upgrade process.
@@ -3416,7 +3770,7 @@ Upgrading in this order will make each service unavailable only for the duration
 
 For services installed directly (not deployed as containers), the upgrade process simply requires executing the new-version installer on the same machine where the old-version is running.  The installer will re-use the same configuration elements detected in the existing version's config file.  No additional answer file is required.
 
-# Container Upgrades
+## Container Upgrades
 
 Container upgrades will be supported only on multi node deployments and will be based on recreate strategy from v3.6 to v4.0. All services except KBS can be upgraded just by updating the image name and tag to newer version in respective deployment.yml files.
 
@@ -3517,7 +3871,32 @@ kubectl logs -n isecl kbs-upgrade-<pod id>
 kubectl apply -f kbs/deployment.yml or cd kbs && kubectl kustomize . | kubectl apply -f -
 ```
 
-# Appendix 
+## Appendix 
+
+**Important Note:** SGX Attestation fails when SGX is enabled on a host booted using tboot
+
+**Root Cause:** tboot requires the "noefi" kernel parameter to be passed during boot, in order to not use an unmeasured EFI runtime services. As a result, the kernel does not expose EFI variables to user-space. SGX Attestation requires these EFI variables to fetch Platform Manifest data.
+
+**Workaround:**
+
+The EFI variables required by SGX are only needed during the SGX provisioning/registration phase. Once this step is completed successfully, access to the EFI variables is no longer required. This means this issue can be worked around by installing the SGX agent without booting to tboot, then rebooting the system to tboot. SGX attestation will then work as expected while booted to tboot.
+
+1. Enable SGX and TXT in the platform BIOS
+
+2. Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)
+
+3. Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)
+
+4. The SGX Agent installation fetches the SGX Platform Manifest data and caches it
+
+5. Reboot the system into the tboot kernel mode.
+
+6. Verify that TXT measured launch was successful:
+
+   `txt-stat |grep "TXT measured launch"`
+
+7. The SGX and Platform Integrity Attestation use cases should now work as normal.
+
 
 ### SGX Attestation flow
 ```
@@ -3525,7 +3904,7 @@ To Deploy SampleApp:
   Copy sample_apps.tar, sample_apps.sha2 and sampleapps_untar.sh from binaries directory to a directory in SGX compute node and untar it using './sample_apps_untar.sh'
   Install Intel® SGX SDK for Linux*OS into /opt/intel/sgxsdk using './install_sgxsdk.sh'
   Install SGX dependencies using './deploy_sgx_dependencies.sh'
-Note: Make sure to deploy SQVS with includetoken configuration as false. 
+Note: Make sure to deploy SQVS with includetoken configuration as false.
 
 To Verify the SampleApp flow:
   Update sample_apps.conf with the following
@@ -3536,7 +3915,7 @@ To Verify the SampleApp flow:
    - Network Port numbers for SQVS and CMS services deployed on Enterprise system
    - Set RUN_ATTESTING_APP to yes if user wants to run both apps in same machine
   Run SampleApp using './run_sample_apps.sh'
-  Check the output of attestedApp and attestingApp under out/attested_app_console_out.log and out/attesting_app_console_out.log files 
+  Check the output of attestedApp and attestingApp under out/attested_app_console_out.log and out/attesting_app_console_out.log files
 
 ```
 
@@ -3571,7 +3950,7 @@ Note: Below mentioned steps are provided as script (install_pykmip.sh and pykmip
    > cd /etc/pykmip
    > python3 create_certificates.py <KMIP Host IP/KMIP Host FQDN>
 
-7. Kill running KMIP Server processes and wait for 10 seconds until all the KMIP Server processes are killed. 
+7. Kill running KMIP Server processes and wait for 10 seconds until all the KMIP Server processes are killed.
    > ps -ef | grep run_server.py | grep -v grep | awk '{print $2}' | xargs kill
 
 8. Run pykmip server using run_server.py script
@@ -3582,7 +3961,7 @@ Note: Below mentioned steps are provided as script (install_pykmip.sh and pykmip
 **Install KMIP Server as daemon**
 
 ```
-1. cd into /root/binaries/kbs_script folder 
+1. cd into /root/binaries/kbs_script folder
 
 2. Configure pykmip server using server.conf
    Update hostname in the server.conf
@@ -3606,21 +3985,21 @@ This script will generate “Private Key ID” and “Server certificate”, whi
 
 ```
 **Configuration Update to create Keys in KBS**
-    
+
 	cd into /root/binaries/kbs_script folder
-	
+
 	**To register keys with KBS KMIP**
-	
+
 	Update the following variables in kbs.conf:
-	
+
 	    KMIP_KEY_ID (Private key ID registered in KMIP server)
-	    
+
 	    SERVER_CERT (Server certificate for created private key)
-				
+
 		Enterprise system IP address where CMS, AAS and KBS services are deployed
-	    
+
 		Port of CMS, AAS and KBS services deployed on enterprise system
-	
+
 	    AAS admin and Enterprise admin credentials
 
 NOTE: If KMIP_KEY_ID is not provided then RSA key register will be done with keystring.
@@ -3630,7 +4009,7 @@ Update sgx_enclave_measurement_anyof value in transfer_policy_request.json with 
 **Create RSA Key**
 
 	Execute the command
-	
+
 	./run.sh reg
 
 Copy the generated cert file to SGX Compute node where skc_library is deployed. Also make a note of the key id generated.
@@ -3670,9 +4049,9 @@ Update nginx configuration file /etc/nginx/nginx.conf with below changes:
 
 ssl_engine pkcs11;
 
-Update the location of certificate with the location where it was copied into the SGX compute node. 
+Update the location of certificate with the location where it was copied into the SGX compute node.
 
-ssl_certificate "add absolute path of crt file"; 
+ssl_certificate "add absolute path of crt file";
 
 Update the fields(token, object and pin-value) with the values given in keys.txt for the KeyID corresponding to the certificate.
 
@@ -3680,23 +4059,23 @@ ssl_certificate_key "engine:pkcs11:pkcs11:token=KMS;object=RSAKEY;pin-value=1234
 
 **SKC Configuration**
 
- Create keys.txt in /root folder. This provides key preloading functionality in skc_library. 
+ Create keys.txt in /root folder. This provides key preloading functionality in skc_library.
 
 Any number of keys can be added in keys.txt. Each PKCS11 URL should contain different Key IDs which need to be transferred from KBS along with respective object tag for each key id specified
 
 Token, object and pin-value given in PKCS11 url entry in keys.txt should match with the one in nginx.conf.
 
-The keyID should match the keyID of RSA key created in KBS. File location should match on pkcs11-apimodule.ini; 
+The keyID should match the keyID of RSA key created in KBS. File location should match on pkcs11-apimodule.ini;
 
 	pkcs11:token=KMS;id=164b41ae-be61-4c7c-a027-4a2ab1e5e4c4;object=RSAKEY;type=private;pin-value=1234;
-	
+
 	Sample /opt/skc/etc/pkcs11-apimodule.ini file
-	
+
 	[core]
 	preload_keys=/root/keys.txt
 	keyagent_conf=/opt/skc/etc/key-agent.ini
 	mode=SGX
-	debug=true
+	debug=false
 	
 	[SGX]
 	module=/opt/intel/cryptoapitoolkit/lib/libp11sgx.so
@@ -3767,12 +4146,13 @@ ssl_certificate_key "engine:pkcs11:pkcs11:token=KMS;object=RSAKEY;pin-value=1234
         preload_keys=/root/keys.txt
         keyagent_conf=/opt/skc/etc/key-agent.ini
         mode=SGX
-        debug=true
+        debug=false
     
+
        [SGX]
         module=/opt/intel/cryptoapitoolkit/lib/libp11sgx.so
 
-# KBS key-transfer flow validation
+## KBS key-transfer flow validation
 
 On SGX compute node, Execute below commands for KBS key-transfer:
 
@@ -3807,14 +4187,14 @@ Establish tls session with the nginx using the key transferred inside the enclav
     wget https://localhost:2443 --no-check-certificate
 ```
 
-# Note on Key Transfer Policy
+## Note on Key Transfer Policy
 
 Key transfer policy is used to enforce a set of policies which need to be compiled with before the secret can be securely provisioned onto a sgx enclave
 
 A typical Key Transfer Policy would look as below
 ```
         "sgx_enclave_issuer_anyof":["83d719e77deaca1470f6baf62a4d774303c899db69020f9c70ee1dfc08c7ce9e"],
-        "sgx_enclave_issuer_product_id_anyof":[0],
+        "sgx_enclave_issuer_product_id_anyof":0,
         "sgx_enclave_measurement_anyof":["ad46749ed41ebaa2327252041ee746d3791a9f2431830fee0883f7993caf316a"],
         "tls_client_certificate_issuer_cn_anyof":["CMSCA", "CMS TLS Client CA"],
         "client_permissions_allof":["nginx","USA"],
@@ -3831,7 +4211,7 @@ A typical Key Transfer Policy would look as below
     In above example: the key is provisioned only to the nginx workload and platform which is tagged with value for ex: USA
 
 
-# Note on SKC Library Deployment
+## Note on SKC Library Deployment
 
 SKC Library Deployment (Binary as well as container) needs to performed with root privilege
 

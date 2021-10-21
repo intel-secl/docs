@@ -29,7 +29,7 @@ processor; (ii) cause the processor and other system components to fail; (iii) c
 Check with memory manufacturer for warranty and additional details.
 
 Tests document performance of components on a particular test, in specific systems. Differences in hardware, software, or configuration
-will affect actual performance. Consult other sources of information to evaluate performance as you consider your purchase. For more complete information about performance and benchmark results, visit http://www.intel.com/performance.
+will affect actual performance. Consult other sources of information to evaluate performance as you consider your purchase. For more complete information about performance and benchmark results, visit https://www.intel.com/performance.
 
 Cost reduction scenarios described are intended as examples of how a given Intel- based product, in the specified circumstances and
 configurations, may affect future costs and provide cost savings. Circumstances will vary. Intel does not guarantee any costs or cost
@@ -42,7 +42,7 @@ Intel does not control or audit third-party benchmark data or the web sites refe
 
 Intel is a sponsor and member of the Benchmark XPRT Development Community, and was the major developer of the XPRT family of benchmarks. Principled Technologies is the publisher of the XPRT family of benchmarks. You should consult other information and performance tests to assist you in fully evaluating your contemplated purchases.
 
-Copies of documents which have an order number and are referenced in this document may be obtained by calling 1-800-548-4725 or by visiting w[ww.intel.com/design/literature.htm.](http://www.intel.com/design/literature.htm)
+Copies of documents which have an order number and are referenced in this document may be obtained by calling 1-800-548-4725 or by visiting [www.intel.com/design/literature.htm.](https://www.intel.com/design/literature.htm)
 
 Intel, the Intel logo, Intel TXT, and Xeon are trademarks of Intel Corporation in the U.S. and/or other countries.
 
@@ -66,18 +66,546 @@ Copyright © 2020, Intel Corporation. All Rights Reserved.
 | 3.2              | Updated for version 3.2 release | November 2020 |
 | 3.3              | Updated for version 3.3 release | December 2020 |
 | 3.3.1            | Updated for version 3.3.1 release | January 2021 |
-| 3.4 | Updated for version 3.4 release | February 2021 |
-| 3.5 | Updated for version 3.5 release | March 2021 |
-| 3.6 | Updated for version 3.6 release | May 2021 |
+| 3.4              | Updated for version 3.4 release | February 2021 |
+| 3.5              | Updated for version 3.5 release | March 2021 |
+| 3.6              | Updated for version 3.6 release | May 2021 |
 | 4.0 | Updated for version 4.0 release | July 2021 |
-
+| 3.6.1            | Updated for version 3.6.1 release | October 2021 |
 
 ## Table of Contents
 
-[TOC]
+  - [Introduction](#introduction)
+    - [Overview](#overview)
+    - [Trusted Computing](#trusted-computing)
+      - [The Chain of Trust](#the-chain-of-trust)
+      - [Hardware Root of Trust](#hardware-root-of-trust)
+        - [Intel® Trusted Execution Technology (Intel® TXT)](#intel-trusted-execution-technology-intel-txt)
+        - [Intel® BootGuard (Intel® BtG)](#intel-bootguard-intel-btg)
+      - [Supported Trusted Boot Options](#supported-trusted-boot-options)
+      - [Remote Attestation](#remote-attestation)
+    - [Intel® Security Libraries for Datacenter Features](#intel-security-libraries-for-datacenter-features)
+      - [Platform Integrity](#platform-integrity)
+      - [Data Sovereignty](#data-sovereignty)
+      - [Application Integrity](#application-integrity)
+      - [Workload Confidentiality for Virtual Machines and Containers](#workload-confidentiality-for-virtual-machines-and-containers)
+      - [Signed Flavors](#signed-flavors)
+      - [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes)
+  - [Intel® Security Libraries Components](#intel-security-libraries-components)
+  - [Certificate Management Service](#certificate-management-service)
+    - [Authentication and Authorization Service](#authentication-and-authorization-service)
+    - [Verification Service](#verification-service)
+    - [Workload Service](#workload-service)
+    - [Trust Agent](#trust-agent)
+    - [Workload Agent](#workload-agent)
+    - [Integration Hub](#integration-hub)
+    - [Workload Policy Manager](#workload-policy-manager)
+    - [Key Broker Service](#key-broker-service)
+  - [Intel® Security Libraries Binary Installation](#intel-security-libraries-binary-installation)
+  - [Building Binary Installers](#building-binary-installers)
+  - [Hardware Considerations](#hardware-considerations)
+  - [Recommended Service Layout](#recommended-service-layout)
+    - [Platform Integrity](#platform-integrity-1)
+    - [Workload Confidentiality](#workload-confidentiality)
+  - [Recommended Service Layout & Architecture - Containerized Deployment with K8s](#recommended-service-layout--architecture---containerized-deployment-with-k8s)
+  - [Installing/Configuring the Database](#installingconfiguring-the-database)
+    - [Using the Provided Database Installation Script](#using-the-provided-database-installation-script)
+    - [Provisioning the Database](#provisioning-the-database)
+    - [Database Server TLS Certificate](#database-server-tls-certificate)
+  - [Using NATS with Intel SecL](#using-nats-with-intel-secl)
+  - [Installing the Certificate Management Service](#installing-the-certificate-management-service)
+    - [Required For](#required-for)
+    - [Supported Operating Systems](#supported-operating-systems)
+    - [Recommended Hardware](#recommended-hardware)
+    - [Installation](#installation)
+  - [Installing the Authentication and Authorization Service](#-installing-the-authentication-and-authorization-service)
+    - [Required For](#required-for-1)
+    - [Prerequisites](#prerequisites)
+    - [Package Dependencies](#package-dependencies)
+    - [Supported Operating Systems](#supported-operating-systems-1)
+    - [Recommended Hardware](#recommended-hardware-1)
+    - [Installation](#installation-1)
+    - [Creating Users](#creating-users)
+  - [Installing the Host Verification Service](#installing-the-host-verification-service)
+    - [Required For](#required-for-2)
+    - [Prerequisites](#prerequisites-1)
+    - [Package Dependencies](#package-dependencies-1)
+    - [Supported Operating Systems](#supported-operating-systems-2)
+    - [Recommended Hardware](#recommended-hardware-2)
+    - [Installation](#installation-2)
+  - [Installing the Workload Service](#installing-the-workload-service)
+    - [Required For](#required-for-3)
+    - [Prerequisites](#prerequisites-2)
+    - [Supported Operating Systems](#supported-operating-systems-3)
+    - [Recommended Hardware](#recommended-hardware-3)
+    - [Installation](#installation-3)
+  - [Installing the Trust Agent for Linux](#installing-the-trust-agent-for-linux)
+    - [Required For](#required-for-4)
+    - [Package Dependencies](#package-dependencies-2)
+    - [Supported Operating Systems](#supported-operating-systems-4)
+    - [Prerequisites](#prerequisites-3)
+      - [Tboot Installation](#tboot-installation)
+    - [NATS Mode vs HTTP Mode](#nats-mode-vs-http-mode)
+    - [Installation](#installation-4)
+  - [Installing the Workload Agent](#installing-the-workload-agent)
+    - [Required For](#required-for-5)
+    - [Supported Operating Systems](#supported-operating-systems-5)
+    - [Prerequisites](#prerequisites-4)
+    - [Installation](#installation-5)
+  - [Trust Agent Provisioning](#trust-agent-provisioning)
+  - [Trust Agent Registration](#trust-agent-registration)
+  - [Importing the HOST\_UNIQUE Flavor](#importing-the-host_unique-flavor)
+  - [Installing the Intel® SecL Kubernetes Extensions and Integration Hub](#installing-the-intel-secl-kubernetes-extensions-and-integration-hub)
+  - [ Deploy Intel® SecL Custom Controller](#-deploy-intel-secl-custom-controller)
+  - [Installing the Intel® SecL Integration Hub](#-installing-the-intel-secl-integration-hub)
+    - [Required For](#required-for-6)
+    - [Deployment Architecture Considerations for the Hub](#deployment-architecture-considerations-for-the-hub)
+    - [Prerequisites](#prerequisites-5)
+    - [Package Dependencies](#package-dependencies-3)
+    - [Supported Operating Systems](#supported-operating-systems-6)
+    - [Recommended Hardware](#recommended-hardware-4)
+    - [Installing the Integration Hub](#installing-the-integration-hub)
+  - [Deploy Intel® SecL Extended Scheduler](#-deploy-intel-secl-extended-scheduler)
+      - [Configuring kube-scheduler to establish communication with isecl-scheduler](#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler)
+  - [Installing the Key Broker Service](#installing-the-key-broker-service)
+    - [Required For](#required-for-7)
+    - [Prerequisites](#prerequisites-6)
+    - [Package Dependencies](#package-dependencies-4)
+    - [Supported Operating Systems](#supported-operating-systems-7)
+    - [Recommended Hardware](#recommended-hardware-5)
+    - [Installation](#installation-6)
+      - [Configure the Key Broker to use a KMIP-compliant Key Management Server](#configure-the-key-broker-to-use-a-kmip-compliant-key-management-server)
+    - [Importing Verification Service Certificates](#importing-verification-service-certificates)
+      - [Importing a SAML certificate](#importing-a-saml-certificate)
+      - [Importing a PrivacyCA Certificate](#importing-a-privacyca-certificate)
+  - [Installing the Workload Policy Manager](#installing-the-workload-policy-manager)
+    - [Required For](#required-for-8)
+    - [Package Dependencies](#package-dependencies-5)
+    - [Supported Operating Systems](#supported-operating-systems-8)
+    - [Recommended Hardware](#recommended-hardware-6)
+    - [Installation](#installation-7)
+- [Intel® Security Libraries - Datacenter Foundational Security](#intel-security-libraries---datacenter-foundational-security)
+  - [Revision History](#revision-history)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+    - [Overview](#overview)
+    - [Trusted Computing](#trusted-computing)
+      - [The Chain of Trust](#the-chain-of-trust)
+      - [Hardware Root of Trust](#hardware-root-of-trust)
+        - [Intel® Trusted Execution Technology (Intel® TXT)](#intel-trusted-execution-technology-intel-txt)
+        - [Intel® BootGuard (Intel® BtG)](#intel-bootguard-intel-btg)
+      - [Supported Trusted Boot Options](#supported-trusted-boot-options)
+      - [Remote Attestation](#remote-attestation)
+    - [Intel® Security Libraries for Datacenter Features](#intel-security-libraries-for-datacenter-features)
+      - [Platform Integrity](#platform-integrity)
+      - [Data Sovereignty](#data-sovereignty)
+      - [Application Integrity](#application-integrity)
+      - [Workload Confidentiality for Virtual Machines and Containers](#workload-confidentiality-for-virtual-machines-and-containers)
+      - [Signed Flavors](#signed-flavors)
+      - [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes)
+  - [Intel® Security Libraries Components](#intel-security-libraries-components)
+  - [Certificate Management Service](#certificate-management-service)
+    - [Authentication and Authorization Service](#authentication-and-authorization-service)
+    - [Verification Service](#verification-service)
+    - [Workload Service](#workload-service)
+    - [Trust Agent](#trust-agent)
+    - [Workload Agent](#workload-agent)
+    - [Integration Hub](#integration-hub)
+    - [Workload Policy Manager](#workload-policy-manager)
+    - [Key Broker Service](#key-broker-service)
+  - [Intel® Security Libraries Binary Installation](#intel-security-libraries-binary-installation)
+  - [Building Binary Installers](#building-binary-installers)
+  - [Hardware Considerations](#hardware-considerations)
+  - [Recommended Service Layout](#recommended-service-layout)
+    - [Platform Integrity](#platform-integrity-1)
+    - [Workload Confidentiality](#workload-confidentiality)
+  - [Recommended Service Layout & Architecture - Containerized Deployment with K8s](#recommended-service-layout--architecture---containerized-deployment-with-k8s)
+  - [Installing/Configuring the Database](#installingconfiguring-the-database)
+    - [Using the Provided Database Installation Script](#using-the-provided-database-installation-script)
+    - [Provisioning the Database](#provisioning-the-database)
+    - [Database Server TLS Certificate](#database-server-tls-certificate)
+  - [Using NATS with Intel SecL](#using-nats-with-intel-secl)
+  - [Installing the Certificate Management Service](#installing-the-certificate-management-service)
+    - [Required For](#required-for)
+    - [Supported Operating Systems](#supported-operating-systems)
+    - [Recommended Hardware](#recommended-hardware)
+    - [Installation](#installation)
+  - [Installing the Authentication and Authorization Service](#-installing-the-authentication-and-authorization-service)
+    - [Required For](#required-for-1)
+    - [Prerequisites](#prerequisites)
+    - [Package Dependencies](#package-dependencies)
+    - [Supported Operating Systems](#supported-operating-systems-1)
+    - [Recommended Hardware](#recommended-hardware-1)
+    - [Installation](#installation-1)
+    - [Creating Users](#creating-users)
+    - [Installing the Host Verification Service](#installing-the-host-verification-service)
+    - [Required For](#required-for-2)
+    - [Prerequisites](#prerequisites-1)
+    - [Package Dependencies](#package-dependencies-1)
+    - [Supported Operating Systems](#supported-operating-systems-2)
+    - [Recommended Hardware](#recommended-hardware-2)
+    - [Installation](#installation-2)
+  - [Installing the Workload Service](#installing-the-workload-service)
+    - [Required For](#required-for-3)
+    - [Prerequisites](#prerequisites-2)
+    - [Supported Operating Systems](#supported-operating-systems-3)
+    - [Recommended Hardware](#recommended-hardware-3)
+    - [Installation](#installation-3)
+  - [Installing the Trust Agent for Linux](#installing-the-trust-agent-for-linux)
+    - [Required For](#required-for-4)
+    - [Package Dependencies](#package-dependencies-2)
+    - [Supported Operating Systems](#supported-operating-systems-4)
+    - [Prerequisites](#prerequisites-3)
+      - [Tboot Installation](#tboot-installation)
+    - [NATS Mode vs HTTP Mode](#nats-mode-vs-http-mode)
+    - [Installation](#installation-4)
+  - [Installing the Workload Agent](#installing-the-workload-agent)
+    - [Required For](#required-for-5)
+    - [Supported Operating Systems](#supported-operating-systems-5)
+    - [Prerequisites](#prerequisites-4)
+    - [Installation](#installation-5)
+  - [Trust Agent Provisioning](#trust-agent-provisioning)
+  - [Trust Agent Registration](#trust-agent-registration)
+  - [Importing the HOST\_UNIQUE Flavor](#importing-the-host_unique-flavor)
+  - [Installing the Intel® SecL Kubernetes Extensions and Integration Hub](#installing-the-intel-secl-kubernetes-extensions-and-integration-hub)
+  - [Deploy Intel® SecL Custom Controller](#-deploy-intel-secl-custom-controller)
+  - [Installing the Intel® SecL Integration Hub](#-installing-the-intel-secl-integration-hub)
+    - [Required For](#required-for-6)
+    - [Deployment Architecture Considerations for the Hub](#deployment-architecture-considerations-for-the-hub)
+    - [Prerequisites](#prerequisites-5)
+    - [Package Dependencies](#package-dependencies-3)
+    - [Supported Operating Systems](#supported-operating-systems-6)
+    - [Recommended Hardware](#recommended-hardware-4)
+    - [Installing the Integration Hub](#installing-the-integration-hub)
+  - [Deploy Intel® SecL Extended Scheduler](#-deploy-intel-secl-extended-scheduler)
+      - [Configuring kube-scheduler to establish communication with isecl-scheduler](#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler)
+  - [Installing the Key Broker Service](#installing-the-key-broker-service)
+    - [Required For](#required-for-7)
+    - [Prerequisites](#prerequisites-6)
+    - [Package Dependencies](#package-dependencies-4)
+    - [Supported Operating Systems](#supported-operating-systems-7)
+    - [Recommended Hardware](#recommended-hardware-5)
+    - [Installation](#installation-6)
+      - [Configure the Key Broker to use a KMIP-compliant Key Management Server](#configure-the-key-broker-to-use-a-kmip-compliant-key-management-server)
+    - [Importing Verification Service Certificates](#importing-verification-service-certificates)
+      - [Importing a SAML certificate](#importing-a-saml-certificate)
+      - [Importing a PrivacyCA Certificate](#importing-a-privacyca-certificate)
+  - [Installing the Workload Policy Manager](#installing-the-workload-policy-manager)
+    - [Required For](#required-for-8)
+    - [Package Dependencies](#package-dependencies-5)
+    - [Supported Operating Systems](#supported-operating-systems-8)
+    - [Recommended Hardware](#recommended-hardware-6)
+    - [Installation](#installation-7)
+- [Intel® Security Libraries Container Deployment](#intel-security-libraries-container-deployment)
+  - [Prerequisites for Containerized Deployment using Kubernetes](#prerequisites-for-containerized-deployment-using-kubernetes)
+    - [Supported Operating Systems](#supported-operating-systems-9)
+    - [Kubernetes Distributions](#kubernetes-distributions)
+    - [Container Runtime](#container-runtime)
+    - [Storage](#storage)
+  - [Building from Source](#building-from-source)
+    - [Prerequisites](#prerequisites-7)
+      - [System Tools and Utilities](#system-tools-and-utilities)
+      - [Repo tool](#repo-tool)
+      - [Golang](#golang)
+      - [Docker](#docker)
+    - [Building OCI Container images and K8s Manifests](#building-oci-container-images-and-k8s-manifests)
+      - [Foundational Security](#foundational-security)
+      - [Workload Confidentiality](#workload-confidentiality-1)
+        - [Container Confidentiality with CRIO Runtime](#container-confidentiality-with-crio-runtime)
+  - [Intel® SecL-DC Foundational Security K8s Deployment](#intel-secl-dc-foundational-security-k8s-deployment)
+    - [Pre-requisites](#pre-requisites)
+      - [Foundational Security](#foundational-security-1)
+      - [Workload Security](#workload-security)
+        - [Container Confidentiality with CRIO runtime](#container-confidentiality-with-crio-runtime-1)
+    - [Deploy](#deploy)
+      - [Single-Node Deployment](#single-node-deployment)
+        - [Pre-requisites](#pre-requisites-1)
+          - [Setup](#setup)
+          - [Manifests](#manifests)
+        - [Deploy steps](#deploy-steps)
+          - [Update .env file](#update-env-file)
+          - [Run scripts on Kubernetes Controller Node](#run-scripts-on-kubernetes-controller-node)
+      - [Multi-Node Deployment](#multi-node-deployment)
+        - [Pre-requisites](#pre-requisites-2)
+          - [Setup](#setup-1)
+          - [Manifests](#manifests-1)
+        - [Deploy steps](#deploy-steps-1)
+          - [Update .env file](#update-env-file-1)
+          - [Run scripts on Kubernetes Controller Node](#run-scripts-on-kubernetes-controller-node-1)
+  - [Default Service and Agent Mount Paths](#default-service-and-agent-mount-paths)
+    - [Single Node Deployments](#single-node-deployments)
+    - [Multi Node Deployments](#multi-node-deployments)
+  - [Default Service Ports](#default-service-ports)
+- [Authentication](#authentication)
+  - [Create Token](#create-token)
+  - [User Management](#user-management)
+    - [Username and Password requirements](#username-and-password-requirements)
+    - [Create User](#create-user)
+    - [Search Users by Username](#search-users-by-username)
+    - [Change User Password](#change-user-password)
+    - [Delete User](#delete-user)
+  - [Roles and Permissions](#roles-and-permissions)
+    - [Create Role](#create-role)
+    - [Search Roles](#search-roles)
+    - [Delete Role](#delete-role)
+    - [Assign Role to User](#assign-role-to-user)
+    - [List Roles Assigned to User](#list-roles-assigned-to-user)
+    - [Remove Role from User](#remove-role-from-user)
+    - [Role Definitions](#role-definitions)
+- [Connection Strings](#connection-strings)
+  - [Trust Agent](#trust-agent-1)
+  - [VMware ESXi](#vmware-esxi)
+    - [Importing VMware TLS Certificates](#importing-vmware-tls-certificates)
+    - [Registering a VMware ESXi Host](#registering-a-vmware-esxi-host)
+- [Platform Integrity Attestation](#platform-integrity-attestation)
+  - [Host Registration](#host-registration)
+    - [Trust Agent](#trust-agent-2)
+      - [Registration via Trust Agent Command Line](#registration-via-trust-agent-command-line)
+    - [Registration via Verification Service API](#registration-via-verification-service-api)
+      - [Sample Call](#sample-call)
+      - [Sample Call for ESXi Cluster Registration](#sample-call-for-esxi-cluster-registration)
+  - [Flavor Creation for Automatic Flavor Matching](#flavor-creation-for-automatic-flavor-matching)
+    - [Importing a Flavor from a Sample Host](#importing-a-flavor-from-a-sample-host)
+    - [Creating a Flavor Manually](#creating-a-flavor-manually)
+  - [Creating the Default SOFTWARE Flavor (Linux Only)](#creating-the-default-software-flavor-linux-only)
+  - [Creating and Provisioning Asset Tags](#creating-and-provisioning-asset-tags)
+    - [Creating Asset Tag Certificates](#creating-asset-tag-certificates)
+    - [Deploying Asset Tags](#deploying-asset-tags)
+      - [Red Hat Enterprise Linux](#red-hat-enterprise-linux)
+      - [VMWare](#vmware)
+        - [Calculate the Certificate Hash Value](#calculate-the-certificate-hash-value)
+        - [Provision the Certificate Hash to the Host TPM](#provision-the-certificate-hash-to-the-host-tpm)
+          - [**vSphere 6.5 Update 2 or Later**](#vsphere-65-update-2-or-later)
+          - [**vSphere 6.5 Update 1 or Older**](#vsphere-65-update-1-or-older)
+        - [Creating the Asset Tag Flavor (VMWare ESXi Only)](#creating-the-asset-tag-flavor-vmware-esxi-only)
+  - [Retrieving Current Attestation Reports](#retrieving-current-attestation-reports)
+  - [Retrieving Current Host State Information](#retrieving-current-host-state-information)
+  - [Upgrading Hosts in the Datacenter to a New BIOS or OS Version](#upgrading-hosts-in-the-datacenter-to-a-new-bios-or-os-version)
+  - [Removing Hosts From the Verification Service](#removing-hosts-from-the-verification-service)
+  - [Removing Flavors](#removing-flavors)
+  - [Invalidating Asset Tags](#invalidating-asset-tags)
+  - [Remediating an Untrusted attestation](#remediating-an-untrusted-attestation)
+  - [Attestation Reporting](#attestation-reporting)
+    - [Sample Call – Generating a New Attestation Report](#sample-call--generating-a-new-attestation-report)
+    - [Sample Call – Retrieving an Existing Attestation Report](#sample-call--retrieving-an-existing-attestation-report)
+  - [Integration](#integration)
+    - [The Integration Hub](#the-integration-hub)
+    - [Integration with OpenStack](#integration-with-openstack)
+      - [Prerequisites](#prerequisites-8)
+      - [Setting Image Traits](#setting-image-traits)
+      - [Configuring the Integration Hub for Use with OpenStack](#configuring-the-integration-hub-for-use-with-openstack)
+      - [Scheduling Instances](#scheduling-instances)
+    - [Integration with Kubernetes](#integration-with-kubernetes)
+      - [Prerequisites](#prerequisites-9)
+      - [Installing the Intel® SecL Custom Resource Definitions](#installing-the-intel-secl-custom-resource-definitions)
+      - [Configuring Pods to Require Intel® SecL Attributes](#configuring-pods-to-require-intel-secl-attributes)
+      - [Tainting Untrusted Worker Nodes](#tainting-untrusted-worker-nodes)
+- [Workload Confidentiality](#workload-confidentiality-2)
+  - [Virtual Machine Confidentiality](#virtual-machine-confidentiality)
+    - [Prerequisites](#prerequisites-10)
+    - [Workflow](#workflow)
+      - [Encrypting Images](#encrypting-images)
+      - [Uploading the Image Flavor](#uploading-the-image-flavor)
+      - [Creating the Image Flavor to Image ID Association](#creating-the-image-flavor-to-image-id-association)
+      - [Launching Encrypted VMs](#launching-encrypted-vms)
+  - [Container Confidentiality](#container-confidentiality)
+    - [Container Confidentiality with Cri-o and Skopeo](#container-confidentiality-with-cri-o-and-skopeo)
+      - [Prerequisites](#prerequisites-11)
+      - [Workflow](#workflow-1)
+          - [Skopeo Commands](#skopeo-commands)
+          - [Examples](#examples)
+          - [Prepare an Image](#prepare-an-image)
+        - [Pulling and Encrypting a Container Image](#pulling-and-encrypting-a-container-image)
+        - [Launching an Encrypted Container Image](#launching-an-encrypted-container-image)
+- [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes-1)
+  - [Prerequisites](#prerequisites-12)
+  - [Workflow](#workflow-2)
+  - [Sample VM Trust Report](#sample-vm-trust-report)
+- [Flavor Management](#flavor-management)
+  - [Flavor Format Definitions](#flavor-format-definitions)
+    - [Meta](#meta)
+    - [Hardware](#hardware)
+    - [PCR banks (Algorithms)](#pcr-banks-algorithms)
+    - [PCRs](#pcrs)
+    - [Sample PLATFORM Flavor](#sample-platform-flavor)
+    - [Sample OS Flavor](#sample-os-flavor)
+    - [Sample HOST\_UNIQUE Flavor](#sample-host_unique-flavor)
+    - [Sample ASSET\_TAG Flavor](#sample-asset_tag-flavor)
+  - [Flavor Templates](#flavor-templates)
+    - [Sample Flavor Template](#sample-flavor-template)
+    - [Flavor Template Definitions](#flavor-template-definitions)
+      - [Conditions](#conditions)
+      - [Flavor Parts](#flavor-parts)
+      - [PCR Rules](#pcr-rules)
+        - [pcr_matches](#pcr_matches)
+        - [eventlog_includes](#eventlog_includes)
+        - [excluding_tags](#excluding_tags)
+  - [Flavor Matching](#flavor-matching)
+    - [When Does Flavor Matching Happen?](#when-does-flavor-matching-happen)
+    - [Flavor Matching Performance](#flavor-matching-performance)
+    - [Flavor Groups](#flavor-groups)
+    - [Default Flavor Group](#default-flavor-group)
+      - [automatic](#automatic)
+      - [unique](#unique)
+    - [Flavor Match Policies](#flavor-match-policies)
+      - [Default Flavor Match Policy](#default-flavor-match-policy)
+      - [ANY\_OF](#any_of)
+      - [ALL\_OF](#all_of)
+      - [LATEST](#latest)
+      - [REQUIRED](#required)
+      - [REQUIRED\_IF\_DEFINED](#required_if_defined)
+    - [Flavor Match Event Triggers](#flavor-match-event-triggers)
+    - [Sample Flavorgroup API Calls](#sample-flavorgroup-api-calls)
+      - [Create a New Flavorgroup](#create-a-new-flavorgroup)
+  - [SOFTWARE Flavor Management](#software-flavor-management)
+    - [What is a SOFTWARE Flavor?](#what-is-a-software-flavor)
+    - [Creating a SOFTWARE Flavor part](#creating-a-software-flavor-part)
+      - [Directories](#directories)
+      - [Symlinks](#symlinks)
+      - [Files](#files)
+    - [Sample SOFTWARE Flavor Creation Call](#sample-software-flavor-creation-call)
+    - [Deploying a SOFTWARE Flavor Manifest to a Host](#deploying-a-software-flavor-manifest-to-a-host)
+    - [SOFTWARE Flavor Matching](#software-flavor-matching)
+    - [Kernel Upgrades](#kernel-upgrades)
+- [Scalability and Sizing](#scalability-and-sizing)
+  - [Configuration Maximums](#configuration-maximums)
+    - [Registered Hosts](#registered-hosts)
+    - [HDD Space](#hdd-space)
+  - [Database Rotation Settings](#database-rotation-settings)
+  - [Log Rotation](#log-rotation)
+- [Intel Security Libraries Configuration Settings](#intel-security-libraries-configuration-settings)
+  - [Verification Service](#verification-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options)
+    - [Configuration Options](#configuration-options)
+    - [Command-Line Options](#command-line-options)
+      - [Help](#help)
+      - [Start](#start)
+      - [Stop](#stop)
+      - [Status](#status)
+      - [Uninstall](#uninstall)
+      - [Version](#version)
+      - [Erase-data](#erase-data)
+      - [Setup](#setup-2)
+    - [Directory Layout](#directory-layout)
+  - [Trust Agent](#trust-agent-3)
+    - [Installation Answer File Options](#installation-answer-file-options-1)
+    - [Configuration Options](#configuration-options-1)
+    - [Command-Line Options](#command-line-options-1)
+    - [Directory Layout](#directory-layout-1)
+      - [Linux](#linux)
+        - [Bin](#bin)
+        - [Configuration](#configuration)
+        - [Var](#var)
+  - [Integration Hub](#integration-hub-1)
+    - [Installation Answer File](#installation-answer-file)
+    - [Configuration Options](#configuration-options-2)
+    - [Command-Line Options](#command-line-options-2)
+      - [Available Commands](#available-commands)
+        - [Help](#help-1)
+        - [Start](#start-1)
+        - [Stop](#stop-1)
+        - [Status](#status-1)
+        - [Uninstall](#uninstall-1)
+        - [Version](#version-1)
+        - [Setup](#setup-3)
+    - [Directory Layout](#directory-layout-2)
+      - [Logs](#logs)
+  - [Certificate Management Service](#certificate-management-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-2)
+    - [Configuration Options](#configuration-options-3)
+    - [Command-Line Options](#command-line-options-3)
+      - [Help](#help-2)
+      - [Start](#start-2)
+      - [Stop](#stop-2)
+      - [Status](#status-2)
+      - [Uninstall](#uninstall-2)
+      - [Version](#version-2)
+      - [Tlscertsha384](#tlscertsha384)
+      - [setup \[task\]](#setup-task)
+    - [Directory Layout](#directory-layout-3)
+      - [Bin](#bin-1)
+      - [Cacerts](#cacerts)
+  - [Authentication and Authorization Service](#authentication-and-authorization-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-3)
+    - [Configuration Options](#configuration-options-4)
+    - [Command-Line Options](#command-line-options-4)
+    - [Directory Layout](#directory-layout-4)
+      - [Bin](#bin-2)
+      - [dbscripts](#dbscripts)
+  - [Workload Service](#workload-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-4)
+    - [Configuration Options](#configuration-options-5)
+    - [Command-Line Options](#command-line-options-5)
+      - [Help](#help-3)
+      - [start](#start-3)
+      - [stop](#stop-3)
+      - [status](#status-3)
+      - [uninstall](#uninstall-3)
+      - [setup](#setup-4)
+    - [Directory Layout](#directory-layout-5)
+  - [Key Broker Service](#key-broker-service-1)
+    - [Installation Answer File Options](#installation-answer-file-options-5)
+    - [Configuration Options](#configuration-options-6)
+    - [Command-Line Options](#command-line-options-6)
+    - [Directory Layout](#directory-layout-6)
+      - [/opt/kbs/bin](#optkbsbin)
+      - [/etc/kbs/](#etckbs)
+      - [/var/log/kbs/](#varlogkbs)
+  - [Workload Agent](#workload-agent-1)
+    - [Installation Answer File Options](#installation-answer-file-options-6)
+    - [Configuration Options](#configuration-options-7)
+    - [Command-Line Options](#command-line-options-7)
+      - [Help](#help-4)
+      - [setup](#setup-5)
+        - [Available Tasks for setup](#available-tasks-for-setup)
+          - [SigningKey](#signingkey)
+          - [BindingKey](#bindingkey)
+          - [RegisterSigningKey](#registersigningkey)
+          - [RegisterBindingKey](#registerbindingkey)
+      - [start](#start-4)
+      - [stop](#stop-4)
+      - [status](#status-4)
+      - [uninstall](#uninstall-4)
+      - [uninstall --purge](#uninstall---purge)
+      - [version](#version-3)
+    - [Directory Layout](#directory-layout-7)
+      - [Bin](#bin-3)
+  - [Workload Policy Manager](#workload-policy-manager-1)
+    - [Installation Answer File Options](#installation-answer-file-options-7)
+    - [Configuration Options](#configuration-options-8)
+    - [Command-Line Options](#command-line-options-8)
+      - [create-image-flavor](#create-image-flavor)
+      - [create-software-flavor](#create-software-flavor)
+      - [Uninstall](#uninstall-5)
+      - [--help](#--help)
+      - [--version](#--version)
+      - [Setup](#setup-6)
+        - [wpm setup](#wpm-setup)
+        - [wpm setup CreateEnvelopeKey](#wpm-setup-createenvelopekey)
+        - [wpm setup RegisterEnvelopeKey](#wpm-setup-registerenvelopekey)
+        - [wpm setup download\_ca\_cert \[--force\]](#wpm-setup-download_ca_cert---force)
+        - [wpm setup download\_cert Flavor-Signing \[--force\]](#wpm-setup-download_cert-flavor-signing---force)
+- [Certificate and Key Management](#certificate-and-key-management)
+  - [Host Verification Service Certificates and Keys](#host-verification-service-certificates-and-keys)
+    - [SAML](#saml)
+    - [Asset Tag](#asset-tag)
+    - [Privacy CA](#privacy-ca)
+    - [Endorsement CA](#endorsement-ca)
+  - [TLS Certificates](#tls-certificates)
+- [Upgrades](#upgrades)
+  - [Backward Compatibility](#backward-compatibility)
+  - [Upgrade Order](#upgrade-order)
+  - [Upgrade Process](#upgrade-process)
+    - [Binary Installations](#binary-installations)
+- [Appendix](#appendix)
+  - [PCR Definitions](#pcr-definitions)
+    - [Red Had Enterprise Linux](#red-had-enterprise-linux)
+      - [TPM 2.0](#tpm-20)
+    - [VMWare ESXi](#vmware-esxi-1)
+      - [TPM 1.2](#tpm-12)
+      - [TPM 2.0](#tpm-20-1)
+  - [Attestation Rules](#attestation-rules)
 
-Introduction
-============
+## Introduction
 
 ### Overview
 
@@ -120,7 +648,7 @@ Because Intel® BtG only measures/verifies the integrity of the IBB, it’s impo
 Intel® SecL-DC supports several options for Trusted Computing, depending
 on the features available on the platform.
 
-<img src="Images\tboot options.png" style="zoom:150%;" />
+<img src="Images/tboot options.png" style="zoom:150%;" />
 
 
 
@@ -172,47 +700,38 @@ When libvirt initiates a VM Start, the Intel® SecL-DC Workload Agent will creat
 
 By using Platform Integrity and Data Sovereignty-based orchestration (or Workload Confidentiality with encrypted worker VMs) for the Virtual Machines to ensure that the virtual Kubernetes Worker nodes only launch on trusted hardware, these VM trust reports provide an auditing capability to extend the Chain of Trust to the virtual Worker Nodes.
 
-Intel® Security Libraries Components
-====================================
+## Intel® Security Libraries Components
 
 Certificate Management Service
 ------------------------------
 
 Starting with Intel® SecL-DC 1.6, most non-TPM-related certificates used by Intel® SecL-DC applications will be issued by the new Certificate Management Service. This includes acting as a root CA and issuing TLS certificates for all of the various web services.
 
-## Authentication and Authorization Service
+### Authentication and Authorization Service
 
 Starting with Intel® SecL-DC 1.6, authentication and authorization for all Intel® SecL applications will be centrally managed by the new Authentication and Authorization Service (AAS). Previously, each application would manage its own users and permissions independently; this change allows authentication and authorization management to be centralized.
 
-
-
-## Verification Service
+### Verification Service
 
 The Verification Service component of Intel® Security Libraries performs the core Platform Integrity and Data Sovereignty functionality by acting as a remote attestation authority.
 
 Platform security technologies like Intel® TXT, Intel® BootGuard, and UEFI SecureBoot extend measurements of platform components (such as the system BIOS/UEFI, OS kernel, etc) to a Trusted Platform module as the server boots. Known-good measurements for each of these components can be directly imported from a sample server. These expected measurements can then be compared against actual measurements from registered servers, allowing the Verification Service to attest to the "trustiness" of the platform, meaning whether the platform booted into a "known-good" state.
 
-
-
-## Workload Service
+### Workload Service
 
 The Workload Service acts as a management service for handling Workload Flavors (Flavors used for Virtual Machines and Containers). In the Intel® SecL-DC 1.6 release, the Workload Service uses Flavors to map decryption key IDs to image IDs. When a launch request for an encrypted workload image is intercepted by the Workload Agent, the Workload Service will handle mapping the image ID to the appropriate key ID and key request URL, and will initiate the key transfer request to the Key Broker.
 
-## Trust Agent
+### Trust Agent
 
 The Trust Agent resides on physical servers and enables both remote attestation and the extended chain of trust capabilities. The Agent maintains ownership of the server's Trusted Platform Module, allowing secure attestation quotes to be sent to the Verification Service. Incorporating the Intel® SecL HostInfo and TpmProvider libraries, the Trust Agent serves to report on platform security capabilities and platform integrity measurements.
 
 The Trust Agent is supported for Windows* Server 2016 Datacenter and Red Hat Enterprise Linux* (RHEL) 8.1 and later.
 
-
-
-## Workload Agent
+### Workload Agent
 
 The Workload Agent is the component responsible for handling all of the functions needed for Workload Confidentiality for virtual machines and containers on a physical server. The Workload Agent uses libvirt hooks to identify VM lifecycle events (VM start, stop, hibernate, etc), and intercepts those events to perform needed functions like requesting decryption keys, creation and deletion of encrypted LUKS volumes, using the TPM to unseal decryption keys, etc. The WLA also performs analogous functionality for containers.
 
-
-
-## Integration Hub
+### Integration Hub
 
 The Integration Hub acts as a middle-man between the Verification Service and one or more scheduler services (such as OpenStack* Nova), and "pushes" attestation information retrieved from the Verification Service to one or more scheduler services according to an assignment of hosts to specific tenants. In this way, Tenant A can receive attestation information for hosts that belong to Tenant A, but receive no information about hosts belonging to Tenant B.
 
@@ -220,22 +739,16 @@ The Integration Hub serves to disassociate the process of retrieving attestation
 
 The Integration Hub features a plugin design for adding new scheduler endpoint types. Currently the Integration Hub supports OpenStack Nova and Kubernetes endpoint plugins. Other integration plugins may be added.
 
-
-
-## Workload Policy Manager
+### Workload Policy Manager
 
 The Workload Policy Manager is a Linux command line utility used by an image owner to encrypt VM (qcow2) or container images, and to create an Image Flavor used to provide the encryption key transfer URL during launch requests. The WPM utility will use an existing or request a new key from the Key Broker Service, use that key to encrypt the image, and output the Image Flavor in JSON format. The encrypted image can then be uploaded to the image store of choice (like OpenStack Glance), and the Image Flavor can be uploaded to the Workload Service. The ID of the image on the image storage system is then mapped to the Image Flavor in the WLS; when the image is used to launch a new instance, the WLS will find the Image Flavor associated with that image ID, and use the Image Flavor to determine the key transfer URL.
 
-
-
-## Key Broker Service
+### Key Broker Service
 
 The Key Broker Service is effectively a policy compliance engine. Its job is to manage key transfer requests, releasing keys only to servers that meet policy requirements. The Key Broker registers one or more SAML signing certificates from any Verification Services that it will trust. When a key transfer request is received, the request includes a trust attestation report signed by the Verification Service. If the signature matches a registered SAML key, the Broker will then look at the actual report to ensure the server requesting the key matches the image policy (currently only overall system trust is supported as a policy requirement). If the report indicates the policy requirements are met, the image decryption key is wrapped using a public key unique to the TPM of the host that was attested in the report, such that only the host that was attested can unseal the decryption key and gain access to the image.
 
+## Intel® Security Libraries Binary Installation
 
-
-Intel® Security Libraries Binary Installation
-======================================
 
 Intel® SecL services can be deployed as direct binary installations (on bare metal or in VMs), or can be deployed as containers.  This section details the binary-based installation of Intel SecL services; the next major section details container-based deployments.
 
@@ -285,11 +798,10 @@ Key points:
 
 Use the chart below for a guide to acceptable configuration options. .
 
-<img src="Images\hardware_considerations.png" alt="image-20200620161440899" style="zoom:150%;" />
+<img src="Images/hardware_considerations.png" alt="image-20200620161440899" style="zoom:150%;" />
 
 
-Recommended Service Layout
---------------------------
+## Recommended Service Layout
 
 The Intel® SecL-DC services can be installed in a variety of layouts, partially depending on the use cases desired and the OS of the server(s) to be protected. In general, the Intel® SecL-DC applications can be divided into management services that are deployed on the network on the management plane, and host or node components that must be installed on each protected server.
 
@@ -329,7 +841,7 @@ Trust Agent (TA)
 
 Workload Agent (WLA)
 
-<img src="Images\service_layout" alt="image-20200620161752980" style="zoom:150%;" />
+<img src="Images/service_layout" alt="image-20200620161752980" style="zoom:150%;" />
 
 
 
@@ -341,39 +853,33 @@ A single-node deployment uses Microk8s to deploy the entire control plane in a p
 
 **Single Node:**
 
-![k8s-single-node](.\Images\single-node-ws.jpg)
+![k8s-single-node](./Images/single-node-ws.jpg)
 
 A multi-node deployment is a more typical Kubernetes architecture, where the Intel SecL management plane is simply deployed as a Pod, with the Intel SecL agents (the WLA and the TA, depending on use case) deployed as a DaemonSet.
 
 **Multi Node:**
 
-![K8s Deployment-fsws](.\images\k8s-deployment-ws.jpg)
-
-
+![K8s Deployment-fsws](./Images/k8s-deployment-ws.jpg)
 
 **Services Deployments & Agent DaemonSets:**
 
 Every service including databases will be deployed as separate K8s deployment with 1 replica, i.e(1 pod per deployment). Each deployment will be further exposed through k8s service and also will be having corresponding Persistent Volume Claims(PV) for configuration and log directories and mounted on persistent storage. In case of daemonsets/agents, the configuration and log directories will be mounted on respective Baremetal worker nodes.
 
-![](.\images\service-deployment.jpg)
+![](./Images/service-deployment.jpg)
 
-![Each pod consist of only one container with service](.\images\daemonsets-ws.jpg)
+![Each pod consist of only one container with service](./Images/daemonsets-ws.jpg)
 
 For stateful services which requires database like shvs, aas, scs, A separate database deployment will be created for each of such services. The data present on the database deployment will also made to persist on a NFS, through K8s persistent storage mechanism
 
-![database deployment](.\Images\hvs-db.jpg)
-
-
+![database deployment](./Images/hvs-db.jpg)
 
 **Networking within the Cluster:**
 
-![Networking within cluster](.\images\inter-cluster-communication-ws.jpg)
-
-
+![Networking within cluster](./Images/inter-cluster-communication-ws.jpg)
 
 **Networking Outside the Cluster:**
 
-![Networking outside cluster](.\Images\within-cluster-communication-ws.jpg)
+![Networking outside cluster](./Images/within-cluster-communication-ws.jpg)
 
 Installing/Configuring the Database
 -----------------------------------
@@ -446,8 +952,6 @@ The database client for Intel® SecL services requires the database TLS certific
 
 The database client for Intel® SecL services will validate that the Subject Alternative Names in the database server’s TLS certificate contain the hostname(s)/IP address(es) that the clients will use to access the database server. If configuring a database without using the provided scripts, ensure that these attributes are present in the database TLS certificate.
 
-
-
 ## Using NATS with Intel SecL
 
 Intel SecL-DC can utilize a NATS server to manage connectivity between the Host Verification Service and any number of deployed Trust Agent hosts.  This acts as an alternative to communication via REST APIs - in NATS mode, a connection is established with the NATS server, and messages are sent and received over that connection.
@@ -469,6 +973,13 @@ wget https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssljson_1.6.
 wget https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssl_1.6.0_linux_amd64 -o /usr/bin/cfssl && chmod +x /usr/bin/cfssl 
 ```
 
+User has two methods to generate custom claims token for TA.
+
+1. Run populate-user.sh whenever it is required.
+2. Alternatively use AAS API directly to generate custom claims token.
+
+#### Generating Custom Claims Token using populate-users script
+</br>
 Use the following **additional** options in populate-users.env and run populate-users:
 
 ```ini
@@ -488,8 +999,69 @@ CCC_ADMIN_USERNAME=<username for generating long-lived tokens>
 CCC_ADMIN_PASSWORD=<password for generating long-lived tokens>
 ```
 
-When populate-users is run, there will now be an additional "Custom Claims Token For TA:" bearer token.  
+When populate-users script is run, there will now be an additional "Custom Claims Token For TA:" bearer token.
 
+#### Generating Custom Claims Token using AAS API
+</br>
+To generate custom claims using AAS API, following are the steps to be followed:
+
+1. Create CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD entry in the database along with the roles using the populate-users script.
+```
+CCC_ADMIN_USERNAME=<username for generating long-lived tokens>
+CCC_ADMIN_PASSWORD=<password for generating long-lived tokens>
+```
+2. Get the JWT from AAS to get access to the `/custom-claims-token`. Sample call to get the JWT from `/token` using the CCC_ADMIN_USERNAME/PASSWORD has been provided below:
+
+```
+curl -s -X POST "${AAS_BASE_URL}/token" --header 'Content-Type: application/json' --data-raw '{"username" : "'"$CCC_ADMIN_USERNAME"'", "password" : "'"$CCC_ADMIN_PASSWORD"'"}' -k
+```
+3. Once the JWT has been received, admin can get the custom claims token using the JWT ($bearer_token) received in step 2. A sample curl command to get the custom claims token has been provided below:
+```
+curl -s -X POST "${AAS_BASE_URL}/custom-claims-token" \
+--header 'Content-Type: application/json' \
+--header "Authorization: Bearer $bearer_token" \
+--data-raw '{
+    "subject": "AAS-JWT-Issuer",
+    "validity_seconds": '"$((TOKEN_VALIDITY_SECONDS))"',
+    "claims": {
+        "roles": [
+            {
+                "service": "HVS",
+                "name": "AttestationRegister"
+            },
+            {
+                "service": "AAS",
+                "name": "CredentialCreator",
+                "context": "type=TA"
+            },
+            {
+                "service": "CMS",
+                "name": "CertApprover",
+                "context": "CN=Trust Agent TLS Certificate;SAN=*;certType=TLS"
+            }
+        ],
+         "permissions": [
+            {
+                "service": "HVS",
+                "rules": ["hosts:store:*", "hosts:search:*", "host_unique_flavors:create:*", "flavors:search:*",
+                                        "host_aiks:certify:*", "tpm_endorsements:create:*", "tpm_endorsements:search:*"]
+            },
+            {
+                "service": "AAS",
+                "rules": ["credential:create:*"]
+            }
+         ]
+    }
+}' -k
+```
+
+Note:
+
+-  - The "rules" under "permissions" describe which permissions are embedded in the token and describe what actions will be allowed by HVS.  The list in this example are the permissions required for the Trust-Agent.  For example, Trust-Agent command line tools like "tagent setup", "tagent setup create-host", "tagent setup create-host-unique-flavor" use HVS' REST API and therefore need a token with sufficient permissions. The CCC admin is responsible for creating tokens with the appropriate permissions.  For example, providing "hosts:store:*" allows the token permissions to add hosts to HVS (which may not be desirable in all circumstances).  For more information about permissions please refer to AAS swagger doc.
+-  TOKEN_VALIDITY_SECONDS should be provided as per requirement 
+-  "-k" from curl request can be removed by adding AAS TLS certificate to the trusted ca directory of the respective OS
+
+#### Installing HVS
 When installing the HVS, add the following to hvs.env:
 
 ```ini
@@ -535,8 +1107,6 @@ tls: {
 } 
 ```
 
-
-
 1. Append the operator/account credentials from the AAS installation to the server.conf (the following can be run if NATS will run on the same machine as the AAS):  
 
    ```shell
@@ -569,8 +1139,6 @@ Start NATS server:
 ```shell
 ./nats-server -c server.conf 
 ```
-
-
 
 Installing the Certificate Management Service
 ---------------------------------------------
@@ -626,30 +1194,27 @@ To install the Intel® SecL-DC Certificate Management Service:
 3. Execute the installer binary.
 
    ```shell
-   ./cms-v4.0.0.bin
+   ./cms-v5.0.0.bin
    ```
 
    When the installation completes, the Certificate Management Service is available. The services can be verified by running cms status from the command line.
 
    ```shell
-cms status
+    cms status
    ```
 
-   After installation is complete, the CMS will output a bearer token to the console. This token will be used with the AAS during installation to authenticate certificate requests to the CMS. If this token expires or otherwise needs to be recreated, use the following command:
+After installation is complete, the CMS will output a bearer token to the console. This token will be used with the AAS during installation to authenticate certificate requests to the CMS. If this token expires or otherwise needs to be recreated, use the following command:
 
    ```shell
 cms setup cms_auth_token --force
    ```
 
    In addition, the SHA384 digest of the CMS TLS certificate will be needed for installation of the remaining Intel® SecL services. The digest can be obtained using the following command:
-   
-   ```shell
-   cms tlscertsha384
-   ```
-   
-   
 
-Installing the Authentication and Authorization Service
+   ```shell
+cms tlscertsha384
+   ```
+## Installing the Authentication and Authorization Service
 -------------------------------------------------------
 
 ### Required For
@@ -720,7 +1285,7 @@ BEARER_TOKEN=<bearer token from CMS installation>
 Execute the AAS installer:
 
 ```shell
-./authservice-v4.0.0.bin
+./authservice-v5.0.0.bin
 ```
 
 > **Note:** the `AAS_ADMIN` credentials specified in this answer file will have administrator rights for the AAS and can be used to create other users, create new roles, and assign roles to users.
@@ -804,8 +1369,7 @@ The populate-users script will also output an installation token. This token has
 
  
 
-Installing the Host Verification Service
------------------------------------
+### Installing the Host Verification Service
 
 This section details how to install the Intel® SecL-DC services. For instructions on running these services as containers, see the following section.
 
@@ -899,7 +1463,7 @@ To install the Verification Service, follow these steps:
 3. Execute the installer binary.
 
    ```shell
-./hvs-v4.0.0.bin
+   ./hvs-v5.0.0.bin
    ```
 
    When the installation completes, the Verification Service is available. The services can be verified by running **hvs status** from the Verification Service command line.
@@ -967,7 +1531,7 @@ Ubuntu 18.04
 * Execute the WLS installer binary:
 
   ```shell
-  ./wls-v4.0.0.bin
+  ./wls-v5.0.0.bin
   ```
   
   
@@ -1033,6 +1597,32 @@ The following must be completed before installing the Trust Agent:
 #### Tboot Installation
 
 Tboot is required to build a complete Chain of Trust for Intel® TXT systems that are not using UEFI Secure Boot. Tboot acts to initiate the Intel® TXT SINIT ACM (Authenticated Code Module), which populates several TPM measurements including measurement of the kernel, grub command line, and initrd. Without either tboot or UEFI Secure Boot, the Chain of Trust will be broken because the OS-related components will be neither measured nor signature-verified prior to execution. Because tboot acts to initiate the Intel® TXT SINIT ACM, tboot is only required for platforms using Intel® TXT, and is not required for platforms using another hardware Root of Trust technology like Intel® Boot Guard.
+
+**Important Note:** SGX Attestation fails when SGX is enabled on a host booted using tboot
+
+**Root Cause:** tboot requires the "noefi" kernel parameter to be passed during boot, in order to not use unmeasured EFI runtime services. As a result, the kernel does not expose EFI variables to user-space. SGX Attestation requires these EFI variables to fetch Platform Manifest data. 
+
+**Workaround:**
+
+The EFI variables required by SGX are only needed during the SGX provisioning/registration phase. Once this step is completed successfully, access to the EFI variables is no longer required. This means this issue can be worked around by installing the SGX agent without booting to tboot, then rebooting the system to tboot. SGX attestation will then work as expected while booted to tboot.
+
+1. Enable SGX and TXT in the platform BIOS
+
+2. Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)
+
+3. Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)
+
+4. The SGX Agent installation fetches the SGX Platform Manifest data and caches it
+
+5. Reboot the system into the tboot kernel mode.
+
+6. Verify that TXT measured launch was successful:
+
+​    txt-stat |grep "TXT measured launch"
+
+7. The SGX and Platform Integrity Attestation use cases should now work as normal.
+
+   
 
 Intel® SecL-DC requires tboot 1.10.1 or greater. This may be a later version of tboot than is available on public software repositories.  
 
@@ -1208,9 +1798,9 @@ To install the Trust Agent for Linux:
   For NATS mode, add the following (in addition to the basic Platform Attestation sample and any other optional features):
   
   ```
-TA_SERVICE_MODE=outbound 
+  TA_SERVICE_MODE=outbound 
   NATS_SERVERS=<nats-server-ip>:4222 
-TA_HOST_ID=<Any unique identifier for the host; this could be the server FQDN, a UUID, or any other unique identifier>
+  TA_HOST_ID=<Any unique identifier for the host; this could be the server FQDN, a UUID, or any other unique identifier>
   ```
   
   Note that the TA_HOST_ID unique identifier will also be the ID used as part of the connection string to reach this Trust Agent host in NATS mode.
@@ -1218,7 +1808,7 @@ TA_HOST_ID=<Any unique identifier for the host; this could be the server FQDN, a
 * Execute the Trust Agent installer and wait for the installation to complete.
 
   ```shell
-  ./trustagent-v4.0.0.bin
+  ./trustagent-v5.0.0.bin
   ```
 
 If the `trustagent.env` answer file was provided with the minimum required options, the Trust Agent will be installed and also Provisioned to the Verification Service specified in the answer file.
@@ -1280,7 +1870,7 @@ The following must be completed before installing the Workload Agent:
 * Execute the Workload Agent installer binary.
 
   ```shell
-  ./workload-agent-v4.0.0.bin
+  ./workload-agent-v5.0.0.bin
   ```
 
 * Reboot the server. The Workload Agent populates files that are
@@ -1362,7 +1952,7 @@ POST <https://verification.service.com:8443/hvs/v2/hosts>
 > registered, but will be in an Untrusted state until/unless
 > appropriate Flavors are added to the Verification Service.
 
-<img src="Images\ta_registration.png" alt="image-20200621070159371" style="zoom:150%;" />
+<img src="Images/ta_registration.png" alt="image-20200621070159371" style="zoom:150%;" />
 
 
 
@@ -1440,7 +2030,7 @@ deployment in the `isecl` namespace.
     ```shell
     #1.14<=k8s_version<=1.16
     kubectl apply -f yamls/crd-1.14.yaml
-
+    
     #1.16<=k8s_version<=1.18
     kubectl apply -f yamls/crd-1.17.yaml
     ```
@@ -1634,7 +2224,7 @@ BEARER_TOKEN=eyJhbGciOiJSUzM4NCIsImtpZCI6ImE…
     directory & execute the installer binary.
 
    ```shell
-   ./ihub-v4.0.0.bin
+   ./ihub-v5.0.0.bin
    ```
 
 5. Copy the `/etc/ihub/ihub_public_key.pem` to Kubernetes Controller machine to `/<path>/secrets/` directory
@@ -1907,7 +2497,7 @@ To configure the Key Broker to point to a 3rd-party KMIP-compliant Key Managemen
     KEY_MANAGER=KMIP
     KMIP_SERVER_IP=<IP address of KMIP server>
     KMIP_SERVER_PORT=<Port number of KMIP server>
-KMIP_HOSTNAME=<hostname of the KMIP server.  Must match the hostname used in the Subject Alternative Name fort eh KMIP server client certificate.>
+    KMIP_HOSTNAME=<hostname of the KMIP server.  Must match the hostname used in the Subject Alternative Name fort eh KMIP server client certificate.>
     
     ## KMIP_VERSION variable can be used to mention KMIP protocol version.
     ## This is an OPTIONAL field, default value is set to '2.0'. KBS supports KMIP version '1.4' and '2.0'.
@@ -2123,7 +2713,7 @@ Ubuntu 18.04
 3.  Execute the WPM installer:
 
     ```shell
-    ./wpm-v4.0.0.bin
+    ./wpm-v5.0.0.bin
     ```
 
 
@@ -2374,7 +2964,7 @@ This section details deployment of Intel SecL services as a Kubernetes deploymen
 
   #### Foundational Security 
 
-  - `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  - `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/v5.0/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
 
   - Only for Ubuntu, run the following command
 
@@ -2386,7 +2976,7 @@ This section details deployment of Intel SecL services as a Kubernetes deploymen
 
   ##### Container Confidentiality with CRIO runtime
 
-  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/v5.0/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
   * Copy `container-runtime` directory to each of the physical servers  
 
   - Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`
@@ -4102,7 +4692,7 @@ For example, Tenant A is using hosts 1-10 for an OpenStack environment. Tenant B
 
 Different integration endpoints can be added to the Integration Hub through a plugin architecture. By default, the Integration Hub includes plugins for OpenStack and Kubernetes (Kubernetes deployments require the additional installation of two Intel® SecL-DC Custom Resource Definitions on the Kube Control Plane).
 
-<img src="Images\integration2" alt="image-20200621122316170" style="zoom:150%;" />
+<img src="Images/integration2" alt="image-20200621122316170" style="zoom:150%;" />
 
 ### Integration with OpenStack 
 
@@ -4399,7 +4989,7 @@ using the KBS, and will output the encrypted image and an Image Flavor.
 The image owner can then upload the encrypted image to the CSP’s image
 storage service, and then upload the Image Flavor to the CSP-hosted WLS.
 
-<img src="Images\image-encryption.png" alt="image-20200622081105459" style="zoom:150%;" />
+<img src="Images/image-encryption.png" alt="image-20200622081105459" style="zoom:150%;" />
 
 When a compute host at the CSP attempts to launch a protected image, the
 WLA on the host will detect the launch request, and will issue a key
@@ -4437,7 +5027,7 @@ Attestation reports. In this way, if a host is compromised in a method
 detectable by the Platform Integrity feature, protected images will be
 unable to launch on this server.
 
-<img src="Images\workload-decryption" alt="image-20200622081137301" style="zoom:150%;" />
+<img src="Images/workload-decryption" alt="image-20200622081137301" style="zoom:150%;" />
 
 Virtual Machine Confidentiality
 -------------------------------
@@ -6679,77 +7269,7 @@ HVS_DB_SSLCERTSRC=/tmp/dbcert.pem          # This doesn't need to be specified i
 # Database - optional
 HVS_DB_HOSTNAME=localhost                  # default=localhost
 HVS_DB_NAME=hvs-pg-db                      # default=hvs-pg-db
-HVS_DB_PORT=5432                           # default=5432
-HVS_DB_SSLMODE=verify-full                 # default=verify-full ;other options are like allow, prefer, require, verify-ca
-HVS_DB_SSLCERT=/etc/hvs/hvsdbcert.pem      # default=/etc/hvs/hvsdbcert.pem
-
-# Webservice configuration - Optional
-HVS_PORT=8443
-HVS_SERVER_READ_TIMEOUT=30s
-HVS_SERVER_READ_HEADER_TIMEOUT=10s
-HVS_SERVER_WRITE_TIMEOUT=10s
-HVS_SERVER_IDLE_TIMEOUT=10s
-HVS_SERVER_MAX_HEADER_BYTES=1048576
-
-# Logging - Optional
-HVS_LOG_MAX_LENGTH=300
-HVS_ENABLE_CONSOLE_LOG=false
-
-# Flavor Signing Configuration - Optional
-FLAVOR_SIGNING_KEY_FILE=/etc/hvs/trusted-keys/flavor-signing.key
-FLAVOR_SIGNING_CERT_FILE=/etc/hvs/certs/trustedca/flavor-signing.pem
-FLAVOR_SIGNING_COMMON_NAME=HVS Flavor Signing Certificate
-
-# SAML Configuration - Optional
-SAML_KEY_FILE=/etc/hvs/trusted-keys/saml.key
-SAML_CERT_FILE=/etc/hvs/certs/trustedca/saml-cert.pem
-SAML_COMMON_NAME=HVS SAML Certificate
-
-# Endorsement CA Configuration - Optional
-ENDORSEMENT_CA_KEY_FILE=/etc/hvs/trusted-keys/endorsement-ca.key
-ENDORSEMENT_CA_CERT_FILE=/etc/hvs/certs/trustedca/EndorsementCA.pem
-ENDORSEMENT_CA_COMMON_NAME=HVS Endorsement Certificate
-ENDORSEMENT_CA_ISSUER=intel-secl
-ENDORSEMENT_CA_VALIDITY_YEARS=5
-
-# Privacy CA Configuration - Optional
-PRIVACY_CA_KEY_FILE=/etc/hvs/trusted-keys/privacy-ca.key
-PRIVACY_CA_CERT_FILE=/etc/hvs/certs/trustedca/privacy-ca-cert.pem
-PRIVACY_CA_COMMON_NAME=HVS Privacy Certificate
-PRIVACY_CA_ISSUER=intel-secl
-PRIVACY_CA_VALIDITY_YEARS=5
-
-# Asset Tag Configuration - Optional
-TAG_CA_KEY_FILE=/etc/hvs/trusted-keys/tag-ca.key
-TAG_CA_CERT_FILE=/etc/hvs/certs/trustedca/tag-ca-cert.pem
-TAG_CA_COMMON_NAME=HVS Tag Certificate
-TAG_CA_ISSUER=intel-secl
-TAG_CA_VALIDITY_YEARS=5
-
-# Certificate Revocation Checks - Optional
-ENABLE_EKCERT_REVOKE_CHECK=false # default=false - if true, revocation checks will be performed on EK certs
-                                 # proxy settings (if applicable) must be provided - see next stion
-
-```
-
-### Note on Certificate Revocation Checks for TPM EK Certs
-
-The ENABLE_EKCERT_REVOKE_CHECK setting has been added to toggle revocation checks for Endorsement Key Certs by Verification Service. The revocation check will be performed during the course of the AIK provisioning flow on the Trust Agent (`tagent setup provision-aik`).
-
-At this stage, there are 3 possible outcomes:
-
-1. No certs in the chain are found to be revoked: VS responds with a HTTP 200 response code
-2. A certificate is found to be revoked: VS responds with a HTTP 400 response code
-3. The revocation check failed due to a connection error: VS responds with a HTTP 500 response code 
-
-If proxy settings are required to source CRL from external CAs, these can be added to the Verification Service service systemd via a drop-in config at /etc/systemd/system/hvs.service.d/proxy.conf or directly to `/opt/hvs/hvs.service` under the service section like so:
-
-```
-[Service]
-Environment="https_proxy=<proxy server url>"
-```
-
-Run `systemctl daemon-reload` and restart the service after making this change.
+HVS_DB_PEK```
 
 ### Configuration Options
 
@@ -6821,7 +7341,6 @@ fvs:
   number-of-verifiers: 20
   number-of-data-fetchers: 20
   skip-flavor-signature-verification: true
-enable-ekcert-revoke-check: false
 ```
 
 
@@ -8337,7 +8856,289 @@ Upgrading in this order will make each service unavailable only for the duration
 For services installed directly (not deployed as containers), the upgrade process simply requires executing the new-version installer on the same machine where the old-version is running.  The installer will re-use the same configuration elements detected in the existing version's config file.  No additional answer file is required unless configuration settings will change.
 
 
+### Container Deployments
 
+Container upgrades will be based on recreate strategy. All services except(KBS and HVS) can be upgraded just by updating
+the image name and tag to newer version in respective deployment.yml files.
+
+Config and database schema changes and data migration will be done through K8s jobs, during the upgrade job, the service
+should be down, otherwise may lead to inconsistent data or data corruption. For 4.0 there is change in database schema
+for HVS and k8s job manifest will be provided along with other manifests for deployment.
+
+Agent upgrade jobs, by default copy backup of configuration directories on all hosts at location /tmp/<agent_name>_backup,
+this location can be updated in respective upgrade jobs. There is also a rollback job for each agent, which restores the
+backed up configuration files back to original location.
+
+##### Build
+
+Intel assumes all services for any use-case are up and running before proceeding with the upgrade.
+
+Push all the newer version of container images to registry. All oci images will be in k8s/container-images.
+
+e.g
+
+```shell
+skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/<image-name>:<image-tag> --dest-tls-verify=false
+```
+
+------
+
+##### Upgrade/Deploy
+
+##### Backup Services
+
+1. Take back up of data in NFS mount for all services from NFS server system \<NFS-Mount-Path>/isecl
+
+   ```shell
+   #Example
+   cp -r <nfs-location/isecl <nfs-location>/isecl-<version>-backup
+   ```
+
+##### Rollback Services
+
+1. If upgrade is not successful, then update `deployment.yml` files with older images(v3.6) for 4.0 upgrade path and restore the backed up nfs data at same mount path
+2. Bring up individual components with `isecl-bootstrap.sh up <service>`
+
+>  **Note:** If in case service fails to start or gets crashed, then copy all the backed up data as per folder
+> structure like how was it earlier. Bring up db instance pointing to backed up data and bring up component deployment by
+> pointing to older version of container image.
+
+##### HVS Upgrade
+
+1. Update the image name with new image name/image tag in existing `deployment.yml`
+
+2. Copy `upgrade-job.yml` from builds `k8s/manifests/hvs/upgrade-job.yml` into control plane node `k8s/manifests/hvs/`
+
+```
+scp <build-vm>:<build-dir>/k8s/manifests/hvs/upgrade-job.yml <control-plane-vm>:<existing dir>/k8s/manifests/hvs/upgrade-job.yml
+```
+
+3. Update `<image-name>` and `<image-tag>` and existing version of deployed hvs in  `<current deployed version>` in `k8s/manifests/hvs/upgrade-job.yml`
+
+```yaml
+containers:
+  - name: hvs
+    image: '<image-name>:<image-tag>'
+    imagePullPolicy: Always
+    securityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+    env:
+      - name: CONFIG_DIR
+        value: /etc/hvs
+      - name: COMPONENT_VERSION
+        value: <current deployed version>      
+```
+
+4. Run the upgrade job,
+
+```shell
+cd k8s/manifests
+kubectl delete deployment hvs-deployment -n isecl
+kubectl apply -f hvs/upgrade-job.yml
+```
+
+5. Check the status of hvs-upgrade job for completion.
+
+```shell
+kubectl get jobs -n isecl
+```
+
+and check for successful database and config upgrades in hvs-upgrade job pod logs
+
+```shell
+kubectl logs -n isecl hvs-upgrade-<podname>
+```
+
+6. Redeploy the latest hvs
+
+```shell
+kubectl apply -f hvs/deployment.yml
+```
+
+> **Note:** If hvs-upgrade job is failed or upgraded service deployment went into `CrashLoopBackOff`, restore the service with instruction given in Rollback Services section
+
+**KBS Upgrade:**
+
+1. Update the image name with new image name/image tag in existing `deployment.yml`
+
+2. Copy `upgrade-job.yml` from builds `k8s/manifests/kbs/upgrade-job.yml` into control plane node k8s/manifests/kbs/
+
+```
+scp <build-vm>:<build-dir>/k8s/manifests/kbs/upgrade-job.yml <control-plane-vm>:<existing dir>/k8s/manifests/kbs/upgrade-job.yml
+```
+
+3. Add the following variables in `kbs/configMap.yml`
+
+```yaml
+KMIP_HOSTNAME: <kmip hostname>
+```
+
+Run the command
+
+```shell
+kubectl apply -f kbs/configMap.yml --namespace=isecl
+```
+
+4. (Optional) Add the following variables in `kbs/secrets.yml` if required
+   `KMIP_USERNAME` and `KMIP_PASSWORD`. Run the following commands
+
+```shell
+kubectl delete secret -n isecl kbs-secret
+kubectl create secret generic kbs-secret --from-file=kbs/secrets.txt --namespace=isecl
+```
+
+5. Update `<image-name>` and `<image-tag>` and existing version of deployed kbs in  `<current deployed version>` in `k8s/manifests/kbs/upgrade-job.yml`
+
+```yaml
+containers:
+  - name: kbs
+    image: '<image-name>:<image-tag>'
+    imagePullPolicy: Always
+    securityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+    env:
+      - name: CONFIG_DIR
+        value: /etc/kbs
+      - name: COMPONENT_VERSION
+        value: <current deployed version>      
+```
+
+6. Run the upgrade job,
+
+```shell
+cd k8s/manifests
+kubectl delete deployment -n isecl kbs-deployment
+kubectl apply -f kbs/upgrade-job.yml
+```
+
+7. Check the status of kbs-upgrade job for completion.
+
+```shell
+kubectl get jobs -n isecl
+kubectl logs -n isecl kbs-upgrade-<pod id>
+```
+
+8. Update the image name in `kbs/deployment.yml` to newer version and deploy the latest kbs
+
+```shell
+kubectl apply -f kbs/deployment.yml 
+or 
+cd kbs && kubectl kustomize . | kubectl apply -f -
+```
+
+**Individual services upgrade**
+
+1. Update the image name in existing `deployment.yml` of respective service.
+
+2. Redeploy by running the below command, By doing `kubectl apply -f` on `deployment.yml` with change in image name will terminate service with older image version and bring up service with new image version
+
+```shell
+cd /k8s/manifests/<service-manifests-folder> &&  kubectl kustomize . | kubectl apply -f -
+e.g cd /k8s/manifests/cms && kubectl kustomize . | kubectl apply -f -
+```
+
+**TA\WLA Upgrade:**
+
+Copy following manifests and scripts from build vm to k8s control plane vm
+
+```shell
+scp <build-vm>:<build-dir>/k8s/manifests/<component>/<component>-upgrade.yml <control-plane-vm>:<existing dir>/k8s/manifests/<component>/
+scp <build-vm>:<build-dir>/k8s/manifests/<component>/rollback.yml <control-plane-vm>:<existing dir>/k8s/manifests/<component>/
+```
+
+Addional step for TA:
+```shell
+scp <build-vm>:<build-dir>/k8s/manifests/ta/daemonset.yml <control-plane-vm>:<existing dir>/k8s/manifests/ta/daemonset.yml
+scp <build-vm>:<build-dir>/k8s/manifests/ta/daemonset-suefi.yml <control-plane-vm>:<existing dir>/k8s/manifests/ta/daemonset-suefi.yml
+```
+
+
+Log in to the worker nodes with TXT+TPM2.0 enabled and perform the following steps:
+
+1. Update tboot to 1.10.1
+
+Log in to control plane node and perform following steps:
+
+1. Update the new image name and tag in `daemonset.yml` and `daemonset-suefi.yml` files
+
+```yaml
+containers:
+  - image: <image-name>:<image-tag>
+```
+
+2. Update `<image-name>` and `<image-tag>` and existing version of deployed component in `<component-exising-installed-version>` in `k8s/manifests/<component>/<component>-upgrade.yml`
+
+```yaml
+containers:
+  - name: tagent
+    image: '<image-name>:<image-tag>'
+    imagePullPolicy: Always
+    command:
+      - /container_upgrade.sh
+    securityContext:
+      privileged: true
+    env:
+      - name: CONFIG_DIR
+        value: <component-config-dir>
+      - name: COMPONENT_VERSION
+        value: <component-exising-installed-version>
+```
+
+3. Upgrade job for TA\WLA will re provision all tasks. This might require new `BEARER_TOKEN` in existing ta-secret or wla-secret
+   (Optional). Update new value for TPM_OWNER_SECRET in `<component>/secret.txt`. Run the following commands
+```shell
+ kubectl delete secret -n isecl <component>-secret
+ #Post updation of BEARER_TOKEN & TPM_OWNER_SECRET in <component>/secrets.txt
+ kubectl create secret generic <component>-secret --from-file=secrets.txt --namespace=isecl
+```
+
+4.  Perform upgrade and redeploy trustagent or workload agent daemonsets
+```shell
+ cd k8s/manifests/ 
+ kubectl apply -f <component>/<component>-upgrade.yml
+```
+
+5. Wait for all <component>-upgrade daemonset come up in running state
+
+6. Delete <component>-upgrade daemonset once all <component>-upgrade daemonsets are running.
+
+```shell
+kubectl delete daemonset -n isecl <component>-upgrade
+```
+
+7. Bring up newer version of <component>-daemonsets
+
+```shell
+kubectl apply -f <component>/daemonset.yml
+```
+
+Additional step for TA:
+```shell
+kubectl apply -f ta/daemonset-suefi.yml
+```
+
+##### Backup and Rollback in TA
+
+The `<component>-upgrade.yml` is run once daemonset, while performing upgrade job, ta will copy the `/opt/trustagent` into backup directory `/tmp/trustagent_backup` on every host
+and wla upgrade will copy the '/etc/workload-agent' into backup directory `/tmp/wlagent_backup`
+Following steps will help us to achieve rollback
+
+1. Restore the backed up directories from `/tmp/trustagent_backup` into `/opt/trustagent` in TA and in WLA from `/tmp/wlagent_backup` into `/etc/workload-agent`
+```shell
+cd k8s/manifests/ 
+kubectl apply -f <componenet>/rollback.yml
+```
+2. Update the image name to previous version in `<component>/daemonset.yml` and `<component>/daemonset-suefi.yml`(if upgrade path is 3.6 -> 4.0, then update image tag to 3.6)
+```shell
+kubectl apply -f <component>/daemonset.yml
+```
+
+Additional step for TA:
+```shell
+kubectl apply -f ta/daemonset-suefi.yml
+```
 
 
 Appendix

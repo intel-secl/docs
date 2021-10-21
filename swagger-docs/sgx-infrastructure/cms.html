@@ -787,7 +787,7 @@ CMS acts as a root CA and issuing TLS certificates for all other ISecL services.
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-CACertificate-getCACertificates-0-curl">
-			  <pre><code class="language-bsh">curl -X GET "https://cms.com:8445/cms/v1/ca-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
+			  <pre><code class="language-bsh">curl -k -X GET "https://cms.com:8445/cms/v1/ca-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
 MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
 MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
 AxMFQ01TQ0EwHhcNMjAwMTA5MTUzMzUyWhcNMjUwMTA5MTUzMzUyWjBQMQswCQYD
@@ -946,7 +946,7 @@ this REST call.
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Certificate-getCmsSignedCertificate-0-curl">
-			  <pre><code class="language-bsh">curl -X POST "https://cms.com:8445/cms/v1/certificates?certType=Signing
+			  <pre><code class="language-bsh">curl -k -X POST "https://cms.com:8445/cms/v1/certificates?certType=Signing
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/x-pem-file" -H "Content-Type: application/x-pem-file"</br>Input: </br>-----BEGIN CERTIFICATE REQUEST------
 MIICYzCCAUsCAQAwHjEcMBoGA1UEAwwTV0xTIFRMUyBDZXJ0aWZpY2F0ZTCCASIw
 DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKbH0rV5KhRN/xxhAHM1n9r8185w
@@ -1031,7 +1031,7 @@ Returns - The version of the application.
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Version-getVersion-0-curl">
-			  <pre><code class="language-bsh">curl -X GET "https://cms.com:8443/cms/v1/version"</br></br>Output: </br>Service Name: Certificate Management Service
+			  <pre><code class="language-bsh">curl -k -X GET "https://cms.com:8445/cms/v1/version"</br></br>Output: </br>Service Name: Certificate Management Service
 Version: v3.4.0-0f0162ea
 Build Date: 2021-03-08T12:31:46+0000</code></pre> 
 			  </div>
