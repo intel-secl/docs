@@ -91,7 +91,7 @@ definitions:
     items:
       $ref: '#/definitions/ImageFlavor'
     type: array
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   Image:
     description: |-
       Image struct defines the metadata of the image and
@@ -131,12 +131,12 @@ definitions:
         type: string
         x-go-name: ID
     type: object
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   ImagesResponse:
     items:
       $ref: '#/definitions/ImageInfo'
     type: array
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   Info:
     properties:
       host_hardware_uuid:
@@ -149,7 +149,7 @@ definitions:
         type: string
         x-go-name: InstanceID
     type: object
-    x-go-package: intel/isecl/lib/common/v3/pkg/instance
+    x-go-package: intel/isecl/lib/common/v4/pkg/instance
   Integrity:
     description: Integrity contains information pertaining to the Integrity policy
       of the image
@@ -170,7 +170,7 @@ definitions:
       instance_info:
         $ref: '#/definitions/Info'
     type: object
-    x-go-package: intel/isecl/lib/common/v3/pkg/instance
+    x-go-package: intel/isecl/lib/common/v4/pkg/instance
   Meta:
     description: Meta defines meta data of the flavor
     properties:
@@ -225,12 +225,12 @@ definitions:
         type: boolean
         x-go-name: Trusted
     type: object
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   ReportsResponse:
     items:
       $ref: '#/definitions/Report'
     type: array
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   RequestKey:
     description: RequestKey struct defines input parameters to retrieve a key
     properties:
@@ -241,7 +241,7 @@ definitions:
         type: string
         x-go-name: KeyUrl
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v3/pkg/model/wls
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/wls
   Result:
     properties:
       faults:
@@ -258,7 +258,7 @@ definitions:
         type: boolean
         x-go-name: Trusted
     type: object
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   ReturnKey:
     description: ReturnKey to return key Json
     properties:
@@ -269,7 +269,7 @@ definitions:
         type: array
         x-go-name: Key
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v3/pkg/model/wls
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/wls
   Rule:
     properties:
       expected:
@@ -283,7 +283,7 @@ definitions:
         type: string
         x-go-name: RuleName
     type: object
-    x-go-package: intel/isecl/workload-service/v3/swagger/docs
+    x-go-package: intel/isecl/workload-service/v4/swagger/docs
   Schema:
     description: Schema defines the URI of the schema
     properties:

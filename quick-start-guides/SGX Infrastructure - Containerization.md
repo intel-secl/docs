@@ -31,6 +31,7 @@ Table of Contents
          * [Build OCI Container images and K8s Manifests](#build-oci-container-images-and-k8s-manifests)
             * [Single Node](#single-node-1)
             * [Multi Node](#multi-node-1)
+      * [Deploy Linux Stacks for Intel SGX](#deploy-linux-stacks-for-intel-sgx)
       * [Deployment](#deployment)
          * [Pre-requisites](#pre-requisites-1)
          * [Deploy](#deploy)
@@ -66,6 +67,7 @@ Table of Contents
             * [Generating keys](#generating-keys)
             * [Setup configurations](#setup-configurations)
             * [Initiate Key Transfer Flow](#initiate-key-transfer-flow)
+         * [Other Workloads](#other-workloads)
          * [SGX Discovery Flow](#sgx-discovery-flow)
          * [SKC Virtualization Flow](#skc-virtualization-flow)
             * [Configuration for NGINX testing On SGX Virtualization Setup](#Configuration for NGINX testing On SGX Virtualization Setup)
@@ -81,15 +83,21 @@ Table of Contents
 
 * RHEL 8.2 Build Machine
 
+* RHEL 8.4 Build Machine for stack based deployment
+
 * K8s control-plane Node Setup on CSP (VMs/Physical Nodes + SGX enabled Physical Nodes)
 
-* K8s control-plane Node Setup on Enterprise (VMs/Physical Nodes)
+* K8s control-plane Setup on Enterprise (VMs/Physical Nodes)
 
 ### OS Requirements
 
 * RHEL 8.2 for build
 
-* RHEL 8.2 or Ubuntu 18.04 for K8s cluster deployments
+* RHEL 8.4 for build for stack based deployment
+
+* RHEL 8.2 or Ubuntu 18.04/20.04 for K8s cluster deployments
+
+* RHEL 8.4 for stack based K8s cluster deployments 
 
   >  **Note:** SKC Solution is built, installed and tested with root privileges. Please ensure that all the following instructions are executed with root privileges
 
@@ -164,7 +172,7 @@ The multi node supports `kubeadm` as a supported K8s distribution
 
 ### Pre-requisites
 
-The below steps need to be done on RHEL 8.2 Build machine (VM/Physical Node)
+The below steps need to be done on RHEL 8.2 or RHEL 8.4(stack based deployment) Build Machine (VM/Physical Node)
 
 #### Development Tools and Utilities
 
@@ -187,21 +195,44 @@ rm -rf $tmpdir
 #### Golang
 
 ```shell
-wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-tar -xzf go1.14.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz
+tar -xzf go1.16.7.linux-amd64.tar.gz
 sudo mv go /usr/local
 export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
-rm -rf go1.14.4.linux-amd64.tar.gz
+rm -rf go1.16.7.linux-amd64.tar.gz
 ```
 
 #### Docker
 
 ```shell
-dnf module enable -y container-tools
-dnf install -y yum-utils
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce-19.03.13 docker-ce-cli-19.03.13
+On RHEL 8.2:
+    dnf module enable -y container-tools
+    dnf install -y yum-utils
+    dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+    dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
+
+On RHEL 8.4:
+    dnf module enable -y container-tools
+    dnf install -y yum-utils
+    dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+    dnf install -y docker-ce-20.10.9 docker-ce-cli-20.10.9
+
+On Ubuntu 18.04:
+    wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_1.4.11-1_amd64.deb
+    dpkg -i containerd.io_1.4.11-1_amd64.deb
+    wget "https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_20.10.8~3-0~ubuntu-bionic_amd64.deb"
+    dpkg -i docker-ce-cli_20.10.8~3-0~ubuntu-bionic_amd64.deb
+    wget "https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_20.10.8~3-0~ubuntu-bionic_amd64.deb"
+    dpkg -i docker-ce_20.10.8~3-0~ubuntu-bionic_amd64.deb
+    
+On Ubuntu 20.04:
+    wget https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/containerd.io_1.4.11-1_amd64.deb 
+    dpkg -i containerd.io_1.4.11-1_amd64.deb
+    wget "https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/docker-ce-cli_20.10.8~3-0~ubuntu-focal_amd64.deb"
+    dpkg -i docker-ce-cli_20.10.8~3-0~ubuntu-focal_amd64.deb
+    wget "https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/docker-ce_20.10.8~3-0~ubuntu-focal_amd64.deb"
+    dpkg -i docker-ce_20.10.8~3-0~ubuntu-focal_amd64.deb
 
 systemctl enable docker
 systemctl start docker
@@ -222,13 +253,42 @@ systemctl restart docker
 
 #### Skopeo
 
+For RHEL 8.2 OS
+
 ```shell
 dnf install -y skopeo
+```
+For RHEL 8.4 OS	
+
+```shell
+dnf install -y skopeo --nobest
+```
+
+For Ubuntu 18.04 OS
+
+```shell
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
+```
+
+For Ubuntu 20.04 OS
+
+```shell
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
 ```
 
 ### Build OCI Container images and K8s Manifests
 
-The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubuntu 18.04 deployments must be done on RHEL 8.2 machine only
+The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubuntu 18.04/20.04 deployments must be done on RHEL 8.2 machine only
+
+The build process for OCI containers images and K8s manifests for RHEL 8.4 must be done on RHEL 8.4 machine only
 
 #### Single Node
 
@@ -240,10 +300,16 @@ The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubu
   repo sync
   ```
 
-* Build
+* Build - Distribution Based Deployment
 
   ```shell
   make k8s-aio
+  ```
+
+* Build - Stack Based Deployment
+
+  ```shell
+  make k8s-aio-stacks
   ```
 
 * Built Container images,K8s manifests and deployment scripts
@@ -262,10 +328,15 @@ The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubu
   repo sync
   ```
 
-* Build
+* Build - Distribution Based Deployment
 
   ```shell
   make k8s
+  ```
+* Build - Stack Based Deployment
+
+  ```shell
+  make k8s-stacks
   ```
 
 * Built Container images,K8s manifests and deployment scripts
@@ -273,8 +344,9 @@ The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubu
   ```shell
   /root/intel-secl/build/skc-k8s-multi-node/k8s/
   ```
-
-
+## Deploy Linux Stacks for Intel SGX
+	
+* To setup and deployment of the Linux* Stacks for Intel® SGX, follow https://download.01.org/intelsgxstack/2021-07-28/Getting_Started.pdf
 
 ## Deployment
 
@@ -303,19 +375,12 @@ The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubu
 
 * On each worker node with SGX enabled and registered to K8s control-plane, the following pre-req needs to be done
 
-  * `RHEL 8.2` enabled K8s worker node with SGX:
+  * `RHEL 8.2 or Ubuntu 18.04/20.04 or RHEL 8.4 stack based` enabled K8s worker node with SGX:
     * Pre requisite scripts will be available under `k8s/platform-dependencies/` on build machine
     * Copy the platform-dependencies script to SGX enabled worker nodes on K8s
     * Execute  `./agent_untar.sh`  
     * Execute `./agent_container_prereq.sh` for deploying all pre-reqs required for agent
     
-  * `Ubuntu 18.04` enabled K8s worker node with SGX:
-    * Pre requisite scripts will be available under `k8s/platform-dependencies/` on build machine
-    * Copy the platform-dependencies script to SGX enabled worker nodes
-    * Execute  `./agent_untar.sh`  
-    * Execute `./agent_container_prereq.sh` for deploying all pre-reqs required for agent
-
-
 * Ensure a backend KMIP-2.0 compliant server like pykmip is up and running.
     * Retrieve KMIP server's key and certificates i.e. client_certificate.pem, client_key.pem and root_certificate.pem files from /etc/pykmip (default path) to K8s control-plane node under `k8s/manifests/kbs/kmip-secrets/` path.
     > **Note:** Under `k8s/manifests/kbs/` , if kmip-secrets folder not available then please create it before copying above key and certs 
@@ -409,6 +474,17 @@ SQVS_NOSETUP="false"
 SGX_TRUSTED_ROOT_CA_FILE=
 SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 
+# SGX Quote Verification Service bootstrap
+SQVS_INCLUDE_TOKEN="true"
+SQVS_NOSETUP="false"
+#SGX_TRUSTED_ROOT_CA_FILE 
+#For production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_icx_prod.pem
+#For production CascadeLake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_clx_prod.pem
+#For pre production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca.pem
+SGX_TRUSTED_ROOT_CA_FILE=
+SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
+
+
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
 IHUB_SERVICE_PASSWORD=hubAdminPass
@@ -422,7 +498,7 @@ IHUB_PUB_KEY_PATH=/etc/ihub/ihub_public_key.pem
 KBS_SERVICE_USERNAME=admin@kbs
 KBS_SERVICE_PASSWORD=kbsAdminPass
 # For SKC Virtualization use case set ENDPOINT_URL=https://<K8s control-plane IP>>:30448/v1
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 
 KMIP_SERVER_IP=<KMIP Server IP>
@@ -636,7 +712,7 @@ SQVS_NOSETUP="false"
 #For production CascadeLake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca_clx_prod.pem
 #For pre production Icelake CPUs SGX_TRUSTED_ROOT_CA_FILE = trusted_rootca.pem
 SGX_TRUSTED_ROOT_CA_FILE=
-SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s ontrol-plane Hostname>
+SQVS_CERT_SAN_LIST=sqvs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 
 # ihub bootstrap
 IHUB_SERVICE_USERNAME=admin@hub
@@ -652,7 +728,7 @@ IHUB_PUB_KEY_PATH=<skip this during initial deploy of K8s multi-node>
 KBS_SERVICE_USERNAME=admin@kbs
 KBS_SERVICE_PASSWORD=kbsAdminPass
 # For SKC Virtualization use case set ENDPOINT_URL=https://<K8s control-plane IP>:30448/v1
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>, <k8s control-plane Hostname>
 
 KMIP_SERVER_IP=<KMIP Server IP>
@@ -997,15 +1073,8 @@ make k8s
 ```
 ### SGX Attestation Flow
 ```
-To Build and obtain the sample_apps tar:
-  cd into the repo folder (For single node 'cd /root/intel-secl/build/skc-k8s-single-node' and for multi node 'cd /root/intel-secl/build/skc-k8s-multi-node')
-  make sample_apps
-  mkdir -p binaries/
-  cp utils/build/skc-tools/sample_apps/build_scripts/sample_apps.* binaries/
-  cp utils/build/skc-tools/sample_apps/sampleapps_untar.sh binaries/
-
 To Deploy SampleApp:
-  Copy sample_apps.tar, sample_apps.sha2 and sampleapps_untar.sh from binaries directory to a directory in SGX compute node and untar it using './sample_apps_untar.sh'
+  Copy sample_apps.tar, sample_apps.sha2 and sampleapps_untar.sh from k8s/sample_apps directory to a directory in SGX compute node and untar it using './sample_apps_untar.sh'
   Install Intel® SGX SDK for Linux*OS into /opt/intel/sgxsdk using './install_sgxsdk.sh'
   Install SGX dependencies using './deploy_sgx_dependencies.sh'
 Note: Make sure to deploy SQVS with includetoken configuration as false. 
@@ -1028,22 +1097,18 @@ Below steps to be followed post successful deployment with Single-Node/Multi-Nod
 
 #### Generating keys
 
-* From cluster node, copy `k8s/manifests/kbs/rsa_create.py` to KMIP server, update KMIP server IP in rsa_create.py inside single quote and execute it using `python3 rsa_create.py`. It will generate the KMIP KEY ID and server.crt. Copy server.crt to cluster node.
+* From cluster node, copy `k8s/manifests/kbs/rsa_create.py` to KMIP server, update KMIP server IP in rsa_create.py inside single quote.
 
 * On cluster node, navigate to `k8s/manifests/kbs/` 
 
-* Update `kbs.conf` with `SYSTEM_IP`, `AAS_PORT`, `KBS_PORT`, `CMS_PORT`, `KMIP_KEY_ID` and `SERVER_CERT`
+* Update `kbs.conf` with `SYSTEM_IP`, `AAS_PORT`, `KBS_PORT` and `CMS_PORT`
   * `SYSTEM_IP` : K8s control-plane IP
   * `AAS_PORT` : k8s exposed port for AAS (default 30444)
   * `KBS_PORT` : k8s exposed port for KBS (default 30448)
   * `CMS_PORT` : k8s exposed port for CMS (default 30445)
-  * `KMIP_KEY_ID` : KMIP KEY ID obtained by running rsa_create.py on KMIP server.
-  * `SERVER_CERT` : Complete path of copied server.crt file obtained by running rsa_create.py on KMIP server.
 
 
 * Generate the key using `./run.sh reg`
-
-> **Note:** Before generating new key, every time we have to follow above 4 steps. rsa_create.py script will generate new `KMIP_KEY_ID` and `SERVER_CERT` everytime.
 
 #### Setup configurations
 
@@ -1084,7 +1149,63 @@ Below steps to be followed post successful deployment with Single-Node/Multi-Nod
 * Establish tls session with the nginx using the key transferred inside the enclave
    `wget https://<K8s control-plane IP>:30443 --no-check-certificate`
 
+#### Other Workloads
 
+Secure Key Caching use case employs nginx web server as a workload to demonstrate confidential computing. If the need is to use other custom workloads, then following reference Dockerfile and entrypoint scripts can be used as starting point to deploy custom workload as a container.
+
+Reference `Dockerfile` for Nginx with skc library
+```
+# Copyright (C) 2021 Intel Corporation
+# SPDX-License-Identifier: BSD-3-Clause
+
+FROM centos:8
+
+# Set env variables
+ENV SGX_INSTALL_DIR /opt/intel
+ENV SKC_LIBRARY_BIN_NAME skc_library_*.bin
+
+# Copy binaries and SGX local repo
+COPY dist/image/bin/pkcs11.so /usr/lib64/engines-1.1/
+COPY dist/image/bin/libp11.so.3.4.3 /usr/lib64/
+COPY dist/image/bin/sgx_rpm_local_repo ${PWD}/sgx_rpm_local_repo
+COPY dist/image/bin/${SKC_LIBRARY_BIN_NAME} $PWD
+COPY dist/image/entrypoint.sh $PWD
+RUN chmod 700 /entrypoint.sh
+COPY dist/image/credential_agent.sh $PWD
+RUN chmod 700 /credential_agent.sh
+COPY dist/image/sgxssl ${SGX_INSTALL_DIR}/sgxssl
+COPY dist/image/cryptoapitoolkit ${SGX_INSTALL_DIR}/cryptoapitoolkit
+
+#Install dependencies and SGX components
+RUN dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/l/libgda-5.2.9-6.fc33.x86_64.rpm \
+    https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/l/libgda-sqlite-5.2.9-6.fc33.x86_64.rpm \
+    https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/jsoncpp-1.8.4-6.el8.x86_64.rpm \
+    https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/jsoncpp-devel-1.8.4-6.el8.x86_64.rpm
+RUN dnf install -y yum-utils jq protobuf opensc nginx cronie sudo ncurses
+RUN groupadd intel && \
+    usermod -G intel nginx && \
+    ln -sf /usr/lib64/libp11.so.3.4.3 /usr/lib64/libp11.so && \
+    ln -sf /usr/lib64/engines-1.1/pkcs11.so /usr/lib64/engines-1.1/libpkcs11.so && \
+    ln -sf /usr/lib64/libjsoncpp.so /usr/lib64/libjsoncpp.so.0
+RUN yum-config-manager --add-repo file://${PWD}/sgx_rpm_local_repo && \
+    dnf install -y --nogpgcheck libsgx-launch libsgx-uae-service libsgx-urts libsgx-ae-qve libsgx-dcap-ql libsgx-dcap-ql-devel \
+    libsgx-dcap-default-qpl-devel libsgx-dcap-default-qpl && \
+    rm -rf sgx_rpm_local_repo /etc/yum.repos.d/*sgx_rpm_local_repo.repo
+
+# Install SKC-Library and copy entrypoint script
+RUN ./${SKC_LIBRARY_BIN_NAME}
+ENTRYPOINT ["./entrypoint.sh"]
+```
+
+Sample entrypoint script `entrypoint.sh`
+
+```
+#!/bin/bash
+
+./credential_agent.sh
+grep -qi "daemon off" /etc/nginx/nginx.conf || echo 'daemon off;' >> /etc/nginx/nginx.conf
+nginx
+```
 
 ### SGX Discovery Flow
 

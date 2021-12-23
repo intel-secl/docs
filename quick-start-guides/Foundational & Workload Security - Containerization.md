@@ -9,8 +9,9 @@ Table of Contents
 
 <!-- code_chunk_output -->
 
-- [Quick start Guide - Foundation & Workload Security - Containerization](#quick-start-guide-foundation-workload-security-containerization)
-  - [Hardware & OS Requirements](#hardware-os-requirements)
+- [Quick start Guide - Foundation & Workload Security - Containerization](#quick-start-guide---foundation--workload-security---containerization)
+  - [Table of Contents](#table-of-contents)
+  - [Hardware & OS Requirements](#hardware--os-requirements)
     - [Physical Server requirements](#physical-server-requirements)
     - [Machines](#machines)
     - [OS Requirements](#os-requirements)
@@ -23,7 +24,7 @@ Table of Contents
     - [Enterprise Managed Services](#enterprise-managed-services)
     - [TXT/SUEFI Enabled Host](#txtsuefi-enabled-host)
     - [Firewall Settings](#firewall-settings)
-  - [Rpms & Debs Requirement](#rpms-debs-requirement)
+  - [Rpms & Debs Requirement](#rpms--debs-requirement)
     - [RHEL](#rhel)
     - [Ubuntu](#ubuntu)
   - [Deployment Model](#deployment-model)
@@ -68,14 +69,13 @@ Table of Contents
   - [Appendix](#appendix)
     - [Hardware feature detection](#hardware-feature-detection)
     - [Running behind Proxy](#running-behind-proxy)
-    - [Git Config Sample (~/.gitconfig)](#git-config-sample-~gitconfig)
+    - [Git Config Sample (~/.gitconfig)](#git-config-sample-gitconfig)
     - [Rebuilding Repos](#rebuilding-repos)
     - [Setup Task Flow](#setup-task-flow)
     - [Configuration Update Flow](#configuration-update-flow)
     - [Cleanup workflows](#cleanup-workflows)
       - [Single-node](#single-node-2)
       - [Multi-node](#multi-node-2)
-- [Only in case of KBS, perform one more step along with above 2 steps](#only-in-case-of-kbs-perform-one-more-step-along-with-above-2-steps)
 
 <!-- /code_chunk_output -->
 
@@ -108,7 +108,7 @@ Table of Contents
 
 ### Container Runtime
 
-* Docker-19.03.13
+* Docker-20.10.8
 * CRIO-1.17.5
 
 ### K8s Distributions
@@ -214,12 +214,12 @@ rm -rf $tmpdir
 #### Golang
 
 ```shell
-wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-tar -xzf go1.14.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz
+tar -xzf go1.16.7.linux-amd64.tar.gz
 sudo mv go /usr/local
 export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
-rm -rf go1.14.4.linux-amd64.tar.gz
+rm -rf go1.16.7.linux-amd64.tar.gz
 ```
 
 #### Docker
@@ -229,7 +229,7 @@ rm -rf go1.14.4.linux-amd64.tar.gz
 dnf module enable -y container-tools
 dnf install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce-19.03.13 docker-ce-cli-19.03.13
+dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
 
 systemctl enable docker
 systemctl start docker
@@ -249,7 +249,12 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 apt-get update
-apt-get install docker-ce=5:19.03.13~3-0~ubuntu-bionic docker-ce-cli=5:19.03.13~3-0~ubuntu-bionic containerd.io
+
+# Ubuntu 18.04 
+apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-bionic docker-ce-cli=5:20.10.8~3-0~ubuntu-bionic containerd.io
+
+# Ubuntu 20.04 
+apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
 
 systemctl enable docker
 systemctl start docker
@@ -298,9 +303,11 @@ systemctl restart docker
   dnf install -y skopeo
 
   # Ubuntu 18.04
-  add-apt-repository ppa:projectatomic/ppa
+  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
   apt-get update
-  apt-get install skopeo
+  apt-get -y upgrade
+  apt-get -y install skopeo
   ```
   
 * Build
@@ -395,15 +402,9 @@ systemctl restart docker
       ```
 
   * Workload Security
-    * Container Confidentiality with CRIO runtime
+    * Container Confidentiality with CRIO(>=v1.21) runtime 
       
-      * `Tboot-1.10.1`  or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/v5.0/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation) 
-        
-      * Copy `container-runtime` directory to each of the  physical servers  
-      
-      * Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`
-      
-        > **Note:** `container-runtime` scripts need to be run on `TXT/BTG/SUEFI` enabled services
+      * `Tboot-1.10.1`  or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/v4.0.1/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation) 
       
       * Reboot the server
       
@@ -1061,8 +1062,7 @@ The below allow to get started with workflows within Intel® SecL-DC for Foundat
 | Foundational Security  | Host Attestation(RHEL & VMWARE)                              | ✔️                  |
 |                        | Data Fencing  with Asset Tags(RHEL & VMWARE)                 | ✔️                  |
 |                        | Trusted Workload Placement (Containers)  | ✔️ |
-| Workload Security | Container Confidentiality with Docker Runtime | ✔️                  |
-|                        | Container Confidentiality with CRIO Runtime   | ✔️                  |
+| Workload Security | Container Confidentiality with CRIO Runtime | ✔️                  |
 
 ### Downloading API Collections
 

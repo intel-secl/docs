@@ -12,7 +12,6 @@
     - [Secure Key Caching](#secure-key-caching)
   - [License](#license)
   - [Contributing](#contributing)
-  - [Known Issues](#known-issues)
   - [Legalities](#legalities)
 
   - [Table of Contents](#table-of-contents)

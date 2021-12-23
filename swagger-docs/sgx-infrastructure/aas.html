@@ -1093,6 +1093,9 @@ user authentication and authorization information and issue the users with a JWT
                         <!-- <p></p> -->
                         <p class="marked">Creates a new credential on AAS and sends it out over response to be accessed and used by the client
 to authenticate and authorize itself to a service.
+The credential creation request has a parameter called &quot;type&quot; which is basically the type of the component
+for which the credential needs to be generated. The only supported values for that are &quot;HVS&quot; or &quot;TA&quot; which
+stands for Host Verification Service and Trust Agent. Any other value provided will result in bad request.
 </p>
                         <p></p>
                         <!-- <br /> -->
@@ -1181,6 +1184,9 @@ to authenticate and authorize itself to a service.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Credentials-createCredentials-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Credentials-createCredentials-0-support"></a></li> 
@@ -1256,6 +1262,9 @@ SUAE6WDHNRTCY55TBJUMZLRVLWGZXFE7J2O6IKMQDBX4MQDQE5QVBU4NXU
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-JwtCertificate-getJwtCertificate-0-curl">Curl</a></li> 
@@ -1440,6 +1449,9 @@ authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Roles-createRole-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Roles-createRole-0-support"></a></li> 
@@ -1522,6 +1534,9 @@ A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Roles-deleteRole-0-curl">Curl</a></li> 
@@ -1647,6 +1662,9 @@ A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Roles-getRole-0-curl">Curl</a></li> 
@@ -1810,6 +1828,9 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Roles-queryRoles-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Roles-queryRoles-0-support"></a></li> 
@@ -1930,6 +1951,9 @@ from Authservice.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Token-getCustomClaimsJwtToken-0-curl">Curl</a></li> 
@@ -2067,6 +2091,9 @@ registered users.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Token-getJwtToken-0-curl">Curl</a></li> 
@@ -2212,6 +2239,9 @@ user. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-UserRoles-addUserRoles-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-UserRoles-addUserRoles-0-support"></a></li> 
@@ -2298,6 +2328,9 @@ A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-UserRoles-deleteUserRole-0-curl">Curl</a></li> 
@@ -2431,6 +2464,9 @@ A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-UserRoles-getUserRoleById-0-curl">Curl</a></li> 
@@ -2611,6 +2647,9 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-UserRoles-queryUserRoles-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-UserRoles-queryUserRoles-0-support"></a></li> 
@@ -2719,6 +2758,9 @@ A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-changePassword-0-curl">Curl</a></li> 
@@ -2882,6 +2924,9 @@ authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-createUser-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Users-createUser-0-support"></a></li> 
@@ -2963,6 +3008,9 @@ database. A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-deleteUser-0-curl">Curl</a></li> 
@@ -3088,6 +3136,9 @@ database. A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-getUser-0-curl">Curl</a></li> 
@@ -3216,6 +3267,9 @@ database. A valid bearer token should be provided to authorize this REST call.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-queryUserPermissions-0-curl">Curl</a></li> 
@@ -3351,6 +3405,9 @@ token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-queryUsers-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Users-queryUsers-0-support"></a></li> 
@@ -3481,6 +3538,9 @@ database. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Users-updateUser-0-curl">Curl</a></li> 
 			  <li class=""><a href="#examples-Users-updateUser-0-support"></a></li> 
@@ -3540,6 +3600,9 @@ Returns - The version of the application.
 
                         <p>
                           <h2>Sample REST Call</h2>
+                        </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
 			  <li class="active"><a href="#examples-Version-getVersion-0-curl">Curl</a></li> 

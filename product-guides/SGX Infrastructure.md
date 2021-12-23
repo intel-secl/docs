@@ -2,7 +2,7 @@
 
 ## Product Guide
 
-### July 2021
+### December 2021
 
 ### Revision 5.0
 
@@ -64,6 +64,8 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
 | 3.6 | Updated for version 3.6 release | May 2021 |
 | 4.0 | Updated for version 4.0 release | July 2021 |
 | 3.6.1 | Updated for version 3.6.1 release | October 2021 |
+| 4.0.1 | Updated for version 4.0.1 release | October 2021 |
+| 4.1 | Updated for version 4.1 release | December 2021 |
 
 - [Intel® Security Libraries - Datacenter SGX Attestation Infrastructure and Secure Key Caching](#intel-security-libraries---datacenter-sgx-attestation-infrastructure-and-secure-key-caching)
   - [Product Guide](#product-guide)
@@ -98,7 +100,7 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
   - [Architecture Overview](#architecture-overview)
   - [SGX Attestation Support and SGX Support in Orchestrators](#sgx-attestation-support-and-sgx-support-in-orchestrators)
   - [Key Protection](#key-protection-2)
-  - [SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#skc-virtualization-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+  - [SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04/20.04)](#skc-virtualization-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
   - [Intel® Security Libraries Installation](#intel-security-libraries-installation)
   - [Building from Source](#building-from-source)
   - [Building from Source - OCI images & K8s Manifests](#building-from-source---oci-images--k8s-manifests)
@@ -116,6 +118,7 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
     - [Using the provided Database Installation Script](#using-the-provided-database-installation-script)
     - [Provisioning the Database](#provisioning-the-database)
     - [Database Server TLS Certificate](#database-server-tls-certificate)
+  - [Installation of Linux Stacks for Intel SGX](#installation-of-linux-stacks-for-intel-sgx)
   - [Installation of Containerized Services and Agent in K8s Cluster](#installation-of-containerized-services-and-agent-in-k8s-cluster)
     - [Pre-requisites](#pre-requisites)
     - [Deploy Steps](#deploy-steps)
@@ -173,7 +176,7 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
     - [Supported Operating Systems](#supported-operating-systems-4)
     - [Recommended Hardware](#recommended-hardware-5)
       - [Installing the Integration Hub](#installing-the-integration-hub-1)
-  - [Integration with OpenStack (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#integration-with-openstack-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+  - [Integration with OpenStack (Supported only on RHEL 8.2, not supported on Ubuntu 18.04/20.04)](#integration-with-openstack-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
   - [Installing the Key Broker Service](#installing-the-key-broker-service)
     - [Required for](#required-for-7)
     - [Prerequisites](#prerequisites-5)
@@ -187,7 +190,7 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
     - [Supported Operation System](#supported-operation-system)
     - [Recommended Hardware](#recommended-hardware-7)
     - [Installation](#installation-7)
-      - [Deploying SKC Library as a Container (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)](#deploying-skc-library-as-a-container-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
+      - [Deploy SKC Library as a Container (Build Supported only on RHEL 8.2/8.4, not supported on Ubuntu 18.04/20.04)](#deploy-skc-library-as-a-container-build-supported-only-on-rhel-82-not-supported-on-ubuntu-1804)
   - [Authentication](#authentication)
   - [Create Token](#create-token)
   - [User Management](#user-management)
@@ -387,12 +390,11 @@ Copyright © 2021, Intel Corporation. All Rights Reserved.
     - [SGX Attestation flow](#sgx-attestation-flow)
     - [Creating RSA Keys in Key Broker Service](#creating-rsa-keys-in-key-broker-service)
   - [Configuration for NGINX testing on RHEL 8.2](#configuration-for-nginx-testing-on-rhel-82)
-  - [Configuration for NGINX testing for Ubuntu 18.04](#configuration-for-nginx-testing-for-ubuntu-1804)
+  - [Configuration for NGINX testing for Ubuntu 18.04/20.04](#configuration-for-nginx-testing-for-ubuntu-1804)
 - [KBS key-transfer flow validation](#kbs-key-transfer-flow-validation)
 - [Note on Key Transfer Policy](#note-on-key-transfer-policy)
 - [Note on SKC Library Deployment](#note-on-skc-library-deployment)
   - [Extracting SGX Enclave values for Key Transfer Policy](#extracting-sgx-enclave-values-for-key-transfer-policy)
-
 ## 1 Introduction 
 
 ## 1 Introduction
@@ -582,7 +584,7 @@ Key Protection is implemented by the SKC Client -- a set of libraries - which mu
 
 Step 6 is optional (keys can be stored in KBS). Keys policies in step 2 are called Key Transfer Policies and are created by an Admin and assigned to Application keys.
 
-##  SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)
+##  SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04/20.04)
 
 Virtualization enabled on SGX Host machines, uses SGX key features. With Virtualization being enabled on SGX host, SKC Library which uses Intel crypto tool kit to protect keys in SGX Enclave can be configured on Virtual Machines which are created on SGX Hosts. This enhancement further provides the privilege for a workload on a VM  allowing successful Secure Key transfer flow which meets the policy requirements. Hence virtualization on SGX Hosts supports key transfer flow for Workload on bare metal, Workload inside a VM, Workload in a container and Workload in a container inside a VM enabled on SGX Host.
 
@@ -682,24 +684,27 @@ Bootstrap scripts and answer file under `<working directory>/k8s/manifests`:
 
 -   Linux: RHEL 8.2
 
--   Linux: Ubuntu 18.04
+-   Linux: RHEL 8.4 for Stack based deployment
+
+-   Linux: Ubuntu 18.04/20.04
 
 ### Requirements for Containerized Deployment with K8s
 
 #### Operating System:
 
 * RHEL 8.2
-* Ubuntu 18.04
+* RHEL 8.4 for Stack based deployment
+* Ubuntu 18.04/20.04
 
 #### Kubernetes
 
-* Single-node: `microk8s` (1.17.17)
-* Multi-node: `kubeadm` (1.17.17)
+* Single-node: `microk8s` (1.21.3)
+* Multi-node: `kubeadm` (1.21.3)
 
 #### Container Runtime
 
-* Docker 19.03.13 on RHEL 8.2
-* Docker 19.03.5 on Ubuntu 18.04
+* Docker 20.10.8 on RHEL 8.2
+* Docker 20.10.8 on Ubuntu 18.04/20.04
 
 #### Storage:
 
@@ -826,6 +831,10 @@ If the database server will be run separately from the Intel® SecL service(s), 
 
 The database client for Intel® SecL services will validate that the Subject Alternative Names in the database server's TLS certificate contain the hostname(s)/IP address(es) that the clients will use to access the database server. If configuring a database without using the provided scripts, ensure that these attributes are present in the database TLS certificate.
 
+## Installation of Linux Stacks for Intel SGX
+
+To setup and deployment of the Linux* Stacks for Intel® SGX, follow https://download.01.org/intelsgxstack/2021-07-28/Getting_Started.pdf
+
 ## Installation of Containerized Services and Agent in K8s Cluster
 
 The containerized deployment utilizes K8s orchestrator to deploy SGX components. The deployments are fairly automated once the pre-reqs are in place for K8s cluster deployments.
@@ -858,7 +867,7 @@ The CMS is REQUIRED for all use cases.
 
 ### Supported Operating System
 
-The Intel® Security Libraries Certificate Management Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel® Security Libraries Certificate Management Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -927,7 +936,7 @@ The Intel® SecL-DC Authentication and Authorization Service (AAS) requires a Po
 
 ### Supported Operating Systems
 
-The Intel® Security Libraries Authentication and Authorization Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel® Security Libraries Authentication and Authorization Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1091,7 +1100,7 @@ must be installed by the user before executing the SCS installation.
 
 ### Supported Operating System
 
-The Intel® Security Libraries SGX Caching Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel® Security Libraries SGX Caching Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1189,7 +1198,7 @@ If they are not already installed, the SGX Host Verification Service installer a
 
 ### Supported Operating Systems
 
-The Intel® Security Libraries SGX Host Verification Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel® Security Libraries SGX Host Verification Service supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1288,7 +1297,7 @@ The Intel® Security Libraries SGX Agent Service requires the following packages
 
 ### Supported Operating Systems
 
-Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 **Recommended Hardware**
 
@@ -1333,7 +1342,7 @@ The Intel® Security Libraries Quote Verification Service requires the following
 
 ### Supported Operating Systems
 
-Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1613,7 +1622,7 @@ If these are not already installed, the Integration Hub installer attempts to in
 
 ### Supported Operating Systems
 
-The Intel Security Libraries Integration Hub supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel Security Libraries Integration Hub supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1742,7 +1751,7 @@ Pod should be in running state and launched on the host as per values in pod.yml
 	docker ps
 ```
 
-## Integration with OpenStack (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)
+## Integration with OpenStack (Supported only on RHEL 8.2, not supported on Ubuntu 18.04/20.04)
 
 OpenStack can now use “Traits” to provide qualitative data about Nova Compute hosts to establish Trait requirements. The Integration Hub continually push SGX data to the OpenStack Traits resources. This means OpenStack scheduler natively supports workload scheduling incorporating SGX Host information, including SGX enabled/disabled, SGX supported/not supported, FLC enabled/not enabled, EPC memory size, TCB status upto date/not. The OpenStack Placement Service will automatically attempt to place images with Trait requirements on compute nodes that have those Traits.
 
@@ -1820,7 +1829,7 @@ N/A
 
 ### Supported Operating Systems
 
-supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1848,7 +1857,7 @@ NA
 
        KEY_MANAGER=KMIP
 
-       ENDPOINT_URL=https://<KBS Hostname>:9443/v1
+       ENDPOINT_URL=https://<KBS Hostname>:9443/kbs/v1
 
        TLS_COMMON_NAME="KBS TLS Certificate"
 
@@ -1862,7 +1871,7 @@ NA
 
        ## Session Expiry Time Between KBS and SKC Library in Minutes
        SESSION_EXPIRY_TIME=60
-       
+
        KMIP_SERVER_IP=<IP address of KMIP server>
 
        KMIP_SERVER_PORT=<Port number of KMIP server>
@@ -1875,13 +1884,13 @@ NA
        ## KMIP server certificate should contain SAN(IP/DNS) or valid COMMON NAME and this value can be provided in KMIP_HOSTNAME. Only FQDN names are allowed.
        ## This is an OPTIONAL field; if KMIP_HOSTNAME is not provided then KMIP_SERVER_IP will be considered as ServerName in TLS configuration.
        KMIP_HOSTNAME=<Hostname of KMIP server>
-       
-       ## KMIP supports authentication mechanism to authenticate requestor. This is an OPTIONAL field. 
-       ## This feature can be added to KBS by updating kbs.env with KMIP_USERNAME and KMIP_PASSWORD. 
-       ## These are OPTIONAL variables. PyKMIP doesn't supports this feature. This feature is validated in Thales cipher trust manager. 
+
+       ## KMIP supports authentication mechanism to authenticate requestor. This is an OPTIONAL field.
+       ## This feature can be added to KBS by updating kbs.env with KMIP_USERNAME and KMIP_PASSWORD.
+       ## These are OPTIONAL variables. PyKMIP doesn't supports this feature. This feature is validated in Thales cipher trust manager.
        KMIP_USERNAME=<Username of KMIP server>
        KMIP_PASSWORD=<Password of KMIP server>
-       
+
        ### Retrieve the following certificates and keys from the KMIP server
 
        KMIP_CLIENT_KEY_PATH=<path>/client_key.pem
@@ -1894,7 +1903,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 4.  Execute the KBS installer.
 
-./kbs-4.0.0.bin
+./kbs-4.1.0.bin
 
 NOTE: When a 3rd-party Key Management Server is used, KBS supports only association of RSA key. User needs to create RSA key in backend kmip server and note the Private key Id. User also needs to create the tls certificate for the private key (it will be used during key transfer).
 rsa-create.py available in kbs_scripts can be used to create the private key and generate the certificate by providing the kmip server ip and certificates path in the script.
@@ -1915,7 +1924,7 @@ Curl
 
 ### Supported Operation System
 
-The Intel® Security Libraries SKC Library supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5 LTS(Bionic Beaver).
+The Intel® Security Libraries SKC Library supports Red Hat Enterprise Linux 8.2 and Ubuntu 18.04.5/20.04.2 LTS(Bionic Beaver).
 
 ### Recommended Hardware
 
@@ -1958,7 +1967,7 @@ Save and Close
 
 ./deploy_skc_library.sh
 ```
-#### Deploying SKC Library as a Container (Supported only on RHEL 8.2, not supported on Ubuntu 18.04)
+#### Deploy SKC Library as a Container (Build supported only on RHEL 8.2/8.4, not supported on Ubuntu 18.04/20.04)
 ```
 Use the following steps to configure SKC library running in a container and to validate key transfer in container on bare metal and inside a VM on SGX enabled hosts.
 
@@ -1966,7 +1975,8 @@ Note: All the configuration files required for SKC Library container are modifie
 
 1. Docker should be installed, enabled and services should be active
 
-2. In the build System, SKC Library tar file "<skc-lib*>.tar" required to load is located in the "/root/workspace/skc_library" directory.  
+2.To get the SKC library tar file, run "make skc_library_k8s" for distribution based deployment or run "make skc_library_k8s_stacks" for stack based deployment.
+  In the build System, SKC Library tar file "<skc-lib*>.tar" required to load is located in the "/root/workspace/skc_library" directory.
 
 3. Copy "resources" folder from "workspace/skc_library/container/resources" to the "/root/" directory of SGX host. Inside the resources folder all the key transfer flow related files will be available.
 
@@ -3104,7 +3114,7 @@ This folder /opt/authservice/dbscripts Contains database scripts
 | BEARER_TOKEN         |                                               | JWT token for installation user                    |
 | KBS_SERVICE_USERNAME | admin@kms                                     | KBS Service Username                               |
 | KBS_SERVICE_PASSWORD | kmsAdminPass                                  | KBS Service User Password                          |
-| ENDPOINT_URL         | https://< KBS Hostname >:9443/v1              | KBS Endpoint URL                                   |
+| ENDPOINT_URL         | https://< KBS Hostname >:9443/kbs/v1          | KBS Endpoint URL                                   |
 | TLS_COMMON_NAME      | KBS TLS Certificate                           | KBS TLS Certificate common-name                    |
 | SERVER_PORT          | 9443                                          | KBS Secure Port                                    |
 | SKC_CHALLENGE_TYPE   | SGX                                           | Challenge Type                                     |
@@ -3716,20 +3726,20 @@ typically these are the same variables set in the service installation
 
 -   `<servicename> download_ca_cert`
 -   Download CMS root CA certificate
-    
+
 -   Environment variable CMS\_BASE\_URL=\<url\> for CMS API url
-    
--   `<servicename> download_cert TLS` 
+
+-   `<servicename> download_cert TLS`
 -   Generates Key pair and CSR, gets it signed from CMS
-    
+
 -   Environment variable CMS\_BASE\_URL=\<url\> for CMS API url
-    
+
 -   Environment variable BEARER\_TOKEN=\<token\> for authenticating
         with CMS
-    
+
 -   Environment variable KEY\_PATH=\<key\_path\> to override default
         specified in config
-    
+
 -   Environment variable CERT\_PATH=\<cert\_path\> to override
         default specified in config
 
@@ -3929,7 +3939,7 @@ Note: Below mentioned steps are provided as script (install_pykmip.sh and pykmip
 1. Install python3 and vim-common
    For RHEL 8.2
    # dnf -y install python3-pip vim-common  
-   For Ubuntu 18.04     
+   For Ubuntu 18.04/20.04     
    # apt -y install python3-pip vim-common    
    ln -s /usr/bin/python3 /usr/bin/python  > /dev/null 2>&1
    ln -s /usr/bin/pip3 /usr/bin/pip  > /dev/null 2>&1
@@ -4076,11 +4086,11 @@ The keyID should match the keyID of RSA key created in KBS. File location should
 	keyagent_conf=/opt/skc/etc/key-agent.ini
 	mode=SGX
 	debug=false
-	
+
 	[SGX]
 	module=/opt/intel/cryptoapitoolkit/lib/libp11sgx.so
 
-## Configuration for NGINX testing for Ubuntu 18.04
+## Configuration for NGINX testing for Ubuntu 18.04/20.04
 
 **Note:** Below mentioned OpenSSL and NGINX configuration updates are provided as patches (nginx.patch and openssl.patch) as part of skc_library deployment script. Patch can be applied with default nginx and openssl file. In case nginx/openssl contains any external changes then refer manual step.
 

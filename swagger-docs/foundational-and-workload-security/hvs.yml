@@ -7,7 +7,7 @@ definitions:
         type: boolean
         x-go-name: Enabled
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   AssetTag:
     description: AssetTag is used to hold the Asset Tag certificate provisioned by
       VS for the host
@@ -15,7 +15,7 @@ definitions:
       tag_certificate:
         $ref: '#/definitions/X509AttributeCertificate'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   AttrObjects:
     description: AttrObject holds the individual TagKeyValue Pair - TagKVAttribute
       which is decoded from ASN.1 values
@@ -23,7 +23,7 @@ definitions:
       objects:
         $ref: '#/definitions/TagKvAttribute'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   Attribute:
     description: Attribute is used to store the custom Asset Tags embedded in the
       tag certificate
@@ -41,7 +41,7 @@ definitions:
         type: array
         x-go-name: AttributeValues
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   Bios:
     description: Bios holds details of the Bios vendor firmware information
     properties:
@@ -52,7 +52,7 @@ definitions:
         type: string
         x-go-name: BiosVersion
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   CBNT:
     properties:
       enabled:
@@ -176,7 +176,7 @@ definitions:
         type: string
         x-go-name: TypeName
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   EventLogEqual:
     properties:
       events:
@@ -190,7 +190,7 @@ definitions:
         type: array
         x-go-name: ExcludeTags
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   EventLogEquals:
     description: 'EventlogEquals key needs to be included when equals rule has to
       be applied for the particular PCR. Sample value: "eventlog_equals": {"excluding_tags":
@@ -211,7 +211,7 @@ definitions:
       asset_tag:
         $ref: '#/definitions/AssetTag'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   Fault:
     properties:
       actual_pcrvalue:
@@ -301,7 +301,7 @@ definitions:
       UEFI:
         $ref: '#/definitions/UEFI'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   FileManifestType:
     properties:
       Path:
@@ -312,6 +312,7 @@ definitions:
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/ta
   Flavor:
     description: |-
+      Flavor sourced from the lib/flavor - this is a external request/response on the HVS API
       Flavor is a standardized set of expectations that determines what platform
       measurements will be considered “trusted.”
     properties:
@@ -331,7 +332,7 @@ definitions:
       software:
         $ref: '#/definitions/Software'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   FlavorCollection:
     description: FlavorCollection is a list of Flavor objects in response to a Flavor
       Search query
@@ -357,7 +358,7 @@ definitions:
         x-go-name: FlavorgroupNames
       partial_flavor_types:
         items:
-          $ref: '#/definitions/FlavorPart'
+          $ref: '#/definitions/FlavorPartName'
         type: array
         x-go-name: FlavorParts
       signed_flavor_collection:
@@ -398,7 +399,7 @@ definitions:
   FlavorMatchPolicy:
     properties:
       flavor_part:
-        $ref: '#/definitions/FlavorPart'
+        $ref: '#/definitions/FlavorPartName'
       match_policy:
         $ref: '#/definitions/MatchPolicy'
     type: object
@@ -438,6 +439,10 @@ definitions:
         x-go-name: PcrRules
     type: object
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
+  FlavorPartName:
+    description: FlavorPart
+    type: string
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   FlavorParts:
     properties:
       HOST_UNIQUE:
@@ -466,7 +471,7 @@ definitions:
         type: boolean
         x-go-name: PCRMatches
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   FlavorRequiredPolicy:
     type: string
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
@@ -587,8 +592,6 @@ definitions:
     type: object
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   Hardware:
-    description: Hardware contains information about the host's Hardware, Processor
-      and Platform Features
     properties:
       feature:
         $ref: '#/definitions/Feature'
@@ -602,7 +605,7 @@ definitions:
         type: string
         x-go-name: Vendor
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   HardwareFeature:
     properties:
       enabled:
@@ -793,7 +796,7 @@ definitions:
         type: string
         x-go-name: QuoteDigest
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   HostManifestPcrs:
     properties:
       index:
@@ -804,7 +807,7 @@ definitions:
         type: string
         x-go-name: Value
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   HostState:
     description: HostState is an enumerated set of states that describe the connection
       state between VS and the Host at any point of time
@@ -944,7 +947,7 @@ definitions:
       vendor:
         $ref: '#/definitions/Vendor'
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   MismatchField:
     properties:
       description:
@@ -1011,7 +1014,7 @@ definitions:
         x-go-name: Index
     title: PCR - To store PCR index with respective PCR bank.
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   PcrEventLogMap:
     properties:
       SHA1:
@@ -1030,11 +1033,11 @@ definitions:
         type: array
         x-go-name: Sha384EventLogs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   PcrIndex:
     format: int64
     type: integer
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   PcrManifest:
     properties:
       pcr_event_log_map:
@@ -1055,7 +1058,7 @@ definitions:
         type: array
         x-go-name: Sha384Pcrs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   PcrRules:
     properties:
       eventlog_equals:
@@ -1156,7 +1159,7 @@ definitions:
         x-go-name: FlavorName
       markers:
         items:
-          $ref: '#/definitions/FlavorPart'
+          $ref: '#/definitions/FlavorPartName'
         type: array
         x-go-name: Markers
       measurement:
@@ -1200,7 +1203,7 @@ definitions:
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   SHAAlgorithm:
     type: string
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   Schema:
     description: Schema defines the Uri of the schema
     properties:
@@ -1208,7 +1211,7 @@ definitions:
         type: string
         x-go-name: Uri
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   SignedFlavor:
     description: SignedFlavor combines the Flavor along with the cryptographically
       signed hash that authenticates its source
@@ -1219,7 +1222,7 @@ definitions:
         type: string
         x-go-name: Signature
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   SignedFlavorCollection:
     description: SignedFlavorCollection is a list of SignedFlavor objects
     properties:
@@ -1243,7 +1246,7 @@ definitions:
         type: object
         x-go-name: Measurements
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   SymlinkManifestType:
     properties:
       Path:
@@ -1349,7 +1352,7 @@ definitions:
         type: string
         x-go-name: Value
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/asset-tag
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   TpmEndorsement:
     description: TpmEndorsement struct
     properties:
@@ -1397,7 +1400,7 @@ definitions:
         type: array
         x-go-name: TpmEvent
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/host-connector/types
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
   TrustInformation:
     properties:
       OVERALL:
@@ -1491,7 +1494,7 @@ definitions:
         type: string
         x-go-name: Subject
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/lib/flavor/model
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/hvs
 host: hvs.com:8443
 info:
   description: |-
@@ -5779,6 +5782,13 @@ paths:
         in: header
         name: Accept
         required: true
+        type: string
+      - description: Create the report asynchronously by adding the host to flavor-verification
+          queue
+        enum:
+        - async
+        in: query
+        name: process
         type: string
       produces:
       - application/json
