@@ -780,14 +780,17 @@ CMS acts as a root CA and issuing TLS certificates for all other ISecL services.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-CACertificate-getCACertificates-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-CACertificate-getCACertificates-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-CACertificate-getCACertificates-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-CACertificate-getCACertificates-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-CACertificate-getCACertificates-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://cms.com:8445/cms/v1/ca-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
+			  <pre><code class="language-bsh">curl -X GET "https://cms.com:8445/cms/v1/ca-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
 MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
 MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
 AxMFQ01TQ0EwHhcNMjAwMTA5MTUzMzUyWhcNMjUwMTA5MTUzMzUyWjBQMQswCQYD
@@ -812,10 +815,10 @@ tu1zbsbwj8LlJBJrj/y/vwB1dQEQMdAEhUEgLjmEJtc/kMj53EdbTicutiOItBSY
 jwwgh754cwHsSK+pl6Pq3IEqxpZmBgTGTAM195kB5cs1if2oFzwfL2Ik5q4sDAHp
 3NqNon34qP7XcDrUErM+fovIfecnDDsd/g==
 -----END CERTIFICATE-----
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-CACertificate-getCACertificates-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-CACertificate-getCACertificates-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -939,14 +942,17 @@ this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Certificate-getCmsSignedCertificate-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Certificate-getCmsSignedCertificate-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Certificate-getCmsSignedCertificate-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Certificate-getCmsSignedCertificate-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Certificate-getCmsSignedCertificate-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://cms.com:8445/cms/v1/certificates?certType=Signing
+			  <pre><code class="language-bsh">curl -X POST "https://cms.com:8445/cms/v1/certificates?certType=Signing
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/x-pem-file" -H "Content-Type: application/x-pem-file"</br>Input: </br>-----BEGIN CERTIFICATE REQUEST------
 MIICYzCCAUsCAQAwHjEcMBoGA1UEAwwTV0xTIFRMUyBDZXJ0aWZpY2F0ZTCCASIw
 DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKbH0rV5KhRN/xxhAHM1n9r8185w
@@ -977,10 +983,10 @@ H9xuI8JIu+H8PlCVoecg3n7Xef5yAGK6eTA1pMSMPafB6DngEXlZLsSdB1QcytCJ
 Vo9phrmt6CnVciJqul6ukFzoiRizb2OMU1mpstV/TIuEuR/fSqroZXII4U1xPp82
 1va55WHMBZlmi2T0XC8QKuYMw7FnnWU+whPaBUOgvtFRwoeLKBBR
 -----END CERTIFICATE-------
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Certificate-getCmsSignedCertificate-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Certificate-getCmsSignedCertificate-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1024,19 +1030,22 @@ Returns - The version of the application.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Version-getVersion-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Version-getVersion-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Version-getVersion-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Version-getVersion-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Version-getVersion-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://cms.com:8443/cms/v1/version"</br></br>Output: </br>Service Name: Certificate Management Service
+			  <pre><code class="language-bsh">curl -X GET "https://cms.com:8445/cms/v1/version"</br></br>Output: </br>Service Name: Certificate Management Service
 Version: v3.4.0-0f0162ea
-Build Date: 2021-03-08T12:31:46+0000</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Version-getVersion-0-support">
+Build Date: 2021-03-08T12:31:46+0000</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Version-getVersion-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1045,6 +1054,7 @@ Build Date: 2021-03-08T12:31:46+0000</code></pre>
           </div>
       </div>
     </div>
+  </div>
   </div>
   <script>
   (function webpackUniversalModuleDefinition(root, factory) {
@@ -2147,7 +2157,6 @@ Build Date: 2021-03-08T12:31:46+0000</code></pre>
       this.isPrimitive = !this.isAny && !this.isArray && !this.isObject;
   
       //
-      this.schema.title = '';
       this.schema.description = '';
   
       //

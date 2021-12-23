@@ -29,7 +29,7 @@ definitions:
     properties:
       host-id:
         type: string
-        x-go-name: HostId
+        x-go-name: TaHostId
     type: object
     x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
   PasswordChange:
@@ -223,6 +223,9 @@ paths:
       description: |
         Creates a new credential on AAS and sends it out over response to be accessed and used by the client
         to authenticate and authorize itself to a service.
+        The credential creation request has a parameter called "type" which is basically the type of the component
+        for which the credential needs to be generated. The only supported values for that are "HVS" or "TA" which
+        stands for Host Verification Service and Trust Agent. Any other value provided will result in bad request.
       operationId: CreateCredentials
       parameters:
       - in: body
@@ -248,7 +251,7 @@ paths:
       x-permissions: credential:create
       x-sample-call-endpoint: https://authservice.com:8444/aas/v1/credentials
       x-sample-call-input: "{\n \t\"type\": \"TA\",\n \t\"parameters\": {\n     \t\"host-id\":
-        \"abcd\"\n\t }\n}\n"
+        \"<TA FQDN>\"\n\t }\n}\n"
       x-sample-call-output: |
         -----BEGIN NATS USER JWT-----
         eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJleHAiOjE2MjIxMDk1NzEsImp0aSI6IlhIVEhDTFdDTE5YV01ER0tLTE5aSU9GQUdGQUlDTVhRNUgyN0ZUSUhHSVBPNVBUQUE2REEiLCJpYXQiOjE2MjE5MzY3NzEsImlzcyI6IkFBQTZPTU1HR0FNSFAzTlZVU0dBQkkyVVRBN1hIS0JHTEpOTk9KWERaQkk2NU5HVUpXNEFHSEZLIiwic3ViIjoiVUNUTVE1TUhBUE5KU1NQSlJFWk1ZV1dON09NRFpESEZPNlI0N1BXTUc2WlJRQlNSNUpKRk5UVjYiLCJuYXRzIjp7InB1YiI6eyJhbGxvdyI6WyJ0cnVzdC1hZ2VudC5cdTAwM2UiXX0sInN1YiI6eyJhbGxvdyI6WyJfSU5CT1guXHUwMDNlIl19LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.eHyGimM4sItxDcfqhEVzhCON8e0qasOT_QX1sxdM0mG9Is_TjK144Pz8U_Ut1jQ7czAi1gzAQZT-fBbyxhw_CA

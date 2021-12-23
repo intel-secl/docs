@@ -1,5 +1,16 @@
 basePath: /scs/sgx/certification/v1/
 definitions:
+  LastRefresh:
+    properties:
+      completed-at:
+        format: date-time
+        type: string
+        x-go-name: CompletedAt
+      status:
+        type: string
+        x-go-name: Status
+    type: object
+    x-go-package: intel/isecl/scs/v4/swagger/docs
   PlatformInfoInput:
     properties:
       cpu_svn:
@@ -23,6 +34,19 @@ definitions:
       qe_id:
         type: string
         x-go-name: QeID
+    type: object
+    x-go-package: intel/isecl/scs/v4/swagger/docs
+  RefreshResponse:
+    properties:
+      last-refresh:
+        $ref: '#/definitions/LastRefresh'
+      retry-after:
+        format: int64
+        type: integer
+        x-go-name: RetryAfter
+      status:
+        type: string
+        x-go-name: Status
     type: object
     x-go-package: intel/isecl/scs/v4/swagger/docs
   Response:
@@ -428,14 +452,24 @@ paths:
         outside of the periodic refresh cycles. An Admin can make use of this REST endpoint to force the refresh of
         PCK Certificates, PCK CRL, TCB info and QE Identity information. This is useful in scenarios like TCB recovery.
         A valid bearer token should be provided to authorize this REST call.
-      operationId: refreshPlatformInfo
+
+
+        The status field in the response conveys the following  :
+            "idle" - No refresh is currently in progress.
+            "inprogress" - A refresh is already in progress.
+            "toomanyrequests" - A refresh will not be started if the last refresh was completed less than 900 seconds ago.
+
+        The last-refresh.status field in the response conveys the following  :
+            "success" - The last refresh was successfull.
+            "failed" - The last refresh failed.
+      operationId: refreshPlatformInfoStatus
       produces:
       - application/json
       responses:
         "200":
           description: Successfully refreshed the platform collaterals.
           schema:
-            $ref: '#/definitions/Response'
+            $ref: '#/definitions/RefreshResponse'
       security:
       - bearerAuth: []
       tags:
@@ -443,8 +477,48 @@ paths:
       x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/refreshes
       x-sample-call-output: |
         {
-            "Status": "Success",
-            "Message": "sgx collaterals refreshed successfully"
+            "status": "started",
+            "last-refresh": {
+                "completed-at": "2021-06-22T10:16:34.859762Z",
+                "status": "success"
+            }
+        }
+    post:
+      description: |
+        This API is used to refresh the PCK certificates and platform collaterals stored in the SGX Caching Service (SCS) database,
+        outside of the periodic refresh cycles. An Admin can make use of this REST endpoint to force the refresh of
+        PCK Certificates, PCK CRL, TCB info and QE Identity information. This is useful in scenarios like TCB recovery.
+        A valid bearer token should be provided to authorize this REST call.
+
+        The status field in the response conveys the following states.
+            "started" - A new refresh is started.
+            "inprogress" - A refresh is already in progress.
+            "toomanyrequests" - A refresh will not be started if the last refresh was completed less 900 seconds.
+
+        The last-refresh.status field in the response conveys the following states.
+            "success" - The last refresh was successfull.
+            "failed" - The last refresh failed.
+        If there is no record of previous refresh, last-refresh field will not be populated.
+      operationId: refreshPlatformInfoStart
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully refreshed the platform collaterals.
+          schema:
+            $ref: '#/definitions/RefreshResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - PlatformInfo
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/refreshes
+      x-sample-call-output: |
+        {
+            "status": "started",
+            "last-refresh": {
+                "completed-at": "2021-06-22T10:16:34.859762Z",
+                "status": "success"
+            }
         }
   /tcb:
     get:
@@ -464,7 +538,7 @@ paths:
           description: Successfully retrieved the TCB info of the platform with the
             matching fmpsc value.
           schema:
-            $ref: '#/definitions/TcbInfoJson'
+            $ref: '#/definitions/TcbInfoJSON'
       tags:
       - Certificates
       x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/tcb?fmspc=20606a000000
@@ -604,6 +678,10 @@ paths:
         Version: v3.4.0-0f0162ea
         Build Date: 2021-03-08T12:17:18+0000
 responses:
+  RefreshStatusResponse:
+    description: RefreshStatusResponse response payload
+    schema:
+      $ref: '#/definitions/RefreshResponse'
   StatusResponse:
     description: StatusResponse response payload
     schema:

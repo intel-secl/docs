@@ -143,8 +143,8 @@ paths:
         }
       x-sample-call-output: |
         {
-          "reportData": "0000000000000000000000000000000000000000000000000000000000000000",
-          "userDataMatch": "false",
+          "ReportData": "0000000000000000000000000000000000000000000000000000000000000000",
+          "UserDataMatch": "false",
           "Message": "SGX_QL_QV_RESULT_OK",
           "EnclaveIssuer": "d412a4f07ef83892a5915fb2ab584be31e186e5a4f95ab5f6950fd4eb8694d7b",
           "EnclaveMeasurement": "9270442d1bd1961fa39dbe1f2cdf4f87950a54fcaf9a2e5013875c3346542dca",

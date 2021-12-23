@@ -192,11 +192,11 @@ paths:
           description: Successfully retrieved the version.
       tags:
       - Version
-      x-sample-call-endpoint: https://cms.com:8443/cms/v1/version
+      x-sample-call-endpoint: https://cms.com:8445/cms/v1/version
       x-sample-call-output: |-
         Service Name: Certificate Management Service
-        Version: v4.0.0-8bf1ac2f
-        Build Date: 2021-03-08T12:31:46+0000
+        Version: v4.1.0-40e8952e
+        Build Date: 2021-11-02T10:10:18+0000
 schemes:
 - https
 securityDefinitions:

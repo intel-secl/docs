@@ -1,0 +1,1023 @@
+basePath: /aas/v1
+definitions:
+  CreateCredentialsReq:
+    properties:
+      parameters:
+        $ref: '#/definitions/Parameters'
+      type:
+        type: string
+        x-go-name: ComponentType
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  CustomClaims:
+    properties:
+      claims:
+        additionalProperties:
+          type: object
+        type: object
+        x-go-name: Claims
+      subject:
+        type: string
+        x-go-name: Subject
+      validity_seconds:
+        format: int64
+        type: integer
+        x-go-name: ValiditySecs
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  Parameters:
+    properties:
+      host-id:
+        type: string
+        x-go-name: HostId
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  PasswordChange:
+    properties:
+      new_password:
+        type: string
+        x-go-name: NewPassword
+      old_password:
+        type: string
+        x-go-name: OldPassword
+      password_confirm:
+        type: string
+        x-go-name: PasswordConfirm
+      username:
+        type: string
+        x-go-name: UserName
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  PermissionInfo:
+    properties:
+      context:
+        type: string
+        x-go-name: Context
+      rules:
+        items:
+          type: string
+        type: array
+        x-go-name: Rules
+      service:
+        type: string
+        x-go-name: Service
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  RoleCreate:
+    properties:
+      context:
+        description: 1234-88769876-28768
+        type: string
+        x-go-name: Context
+      name:
+        description: 'Name: UpdateHost'
+        type: string
+        x-go-name: Name
+      permissions:
+        items:
+          type: string
+        type: array
+        x-go-name: Permissions
+      service:
+        type: string
+        x-go-name: Service
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  RoleCreateResponse:
+    properties:
+      name:
+        type: string
+        x-go-name: Name
+      role_id:
+        type: string
+        x-go-name: ID
+      service:
+        type: string
+        x-go-name: Service
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  RoleIDs:
+    properties:
+      role_ids:
+        items:
+          type: string
+        type: array
+        x-go-name: RoleUUIDs
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  RolePermission:
+    properties:
+      permission_id:
+        type: string
+        x-go-name: ID
+      rule:
+        type: string
+        x-go-name: Rule
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  RoleTypeInfo:
+    properties:
+      context:
+        description: 1234-88769876-28768
+        type: string
+        x-go-name: Context
+      name:
+        description: 'Name: UpdateHost'
+        type: string
+        x-go-name: Name
+      permissions:
+        items:
+          $ref: '#/definitions/RolePermission'
+        type: array
+        x-go-name: Permissions
+      role_id:
+        type: string
+        x-go-name: ID
+      service:
+        type: string
+        x-go-name: Service
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  RolesResponse:
+    items:
+      $ref: '#/definitions/RoleTypeInfo'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  UserCreate:
+    properties:
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  UserCreateResponse:
+    properties:
+      user_id:
+        type: string
+        x-go-name: ID
+      username:
+        type: string
+        x-go-name: Name
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  UserCred:
+    properties:
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: UserName
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+  UserPermissions:
+    items:
+      $ref: '#/definitions/PermissionInfo'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  UserRoleResponse:
+    properties:
+      context:
+        description: 1234-88769876-28768
+        type: string
+        x-go-name: Context
+      name:
+        description: 'Name: UpdateHost'
+        type: string
+        x-go-name: Name
+      role_id:
+        type: string
+        x-go-name: Role_id
+      service:
+        type: string
+        x-go-name: Service
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  UserRolesResponse:
+    items:
+      $ref: '#/definitions/UserRoleResponse'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+  UsersResponse:
+    items:
+      $ref: '#/definitions/UserCreateResponse'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+host: aas.com:8444
+info:
+  description: |-
+    The Authentication and Authorization Service (AAS) is a component responsible for generating and maintaining
+    user authentication and authorization information and issue the users with a JWT for accessing various ISECL services.
+  license:
+    name: 'Copyright (C) 2020 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: Authentication and Authorization Service (AAS)
+  version: "3"
+paths:
+  /credentials:
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new credential on AAS and sends it out over response to be accessed and used by the client
+        to authenticate and authorize itself to a service.
+      operationId: CreateCredentials
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCredentialsReq'
+      produces:
+      - text/plain
+      responses:
+        "201":
+          description: Successfully created the credentials.
+        "400":
+          description: Bad request.
+        "401":
+          description: Unauthorized.
+        "500":
+          description: Internal Server Error.
+      security:
+      - bearerAuth: []
+      tags:
+      - Credentials
+      x-permissions: credential:create
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/credentials
+      x-sample-call-input: "{\n \t\"type\": \"TA\",\n \t\"parameters\": {\n     \t\"host-id\":
+        \"abcd\"\n\t }\n}\n"
+      x-sample-call-output: |
+        -----BEGIN NATS USER JWT-----
+        eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJleHAiOjE2MjIxMDk1NzEsImp0aSI6IlhIVEhDTFdDTE5YV01ER0tLTE5aSU9GQUdGQUlDTVhRNUgyN0ZUSUhHSVBPNVBUQUE2REEiLCJpYXQiOjE2MjE5MzY3NzEsImlzcyI6IkFBQTZPTU1HR0FNSFAzTlZVU0dBQkkyVVRBN1hIS0JHTEpOTk9KWERaQkk2NU5HVUpXNEFHSEZLIiwic3ViIjoiVUNUTVE1TUhBUE5KU1NQSlJFWk1ZV1dON09NRFpESEZPNlI0N1BXTUc2WlJRQlNSNUpKRk5UVjYiLCJuYXRzIjp7InB1YiI6eyJhbGxvdyI6WyJ0cnVzdC1hZ2VudC5cdTAwM2UiXX0sInN1YiI6eyJhbGxvdyI6WyJfSU5CT1guXHUwMDNlIl19LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.eHyGimM4sItxDcfqhEVzhCON8e0qasOT_QX1sxdM0mG9Is_TjK144Pz8U_Ut1jQ7czAi1gzAQZT-fBbyxhw_CA
+        ------END NATS USER JWT------
+
+        ************************* IMPORTANT *************************
+        NKEY Seed printed below can be used to sign and prove identity.
+        NKEYs are sensitive and should be treated as secrets.
+
+        -----BEGIN USER NKEY SEED-----
+        SUAE6WDHNRTCY55TBJUMZLRVLWGZXFE7J2O6IKMQDBX4MQDQE5QVBU4NXU
+        ------END USER NKEY SEED------
+
+        *************************************************************
+  /custom-claims-token:
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new bearer token that can be used in the Authorization header for other API
+        requests. Bearer token Authorization is required when requesting custom claims token
+        from Authservice.
+      operationId: getCustomClaimsJwtToken
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/CustomClaims'
+      produces:
+      - application/jwt
+      responses:
+        "200":
+          description: Successfully created the bearer token.
+          schema:
+            example: |
+              eyJhbGciOiJSUzM4NCIsImtpZCI6ImZiNzE2YmE0MjkwODg2NGJlZWQ1ZmNmODZi
+              MTM1MjNhYjg0Yzc1ZTkiLCJ0eXAiOiJKV1QifQ.eyJyb2xlcyI6W3sibmFtZSI6I
+              khvc3REYXRhVXBkYXRlciIsInNlcnZpY2UiOiJTQ1MifSx7Im5hbWUiOiJIb3N0R
+              GF0YVJlYWRlciIsInNlcnZpY2UiOiJTQ1MifSx7Im5hbWUiOiJIb3N0RGF0YVVwZ
+              GF0ZXIiLCJzZXJ2aWNlIjoiU0hWUyJ9XSwiZXhwIjoxNjEzOTkwMzMyLCJpYXQiO
+              jE2MTM5ODY3MDIsImlzcyI6IkFBUyBKV1QgSXNzdWVyIiwic3ViIjoiMDAwMDAwM
+              DAtODg4Ny0wZjE1LTAxMDYtMTAyNGE1YTVhNWE1In0.uE5DMDGQfrP9VMb8ORhD8
+              QioOZezt9W_z09JgZSeQR_tGmVrSguOO6HnDouSnvIA1d-h1yyvoMDyMdzh0XbaS
+              zki0fFMRw5aU3ppWZLeDJnyukZlk155XTmF8CeVB16s3KF22OQlsIDSQamr7w0KR
+              VWQHmrw4QTdszHhImqVd1Xu71_z1guWTOenFqkxCfs9oeOidAw1saSvGif4TJ1hV
+              Waoisj6Bdc6BdzNqDspZ54MTXaq0v50s0mWKnZeEkOrxrjB97zhlRigMasOgZJO1
+              Wo3GC1Mg1SlLCHB-DVzgE9Fso627spe16GCW81tG4K1fFHllu-njua4kQLyhSgxS
+              gC4MyccuZpnQfGOsmGkR-GiTWpjmaYl0q4pjXoQLqaDksYa0tqZC0IhaauSWcRCS
+              PLXFXTIa55e53dYRPt3mf3LllNtiMsMBTOaX075MQ77TCqmgT-0cAlsB-VlqfiYP
+              t8F6Qsn2ELaG3Yeb7Y5mN-5Ecq4dxf9WtJFaPQhtslO
+            type: string
+      security:
+      - bearerAuth: []
+      tags:
+      - Token
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/custom-claims-token
+      x-sample-call-input: |
+        {
+            "subject": "00000000-8887-0f15-0106-1024a5a5a5a5",
+            "validity_seconds": 86400,
+            "claims": {
+                "roles": [{
+                    "service": "SCS",
+                    "name": "HostDataUpdater"
+                },
+                {
+                    "service": "SCS",
+                    "name": "HostDataReader"
+                },
+                {
+                    "service": "SHVS",
+                    "name": "HostDataUpdater"
+                }]
+            }
+        }
+      x-sample-call-output: |
+        eyJhbGciOiJSUzM4NCIsImtpZCI6ImZiNzE2YmE0MjkwODg2NGJlZWQ1ZmNmODZi
+        MTM1MjNhYjg0Yzc1ZTkiLCJ0eXAiOiJKV1QifQ.eyJyb2xlcyI6W3sibmFtZSI6I
+        khvc3REYXRhVXBkYXRlciIsInNlcnZpY2UiOiJTQ1MifSx7Im5hbWUiOiJIb3N0R
+        GF0YVJlYWRlciIsInNlcnZpY2UiOiJTQ1MifSx7Im5hbWUiOiJIb3N0RGF0YVVwZ
+        GF0ZXIiLCJzZXJ2aWNlIjoiU0hWUyJ9XSwiZXhwIjoxNjEzOTkwMzMyLCJpYXQiO
+        jE2MTM5ODY3MDIsImlzcyI6IkFBUyBKV1QgSXNzdWVyIiwic3ViIjoiMDAwMDAwM
+        DAtODg4Ny0wZjE1LTAxMDYtMTAyNGE1YTVhNWE1In0.uE5DMDGQfrP9VMb8ORhD8
+        QioOZezt9W_z09JgZSeQR_tGmVrSguOO6HnDouSnvIA1d-h1yyvoMDyMdzh0XbaS
+        zki0fFMRw5aU3ppWZLeDJnyukZlk155XTmF8CeVB16s3KF22OQlsIDSQamr7w0KR
+        VWQHmrw4QTdszHhImqVd1Xu71_z1guWTOenFqkxCfs9oeOidAw1saSvGif4TJ1hV
+        Waoisj6Bdc6BdzNqDspZ54MTXaq0v50s0mWKnZeEkOrxrjB97zhlRigMasOgZJO1
+        Wo3GC1Mg1SlLCHB-DVzgE9Fso627spe16GCW81tG4K1fFHllu-njua4kQLyhSgxS
+        gC4MyccuZpnQfGOsmGkR-GiTWpjmaYl0q4pjXoQLqaDksYa0tqZC0IhaauSWcRCS
+        PLXFXTIa55e53dYRPt3mf3LllNtiMsMBTOaX075MQ77TCqmgT-0cAlsB-VlqfiYP
+        t8F6Qsn2ELaG3Yeb7Y5mN-5Ecq4dxf9WtJFaPQhtslO
+  /jwt-certificates:
+    get:
+      description: |
+        Retrieves the list of jwt certificates.
+      operationId: getJwtCertificate
+      produces:
+      - application/x-pem-file
+      responses:
+        "200":
+          description: Successfully retrieved the list of jwt certificates.
+          schema:
+            example: |
+              -----BEGIN CERTIFICATE-----
+              MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
+              MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
+              AxMFQ01TQ0EwHhcNMjAwMTA5MTUzMzUyWhcNMjUwMTA5MTUzMzUyWjBQMQswCQYD
+              VQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF
+              TDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB
+              jwAwggGKAoIBgQCea4dx+Lw3qtg5PZ/ChD6cZzXbzhJPCPBlUG/dU90yYFZR5j3c
+              rkC5ZYCb8Bb/iRh1YVLYB1xgLpAB8NQDHSZMSPeIiCBdJttbkDNEA3fGdHRSLEGv
+              W0cNinmkzdIg1y2I5i8RrJoKVharS1iR9el4ghVSawW9Z7U25IotmT7auYXDjCny
+              Zm5qm8uLlKXJknmIqfT0W1B06jpiBDZV0foBR47Z/1UexpF78l99rAEsF5d5K25c
+              5V1O5VfmtHz+H/NpcN+TUBGKZ9NpvX44uEHFH+E7yDENs2y4m6+65ZtAs0pj8pOd
+              bMZXdWafaz0XOBnrhgkUMdIakouU9P1RV5I0pR1zfBcYkFNcJYbyR+7G0ZpOedRQ
+              4djehZg8LsZU4hGL3k1Q7/QyA0xEclfmIw6zwc9ss3qlYrEPldUPMxzuRxqrQZr0
+              g69gRJes3H43mA4GYkb47gbSmGwplDGcTfhrVDuVsiYdKcb8jVf9ggdtJ529dkEs
+              EmFl0C7q0NBv/20CAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF
+              MAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAHBGoc7xPnZ7spHl1SUueZIQkAFrBSGK
+              ZaGDufNOxOXiOmxgqJnchL3YKPMmkYwRIPdHPJhCdaTcmhb+phbCHPhj8NycuiPS
+              qaK6VCwnT7PN0uaIPNK3qeynme6dnPJwcwMV3AybF9JdoWV+QMZzgwdjEOfDPdxS
+              zykODHwgsPGurvyFiIVx2ga90YDSYpin7TPKM5m2RVC2HDfWAZE8+ujf76FgmZ2i
+              i8JHRi3rwSWc9mq7yR7H9RWWU1UuhR9zPlgj6f9DCASBpJI1OnrwyS3DQ/ABzuLS
+              9jY+vP7DbyRnfJFcUSru0v8pSkoaPICwo1xpQc0hIRrIr0g9VKA+8OUKHgMnXq8L
+              tu1zbsbwj8LlJBJrj/y/vwB1dQEQMdAEhUEgLjmEJtc/kMj53EdbTicutiOItBSY
+              jwwgh754cwHsSK+pl6Pq3IEqxpZmBgTGTAM195kB5cs1if2oFzwfL2Ik5q4sDAHp
+              3NqNon34qP7XcDrUErM+fovIfecnDDsd/g==
+              -----END CERTIFICATE-----
+            type: string
+      tags:
+      - JwtCertificate
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/jwt-certificates
+      x-sample-call-output: |
+        -----BEGIN CERTIFICATE-----
+        MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
+        MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
+        AxMFQ01TQ0EwHhcNMjAwMTA5MTUzMzUyWhcNMjUwMTA5MTUzMzUyWjBQMQswCQYD
+        VQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF
+        TDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB
+        jwAwggGKAoIBgQCea4dx+Lw3qtg5PZ/ChD6cZzXbzhJPCPBlUG/dU90yYFZR5j3c
+        rkC5ZYCb8Bb/iRh1YVLYB1xgLpAB8NQDHSZMSPeIiCBdJttbkDNEA3fGdHRSLEGv
+        W0cNinmkzdIg1y2I5i8RrJoKVharS1iR9el4ghVSawW9Z7U25IotmT7auYXDjCny
+        Zm5qm8uLlKXJknmIqfT0W1B06jpiBDZV0foBR47Z/1UexpF78l99rAEsF5d5K25c
+        5V1O5VfmtHz+H/NpcN+TUBGKZ9NpvX44uEHFH+E7yDENs2y4m6+65ZtAs0pj8pOd
+        bMZXdWafaz0XOBnrhgkUMdIakouU9P1RV5I0pR1zfBcYkFNcJYbyR+7G0ZpOedRQ
+        4djehZg8LsZU4hGL3k1Q7/QyA0xEclfmIw6zwc9ss3qlYrEPldUPMxzuRxqrQZr0
+        g69gRJes3H43mA4GYkb47gbSmGwplDGcTfhrVDuVsiYdKcb8jVf9ggdtJ529dkEs
+        EmFl0C7q0NBv/20CAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF
+        MAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAHBGoc7xPnZ7spHl1SUueZIQkAFrBSGK
+        ZaGDufNOxOXiOmxgqJnchL3YKPMmkYwRIPdHPJhCdaTcmhb+phbCHPhj8NycuiPS
+        qaK6VCwnT7PN0uaIPNK3qeynme6dnPJwcwMV3AybF9JdoWV+QMZzgwdjEOfDPdxS
+        zykODHwgsPGurvyFiIVx2ga90YDSYpin7TPKM5m2RVC2HDfWAZE8+ujf76FgmZ2i
+        i8JHRi3rwSWc9mq7yR7H9RWWU1UuhR9zPlgj6f9DCASBpJI1OnrwyS3DQ/ABzuLS
+        9jY+vP7DbyRnfJFcUSru0v8pSkoaPICwo1xpQc0hIRrIr0g9VKA+8OUKHgMnXq8L
+        tu1zbsbwj8LlJBJrj/y/vwB1dQEQMdAEhUEgLjmEJtc/kMj53EdbTicutiOItBSY
+        jwwgh754cwHsSK+pl6Pq3IEqxpZmBgTGTAM195kB5cs1if2oFzwfL2Ik5q4sDAHp
+        3NqNon34qP7XcDrUErM+fovIfecnDDsd/g==
+        -----END CERTIFICATE-----
+  /roles:
+    get:
+      description: |
+        Retrieves the list of roles based on the provided filter criteria from the Authservice database.
+        An appropriate role name, service, context and permissions will be obtained in a json format.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: queryRoles
+      parameters:
+      - description: Service name to which the role is associated.
+        in: query
+        name: service
+        type: string
+      - description: Name of the role.
+        in: query
+        name: name
+        type: string
+      - description: Context string which contains information such as CN, SAN and
+          certType.
+        in: query
+        name: context
+        type: string
+      - description: Partial “context” string.
+        in: query
+        name: contextContains
+        type: string
+      - description: Query all contexts.
+        in: query
+        name: allContexts
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the roles.
+          schema:
+            $ref: '#/definitions/RolesResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Roles
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/roles?service=CMS
+      x-sample-call-output: |
+        [
+           {
+              "role_id": "c18f045d-c40e-417d-b06d-4f1e40c307f3",
+              "service": "CMS",
+              "name" : "CertApprover",
+              "context": "CN=WLS TLS Certificate;SAN=wls.server.com,controller;certType=TLS"
+           }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new role in the Authservice database. An appropriate role name and service
+        should be provided to create the role. A valid bearer token should be provided to
+        authorize this REST call.
+      operationId: createRole
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/RoleCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created the role.
+          schema:
+            $ref: '#/definitions/RoleCreateResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Roles
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/roles
+      x-sample-call-input: |
+        {
+           "name": "CertApprover",
+           "service": "CMS"
+        }
+      x-sample-call-output: |
+        {
+           "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
+           "service": "CMS",
+           "name": "CertApprover"
+        }
+  /roles/{role_id}:
+    delete:
+      description: |
+        Deletes a role associated with the specified role id from the Authservice database.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: deleteRole
+      parameters:
+      - description: Unique ID of the role.
+        format: uuid
+        in: path
+        name: role_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the role associated with the specified
+            role id.
+      security:
+      - bearerAuth: []
+      tags:
+      - Roles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+      x-sample-call-output: |
+        204 No content
+    get:
+      description: |
+        Retrieves the role details associated with a specified role id from the Authservice database.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: getRole
+      parameters:
+      - description: Unique ID of the role.
+        format: uuid
+        in: path
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the role associated with the specified
+            role id.
+          schema:
+            $ref: '#/definitions/RoleCreateResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Roles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+      x-sample-call-output: |
+        {
+           "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
+           "service": "CMS",
+           "name": "CertApprover"
+        }
+  /token:
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new bearer token that can be used in the Authorization header for other API
+        requests. Bearer token Authorization is not required when requesting token for Authservice
+        registered users.
+      operationId: getJwtToken
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/UserCred'
+      produces:
+      - application/jwt
+      responses:
+        "200":
+          description: Successfully created the bearer token.
+          schema:
+            example: |
+              eyJhbGciOiJSUzM4NCIsImtpZCI6ImYwY2UyNzhhMGM0OGI5NjE3YzQxNzViYmMz
+              ZWIyNThjNDEwYzI2NzUiLCJ0eXAiOiJKV1QifQ.eyJyb2xlcyI6W3sic2VydmljZ
+              SI6IkFBUyIsIm5hbWUiOiJSb2xlTWFuYWdlciJ9LHsic2VydmljZSI6IkFBUyIsI
+              m5hbWUiOiJVc2VyTWFuYWdlciJ9LHsic2VydmljZSI6IkFBUyIsIm5hbWUiOiJVc
+              2VyUm9sZU1hbmFnZXIifV0sImV4cCI6MTU3OTE4ODEwMSwiaWF0IjoxNTc5MTgwO
+              TAxLCJpc3MiOiJBQVMgSldUIElzc3VlciIsInN1YiI6ImFkbWluX2FhcyJ9.dI95
+              8fYhz2RxcnXbeTgmOVTykW6en315lAOofh4kljIAiYJlCzg7EJsr5TysDynlXN1J
+              CFHxLXOv2mLwx-VCXUPRvynTuENFUxNxnj13a1SlesYWQMt8cJUUfIHuz8pFWA71
+              OIqdR6LO7z98A1HCaM6UDusskw53EpUOx2ZYm_WTxWdnI0Gp-VKMDCt7JlR497o8
+              o5xBpiuoeJDd_7fl5lfaOdkocedisAtwqhDxAsMhmlxfJ7CeR5yic1YmVN9kDwjA
+              l_IF248K12Vu7QiFsuTt5NJUqyOCWHS1igv_U67-55o5sR37xciDgPg-z1bGIdTm
+              g-GxCZQNbo5I6zr5E-_GgzsBfbIWvN_sxFXq7pN3CN7wvCfnEGXsW4coThT2PS6V
+              roDctDvds396GUcr1Ra077t8q_ETPStLcuKyAvH994uzyVIIXKZnyb9mjDdYU168
+              4G0f6M2HpZoo9DZxeQlGf4RmZVqODSW2FH78f0x0a3UTsLsV02Si0KU1GaI2
+            type: string
+      tags:
+      - Token
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/token
+      x-sample-call-input: |
+        {
+           "username" : "admin@aas",
+           "password" : "aasAdminPass"
+        }
+      x-sample-call-output: |
+        eyJhbGciOiJSUzM4NCIsImtpZCI6ImYwY2UyNzhhMGM0OGI5NjE3YzQxNzViYmMz
+        ZWIyNThjNDEwYzI2NzUiLCJ0eXAiOiJKV1QifQ.eyJyb2xlcyI6W3sic2VydmljZ
+        SI6IkFBUyIsIm5hbWUiOiJSb2xlTWFuYWdlciJ9LHsic2VydmljZSI6IkFBUyIsI
+        m5hbWUiOiJVc2VyTWFuYWdlciJ9LHsic2VydmljZSI6IkFBUyIsIm5hbWUiOiJVc
+        2VyUm9sZU1hbmFnZXIifV0sImV4cCI6MTU3OTE4ODEwMSwiaWF0IjoxNTc5MTgwO
+        TAxLCJpc3MiOiJBQVMgSldUIElzc3VlciIsInN1YiI6ImFkbWluX2FhcyJ9.dI95
+        8fYhz2RxcnXbeTgmOVTykW6en315lAOofh4kljIAiYJlCzg7EJsr5TysDynlXN1J
+        CFHxLXOv2mLwx-VCXUPRvynTuENFUxNxnj13a1SlesYWQMt8cJUUfIHuz8pFWA71
+        OIqdR6LO7z98A1HCaM6UDusskw53EpUOx2ZYm_WTxWdnI0Gp-VKMDCt7JlR497o8
+        o5xBpiuoeJDd_7fl5lfaOdkocedisAtwqhDxAsMhmlxfJ7CeR5yic1YmVN9kDwjA
+        l_IF248K12Vu7QiFsuTt5NJUqyOCWHS1igv_U67-55o5sR37xciDgPg-z1bGIdTm
+        g-GxCZQNbo5I6zr5E-_GgzsBfbIWvN_sxFXq7pN3CN7wvCfnEGXsW4coThT2PS6V
+        roDctDvds396GUcr1Ra077t8q_ETPStLcuKyAvH994uzyVIIXKZnyb9mjDdYU168
+        4G0f6M2HpZoo9DZxeQlGf4RmZVqODSW2FH78f0x0a3UTsLsV02Si0KU1GaI2
+  /users:
+    get:
+      description: |
+        Retrieves the list of users from the Authservice database. The users can be one among
+        the service users, users with install permissions or administrative users. A valid bearer
+        token should be provided to authorize this REST call.
+      operationId: queryUsers
+      parameters:
+      - description: Username of the user.
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the users.
+          schema:
+            $ref: '#/definitions/UsersResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/users?name=vsServiceUser
+      x-sample-call-output: |
+        [
+           {
+              "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
+              "username" : "vsServiceUser"
+           }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a new user in the Authservice database. User can be one among the service users,
+        user with install permissions or administrative user. An appropriate username and password
+        should be provided to create the user. A valid bearer token should be provided to
+        authorize this REST call.
+      operationId: createUser
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/UserCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created the user with the given username and password.
+          schema:
+            $ref: '#/definitions/UserCreateResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/users
+      x-sample-call-input: |
+        {
+           "username" : "vsServiceUser",
+           "password" : "vsServicePass"
+        }
+      x-sample-call-output: |
+        {
+           "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
+           "username" : "vsServiceUser"
+        }
+  /users/{user_id}:
+    delete:
+      description: |
+        Deletes the user details associated with a specfied user id from the Authservice
+        database. A valid bearer token should be provided to authorize this REST call.
+      operationId: deleteUser
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the user.
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+      x-sample-call-output: |
+        204 No content
+    get:
+      description: |
+        Retrieves the user details associated with a specified user id from the Authservice
+        database. A valid bearer token should be provided to authorize this REST call.
+      operationId: getUser
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the user details for the specified user
+            id.
+          schema:
+            $ref: '#/definitions/UserCreateResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+      x-sample-call-output: |
+        {
+           "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
+           "username": "vsServiceUser"
+        }
+    patch:
+      consumes:
+      - application/json
+      description: |
+        Updates the username and password associated with a specific user id in the Authservice
+        database. A valid bearer token should be provided to authorize this REST call.
+      operationId: updateUser
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/UserCreate'
+      responses:
+        "200":
+          description: |
+            Successfully updated the username and password associated with the specified user id.
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+      x-sample-call-input: |
+        {
+           "username" : "vsServiceUser",
+           "password" : "vsServicePassNew"
+        }
+      x-sample-call-output: |
+        200 OK
+  /users/{user_id}/permissions:
+    get:
+      description: |
+        Retrieves the user permissions associated with a specified user id from the Authservice
+        database. A valid bearer token should be provided to authorize this REST call.
+      operationId: queryUserPermissions
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the user permissions.
+          schema:
+            $ref: '#/definitions/UserPermissions'
+      security:
+      - bearerAuth: []
+      tags:
+      - Users
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/permissions
+      x-sample-call-output: |
+        [
+           {
+              "service": "VS",
+              "rules": [
+                         "flavors:search:*",
+                         "hosts:create:*"
+                       ]
+           }
+        ]
+  /users/{user_id}/roles:
+    get:
+      description: |
+        Retrieves the roles associated with the specified user id based on the provided filter criteria
+        from the Authservice database.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: queryUserRoles
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Name of the service.
+        in: query
+        name: service
+        type: string
+      - description: Name of the role.
+        in: query
+        name: name
+        type: string
+      - description: Context string which contains informations such as CN, SAN and
+          certType.
+        in: query
+        name: context
+        type: string
+      - description: Partial “context” string.
+        in: query
+        name: contextContains
+        type: string
+      - description: Query all contexts.
+        in: query
+        name: allContexts
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the user roles.
+          schema:
+            $ref: '#/definitions/UserRolesResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - UserRoles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles?service=CMS
+      x-sample-call-output: |
+        [
+           {
+              "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
+              "service": "CMS",
+              "name": "CertApprover"
+           }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Assigns the roles to the user associated with the specified user id in the Authservice
+        database. A list of role id's should be provided in the request body which will be assigned to the
+        user. A valid bearer token should be provided to authorize this REST call.
+      operationId: addUserRoles
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/RoleIDs'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully assigned the roles to the user.
+      security:
+      - bearerAuth: []
+      tags:
+      - UserRoles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles
+      x-sample-call-input: |
+        {
+           "role_ids" : [ "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585" ]
+        }
+      x-sample-call-output: |
+        201 Created
+  /users/{user_id}/roles/{role_id}:
+    delete:
+      description: |
+        Removes the specified role associated with a user id from the Authservice database.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: deleteUserRole
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Unique ID of the role.
+        format: uuid
+        in: path
+        name: role_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully removed the specified role associated with user.
+      security:
+      - bearerAuth: []
+      tags:
+      - UserRoles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+      x-sample-call-output: |
+        204 No content
+    get:
+      description: |
+        Retrieves the specified role associated with a user id from the Authservice database.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: getUserRoleById
+      parameters:
+      - description: Unique ID of the user.
+        format: uuid
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Unique ID of the role.
+        format: uuid
+        in: path
+        name: role_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the specified role associated with user.
+          schema:
+            $ref: '#/definitions/UserRoleResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - UserRoles
+      x-sample-call-endpoint: |
+        https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+      x-sample-call-output: |
+        {
+           "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
+           "service": "CMS",
+           "name": "CertApprover"
+        }
+  /users/changepassword:
+    patch:
+      consumes:
+      - application/json
+      description: |
+        Updates the password for the specified user in the Authservice database.
+      operationId: changePassword
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/PasswordChange'
+      responses:
+        "200":
+          description: Successfully updated the user password.
+      tags:
+      - Users
+      x-sample-call-endpoint: https://authservice.com:8444/aas/v1/users/changepassword
+      x-sample-call-input: |
+        {
+            "old_password": "vsServicePass",
+            "new_password": "vsUserNewPass",
+            "password_confirm": "vsUserNewPass",
+            "username": "vsServiceUser"
+        }
+      x-sample-call-output: 200 No content
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: GetVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://authservice.com:8443/aas/v1/version
+      x-sample-call-output: |-
+        Service Name: Authentication and Authorization Service
+        Version: v3.4.0-0f0162ea
+        Build Date: 2021-03-08T12:18:54+0000
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

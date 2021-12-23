@@ -7,8 +7,9 @@ Table of Contents
 
 <!-- code_chunk_output -->
 
-- [Quick Start Guide - Foundational & Workload Security](#quick-start-guide-foundational-workload-security)
-  - [**1. Hardware & OS Requirements**](#1-hardware-os-requirements)
+- [Quick Start Guide - Foundational & Workload Security](#quick-start-guide---foundational--workload-security)
+  - [Table of Contents](#table-of-contents)
+  - [**1. Hardware & OS Requirements**](#1-hardware--os-requirements)
     - [Physical Server requirements](#physical-server-requirements)
     - [OS Requirements](#os-requirements)
     - [User Access](#user-access)
@@ -27,7 +28,8 @@ Table of Contents
     - [Usecase Setup Options](#usecase-setup-options)
     - [Update Ansible Inventory](#update-ansible-inventory)
     - [Create and Run Playbook](#create-and-run-playbook)
-    - [Additional Examples & Tips](#additional-examples-tips)
+    - [Additional Examples & Tips](#additional-examples--tips)
+      - [TBoot Installation](#tboot-installation)
       - [TPM is already owned](#tpm-is-already-owned)
       - [UEFI SecureBoot enabled](#uefi-secureboot-enabled)
       - [In case of Misconfigurations](#in-case-of-misconfigurations)
@@ -38,7 +40,7 @@ Table of Contents
     - [Running API Collections](#running-api-collections)
   - [**Appendix**](#appendix)
     - [Running behind Proxy](#running-behind-proxy)
-    - [Git Config Sample (~/.gitconfig)](#git-config-sample-~gitconfig)
+    - [Git Config Sample (~/.gitconfig)](#git-config-sample-gitconfig)
     - [Rebuilding Repos](#rebuilding-repos)
     - [Installing the Intel® SecL Kubernetes Extensions and Integration Hub](#installing-the-intel-secl-kubernetes-extensions-and-integration-hub)
       - [Deploy Intel® SecL Custom Controller](#deploy-intel-secl-custom-controller)
@@ -129,12 +131,12 @@ The below steps needs to be carried out on the Build and Deployment VM
 * Golang installation
   
 ```shell
-  wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-  tar -xzf go1.14.4.linux-amd64.tar.gz
+  wget https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz
+  tar -xzf go1.16.7.linux-amd64.tar.gz
   sudo mv go /usr/local
   export GOROOT=/usr/local/go
   export PATH=$GOROOT/bin:$PATH
-  rm -rf go1.14.4.linux-amd64.tar.gz
+  rm -rf go1.16.7.linux-amd64.tar.gz
   ```
   
 ### Building
@@ -261,7 +263,7 @@ The below steps needs to be carried out on the Build and Deployment VM
   make binaries
   ```
   
-  > **Note:** The crio use case uses containerd that is bundled with `docker-ce-19.03.13` during build time. As of this release , the version being used is `containerd-1.4.4`. If the remote docker-ce repo gets updated for newer containerd version, then the version of containerd might be incompatible for building crio use case. It is recommended to use the version 1.4.4 in that case.
+  > **Note:** The crio use case uses containerd that is bundled with `docker-ce-20.10.8` during build time. As of this release , the version being used is `containerd-1.4.4`. If the remote docker-ce repo gets updated for newer containerd version, then the version of containerd might be incompatible for building crio use case. It is recommended to use the version 1.4.4 in that case.
   
 * Built binaries
   

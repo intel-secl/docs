@@ -31,7 +31,7 @@ definitions:
         x-go-name: Tag
     title: json request format sent from HVS...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v3/resource
+    x-go-package: intel/isecl/go-trust-agent/v4/resource
   TpmQuoteRequest:
     description: |-
       {
@@ -59,7 +59,7 @@ definitions:
         x-go-name: Pcrs
     title: HVS will provide json like...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v3/resource
+    x-go-package: intel/isecl/go-trust-agent/v4/resource
   TpmQuoteResponse:
     description: |-
       <tpm_quote_response>
@@ -121,7 +121,7 @@ definitions:
         $ref: '#/definitions/Name'
     title: HVS expects...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v3/resource
+    x-go-package: intel/isecl/go-trust-agent/v4/resource
 host: trustagent.server.com:1443
 info:
   description: |-

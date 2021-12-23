@@ -730,7 +730,7 @@
   "properties" : {
     "host-id" : {
       "type" : "string",
-      "x-go-name" : "HostId"
+      "x-go-name" : "TaHostId"
     }
   },
   "x-go-package" : "github.com/intel-secl/intel-secl/v4/pkg/model/aas"
@@ -1093,6 +1093,9 @@ user authentication and authorization information and issue the users with a JWT
                         <!-- <p></p> -->
                         <p class="marked">Creates a new credential on AAS and sends it out over response to be accessed and used by the client
 to authenticate and authorize itself to a service.
+The credential creation request has a parameter called &quot;type&quot; which is basically the type of the component
+for which the credential needs to be generated. The only supported values for that are &quot;HVS&quot; or &quot;TA&quot; which
+stands for Host Verification Service and Trust Agent. Any other value provided will result in bad request.
 </p>
                         <p></p>
                         <!-- <br /> -->
@@ -1181,17 +1184,20 @@ to authenticate and authorize itself to a service.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Credentials-createCredentials-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Credentials-createCredentials-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Credentials-createCredentials-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Credentials-createCredentials-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Credentials-createCredentials-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/credentials" -H "Authorization: Bearer &lt;token&gt;" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/credentials" -H "Authorization: Bearer &lt;token&gt;" -H "Content-Type: application/json"</br>Input: </br>{
  	"type": "TA",
  	"parameters": {
-     	"host-id": "abcd"
+     	"host-id": "<TA FQDN>"
 	 }
 }
 </br>Output: </br>-----BEGIN NATS USER JWT-----
@@ -1207,10 +1213,10 @@ SUAE6WDHNRTCY55TBJUMZLRVLWGZXFE7J2O6IKMQDBX4MQDQE5QVBU4NXU
 ------END USER NKEY SEED------
 
 *************************************************************
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Credentials-createCredentials-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Credentials-createCredentials-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1257,14 +1263,17 @@ SUAE6WDHNRTCY55TBJUMZLRVLWGZXFE7J2O6IKMQDBX4MQDQE5QVBU4NXU
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-JwtCertificate-getJwtCertificate-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-JwtCertificate-getJwtCertificate-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-JwtCertificate-getJwtCertificate-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-JwtCertificate-getJwtCertificate-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-JwtCertificate-getJwtCertificate-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/jwt-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/jwt-certificates" -H "Accept: application/x-pem-file"</br></br>Output: </br>-----BEGIN CERTIFICATE-----
 MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
 MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
 AxMFQ01TQ0EwHhcNMjAwMTA5MTUzMzUyWhcNMjUwMTA5MTUzMzUyWjBQMQswCQYD
@@ -1289,10 +1298,10 @@ tu1zbsbwj8LlJBJrj/y/vwB1dQEQMdAEhUEgLjmEJtc/kMj53EdbTicutiOItBSY
 jwwgh754cwHsSK+pl6Pq3IEqxpZmBgTGTAM195kB5cs1if2oFzwfL2Ik5q4sDAHp
 3NqNon34qP7XcDrUErM+fovIfecnDDsd/g==
 -----END CERTIFICATE-----
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-JwtCertificate-getJwtCertificate-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-JwtCertificate-getJwtCertificate-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1440,14 +1449,17 @@ authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Roles-createRole-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Roles-createRole-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Roles-createRole-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Roles-createRole-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Roles-createRole-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/roles" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/roles" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json" -H "Content-Type: application/json"</br>Input: </br>{
    "name": "CertApprover",
    "service": "CMS"
 }
@@ -1456,10 +1468,10 @@ authorize this REST call.
    "service": "CMS",
    "name": "CertApprover"
 }
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Roles-createRole-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Roles-createRole-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1523,19 +1535,22 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Roles-deleteRole-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Roles-deleteRole-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Roles-deleteRole-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Roles-deleteRole-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Roles-deleteRole-0-curl">
-                            <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+			  <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
 " -H "Authorization: Bearer &lt;token&gt;"</br></br>Output: </br>204 No content
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Roles-deleteRole-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Roles-deleteRole-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1648,23 +1663,26 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Roles-getRole-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Roles-getRole-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Roles-getRole-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Roles-getRole-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Roles-getRole-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>{
    "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
    "service": "CMS",
    "name": "CertApprover"
 }
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Roles-getRole-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Roles-getRole-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1810,14 +1828,17 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Roles-queryRoles-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Roles-queryRoles-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Roles-queryRoles-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Roles-queryRoles-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Roles-queryRoles-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/roles?service=CMS" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/roles?service=CMS" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
    {
       "role_id": "c18f045d-c40e-417d-b06d-4f1e40c307f3",
       "service": "CMS",
@@ -1825,10 +1846,10 @@ A valid bearer token should be provided to authorize this REST call.
       "context": "CN=WLS TLS Certificate;SAN=wls.server.com,controller;certType=TLS"
    }
 ]
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Roles-queryRoles-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Roles-queryRoles-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -1931,14 +1952,17 @@ from Authservice.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Token-getCustomClaimsJwtToken-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Token-getCustomClaimsJwtToken-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Token-getCustomClaimsJwtToken-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Token-getCustomClaimsJwtToken-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Token-getCustomClaimsJwtToken-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/custom-claims-token" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/jwt" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/custom-claims-token" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/jwt" -H "Content-Type: application/json"</br>Input: </br>{
     "subject": "00000000-8887-0f15-0106-1024a5a5a5a5",
     "validity_seconds": 86400,
     "claims": {
@@ -1971,10 +1995,10 @@ Wo3GC1Mg1SlLCHB-DVzgE9Fso627spe16GCW81tG4K1fFHllu-njua4kQLyhSgxS
 gC4MyccuZpnQfGOsmGkR-GiTWpjmaYl0q4pjXoQLqaDksYa0tqZC0IhaauSWcRCS
 PLXFXTIa55e53dYRPt3mf3LllNtiMsMBTOaX075MQ77TCqmgT-0cAlsB-VlqfiYP
 t8F6Qsn2ELaG3Yeb7Y5mN-5Ecq4dxf9WtJFaPQhtslO
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Token-getCustomClaimsJwtToken-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Token-getCustomClaimsJwtToken-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2068,14 +2092,17 @@ registered users.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Token-getJwtToken-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Token-getJwtToken-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Token-getJwtToken-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Token-getJwtToken-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Token-getJwtToken-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/token" -H "Accept: application/jwt" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/token" -H "Accept: application/jwt" -H "Content-Type: application/json"</br>Input: </br>{
    "username" : "admin@aas",
    "password" : "aasAdminPass"
 }
@@ -2093,10 +2120,10 @@ l_IF248K12Vu7QiFsuTt5NJUqyOCWHS1igv_U67-55o5sR37xciDgPg-z1bGIdTm
 g-GxCZQNbo5I6zr5E-_GgzsBfbIWvN_sxFXq7pN3CN7wvCfnEGXsW4coThT2PS6V
 roDctDvds396GUcr1Ra077t8q_ETPStLcuKyAvH994uzyVIIXKZnyb9mjDdYU168
 4G0f6M2HpZoo9DZxeQlGf4RmZVqODSW2FH78f0x0a3UTsLsV02Si0KU1GaI2
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Token-getJwtToken-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Token-getJwtToken-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2212,22 +2239,25 @@ user. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-UserRoles-addUserRoles-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-UserRoles-addUserRoles-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-UserRoles-addUserRoles-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-UserRoles-addUserRoles-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-UserRoles-addUserRoles-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles
 " -H "Authorization: Bearer &lt;token&gt;" -H "Content-Type: application/json"</br>Input: </br>{
    "role_ids" : [ "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585" ]
 }
 </br>Output: </br>201 Created
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-UserRoles-addUserRoles-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-UserRoles-addUserRoles-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2299,19 +2329,22 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-UserRoles-deleteUserRole-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-UserRoles-deleteUserRole-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-UserRoles-deleteUserRole-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-UserRoles-deleteUserRole-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-UserRoles-deleteUserRole-0-curl">
-                            <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+			  <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
 " -H "Authorization: Bearer &lt;token&gt;"</br></br>Output: </br>204 No content
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-UserRoles-deleteUserRole-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-UserRoles-deleteUserRole-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2432,23 +2465,26 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-UserRoles-getUserRoleById-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-UserRoles-getUserRoleById-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-UserRoles-getUserRoleById-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-UserRoles-getUserRoleById-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-UserRoles-getUserRoleById-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles/75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>{
    "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
    "service": "CMS",
    "name": "CertApprover"
 }
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-UserRoles-getUserRoleById-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-UserRoles-getUserRoleById-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2611,14 +2647,17 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-UserRoles-queryUserRoles-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-UserRoles-queryUserRoles-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-UserRoles-queryUserRoles-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-UserRoles-queryUserRoles-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-UserRoles-queryUserRoles-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles?service=CMS
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/roles?service=CMS
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
    {
       "role_id": "75fa8fe0-f2e0-436b-9cd3-ca3f4d1f9585",
@@ -2626,10 +2665,10 @@ A valid bearer token should be provided to authorize this REST call.
       "name": "CertApprover"
    }
 ]
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-UserRoles-queryUserRoles-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-UserRoles-queryUserRoles-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2720,23 +2759,26 @@ A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-changePassword-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-changePassword-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-changePassword-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-changePassword-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-changePassword-0-curl">
-                            <pre><code class="language-bsh">curl -X PATCH "https://authservice.com:8444/aas/v1/users/changepassword" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X PATCH "https://authservice.com:8444/aas/v1/users/changepassword" -H "Content-Type: application/json"</br>Input: </br>{
     "old_password": "vsServicePass",
     "new_password": "vsUserNewPass",
     "password_confirm": "vsUserNewPass",
     "username": "vsServiceUser"
 }
-</br>Output: </br>200 No content</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-changePassword-0-support">
+</br>Output: </br>200 No content</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-changePassword-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2882,14 +2924,17 @@ authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-createUser-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-createUser-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-createUser-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-createUser-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-createUser-0-curl">
-                            <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/users" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json" -H "Content-Type: application/json"</br>Input: </br>{
+			  <pre><code class="language-bsh">curl -X POST "https://authservice.com:8444/aas/v1/users" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json" -H "Content-Type: application/json"</br>Input: </br>{
    "username" : "vsServiceUser",
    "password" : "vsServicePass"
 }
@@ -2897,10 +2942,10 @@ authorize this REST call.
    "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
    "username" : "vsServiceUser"
 }
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-createUser-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-createUser-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -2964,19 +3009,22 @@ database. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-deleteUser-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-deleteUser-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-deleteUser-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-deleteUser-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-deleteUser-0-curl">
-                            <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+			  <pre><code class="language-bsh">curl -X DELETE "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
 " -H "Authorization: Bearer &lt;token&gt;"</br></br>Output: </br>204 No content
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-deleteUser-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-deleteUser-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3089,22 +3137,25 @@ database. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-getUser-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-getUser-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-getUser-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-getUser-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-getUser-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>{
    "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
    "username": "vsServiceUser"
 }
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-getUser-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-getUser-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3217,14 +3268,17 @@ database. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-queryUserPermissions-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-queryUserPermissions-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-queryUserPermissions-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-queryUserPermissions-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-queryUserPermissions-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/permissions
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78/permissions
 " -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
    {
       "service": "VS",
@@ -3234,10 +3288,10 @@ database. A valid bearer token should be provided to authorize this REST call.
                ]
    }
 ]
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-queryUserPermissions-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-queryUserPermissions-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3351,23 +3405,26 @@ token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-queryUsers-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-queryUsers-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-queryUsers-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-queryUsers-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-queryUsers-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users?name=vsServiceUser" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8444/aas/v1/users?name=vsServiceUser" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>[
    {
       "user_id": "1fdb39de-7bf4-440e-ad05-286eca933f78",
       "username" : "vsServiceUser"
    }
 ]
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-queryUsers-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-queryUsers-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3481,23 +3538,26 @@ database. A valid bearer token should be provided to authorize this REST call.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-updateUser-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Users-updateUser-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Users-updateUser-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Users-updateUser-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-updateUser-0-curl">
-                            <pre><code class="language-bsh">curl -X PATCH "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
+			  <pre><code class="language-bsh">curl -X PATCH "https://authservice.com:8444/aas/v1/users/1fdb39de-7bf4-440e-ad05-286eca933f78
 " -H "Authorization: Bearer &lt;token&gt;" -H "Content-Type: application/json"</br>Input: </br>{
    "username" : "vsServiceUser",
    "password" : "vsServicePassNew"
 }
 </br>Output: </br>200 OK
-</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Users-updateUser-0-support">
+</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Users-updateUser-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3541,19 +3601,22 @@ Returns - The version of the application.
                         <p>
                           <h2>Sample REST Call</h2>
                         </p>
+			<p>
+                          <h5> Note: To skip SSL verification(not recommended) add "-k" to the curl command. To use curl with SSL verification, add CMS root CA certificate to the underlying OS's list of trusted CAs.</h5>
+                        </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Version-getVersion-0-curl">Curl</a></li>
-			  <li class=""><a href="#examples-Version-getVersion-0-support"></a></li>
-                        </ul>
+			  <li class="active"><a href="#examples-Version-getVersion-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-Version-getVersion-0-support"></a></li> 
+			</ul> 
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Version-getVersion-0-curl">
-                            <pre><code class="language-bsh">curl -X GET "https://authservice.com:8443/aas/v1/version"</br></br>Output: </br>Service Name: Authentication and Authorization Service
+			  <pre><code class="language-bsh">curl -X GET "https://authservice.com:8443/aas/v1/version"</br></br>Output: </br>Service Name: Authentication and Authorization Service
 Version: v3.4.0-0f0162ea
-Build Date: 2021-03-08T12:18:54+0000</code></pre>
-                          </div>
-			  <div class="tab-pane" id="examples-Version-getVersion-0-support">
+Build Date: 2021-03-08T12:18:54+0000</code></pre> 
 			  </div>
+			  <div class="tab-pane" id="examples-Version-getVersion-0-support">
+			  </div> 
                           </div>
                         </article>
                       </div>
@@ -3562,6 +3625,7 @@ Build Date: 2021-03-08T12:18:54+0000</code></pre>
           </div>
       </div>
     </div>
+  </div>
   </div>
   <script>
   (function webpackUniversalModuleDefinition(root, factory) {
@@ -4664,7 +4728,6 @@ Build Date: 2021-03-08T12:18:54+0000</code></pre>
       this.isPrimitive = !this.isAny && !this.isArray && !this.isObject;
   
       //
-      this.schema.title = '';
       this.schema.description = '';
   
       //

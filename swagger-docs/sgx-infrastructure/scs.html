@@ -689,6 +689,21 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
+            defs.LastRefresh = {
+  "type" : "object",
+  "properties" : {
+    "completed-at" : {
+      "type" : "string",
+      "format" : "date-time",
+      "x-go-name" : "CompletedAt"
+    },
+    "status" : {
+      "type" : "string",
+      "x-go-name" : "Status"
+    }
+  },
+  "x-go-package" : "intel/isecl/scs/v4/swagger/docs"
+};
             defs.PlatformInfoInput = {
   "type" : "object",
   "properties" : {
@@ -719,6 +734,24 @@
     "qe_id" : {
       "type" : "string",
       "x-go-name" : "QeID"
+    }
+  },
+  "x-go-package" : "intel/isecl/scs/v4/swagger/docs"
+};
+            defs.RefreshResponse = {
+  "type" : "object",
+  "properties" : {
+    "last-refresh" : {
+      "$ref" : "#/components/schemas/LastRefresh"
+    },
+    "retry-after" : {
+      "type" : "integer",
+      "format" : "int64",
+      "x-go-name" : "RetryAfter"
+    },
+    "status" : {
+      "type" : "string",
+      "x-go-name" : "Status"
     }
   },
   "x-go-package" : "intel/isecl/scs/v4/swagger/docs"
@@ -936,8 +969,11 @@
                     <li data-group="PlatformInfo" data-name="pushPlatformInfo" class="">
                       <a href="#api-PlatformInfo-pushPlatformInfo">pushPlatformInfo</a>
                     </li>
-                    <li data-group="PlatformInfo" data-name="refreshPlatformInfo" class="">
-                      <a href="#api-PlatformInfo-refreshPlatformInfo">refreshPlatformInfo</a>
+                    <li data-group="PlatformInfo" data-name="refreshPlatformInfoStart" class="">
+                      <a href="#api-PlatformInfo-refreshPlatformInfoStart">refreshPlatformInfoStart</a>
+                    </li>
+                    <li data-group="PlatformInfo" data-name="refreshPlatformInfoStatus" class="">
+                      <a href="#api-PlatformInfo-refreshPlatformInfoStatus">refreshPlatformInfoStatus</a>
                     </li>
                   <li class="nav-header" data-group="Version"><a href="#api-Version">Version</a></li>
                     <li data-group="Version" data-name="getVersion" class="">
@@ -1312,6 +1348,51 @@ with the provided FMPSC value.
                             <!-- <h3> 200 - Successfully retrieved the TCB info of the platform with the matching fmpsc value. </h3> -->
                             <div class="methodsubtabletitle">200 - Successfully retrieved the TCB info of the platform with the matching fmpsc value.</div>
 
+			    </br>
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getTcbInfo-200-schema">Schema</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getTcbInfo-200-schema">
+                                  <div id='responses-getTcbInfo-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Successfully retrieved the TCB info of the platform with the matching fmpsc value.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/TcbInfoJSON"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getTcbInfo-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getTcbInfo-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getTcbInfo-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
 
                         <p>
                           <h2>Sample REST Call</h2>
@@ -1791,10 +1872,135 @@ A valid bearer token should be provided to authorize this REST call.
                         </article>
                       </div>
                       <hr>
-                    <div id="api-PlatformInfo-refreshPlatformInfo">
-                      <article id="api-PlatformInfo-refreshPlatformInfo-0" data-group="User" data-name="refreshPlatformInfo" data-version="0">
+                    <div id="api-PlatformInfo-refreshPlatformInfoStart">
+                      <article id="api-PlatformInfo-refreshPlatformInfoStart-0" data-group="User" data-name="refreshPlatformInfoStart" data-version="0">
                         <div class="pull-left">
-                          <h1>refreshPlatformInfo</h1>
+                          <h1>refreshPlatformInfoStart</h1>
+                          <!-- <p></p> -->
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <!-- <p></p> -->
+                        <p class="marked">This API is used to refresh the PCK certificates and platform collaterals stored in the SGX Caching Service (SCS) database,
+outside of the periodic refresh cycles. An Admin can make use of this REST endpoint to force the refresh of
+PCK Certificates, PCK CRL, TCB info and QE Identity information. This is useful in scenarios like TCB recovery.
+A valid bearer token should be provided to authorize this REST call.
+
+The status field in the response conveys the following states.
+    &quot;started&quot; - A new refresh is started.
+    &quot;inprogress&quot; - A refresh is already in progress.
+    &quot;toomanyrequests&quot; - A refresh will not be started if the last refresh was completed less 900 seconds.
+
+The last-refresh.status field in the response conveys the following states.
+    &quot;success&quot; - The last refresh was successfull.
+    &quot;failed&quot; - The last refresh failed.
+If there is no record of previous refresh, last-refresh field will not be populated.
+</p>
+                        <p></p>
+                        <!-- <br /> -->
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/refreshes</span></code></pre>
+
+    			<h2>Authorization</h2>
+                        <ul>
+                        
+      			
+      			<li>Bearer Token Authorization.
+      			<ul>
+         			<li>Enter your bearer token in the format: Bearer &lt;token&gt;</li>
+         			<li>Name of header: Authorization</li> 
+      			</ul></li>
+    			</ul>
+
+
+                          <!-- <h2>Parameters</h2> -->
+
+
+
+
+    			  <h2>Produces</h2>
+    			    <ul>
+      			    <li>application/json</li>
+    			    </ul>
+
+                          <h2>Response</h2>
+                            <!-- <h3> 200 - Successfully refreshed the platform collaterals. </h3> -->
+                            <div class="methodsubtabletitle">200 - Successfully refreshed the platform collaterals.</div>
+
+			    </br>
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-refreshPlatformInfoStart-200-schema">Schema</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-refreshPlatformInfoStart-200-schema">
+                                  <div id='responses-refreshPlatformInfoStart-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Successfully refreshed the platform collaterals.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/RefreshResponse"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-refreshPlatformInfoStart-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-refreshPlatformInfoStart-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-refreshPlatformInfoStart-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        <p>
+                          <h2>Sample REST Call</h2>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+			  <li class="active"><a href="#examples-PlatformInfo-refreshPlatformInfoStart-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-PlatformInfo-refreshPlatformInfoStart-0-support"></a></li> 
+			</ul> 
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-PlatformInfo-refreshPlatformInfoStart-0-curl">
+			  <pre><code class="language-bsh">curl -X POST "https://scs.server.com:9000/scs/sgx/certification/v1/refreshes" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>{
+    "status": "started",
+    "last-refresh": {
+        "completed-at": "2021-06-22T10:16:34.859762Z",
+        "status": "success"
+    }
+}
+</code></pre> 
+			  </div>
+			  <div class="tab-pane" id="examples-PlatformInfo-refreshPlatformInfoStart-0-support">
+			  </div> 
+                          </div>
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-PlatformInfo-refreshPlatformInfoStatus">
+                      <article id="api-PlatformInfo-refreshPlatformInfoStatus-0" data-group="User" data-name="refreshPlatformInfoStatus" data-version="0">
+                        <div class="pull-left">
+                          <h1>refreshPlatformInfoStatus</h1>
                           <!-- <p></p> -->
                         </div>
                         <div class="pull-right"></div>
@@ -1804,6 +2010,16 @@ A valid bearer token should be provided to authorize this REST call.
 outside of the periodic refresh cycles. An Admin can make use of this REST endpoint to force the refresh of
 PCK Certificates, PCK CRL, TCB info and QE Identity information. This is useful in scenarios like TCB recovery.
 A valid bearer token should be provided to authorize this REST call.
+
+
+The status field in the response conveys the following  :
+    &quot;idle&quot; - No refresh is currently in progress.
+    &quot;inprogress&quot; - A refresh is already in progress.
+    &quot;toomanyrequests&quot; - A refresh will not be started if the last refresh was completed less than 900 seconds ago.
+
+The last-refresh.status field in the response conveys the following  :
+    &quot;success&quot; - The last refresh was successfull.
+    &quot;failed&quot; - The last refresh failed.
 </p>
                         <p></p>
                         <!-- <br /> -->
@@ -1838,13 +2054,13 @@ A valid bearer token should be provided to authorize this REST call.
 			    </br>
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-refreshPlatformInfo-200-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-refreshPlatformInfoStatus-200-schema">Schema</a>
                                 </li>
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-refreshPlatformInfo-200-schema">
-                                  <div id='responses-refreshPlatformInfo-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-refreshPlatformInfoStatus-200-schema">
+                                  <div id='responses-refreshPlatformInfoStatus-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -1852,7 +2068,7 @@ A valid bearer token should be provided to authorize this REST call.
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Response"
+        "$ref" : "#/components/schemas/RefreshResponse"
       }
     }
   }
@@ -1870,14 +2086,14 @@ A valid bearer token should be provided to authorize this REST call.
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-refreshPlatformInfo-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-refreshPlatformInfo-200-schema-200');
+                                        $('#responses-refreshPlatformInfoStatus-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-refreshPlatformInfoStatus-200-schema-200');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-refreshPlatformInfo-200-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-refreshPlatformInfoStatus-200-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1885,19 +2101,22 @@ A valid bearer token should be provided to authorize this REST call.
                           <h2>Sample REST Call</h2>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-			  <li class="active"><a href="#examples-PlatformInfo-refreshPlatformInfo-0-curl">Curl</a></li> 
-			  <li class=""><a href="#examples-PlatformInfo-refreshPlatformInfo-0-support"></a></li> 
+			  <li class="active"><a href="#examples-PlatformInfo-refreshPlatformInfoStatus-0-curl">Curl</a></li> 
+			  <li class=""><a href="#examples-PlatformInfo-refreshPlatformInfoStatus-0-support"></a></li> 
 			</ul> 
 
                         <div class="tab-content">
-                          <div class="tab-pane active" id="examples-PlatformInfo-refreshPlatformInfo-0-curl">
+                          <div class="tab-pane active" id="examples-PlatformInfo-refreshPlatformInfoStatus-0-curl">
 			  <pre><code class="language-bsh">curl -X GET "https://scs.server.com:9000/scs/sgx/certification/v1/refreshes" -H "Authorization: Bearer &lt;token&gt;" -H "Accept: application/json"</br></br>Output: </br>{
-    "Status": "Success",
-    "Message": "sgx collaterals refreshed successfully"
+    "status": "started",
+    "last-refresh": {
+        "completed-at": "2021-06-22T10:16:34.859762Z",
+        "status": "success"
+    }
 }
 </code></pre> 
 			  </div>
-			  <div class="tab-pane" id="examples-PlatformInfo-refreshPlatformInfo-0-support">
+			  <div class="tab-pane" id="examples-PlatformInfo-refreshPlatformInfoStatus-0-support">
 			  </div> 
                           </div>
                         </article>
