@@ -1,0 +1,728 @@
+basePath: /aps/v1/
+definitions:
+  Description:
+    description: Description contains information about the policy
+    properties:
+      key_url:
+        type: string
+        x-go-name: KeyURL
+      label:
+        type: string
+        x-go-name: Label
+      policy_type:
+        type: string
+        x-go-name: PolicyType
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  Meta:
+    description: Meta defines meta data of the policy
+    properties:
+      description:
+        $ref: '#/definitions/Description'
+      id:
+        format: uuid
+        type: string
+        x-go-name: ID
+      version:
+        type: string
+        x-go-name: Version
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  Policy:
+    properties:
+      meta:
+        $ref: '#/definitions/Meta'
+      sgx:
+        $ref: '#/definitions/Sgx'
+      tdx:
+        $ref: '#/definitions/Tdx'
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  PolicySigningCert:
+    properties:
+      certificate:
+        type: string
+        x-go-name: Certificate
+      id:
+        format: uuid
+        type: string
+        x-go-name: ID
+      issuer:
+        type: string
+        x-go-name: Issuer
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/aps
+  PolicySigningCertCollection:
+    items:
+      $ref: '#/definitions/PolicySigningCert'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/docs/shared/aps
+  Sgx:
+    properties:
+      enforce_tcb_up_to_date:
+        type: boolean
+        x-go-name: EnforceTcbUpToDate
+      isvprodid:
+        items:
+          format: uint16
+          type: integer
+        type: array
+        x-go-name: IsvProductId
+      isvsvn:
+        format: uint16
+        type: integer
+        x-go-name: IsvSvn
+      mrenclave:
+        items:
+          type: string
+        type: array
+        x-go-name: MrEnclave
+      mrsigner:
+        items:
+          type: string
+        type: array
+        x-go-name: MrSigner
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  SignedPolicy:
+    description: |-
+      SignedPolicy struct defines the policy and
+      its corresponding signature
+    properties:
+      policy:
+        $ref: '#/definitions/Policy'
+      signature:
+        type: string
+        x-go-name: Signature
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  SignedPolicyCollection:
+    items:
+      $ref: '#/definitions/SignedPolicy'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/docs/shared/aps
+  Tdx:
+    properties:
+      enforce_tcb_up_to_date:
+        type: boolean
+        x-go-name: EnforceTcbUpToDate
+      mrseam:
+        type: string
+        x-go-name: MrSeam
+      mrsignerseam:
+        type: string
+        x-go-name: MrSignerSeam
+      mrtd:
+        type: string
+        x-go-name: MrTd
+      rtmr0:
+        type: string
+        x-go-name: Rtmr0
+      rtmr1:
+        type: string
+        x-go-name: Rtmr1
+      rtmr2:
+        type: string
+        x-go-name: Rtmr2
+      rtmr3:
+        type: string
+        x-go-name: Rtmr3
+      seamsvn:
+        format: uint8
+        type: integer
+        x-go-name: SeamSvn
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/apc
+  UUID:
+    description: |-
+      A UUID is a 128 bit (16 byte) Universal Unique IDentifier as defined in RFC
+      4122.
+    items:
+      format: uint8
+      type: integer
+    type: array
+    x-go-package: github.com/google/uuid
+host: aps.com:5443
+info:
+  description: |-
+    The Attestation Policy Service (APS) is a component responsible for validating policies with SGX/TDX quote
+    from platforms. The APS provides an interface for defining acceptable passlisted policies for data center servers.
+    These policies incorporate server firmware measurements, hardware capabilities, security technology information
+    and additional configuration. The measured data and configuration injected into the APS policies incorporate chain
+    of trust technology requirements for platform attestation.
+  license:
+    name: 'Copyright (C) 2021 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: Attestation Policy Service
+  version: "1"
+paths:
+  /jwt-signing-certificates:
+    get:
+      description: |
+        Retrieves a JWT Signing Certificate.
+        Returns - The JWT Signing Certificate that was retrieved.
+      operationId: Get-JWT-Signing-Certificates
+      parameters:
+      - description: Accept header
+        enum:
+        - application/x-pem-file
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/x-pem-file
+      responses:
+        "200":
+          description: Successfully retrieved the JWT signing certificate.
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error.
+      tags:
+      - JWT-Signing-Certificates
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/jwt-signing-certificates
+      x-sample-call-output: |
+        -----BEGIN CERTIFICATE-----
+        MIIEAzCCAmugAwIBAgIBCTANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL
+        MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE
+        AxMOQ01TIFNpZ25pbmcgQ0EwHhcNMjEwNzAxMTYxMTM0WhcNMjIwNzAxMTYxMTM0
+        WjAmMSQwIgYDVQQDExtBUFMgSldUIFNpZ25pbmcgQ2VydGlmaWNhdGUwggGiMA0G
+        CSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDTBKpfgvvlYpHqFtARRrB9+kR+XddW
+        OXsV9k6GrL5NJ5KtCLwXmNU8m51+TUCMUot1NVQGzuwget7tiWuinNIyrBUHsWWm
+        ZAOc633wJLZITtWcirofPWnhTWUJsX5jpKSufE6e5TVTPOZ2WF3UrRbXjRcRdY03
+        qmtyXKH0op2bvC6ldzyMm94NBEMHGb4ZpDHKpyWo1adUdlan/EOaMlpq97yjD+1z
+        dIWFYo9SYtbxIo7N9Udo9FE/5a7AiIkQjn+gITntJqv9YX5L/wS3AXEYxGua24bA
+        u0RD/jw7qaDg9IpJlOfWFlUOyxs+pW1GA8hCNT1ATkm+R+TORjqO+QeQga4n/p0e
+        DE/uYYKKJFwl2gj1APEkZ4YrV18fFGpWxF1js5hbIoOy5pBIb1/Sl+UhWP3IIBh5
+        XKQi+MsYncD9WNl0KDvSUgUM3+81GT2pu3BJIfWHjWxzCPZO0txRZ5kHj6u7q0Xd
+        o23k1F0z1Fgx9myzmLdaWZw3rXh16IP6zZECAwEAAaMSMBAwDgYDVR0PAQH/BAQD
+        AgbAMA0GCSqGSIb3DQEBDAUAA4IBgQCH818QPFf3TSXw/0kTwHdc7A5FW1tc/vr9
+        NMhBc/DBkSrpkoO15+oMxskYF/3VwI1NwCz/ZbUiJYstX7JkQ9QtQl5I4BCBuRQ7
+        xYv2QoJ9YF7LHGhKOtctnZPVfyquWjfCQeWST+3j4Q2A7+FQIhyBIIpI9rVgdIBW
+        MxSnvkLToPVrHJljeBpHcM/gAl2UKhm9GfniiNUSOAWqntxy7IdvOVDx1YRLLSC2
+        J09+H99ES4dYkTawuILPt/FwI29yAjaL9MiOcA3yNQqXd9OWv1IYH9/L4pbZAB2d
+        9q1TEmbgZUgQpfrJHnjdRw5TkTDBuVKddmJvy+pnLQagNlaSAIg/gJcPVScc2Pe/
+        B2CnLVKNeah4VdXIfMvrWOzsk9n/IN+yK8eDN6sbjTTipGkXg+UCJuVFOauM7hK5
+        dYwYCGxVUQHfkEhoB6a30/9suq+wbIioItoooGSEen9NsK9sHRccxuFehAZkfdyl
+        8nS7SD9MrCyv1phH52Bir+H1q4/TRTM=
+        -----END CERTIFICATE-----
+        -----BEGIN CERTIFICATE-----
+        MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
+        MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
+        AxMFQ01TQ0EwHhcNMjEwNzAxMTU1MzE5WhcNMjYwNzAxMTU1MzE5WjBQMQswCQYD
+        VQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF
+        TDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB
+        jwAwggGKAoIBgQCajdX11SBF1a6HGQ45W3YtBFFcRKENCh4FOM2DIoWSSWSMk58L
+        HrUxUL1882k9O0IH47O8bxQ6V0l9Qi5zywfMOtQIfs3C6VxFhoBw8AKSCRqEjwbt
+        0ITkypHLWLeBzNIVN2aUChdVVh4I5i50bpF4O1o1y1aNwv6q2IAL1Aaw6l0ruHbn
+        EIP/X2q6+VOCk1UErMCWHjsIUvHTx5VkIiOGHXHAJZ2c8WYjhfwPsK2c01n9O01v
+        FppSoMYP/F404sdO9gJPls0uW/fsE6b4pLopdmkyclhlbzzgg+JVOc8rnZR5of35
+        yilyHTisFqpHtU/swZA9yBHc5YHK54C1Pc4VOju+jF8YAUQRmmKaYhLwrn0TxLqh
+        TuXJSJn5HoRTL0kxzEBGA0JgMmXRvCWk1COrCtVs+NAs+bXw14R44sCCOzg6QfuT
+        ES6iAYQhzRUtv+uPqj8pfUrP/fWO/M210LZk78eY5jP4f11Tct8sm6kLmlrE+W29
+        jAlVBq+QILtEz3sCAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF
+        MAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAAjA6be27dwiFMXfmXu+TvT1kSnDSbP0
+        Uk7Uy5UhCbr835TXn4PZWoGnmN5xDZZqp9dUNVOMZOZap78k3aqVtFeT0zLVJ6Tr
+        6qrcZvIpHdQzgBmm3LW2f5WqujTlEkop5V1BOP2SLfqVFV/KC8t/nzrlFlQmZzlr
+        6lR8aYnKRFceo26eqwm/yilaYrajAQ3DeJwbJEZNkbXDrmAi/kuxNI/JlC5vXbev
+        y8blpgDpjmHu6IxN5LCD7Q6uB62RAJiocJ96URFp5RaCjf7Q9akKfODwp1sGwcjg
+        iRSI/aHdlGRKUyxkZOCR9WzI1wkGREum2WhlE55wEAhTyIUdaPfe3whLy5Y9vXsH
+        qs/luYwK0Rh0+3bvTvU0l33wTnblAfQPAzJUP+oxytLzPXMSZQfaCn4JPNFlz70X
+        LKuOsQ4ovXU++3l5JRwJA3WmYySwkRNq1CbsNCr1pDOjUl3RgrBptXa/XDJRMxj8
+        ovJHaA7JAGHv9mlbzpyDSu3IdbWxHXdgdQ==
+        -----END CERTIFICATE-----
+  /policies:
+    get:
+      description: |
+        A policy is a set of measurements and metadata organized in a flexible format that allows for ease of further extension. The measurements included in the policy pertain to various hardware and feature categories, and their respective metadata sections provide descriptive information.
+
+        Searches for relevant policies and returns the signed policy collection consisting of all the associated policies.
+        Returns - The serialized Signed Policy Collection Go struct object that was retrieved.
+      operationId: Search-Policies
+      parameters:
+      - description: Policy label
+        format: string
+        in: query
+        name: label
+        type: string
+      - description: Type of the policy. Supported types are "TD Image" and "SGX Enclave"
+        enum:
+        - TD Image
+        - SGX Enclave
+        in: query
+        name: policyType
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully searched and returned a signed policy collection.
+          schema:
+            $ref: '#/definitions/SignedPolicyCollection'
+        "400":
+          description: Invalid search criteria provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policies
+      x-permissions: policies:search
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policies?label=My_TD_Policy
+      x-sample-call-output: |-
+        {
+          [
+              {
+                  "policy": {
+                      "meta": {
+                          "version": "1.0",
+                          "id": "b02b67cc-02a9-4fc0-a558-889a5f00cd47",
+                          "description": {
+                              "policy_type": "TD Image",
+                              "label": "My_TD_Policy"
+                          }
+                      },
+                      "tdx": {
+                          "mrseam": "e9fd4db96cdb886cbcf2e496f451ad4ff1b6e249e7cec0527625c4547cf4d7bfbf2dfc74c80955a86c7c0885c370cb8e",
+                          "mrsignerseam": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                          "mrtd": "80b2162ea9af461ded43f307ae5711848def45f86780fa9cfc2647300498d76be1bda76f34a8ae308cba97b59431ecd4",
+                          "rtmr0": "2e6cc2ac0fb85a013f279d64e2766552f02e4648ca20bab0e706c0851c8b8bc85a5ec9b58ed7389d0a249855beb326c6",
+                          "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                          "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                          "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                      }
+                  },
+                  "signature": "CLBIFJIxhU+y5Waegzswl79p3/09CNQXk+5Y5T/r+96IeE9mVLDAO3CjUpPqbvEaNu1bF6H6Z3s/6SQhs1XkiBqE9UHIR8SYvWQhwVEDoOmIwMA9ZJzUsQEPA3dkJ6fxdvzcLktvS9o1uuu6lJf3PuvXNb4T+DgsE63u6yOrfnZxpmL3DKMO4XgvX7Xu/GNp7+wY+1bGrBcs1rePcntEgi3+2aIQjmAU9iDxewq0QzjtCysqN6ozxCbz7ObUo/oJQySdnkmIazD7lzejwwaERp7MUflcCkLskEO5T0Ag9qCN9CDupU5S4tHHDKua3gtI3wpssulVz+mnm1VFxBNuTQlq6468h+wKaCaW8tdmj/u6l+bU51/SHiGKKorNG41o8Ail1m4HGqRSX5JM5FNz81D0bVWGYHttozib7xFfsPPIEBroBnoiH+G1PNT61z0GWXEzmzYcg5/zH7rU1qEGHWD5sSy28mUXaW3qlW72Q14I9nPe/YDvcmUxS2gkDkYN"
+              }
+          ]
+        }
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates new policy in database.
+        Policies can be created by directly providing the signed policy content in the request body.The APC creates the signed policy which
+        is then uploaded manually to APS by the admin/user.
+      operationId: Create-Policy
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/SignedPolicy'
+      - description: Content-Type header
+        enum:
+        - application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created the policy.
+          schema:
+            $ref: '#/definitions/SignedPolicy'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Content-Type/Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policies
+      x-permissions: policies:create
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policies
+      x-sample-call-input: |
+        {
+          "policy": {
+              "meta": {
+                  "version": "1.0",
+                  "id": "b02b67cc-02a9-4fc0-a558-889a5f00cd47",
+                  "description": {
+                      "policy_type": "TD Image",
+                      "label": "My_TD_Policy"
+                  }
+              },
+              "tdx": {
+                  "mrseam": "e9fd4db96cdb886cbcf2e496f451ad4ff1b6e249e7cec0527625c4547cf4d7bfbf2dfc74c80955a86c7c0885c370cb8e",
+                  "mrsignerseam": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "mrtd": "80b2162ea9af461ded43f307ae5711848def45f86780fa9cfc2647300498d76be1bda76f34a8ae308cba97b59431ecd4",
+                  "rtmr0": "2e6cc2ac0fb85a013f279d64e2766552f02e4648ca20bab0e706c0851c8b8bc85a5ec9b58ed7389d0a249855beb326c6",
+                  "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                  "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+              }
+          },
+          "signature": "CLBIFJIxhU+y5Waegzswl79p3/09CNQXk+5Y5T/r+96IeE9mVLDAO3CjUpPqbvEaNu1bF6H6Z3s/6SQhs1XkiBqE9UHIR8SYvWQhwVEDoOmIwMA9ZJzUsQEPA3dkJ6fxdvzcLktvS9o1uuu6lJf3PuvXNb4T+DgsE63u6yOrfnZxpmL3DKMO4XgvX7Xu/GNp7+wY+1bGrBcs1rePcntEgi3+2aIQjmAU9iDxewq0QzjtCysqN6ozxCbz7ObUo/oJQySdnkmIazD7lzejwwaERp7MUflcCkLskEO5T0Ag9qCN9CDupU5S4tHHDKua3gtI3wpssulVz+mnm1VFxBNuTQlq6468h+wKaCaW8tdmj/u6l+bU51/SHiGKKorNG41o8Ail1m4HGqRSX5JM5FNz81D0bVWGYHttozib7xFfsPPIEBroBnoiH+G1PNT61z0GWXEzmzYcg5/zH7rU1qEGHWD5sSy28mUXaW3qlW72Q14I9nPe/YDvcmUxS2gkDkYN"
+        }
+      x-sample-call-output: |-
+        {
+          "policy": {
+              "meta": {
+                  "version": "1.0",
+                  "id": "b02b67cc-02a9-4fc0-a558-889a5f00cd47",
+                  "description": {
+                      "policy_type": "TD Image",
+                      "label": "My_TD_Policy"
+                  }
+              },
+              "tdx": {
+                  "mrseam": "e9fd4db96cdb886cbcf2e496f451ad4ff1b6e249e7cec0527625c4547cf4d7bfbf2dfc74c80955a86c7c0885c370cb8e",
+                  "mrsignerseam": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "mrtd": "80b2162ea9af461ded43f307ae5711848def45f86780fa9cfc2647300498d76be1bda76f34a8ae308cba97b59431ecd4",
+                  "rtmr0": "2e6cc2ac0fb85a013f279d64e2766552f02e4648ca20bab0e706c0851c8b8bc85a5ec9b58ed7389d0a249855beb326c6",
+                  "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                  "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+              }
+          },
+          "signature": "CLBIFJIxhU+y5Waegzswl79p3/09CNQXk+5Y5T/r+96IeE9mVLDAO3CjUpPqbvEaNu1bF6H6Z3s/6SQhs1XkiBqE9UHIR8SYvWQhwVEDoOmIwMA9ZJzUsQEPA3dkJ6fxdvzcLktvS9o1uuu6lJf3PuvXNb4T+DgsE63u6yOrfnZxpmL3DKMO4XgvX7Xu/GNp7+wY+1bGrBcs1rePcntEgi3+2aIQjmAU9iDxewq0QzjtCysqN6ozxCbz7ObUo/oJQySdnkmIazD7lzejwwaERp7MUflcCkLskEO5T0Ag9qCN9CDupU5S4tHHDKua3gtI3wpssulVz+mnm1VFxBNuTQlq6468h+wKaCaW8tdmj/u6l+bU51/SHiGKKorNG41o8Ail1m4HGqRSX5JM5FNz81D0bVWGYHttozib7xFfsPPIEBroBnoiH+G1PNT61z0GWXEzmzYcg5/zH7rU1qEGHWD5sSy28mUXaW3qlW72Q14I9nPe/YDvcmUxS2gkDkYN"
+        }
+  /policies/{policy_id}:
+    delete:
+      description: |
+        Deletes a policy.
+      operationId: Delete-Policy
+      parameters:
+      - description: Unique UUID of the policy.
+        format: uuid
+        in: path
+        name: policy_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the policy.
+        "404":
+          description: No policy with the provided policy ID found.
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policies
+      x-permissions: policies:delete
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policies/b02b67cc-02a9-4fc0-a558-889a5f00cd47
+    get:
+      description: |
+        Retrieves a policy.
+        Returns - The serialized Signed Policy Go struct object that was retrieved.
+      operationId: Retrieve-Policy
+      parameters:
+      - description: Unique UUID of the policy.
+        format: uuid
+        in: path
+        name: policy_id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the policy.
+          schema:
+            $ref: '#/definitions/SignedPolicy'
+        "404":
+          description: No policy with the provided policy ID found.
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error.
+      security:
+      - bearerAuth: []
+      tags:
+      - Policies
+      x-permissions: policies:retrieve
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policies/b02b67cc-02a9-4fc0-a558-889a5f00cd47
+      x-sample-call-output: |-
+        {
+          "policy": {
+              "meta": {
+                  "version": "1.0",
+                  "id": "b02b67cc-02a9-4fc0-a558-889a5f00cd47",
+                  "description": {
+                      "policy_type": "TD Image",
+                      "label": "My_TD_Policy"
+                  }
+              },
+              "tdx": {
+                  "mrseam": "e9fd4db96cdb886cbcf2e496f451ad4ff1b6e249e7cec0527625c4547cf4d7bfbf2dfc74c80955a86c7c0885c370cb8e",
+                  "mrsignerseam": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "mrtd": "80b2162ea9af461ded43f307ae5711848def45f86780fa9cfc2647300498d76be1bda76f34a8ae308cba97b59431ecd4",
+                  "rtmr0": "2e6cc2ac0fb85a013f279d64e2766552f02e4648ca20bab0e706c0851c8b8bc85a5ec9b58ed7389d0a249855beb326c6",
+                  "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                  "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+              }
+          },
+          "signature": "CLBIFJIxhU+y5Waegzswl79p3/09CNQXk+5Y5T/r+96IeE9mVLDAO3CjUpPqbvEaNu1bF6H6Z3s/6SQhs1XkiBqE9UHIR8SYvWQhwVEDoOmIwMA9ZJzUsQEPA3dkJ6fxdvzcLktvS9o1uuu6lJf3PuvXNb4T+DgsE63u6yOrfnZxpmL3DKMO4XgvX7Xu/GNp7+wY+1bGrBcs1rePcntEgi3+2aIQjmAU9iDxewq0QzjtCysqN6ozxCbz7ObUo/oJQySdnkmIazD7lzejwwaERp7MUflcCkLskEO5T0Ag9qCN9CDupU5S4tHHDKua3gtI3wpssulVz+mnm1VFxBNuTQlq6468h+wKaCaW8tdmj/u6l+bU51/SHiGKKorNG41o8Ail1m4HGqRSX5JM5FNz81D0bVWGYHttozib7xFfsPPIEBroBnoiH+G1PNT61z0GWXEzmzYcg5/zH7rU1qEGHWD5sSy28mUXaW3qlW72Q14I9nPe/YDvcmUxS2gkDkYN"
+        }
+  /policy-signing-certificates:
+    get:
+      description: |
+        Policy signing certificates are issued by CMS to APC and are used to sign the policies by created APC.
+        Searches for policy signing certificates based on the query provided.
+        Returns - The serialized policy signing certificate collection Go struct object that was retrieved.
+      operationId: Search-Policy-Signing-Certificates
+      parameters:
+      - description: Certificate Issuer Name
+        format: string
+        in: query
+        name: issuer
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully searched and returned a certificate collection.
+          schema:
+            $ref: '#/definitions/PolicySigningCertCollection'
+        "400":
+          description: Invalid search criteria provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policy-Signing-Certificates
+      x-permissions: policy-signing-certificates:search
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policy-signing-certificates?issuer="CMS
+        Signing CA"
+      x-sample-call-output: |-
+        {
+          [
+                  {
+                    "id": "db21fbd7-9483-4795-bb1e-fa40a2fc2a6c",
+                    "issuer": "CMS Signing CA",
+                    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEBjCCAm6gAwIBAgIBBzANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE\r\nAxMOQ01TIFNpZ25pbmcgQ0EwHhcNMjEwNzAxMTYwOTU2WhcNMjIwNzAxMTYwOTU2\r\nWjApMScwJQYDVQQDEx5BUEMgUG9saWN5IFNpZ25pbmcgQ2VydGlmaWNhdGUwggGi\r\nMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQC5KLgOKWqj/oY9t+DOjIsVpGPg\r\nds7BJ4T6EnD1yMhIWrZv5mp3yP16IrFGnqPhbXpBhOUxtvafCZOvWOmKKLFXK02V\r\nE33RaEKS8S/+rbV+sUWvBd1bHXnWaT9F/97C1iy1OJJBxnYozDhgSf3Mex/NnqEI\r\nVGGZl79tKoKNfxMXFGursnPHYcnmbOVWCFzfIbt0rVnhl0jUUNo/z0mbR3fv78aR\r\nQEqGpSIE3T82tesiitT6mhkvoQVydVdiM0jVvYsX1mOJioWv6QLXjAkhVWfrX2Bm\r\nv4ZrMhvraz1/VHTQigyJWM5cdkaeXNJFH9FBBLEEtigx7dLH8VvGHqL2+Y06cJfw\r\n1DZy3ErQX2lFBPenEDV8uA8mJMjlVimSqtaPvDNI/DG7mGWxsw3eK4mjCcCiH9QN\r\nMHek7Vo/AY/I73Kvrw8IgkDrSDkymOdy+8GkPWdE0gFGBf+0XXAqji/zJZYqXNzg\r\nA1usyhFKUYwTo/10cNd8wgfI+QGk2qnPYWYm3NMCAwEAAaMSMBAwDgYDVR0PAQH/\r\nBAQDAgbAMA0GCSqGSIb3DQEBDAUAA4IBgQAeAZHlD4RhQ/6ETOUzoUBmsWkqaUkB\r\nv3bPUzTf2lBT6iy2ytr/XwuicleIQvS2QQ+Ps0726frT+SQu3XnLQ8gyepo6FFca\r\nsA/8FJNB6GmOIayiUJKcbpx/jexqpfkRyFbMoLPRGWwxEvqHyB22bXcegJiKalOB\r\nd4Fe7K4zmsp1MyG3jK2T8G2K8mscgSxlzvtTGf5Fo3s077U4A5+BFBejo+WVc+07\r\nobll6jC7fyIa63Z0j+zZYCT8/no8jA4lRwP+J9BtPM3TYlqYTToakaMKZEdFHBuX\r\nLLk6MUGmGWBu3QThwOjjHAaNUOGZySRvoZgqNurOglb3hwfZxKOKCZwoNMnTrcAz\r\nsswDGnOwpP2FcSdeuavh8G0I80WCbLH1E3gmUO3+W++MaenkNrAgVr/WVJLhS+Kv\r\n7bpwS1hgfogx3TOmnyhgc62TjEKG5Yl1sQf6ht53J30JxUX6voasOl0401V35Bqt\r\nLi3snd9AIdRoVGIZR2f+z5gFF5/D0bzKaPo=\r\n-----END CERTIFICATE-----\r\n-----BEGIN CERTIFICATE-----\r\nMIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE\r\nAxMFQ01TQ0EwHhcNMjEwNzAxMTU1MzE5WhcNMjYwNzAxMTU1MzE5WjBQMQswCQYD\r\nVQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF\r\nTDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB\r\njwAwggGKAoIBgQCajdX11SBF1a6HGQ45W3YtBFFcRKENCh4FOM2DIoWSSWSMk58L\r\nHrUxUL1882k9O0IH47O8bxQ6V0l9Qi5zywfMOtQIfs3C6VxFhoBw8AKSCRqEjwbt\r\n0ITkypHLWLeBzNIVN2aUChdVVh4I5i50bpF4O1o1y1aNwv6q2IAL1Aaw6l0ruHbn\r\nEIP/X2q6+VOCk1UErMCWHjsIUvHTx5VkIiOGHXHAJZ2c8WYjhfwPsK2c01n9O01v\r\nFppSoMYP/F404sdO9gJPls0uW/fsE6b4pLopdmkyclhlbzzgg+JVOc8rnZR5of35\r\nyilyHTisFqpHtU/swZA9yBHc5YHK54C1Pc4VOju+jF8YAUQRmmKaYhLwrn0TxLqh\r\nTuXJSJn5HoRTL0kxzEBGA0JgMmXRvCWk1COrCtVs+NAs+bXw14R44sCCOzg6QfuT\r\nES6iAYQhzRUtv+uPqj8pfUrP/fWO/M210LZk78eY5jP4f11Tct8sm6kLmlrE+W29\r\njAlVBq+QILtEz3sCAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF\r\nMAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAAjA6be27dwiFMXfmXu+TvT1kSnDSbP0\r\nUk7Uy5UhCbr835TXn4PZWoGnmN5xDZZqp9dUNVOMZOZap78k3aqVtFeT0zLVJ6Tr\r\n6qrcZvIpHdQzgBmm3LW2f5WqujTlEkop5V1BOP2SLfqVFV/KC8t/nzrlFlQmZzlr\r\n6lR8aYnKRFceo26eqwm/yilaYrajAQ3DeJwbJEZNkbXDrmAi/kuxNI/JlC5vXbev\r\ny8blpgDpjmHu6IxN5LCD7Q6uB62RAJiocJ96URFp5RaCjf7Q9akKfODwp1sGwcjg\r\niRSI/aHdlGRKUyxkZOCR9WzI1wkGREum2WhlE55wEAhTyIUdaPfe3whLy5Y9vXsH\r\nqs/luYwK0Rh0+3bvTvU0l33wTnblAfQPAzJUP+oxytLzPXMSZQfaCn4JPNFlz70X\r\nLKuOsQ4ovXU++3l5JRwJA3WmYySwkRNq1CbsNCr1pDOjUl3RgrBptXa/XDJRMxj8\r\novJHaA7JAGHv9mlbzpyDSu3IdbWxHXdgdQ==\r\n-----END CERTIFICATE-----"
+                  }
+           ]
+        }
+    post:
+      consumes:
+      - application/x-pem-file
+      description: |
+        Creates new certificate entry in database.
+      operationId: Create-Policy-Signing-Certificate
+      parameters:
+      - description: Content-Type header
+        enum:
+        - application/x-pem-file
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created entry for a new policy signing certificate.
+          schema:
+            $ref: '#/definitions/PolicySigningCert'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Content-Type/Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policy-Signing-Certificates
+      x-permissions: policy-signing-certificates:create
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policy-signing-certificates
+      x-sample-call-input: |
+        -----BEGIN CERTIFICATE-----
+        MIIEBjCCAm6gAwIBAgIBBzANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL
+        MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE
+        AxMOQ01TIFNpZ25pbmcgQ0EwHhcNMjEwNzAxMTYwOTU2WhcNMjIwNzAxMTYwOTU2
+        WjApMScwJQYDVQQDEx5BUEMgUG9saWN5IFNpZ25pbmcgQ2VydGlmaWNhdGUwggGi
+        MA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQC5KLgOKWqj/oY9t+DOjIsVpGPg
+        ds7BJ4T6EnD1yMhIWrZv5mp3yP16IrFGnqPhbXpBhOUxtvafCZOvWOmKKLFXK02V
+        E33RaEKS8S/+rbV+sUWvBd1bHXnWaT9F/97C1iy1OJJBxnYozDhgSf3Mex/NnqEI
+        VGGZl79tKoKNfxMXFGursnPHYcnmbOVWCFzfIbt0rVnhl0jUUNo/z0mbR3fv78aR
+        QEqGpSIE3T82tesiitT6mhkvoQVydVdiM0jVvYsX1mOJioWv6QLXjAkhVWfrX2Bm
+        v4ZrMhvraz1/VHTQigyJWM5cdkaeXNJFH9FBBLEEtigx7dLH8VvGHqL2+Y06cJfw
+        1DZy3ErQX2lFBPenEDV8uA8mJMjlVimSqtaPvDNI/DG7mGWxsw3eK4mjCcCiH9QN
+        MHek7Vo/AY/I73Kvrw8IgkDrSDkymOdy+8GkPWdE0gFGBf+0XXAqji/zJZYqXNzg
+        A1usyhFKUYwTo/10cNd8wgfI+QGk2qnPYWYm3NMCAwEAAaMSMBAwDgYDVR0PAQH/
+        BAQDAgbAMA0GCSqGSIb3DQEBDAUAA4IBgQAeAZHlD4RhQ/6ETOUzoUBmsWkqaUkB
+        v3bPUzTf2lBT6iy2ytr/XwuicleIQvS2QQ+Ps0726frT+SQu3XnLQ8gyepo6FFca
+        sA/8FJNB6GmOIayiUJKcbpx/jexqpfkRyFbMoLPRGWwxEvqHyB22bXcegJiKalOB
+        d4Fe7K4zmsp1MyG3jK2T8G2K8mscgSxlzvtTGf5Fo3s077U4A5+BFBejo+WVc+07
+        obll6jC7fyIa63Z0j+zZYCT8/no8jA4lRwP+J9BtPM3TYlqYTToakaMKZEdFHBuX
+        LLk6MUGmGWBu3QThwOjjHAaNUOGZySRvoZgqNurOglb3hwfZxKOKCZwoNMnTrcAz
+        sswDGnOwpP2FcSdeuavh8G0I80WCbLH1E3gmUO3+W++MaenkNrAgVr/WVJLhS+Kv
+        7bpwS1hgfogx3TOmnyhgc62TjEKG5Yl1sQf6ht53J30JxUX6voasOl0401V35Bqt
+        Li3snd9AIdRoVGIZR2f+z5gFF5/D0bzKaPo=
+        -----END CERTIFICATE-----
+        -----BEGIN CERTIFICATE-----
+        MIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL
+        MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE
+        AxMFQ01TQ0EwHhcNMjEwNzAxMTU1MzE5WhcNMjYwNzAxMTU1MzE5WjBQMQswCQYD
+        VQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF
+        TDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB
+        jwAwggGKAoIBgQCajdX11SBF1a6HGQ45W3YtBFFcRKENCh4FOM2DIoWSSWSMk58L
+        HrUxUL1882k9O0IH47O8bxQ6V0l9Qi5zywfMOtQIfs3C6VxFhoBw8AKSCRqEjwbt
+        0ITkypHLWLeBzNIVN2aUChdVVh4I5i50bpF4O1o1y1aNwv6q2IAL1Aaw6l0ruHbn
+        EIP/X2q6+VOCk1UErMCWHjsIUvHTx5VkIiOGHXHAJZ2c8WYjhfwPsK2c01n9O01v
+        FppSoMYP/F404sdO9gJPls0uW/fsE6b4pLopdmkyclhlbzzgg+JVOc8rnZR5of35
+        yilyHTisFqpHtU/swZA9yBHc5YHK54C1Pc4VOju+jF8YAUQRmmKaYhLwrn0TxLqh
+        TuXJSJn5HoRTL0kxzEBGA0JgMmXRvCWk1COrCtVs+NAs+bXw14R44sCCOzg6QfuT
+        ES6iAYQhzRUtv+uPqj8pfUrP/fWO/M210LZk78eY5jP4f11Tct8sm6kLmlrE+W29
+        jAlVBq+QILtEz3sCAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF
+        MAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAAjA6be27dwiFMXfmXu+TvT1kSnDSbP0
+        Uk7Uy5UhCbr835TXn4PZWoGnmN5xDZZqp9dUNVOMZOZap78k3aqVtFeT0zLVJ6Tr
+        6qrcZvIpHdQzgBmm3LW2f5WqujTlEkop5V1BOP2SLfqVFV/KC8t/nzrlFlQmZzlr
+        6lR8aYnKRFceo26eqwm/yilaYrajAQ3DeJwbJEZNkbXDrmAi/kuxNI/JlC5vXbev
+        y8blpgDpjmHu6IxN5LCD7Q6uB62RAJiocJ96URFp5RaCjf7Q9akKfODwp1sGwcjg
+        iRSI/aHdlGRKUyxkZOCR9WzI1wkGREum2WhlE55wEAhTyIUdaPfe3whLy5Y9vXsH
+        qs/luYwK0Rh0+3bvTvU0l33wTnblAfQPAzJUP+oxytLzPXMSZQfaCn4JPNFlz70X
+        LKuOsQ4ovXU++3l5JRwJA3WmYySwkRNq1CbsNCr1pDOjUl3RgrBptXa/XDJRMxj8
+        ovJHaA7JAGHv9mlbzpyDSu3IdbWxHXdgdQ==
+        -----END CERTIFICATE-----
+      x-sample-call-output: |-
+        {
+          "id": "db21fbd7-9483-4795-bb1e-fa40a2fc2a6c",
+          "issuer": "CMS Signing CA",
+          "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEBjCCAm6gAwIBAgIBBzANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE\r\nAxMOQ01TIFNpZ25pbmcgQ0EwHhcNMjEwNzAxMTYwOTU2WhcNMjIwNzAxMTYwOTU2\r\nWjApMScwJQYDVQQDEx5BUEMgUG9saWN5IFNpZ25pbmcgQ2VydGlmaWNhdGUwggGi\r\nMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQC5KLgOKWqj/oY9t+DOjIsVpGPg\r\nds7BJ4T6EnD1yMhIWrZv5mp3yP16IrFGnqPhbXpBhOUxtvafCZOvWOmKKLFXK02V\r\nE33RaEKS8S/+rbV+sUWvBd1bHXnWaT9F/97C1iy1OJJBxnYozDhgSf3Mex/NnqEI\r\nVGGZl79tKoKNfxMXFGursnPHYcnmbOVWCFzfIbt0rVnhl0jUUNo/z0mbR3fv78aR\r\nQEqGpSIE3T82tesiitT6mhkvoQVydVdiM0jVvYsX1mOJioWv6QLXjAkhVWfrX2Bm\r\nv4ZrMhvraz1/VHTQigyJWM5cdkaeXNJFH9FBBLEEtigx7dLH8VvGHqL2+Y06cJfw\r\n1DZy3ErQX2lFBPenEDV8uA8mJMjlVimSqtaPvDNI/DG7mGWxsw3eK4mjCcCiH9QN\r\nMHek7Vo/AY/I73Kvrw8IgkDrSDkymOdy+8GkPWdE0gFGBf+0XXAqji/zJZYqXNzg\r\nA1usyhFKUYwTo/10cNd8wgfI+QGk2qnPYWYm3NMCAwEAAaMSMBAwDgYDVR0PAQH/\r\nBAQDAgbAMA0GCSqGSIb3DQEBDAUAA4IBgQAeAZHlD4RhQ/6ETOUzoUBmsWkqaUkB\r\nv3bPUzTf2lBT6iy2ytr/XwuicleIQvS2QQ+Ps0726frT+SQu3XnLQ8gyepo6FFca\r\nsA/8FJNB6GmOIayiUJKcbpx/jexqpfkRyFbMoLPRGWwxEvqHyB22bXcegJiKalOB\r\nd4Fe7K4zmsp1MyG3jK2T8G2K8mscgSxlzvtTGf5Fo3s077U4A5+BFBejo+WVc+07\r\nobll6jC7fyIa63Z0j+zZYCT8/no8jA4lRwP+J9BtPM3TYlqYTToakaMKZEdFHBuX\r\nLLk6MUGmGWBu3QThwOjjHAaNUOGZySRvoZgqNurOglb3hwfZxKOKCZwoNMnTrcAz\r\nsswDGnOwpP2FcSdeuavh8G0I80WCbLH1E3gmUO3+W++MaenkNrAgVr/WVJLhS+Kv\r\n7bpwS1hgfogx3TOmnyhgc62TjEKG5Yl1sQf6ht53J30JxUX6voasOl0401V35Bqt\r\nLi3snd9AIdRoVGIZR2f+z5gFF5/D0bzKaPo=\r\n-----END CERTIFICATE-----\r\n-----BEGIN CERTIFICATE-----\r\nMIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE\r\nAxMFQ01TQ0EwHhcNMjEwNzAxMTU1MzE5WhcNMjYwNzAxMTU1MzE5WjBQMQswCQYD\r\nVQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF\r\nTDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB\r\njwAwggGKAoIBgQCajdX11SBF1a6HGQ45W3YtBFFcRKENCh4FOM2DIoWSSWSMk58L\r\nHrUxUL1882k9O0IH47O8bxQ6V0l9Qi5zywfMOtQIfs3C6VxFhoBw8AKSCRqEjwbt\r\n0ITkypHLWLeBzNIVN2aUChdVVh4I5i50bpF4O1o1y1aNwv6q2IAL1Aaw6l0ruHbn\r\nEIP/X2q6+VOCk1UErMCWHjsIUvHTx5VkIiOGHXHAJZ2c8WYjhfwPsK2c01n9O01v\r\nFppSoMYP/F404sdO9gJPls0uW/fsE6b4pLopdmkyclhlbzzgg+JVOc8rnZR5of35\r\nyilyHTisFqpHtU/swZA9yBHc5YHK54C1Pc4VOju+jF8YAUQRmmKaYhLwrn0TxLqh\r\nTuXJSJn5HoRTL0kxzEBGA0JgMmXRvCWk1COrCtVs+NAs+bXw14R44sCCOzg6QfuT\r\nES6iAYQhzRUtv+uPqj8pfUrP/fWO/M210LZk78eY5jP4f11Tct8sm6kLmlrE+W29\r\njAlVBq+QILtEz3sCAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF\r\nMAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAAjA6be27dwiFMXfmXu+TvT1kSnDSbP0\r\nUk7Uy5UhCbr835TXn4PZWoGnmN5xDZZqp9dUNVOMZOZap78k3aqVtFeT0zLVJ6Tr\r\n6qrcZvIpHdQzgBmm3LW2f5WqujTlEkop5V1BOP2SLfqVFV/KC8t/nzrlFlQmZzlr\r\n6lR8aYnKRFceo26eqwm/yilaYrajAQ3DeJwbJEZNkbXDrmAi/kuxNI/JlC5vXbev\r\ny8blpgDpjmHu6IxN5LCD7Q6uB62RAJiocJ96URFp5RaCjf7Q9akKfODwp1sGwcjg\r\niRSI/aHdlGRKUyxkZOCR9WzI1wkGREum2WhlE55wEAhTyIUdaPfe3whLy5Y9vXsH\r\nqs/luYwK0Rh0+3bvTvU0l33wTnblAfQPAzJUP+oxytLzPXMSZQfaCn4JPNFlz70X\r\nLKuOsQ4ovXU++3l5JRwJA3WmYySwkRNq1CbsNCr1pDOjUl3RgrBptXa/XDJRMxj8\r\novJHaA7JAGHv9mlbzpyDSu3IdbWxHXdgdQ==\r\n-----END CERTIFICATE-----"
+        }
+  /policy-signing-certificates/{cert_id}:
+    delete:
+      description: |
+        Deletes a policy signing certificate.
+      operationId: Delete-Policy-Signing-Certificate
+      parameters:
+      - description: Unique UUID of the certificate.
+        format: uuid
+        in: path
+        name: cert_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the certificate.
+        "404":
+          description: No certificate with the provided ID found.
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Policy-Signing-Certificates
+      x-permissions: policy-signing-certificates:delete
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policy-signing-certificates/db21fbd7-9483-4795-bb1e-fa40a2fc2a6c
+    get:
+      description: |
+        Retrieves a Policy Signing Certificate.
+        Returns - The serialized Policy Signing Certificate Go struct object that was retrieved.
+      operationId: Retrieve-Policy-Signing-Certificate
+      parameters:
+      - description: Unique UUID of the certificate.
+        format: uuid
+        in: path
+        name: cert_id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the policy signing certificate.
+          schema:
+            $ref: '#/definitions/PolicySigningCert'
+        "404":
+          description: No flavor with the provided flavor ID found.
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error.
+      security:
+      - bearerAuth: []
+      tags:
+      - Policy-Signing-Certificates
+      x-permissions: policy-signing-certificates:retrieve
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/policy-signing-certificates/db21fbd7-9483-4795-bb1e-fa40a2fc2a6c
+      x-sample-call-output: |-
+        {
+          "id": "db21fbd7-9483-4795-bb1e-fa40a2fc2a6c",
+          "issuer": "CMS Signing CA",
+          "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEBjCCAm6gAwIBAgIBBzANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE\r\nAxMOQ01TIFNpZ25pbmcgQ0EwHhcNMjEwNzAxMTYwOTU2WhcNMjIwNzAxMTYwOTU2\r\nWjApMScwJQYDVQQDEx5BUEMgUG9saWN5IFNpZ25pbmcgQ2VydGlmaWNhdGUwggGi\r\nMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQC5KLgOKWqj/oY9t+DOjIsVpGPg\r\nds7BJ4T6EnD1yMhIWrZv5mp3yP16IrFGnqPhbXpBhOUxtvafCZOvWOmKKLFXK02V\r\nE33RaEKS8S/+rbV+sUWvBd1bHXnWaT9F/97C1iy1OJJBxnYozDhgSf3Mex/NnqEI\r\nVGGZl79tKoKNfxMXFGursnPHYcnmbOVWCFzfIbt0rVnhl0jUUNo/z0mbR3fv78aR\r\nQEqGpSIE3T82tesiitT6mhkvoQVydVdiM0jVvYsX1mOJioWv6QLXjAkhVWfrX2Bm\r\nv4ZrMhvraz1/VHTQigyJWM5cdkaeXNJFH9FBBLEEtigx7dLH8VvGHqL2+Y06cJfw\r\n1DZy3ErQX2lFBPenEDV8uA8mJMjlVimSqtaPvDNI/DG7mGWxsw3eK4mjCcCiH9QN\r\nMHek7Vo/AY/I73Kvrw8IgkDrSDkymOdy+8GkPWdE0gFGBf+0XXAqji/zJZYqXNzg\r\nA1usyhFKUYwTo/10cNd8wgfI+QGk2qnPYWYm3NMCAwEAAaMSMBAwDgYDVR0PAQH/\r\nBAQDAgbAMA0GCSqGSIb3DQEBDAUAA4IBgQAeAZHlD4RhQ/6ETOUzoUBmsWkqaUkB\r\nv3bPUzTf2lBT6iy2ytr/XwuicleIQvS2QQ+Ps0726frT+SQu3XnLQ8gyepo6FFca\r\nsA/8FJNB6GmOIayiUJKcbpx/jexqpfkRyFbMoLPRGWwxEvqHyB22bXcegJiKalOB\r\nd4Fe7K4zmsp1MyG3jK2T8G2K8mscgSxlzvtTGf5Fo3s077U4A5+BFBejo+WVc+07\r\nobll6jC7fyIa63Z0j+zZYCT8/no8jA4lRwP+J9BtPM3TYlqYTToakaMKZEdFHBuX\r\nLLk6MUGmGWBu3QThwOjjHAaNUOGZySRvoZgqNurOglb3hwfZxKOKCZwoNMnTrcAz\r\nsswDGnOwpP2FcSdeuavh8G0I80WCbLH1E3gmUO3+W++MaenkNrAgVr/WVJLhS+Kv\r\n7bpwS1hgfogx3TOmnyhgc62TjEKG5Yl1sQf6ht53J30JxUX6voasOl0401V35Bqt\r\nLi3snd9AIdRoVGIZR2f+z5gFF5/D0bzKaPo=\r\n-----END CERTIFICATE-----\r\n-----BEGIN CERTIFICATE-----\r\nMIIENTCCAp2gAwIBAgIBAzANBgkqhkiG9w0BAQwFADBHMQswCQYDVQQGEwJVUzEL\r\nMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEOMAwGA1UE\r\nAxMFQ01TQ0EwHhcNMjEwNzAxMTU1MzE5WhcNMjYwNzAxMTU1MzE5WjBQMQswCQYD\r\nVQQGEwJVUzELMAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRF\r\nTDEXMBUGA1UEAxMOQ01TIFNpZ25pbmcgQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IB\r\njwAwggGKAoIBgQCajdX11SBF1a6HGQ45W3YtBFFcRKENCh4FOM2DIoWSSWSMk58L\r\nHrUxUL1882k9O0IH47O8bxQ6V0l9Qi5zywfMOtQIfs3C6VxFhoBw8AKSCRqEjwbt\r\n0ITkypHLWLeBzNIVN2aUChdVVh4I5i50bpF4O1o1y1aNwv6q2IAL1Aaw6l0ruHbn\r\nEIP/X2q6+VOCk1UErMCWHjsIUvHTx5VkIiOGHXHAJZ2c8WYjhfwPsK2c01n9O01v\r\nFppSoMYP/F404sdO9gJPls0uW/fsE6b4pLopdmkyclhlbzzgg+JVOc8rnZR5of35\r\nyilyHTisFqpHtU/swZA9yBHc5YHK54C1Pc4VOju+jF8YAUQRmmKaYhLwrn0TxLqh\r\nTuXJSJn5HoRTL0kxzEBGA0JgMmXRvCWk1COrCtVs+NAs+bXw14R44sCCOzg6QfuT\r\nES6iAYQhzRUtv+uPqj8pfUrP/fWO/M210LZk78eY5jP4f11Tct8sm6kLmlrE+W29\r\njAlVBq+QILtEz3sCAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQF\r\nMAMBAf8wDQYJKoZIhvcNAQEMBQADggGBAAjA6be27dwiFMXfmXu+TvT1kSnDSbP0\r\nUk7Uy5UhCbr835TXn4PZWoGnmN5xDZZqp9dUNVOMZOZap78k3aqVtFeT0zLVJ6Tr\r\n6qrcZvIpHdQzgBmm3LW2f5WqujTlEkop5V1BOP2SLfqVFV/KC8t/nzrlFlQmZzlr\r\n6lR8aYnKRFceo26eqwm/yilaYrajAQ3DeJwbJEZNkbXDrmAi/kuxNI/JlC5vXbev\r\ny8blpgDpjmHu6IxN5LCD7Q6uB62RAJiocJ96URFp5RaCjf7Q9akKfODwp1sGwcjg\r\niRSI/aHdlGRKUyxkZOCR9WzI1wkGREum2WhlE55wEAhTyIUdaPfe3whLy5Y9vXsH\r\nqs/luYwK0Rh0+3bvTvU0l33wTnblAfQPAzJUP+oxytLzPXMSZQfaCn4JPNFlz70X\r\nLKuOsQ4ovXU++3l5JRwJA3WmYySwkRNq1CbsNCr1pDOjUl3RgrBptXa/XDJRMxj8\r\novJHaA7JAGHv9mlbzpyDSu3IdbWxHXdgdQ==\r\n-----END CERTIFICATE-----"
+        }
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: GetVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://aps.com:5443/aps/v1/version
+      x-sample-call-output: |-
+        Service Name: Attestation Policy Service
+        Version: v5.0.0-0f0162ea
+        Build Date: 2021-03-08T12:31:46+0000
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

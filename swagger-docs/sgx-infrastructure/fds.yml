@@ -1,0 +1,401 @@
+basePath: /fds/v1/
+definitions:
+  HardwareFeatures:
+    properties:
+      SGX:
+        $ref: '#/definitions/SGX'
+      TDX:
+        $ref: '#/definitions/TDX'
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  Host:
+    properties:
+      host_id:
+        format: uuid
+        type: string
+        x-go-name: Id
+      host_info:
+        $ref: '#/definitions/HostInfo'
+      host_name:
+        type: string
+        x-go-name: HostName
+      status:
+        type: string
+        x-go-name: Status
+      valid_to:
+        format: date-time
+        type: string
+        x-go-name: ValidTo
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  HostCollection:
+    items:
+      $ref: '#/definitions/Host'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/docs/shared/fds
+  HostCreateRequest:
+    properties:
+      host_info:
+        $ref: '#/definitions/HostInfo'
+      host_name:
+        type: string
+        x-go-name: HostName
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  HostInfo:
+    properties:
+      hardware_features:
+        $ref: '#/definitions/HardwareFeatures'
+      hardware_uuid:
+        format: uuid
+        type: string
+        x-go-name: HardwareUUID
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  Meta:
+    properties:
+      epc_offset:
+        type: string
+        x-go-name: EpcOffset
+      epc_size:
+        type: string
+        x-go-name: EpcSize
+      flc_enabled:
+        type: boolean
+        x-go-name: FlcEnabled
+      integrity_enabled:
+        type: boolean
+        x-go-name: IntegrityEnabled
+      tcb_upto_date:
+        type: string
+        x-go-name: TcbUptoDate
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  SGX:
+    properties:
+      enabled:
+        type: boolean
+        x-go-name: Enabled
+      meta:
+        $ref: '#/definitions/Meta'
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  TDX:
+    properties:
+      enabled:
+        type: boolean
+        x-go-name: Enabled
+      meta:
+        $ref: '#/definitions/Meta'
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl-tee/v5/pkg/model/fds
+  UUID:
+    description: |-
+      A UUID is a 128 bit (16 byte) Universal Unique IDentifier as defined in RFC
+      4122.
+    items:
+      format: uint8
+      type: integer
+    type: array
+    x-go-package: github.com/google/uuid
+host: fds.com:13000
+info:
+  description: |-
+    The Feature Discovery Service (FDS) is a component of Intel® Security Libraries (ISecL).
+    It stores host related information such as hostname, hardware uuid in its database.
+    It also stores enablement information around various platform security features supported
+    on the server.
+    During orchestration, this information can then be pulled by orchestrators to label nodes
+    in the cluster. The workloads can then be tagged to run specifically on the nodes with specific
+    platform security feature enabled on it.
+  license:
+    name: 'Copyright (C) 2021 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: Feature Discovery Service
+  version: "1"
+paths:
+  /hosts:
+    get:
+      description: |
+        Searches for hosts.
+        Returns - The serialized HostCollection Go struct object that was retrieved, which is a collection of serialized Host Go struct objects.
+      operationId: SearchHost
+      parameters:
+      - description: Include hosts with inactive status.
+        in: query
+        name: includeExpiredHosts
+        type: boolean
+      - description: Search by host name.
+        in: query
+        name: hostName
+        type: string
+      - description: Search by host's hardware UUID.
+        in: query
+        name: hostHardwareId
+        type: string
+      - description: Order search result in ascending or descending order. Value should
+          be either asc/desc. Default is asc.
+        enum:
+        - asc
+        - desc
+        in: query
+        name: orderBy
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the hosts.
+          schema:
+            $ref: '#/definitions/HostCollection'
+        "400":
+          description: Invalid values for request params
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Hosts
+      x-permissions: hosts:search
+      x-sample-call-endpoint: https://fds.com:13000/fds/v1/hosts
+      x-sample-call-output: "[\n  \t{\n  \t\t\"host_id\": \"cdd62307-71a2-4b29-8efa-4de14f8f98f4\",\n
+        \ \t\t\"host_name\": \"FM2-ArcherCity-3\",\n  \t\t\"host_info\": {\n  \t\t\t\"hardware_uuid\":
+        \"88888888-8887-0f81-89a3-9819a5a5a5a5\",\n  \t\t\t\"hardware_features\":
+        {\n  \t\t\t\t\"SGX\": {\n  \t\t\t\t\t\"enabled\": true,\n  \t\t\t\t\t\"meta\":
+        {\n  \t\t\t\t\t\t\"integrity_enabled\": true,\n  \t\t\t\t\t\t\"flc_enabled\":
+        true,\n  \t\t\t\t\t\t\"epc_size\": \"1006.0 MB\",\n\t\t\t\t\t\t\"epc_offset\":
+        \"0x40000000\",\n  \t\t\t\t\t\t\"tcb_upto_date\": \"false\"\n  \t\t\t\t\t}\n
+        \ \t\t\t\t},\n  \t\t\t\t\"TDX\": {\n  \t\t\t\t\t\"enabled\": true,\n  \t\t\t\t\t\"meta\":
+        {\n  \t\t\t\t\t\t\"tcb_upto_date\": \"false\"\n  \t\t\t\t\t}\n  \t\t\t\t}\n
+        \ \t\t\t}\n  \t\t},\n  \t\t\"status\": \"active\",\n  \t\t\"valid_to\": \"2021-08-16T08:13:16.752099Z\"\n
+        \ \t}\n]"
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a host.
+        The serialized HostCreateRequest Go struct object represents the content of the request body.
+
+         | Attribute | Description |
+         |-----------|-------------|
+         | host_name | Name for the host to be registered.     |
+         | host_info | The host info object. |
+      operationId: CreateHost
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/HostCreateRequest'
+      - description: Content-Type header
+        enum:
+        - application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created the host.
+          schema:
+            $ref: '#/definitions/Host'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Hosts
+      x-permissions: hosts:create
+      x-sample-call-endpoint: https://fds.com:13000/fds/v1/hosts
+      x-sample-call-input: |
+        {
+            "host_name": "FM2-ArcherCity-3",
+            "host_info": {
+                "hardware_uuid": "88888888-8887-0f81-89a3-9819a5a5a5a5",
+                "hardware_features": {
+                    "SGX": {
+                        "enabled": true,
+                        "meta": {
+                            "integrity_enabled": true,
+                            "flc_enabled": true,
+                            "epc_size": "1006.0 MB",
+                            "epc_offset": "0x40000000",
+                            "tcb_upto_date": "false"
+                        }
+                    },
+                    "TDX": {
+                        "enabled": true,
+                        "meta": {
+                            "tcb_upto_date": "false"
+                        }
+                    }
+                }
+            }
+        }
+      x-sample-call-output: |-
+        {
+            "host_id": "cdd62307-71a2-4b29-8efa-4de14f8f98f4",
+            "host_name": "FM2-ArcherCity-3",
+            "host_info": {
+                "hardware_uuid": "88888888-8887-0f81-89a3-9819a5a5a5a5",
+                "hardware_features": {
+                    "SGX": {
+                        "enabled": true,
+                        "meta": {
+                            "integrity_enabled": true,
+                            "flc_enabled": true,
+                            "epc_size": "1006.0 MB",
+                            "epc_offset": "0x40000000",
+                            "tcb_upto_date": "false"
+                        }
+                    },
+                    "TDX": {
+                        "enabled": true,
+                            "meta": {
+                            "tcb_upto_date": "false"
+                        }
+                    }
+                }
+            },
+            "status": "active",
+            "valid_to": "2021-08-16T08:13:16.752099Z"
+        }
+  /hosts/{host_id}:
+    delete:
+      description: |
+        Deletes a host.
+      operationId: DeleteHost
+      parameters:
+      - description: Unique ID of the host.
+        format: uuid
+        in: path
+        name: host_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the host.
+        "404":
+          description: Host record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Hosts
+      x-permissions: hosts:delete
+      x-sample-call-endpoint: https://fds.com:13000/fds/v1/hosts/cdd62307-71a2-4b29-8efa-4de14f8f98f4
+    get:
+      description: |
+        Retrieves a host.
+        Returns - The serialized Host Go struct object that was retrieved.
+      operationId: RetrieveHost
+      parameters:
+      - description: Unique ID of the host.
+        format: uuid
+        in: path
+        name: host_id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the host.
+          schema:
+            $ref: '#/definitions/Host'
+        "404":
+          description: Host record not found
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Hosts
+      x-permissions: hosts:retrieve
+      x-sample-call-endpoint: https://fds.com:13000/fds/v1/hosts/cdd62307-71a2-4b29-8efa-4de14f8f98f4
+      x-sample-call-output: |-
+        {
+            "host_id": "cdd62307-71a2-4b29-8efa-4de14f8f98f4",
+            "host_name": "FM2-ArcherCity-3",
+            "host_info": {
+                "hardware_uuid": "88888888-8887-0f81-89a3-9819a5a5a5a5",
+                "hardware_features": {
+                    "SGX": {
+                        "enabled": true,
+                        "meta": {
+                            "integrity_enabled": true,
+                            "flc_enabled": true,
+                            "epc_size": "1006.0 MB",
+                            "epc_offset": "0x40000000",
+                            "tcb_upto_date": "false"
+                        }
+                    },
+                    "TDX": {
+                        "enabled": true,
+                        "meta": {
+                            "tcb_upto_date": "false"
+                        }
+                    }
+                }
+            },
+            "status": "active",
+            "valid_to": "2021-08-16T08:13:16.752099Z"
+        }
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: GetVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://fds.com:13000/fds/v1/version
+      x-sample-call-output: |-
+        Service Name: Feature Discovery Service
+        Version: v4.0.0-0f0162ea
+        Build Date: 2021-08-03T12:17:18+0000
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
