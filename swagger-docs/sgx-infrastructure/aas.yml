@@ -8,7 +8,7 @@ definitions:
         type: string
         x-go-name: ComponentType
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   CustomClaims:
     properties:
       claims:
@@ -24,14 +24,14 @@ definitions:
         type: integer
         x-go-name: ValiditySecs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   Parameters:
     properties:
       host-id:
         type: string
         x-go-name: TaHostId
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   PasswordChange:
     properties:
       new_password:
@@ -47,7 +47,7 @@ definitions:
         type: string
         x-go-name: UserName
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   PermissionInfo:
     properties:
       context:
@@ -62,7 +62,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleCreate:
     properties:
       context:
@@ -82,7 +82,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleCreateResponse:
     properties:
       name:
@@ -95,7 +95,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleIDs:
     properties:
       role_ids:
@@ -104,7 +104,7 @@ definitions:
         type: array
         x-go-name: RoleUUIDs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RolePermission:
     properties:
       permission_id:
@@ -114,7 +114,7 @@ definitions:
         type: string
         x-go-name: Rule
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   RoleTypeInfo:
     properties:
       context:
@@ -137,12 +137,12 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   RolesResponse:
     items:
       $ref: '#/definitions/RoleTypeInfo'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   UserCreate:
     properties:
       password:
@@ -152,7 +152,7 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserCreateResponse:
     properties:
       user_id:
@@ -162,7 +162,7 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserCred:
     properties:
       password:
@@ -172,12 +172,12 @@ definitions:
         type: string
         x-go-name: UserName
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserPermissions:
     items:
       $ref: '#/definitions/PermissionInfo'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   UserRoleResponse:
     properties:
       context:
@@ -195,17 +195,17 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   UserRolesResponse:
     items:
       $ref: '#/definitions/UserRoleResponse'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
   UsersResponse:
     items:
       $ref: '#/definitions/UserCreateResponse'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/aas
 host: aas.com:8444
 info:
   description: |-
