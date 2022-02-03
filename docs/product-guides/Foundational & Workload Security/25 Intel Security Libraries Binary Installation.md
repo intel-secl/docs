@@ -114,7 +114,7 @@ To install the Verification Service, follow these steps:
 * Execute the installer binary.
 
    ```shell
-   ./hvs-v4.1.0.bin
+   ./hvs-v4.1.1.bin
    ```
 
    When the installation completes, the Verification Service is available. The services can be verified by running **hvs status** from the Verification Service command line.
@@ -179,7 +179,7 @@ The Intel® Security Libraries Workload Service supports:
 * Execute the WLS installer binary:
 
   ```shell
-  ./wls-v4.1.0.bin
+  ./wls-v4.1.1.bin
   ```
 
 
@@ -456,7 +456,7 @@ To install the Trust Agent for Linux:
 * Execute the Trust Agent installer and wait for the installation to complete.
 
   ```shell
-  ./trustagent-v4.1.0.bin
+  ./trustagent-v4.1.1.bin
   ```
 
 If the `trustagent.env` answer file was provided with the minimum required options, the Trust Agent will be installed and also Provisioned to the Verification Service specified in the answer file.
@@ -521,7 +521,7 @@ The following must be completed before installing the Workload Agent:
 * Execute the Workload Agent installer binary.
 
   ```shell
-  ./workload-agent-v4.1.0.bin
+  ./workload-agent-v4.1.1.bin
   ```
 
 * Reboot the server. The Workload Agent populates files that are
@@ -854,7 +854,7 @@ BEARER_TOKEN=eyJhbGciOiJSUzM4NCIsImtpZCI6ImE…
     directory & execute the installer binary.
 
    ```shell
-   ./ihub-v4.1.0.bin
+   ./ihub-v4.1.1.bin
    ```
 
 * Copy the `/etc/ihub/ihub_public_key.pem` to Kubernetes Controller machine to `/<path>/secrets/` directory
@@ -1343,5 +1343,5 @@ The Intel® Security Libraries Workload Policy Manager supports:
 * Execute the WPM installer:
 
     ```shell
-    ./wpm-v4.1.0.bin
+    ./wpm-v4.1.1.bin
     ```
