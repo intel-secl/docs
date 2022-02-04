@@ -129,7 +129,7 @@ systemctl restart docker
 
   ```shell
   mkdir -p /root/intel-secl/build/fs && cd /root/intel-secl/build/fs
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.0.1
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.0.2
   repo sync
   ```
 
@@ -183,7 +183,7 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
   ```shell
   mkdir -p /root/intel-secl/build/cc-crio && cd /root/intel-secl/build/cc-crio
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.0.1
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.0.2
   repo sync
   ```
 
@@ -246,7 +246,7 @@ This section details deployment of Intel SecL services as a Kubernetes deploymen
 
 #### Foundational Security
 
-  - `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/v4.0.1/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  - `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/v4.0.2/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
 
   - Only for Ubuntu, run the following command
 
@@ -258,7 +258,7 @@ This section details deployment of Intel SecL services as a Kubernetes deploymen
 
 ##### Container Confidentiality with CRIO runtime
 
-  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/v4.0.1/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/v4.0.2/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
   * Copy `container-runtime` directory to each of the physical servers  
 
   - Run the `install-prereqs-crio.sh` script on the physical servers from `container-runtime`

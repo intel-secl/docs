@@ -6,20 +6,20 @@ Intel® Security Libraries is distributed as open source code and must be compil
 
 Instructions and sample scripts for building the Intel® SecL-DC components can be found in
 
-https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20RHEL.md
+https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20RHEL.md
 
 After the components have been built, the installation binaries and database scripts can be found in the binaries directory created by the build scripts.
 
 Generated component binaries/installers are:
 
-- CMS: cms-v4.0.1.bin
-- AAS: authservice-v4.0.1.bin
-- SCS: scs-v4.0.1.bin
-- SHVS: shvs-v4.0.1.bin
-- IHUB: ihub-v4.0.1.bin
-- SQVS: sqvs-v4.0.1.bin
-- KBS: kbs-v4.0.1.bin
-- K8S-Extensions: isecl-k8s-extensions-v4.0.1.tar.gz
+- CMS: cms-v4.0.2.bin
+- AAS: authservice-v4.0.2.bin
+- SCS: scs-v4.0.2.bin
+- SHVS: shvs-v4.0.2.bin
+- IHUB: ihub-v4.0.2.bin
+- SQVS: sqvs-v4.0.2.bin
+- KBS: kbs-v4.0.2.bin
+- K8S-Extensions: isecl-k8s-extensions-v4.0.2.tar.gz
 - SGX-Agent: agent_untar.sh, sgx_agent.sha2 and sgx_agent.tar
 - SKC-Library: skclib_untar.sh, skc_library.sha2 and skc_library.tar
 
@@ -32,23 +32,23 @@ DB scripts:
 
 Intel® Security Libraries is distributed as open source code and must be compiled into OCI images before installation.
 
-Instructions and sample scripts for building the Intel® SecL-DC components  as containerized images for Kubernetes deployments can be found in [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#build)
+Instructions and sample scripts for building the Intel® SecL-DC components  as containerized images for Kubernetes deployments can be found in [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#build)
 
 After the components have been built, the OCI images and pre-req scripts can be found in the `K8s` directory created by the build scripts.
 
 Generated components `OCI images`  under `<working directory>/k8s/container-images`:
 
-* Authentication Authorization Service: `aas-v4.0.1.tar`
-* Certificate Management Service: `cms-v4.0.1.tar`
-* Integration Hub: `ihub-v4.0.1.tar`
-* Key Broker Service: `kbs-v4.0.1.tar`
-* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.0.1.tar`
-* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.0.1.tar`
-* SGX Caching Service: `scs-v4.0.1.tar`
-* SGX Quote Verification Service: `sqvs-v4.0.1.tar`
-* SGX Host Verification Service: `shvs-v4.0.1.tar`
-* SGX Agent: `sgx-agent-v4.0.1.tar`
-* SKC Library: `skc-lib-4.0.1.tar`
+* Authentication Authorization Service: `aas-v4.0.2.tar`
+* Certificate Management Service: `cms-v4.0.2.tar`
+* Integration Hub: `ihub-v4.0.2.tar`
+* Key Broker Service: `kbs-v4.0.2.tar`
+* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.0.2.tar`
+* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.0.2.tar`
+* SGX Caching Service: `scs-v4.0.2.tar`
+* SGX Quote Verification Service: `sqvs-v4.0.2.tar`
+* SGX Host Verification Service: `shvs-v4.0.2.tar`
+* SGX Agent: `sgx-agent-v4.0.2.tar`
+* SKC Library: `skc-lib-4.0.2.tar`
 
 Generated Components `K8s Manifests` directories under `<working directory>/k8s/manifests`:
 
@@ -251,18 +251,18 @@ The containerized deployment utilizes K8s orchestrator to deploy SGX components.
 * Ensure based on the deployment model , `microk8s` or `kubeadm` in installed. Supported versions in [Requirements for Containerized Deployment with K8s](#requirements-for-containerized-deployment-with-k8s)
 * Docker runtime is configured for each of these deployments. Supported versions in [Requirements for Containerized Deployment with K8s](#requirements-for-containerized-deployment-with-k8s)
 * The build would generate a script for platform dependencies under `<working directory>/k8s/platform dependencies`
-* Follow the deployment pre-reqs as given in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deployment) based on the chosen deployment model
+* Follow the deployment pre-reqs as given in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deployment) based on the chosen deployment model
 
 ### Deploy Steps
 
-* The deploy steps are detailed in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deploy-steps) based on the deployment model. Follow the instructions for the deployment using the scripts
+* The deploy steps are detailed in the [Quick Start guide](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#deploy-steps) based on the deployment model. Follow the instructions for the deployment using the scripts
 
 ### Additional Details
 
-* [Default Service and Agent Mount Paths - Single Node](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-and-agent-mount-paths)
-* [Default Service and Agent Mount Paths - Multi Node](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#multi-node-deployments)
-* [Default Service Ports](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-ports)
-* [NFS Setup Pre-reqs - Multi Node](https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#setup-1)
+* [Default Service and Agent Mount Paths - Single Node](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-and-agent-mount-paths)
+* [Default Service and Agent Mount Paths - Multi Node](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#multi-node-deployments)
+* [Default Service Ports](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#default-service-ports)
+* [NFS Setup Pre-reqs - Multi Node](https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#setup-1)
 
 ## Installing the Certificate Management Service
 
@@ -306,7 +306,7 @@ For all configuration options and their descriptions, refer to the Intel® SecL 
 
 3.  Execute the installer binary.
 
-./cms-v4.0.1.bin
+./cms-v4.0.2.bin
 
 When the installation completes, the Certificate Management Service is available. The services can be verified by running cms status from the command line.
 
@@ -405,7 +405,7 @@ Create the authservice.env installation answer file in /root/ directory as below
 Execute the AAS installer:
 
 ```
-./authservice-v4.0.1.bin
+./authservice-v4.0.2.bin
 ```
 
 ???+ note 
@@ -581,7 +581,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 Execute the SCS installer binary:
 
-./scs-v4.0.1.bin
+./scs-v4.0.2.bin
 
 ## Installing the SGX Host Verification Service
 
@@ -682,7 +682,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 Execute the installer binary.
 ```
-./shvs-v4.0.1.bin
+./shvs-v4.0.2.bin
 ```
 When the installation completes, the SGX Host Verification Service is available. The service can be verified by running **shvs** status from the SGX Host Verification Service command line.
 
@@ -818,7 +818,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 3.  Execute the sqvs installer binary.
 
 ```
-./sqvs-v4.0.1.bin
+./sqvs-v4.0.2.bin
 ```
 
 When the installation completes, the SGX Quote Verification Service is available. The service can be verified by sqvs status from the sqvs command line.
@@ -832,7 +832,7 @@ sqvs status
 
 * To setup k8 cluster on RHEL 8.2, follow https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos
 
-* To setup k8s cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v4.0.1/develop/quick-start-guides/Secure%20Key%20Caching%20-%20Ubuntu.md
+* To setup k8s cluster on Ubuntu 18.04, follow the "Install, Enable and start the Docker daemon" section in Ubuntu Quick Start Guide - https://github.com/intel-secl/docs/blob/v4.0.2/develop/quick-start-guides/Secure%20Key%20Caching%20-%20Ubuntu.md
 Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and follow from step 3 onwards.
 
 * Once the master/worker setup is done, follow below steps on Master Node:
@@ -852,11 +852,11 @@ Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and 
 * Push images to private registry using skopeo command, (this can be done from build vm also)
 
   ```shell
-     skopeo copy oci-archive:isecl-k8s-controller-v4.0.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.1
-     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1
+     skopeo copy oci-archive:isecl-k8s-controller-v4.0.2-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.2
+     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.2-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.2
   ```
 
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1). It will automatically pull the images from registry.
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.2). It will automatically pull the images from registry.
 
 
 ##### Deploy isecl-controller
@@ -1096,7 +1096,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 4.  Execute the installer binary.
 
-./ihub-v4.0.1.bin
+./ihub-v4.0.2.bin
 
 In case installation fails, its recommended to run the following command to clear failed service instance
 

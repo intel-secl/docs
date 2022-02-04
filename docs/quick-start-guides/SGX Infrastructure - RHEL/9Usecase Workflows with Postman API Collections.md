@@ -1,6 +1,6 @@
 # Usecase Workflows with Postman API Collections
 
-The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v4.0.1/develop/tools/api-collections) repository
+The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v4.0.2/develop/tools/api-collections) repository
 
 ## Use Case Collections
 

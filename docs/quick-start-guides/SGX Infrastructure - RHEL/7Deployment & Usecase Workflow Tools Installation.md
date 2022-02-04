@@ -32,4 +32,4 @@ The below installation is required on the Build & Deployment system only and the
 * Postman client should be [downloaded](https://www.postman.com/downloads/) on supported platforms or on the web to get started with the usecase collections.
 
 ???+ note 
-    The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v4.0.1/develop/tools/api-collections)
+    The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v4.0.2/develop/tools/api-collections)

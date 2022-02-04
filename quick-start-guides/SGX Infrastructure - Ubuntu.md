@@ -198,7 +198,7 @@ The rest of this document will indicate steps that are only needed for SKC.
 
 ```
 mkdir -p /root/workspace && cd /root/workspace
-repo init -u https://github.com/intel-secl/build-manifest.git -b refs/tags/v4.0.1 -m manifest/skc.xml
+repo init -u https://github.com/intel-secl/build-manifest.git -b refs/tags/v4.0.2 -m manifest/skc.xml
 repo sync
 ```
 
@@ -282,14 +282,14 @@ The below installation is required on the Build & Deployment system only and the
 
 * Postman client should be [downloaded](https://www.postman.com/downloads/) on supported platforms or on the web to get started with the usecase collections.
 
-  > **Note:** The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v4.0.1/develop/tools/api-collections)
+  > **Note:** The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v4.0.2/develop/tools/api-collections)
 
 
 ## **8. Deployment**
 
 ### Deployment Using Ansible
 
-The below details would enable the deployment through Ansible Role for Intel® SecL-DC Secure Key Caching Usecase. However the services can still be installed manually using the Product Guide. More details on Ansible Role for Intel® SecL-DC in [Ansible-Role](https://github.com/intel-secl/utils/tree/v4.0.1/develop/tools/ansible-role) repository.
+The below details would enable the deployment through Ansible Role for Intel® SecL-DC Secure Key Caching Usecase. However the services can still be installed manually using the Product Guide. More details on Ansible Role for Intel® SecL-DC in [Ansible-Role](https://github.com/intel-secl/utils/tree/v4.0.2/develop/tools/ansible-role) repository.
 
 ### Download the Ansible Role 
 
@@ -458,11 +458,11 @@ ansible-playbook <playbook-name> --extra-vars setup=<setup var from supported us
 * Push images to private registry using skopeo command, (this can be done from build vm also)
   
   ```shell
-     skopeo copy oci-archive:isecl-k8s-controller-v4.0.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.1
-     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1
+     skopeo copy oci-archive:isecl-k8s-controller-v4.0.2-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.2
+     skopeo copy oci-archive:isecl-k8s-scheduler-v4.0.2-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.2
   ```
   
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1). It will automatically pull the images from registry.
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.2). It will automatically pull the images from registry.
   
 
 ##### Deploy isecl-controller
@@ -745,7 +745,7 @@ Save and Close
 
 ## **9. Usecase Workflows with Postman API Collections**
 
-The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v4.0.1/develop/tools/api-collections) repository
+The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v4.0.2/develop/tools/api-collections) repository
 
 ### Use Case Collections
 
