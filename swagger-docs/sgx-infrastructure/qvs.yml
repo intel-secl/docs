@@ -36,7 +36,7 @@ info:
   version: 1.0.0
 paths:
   /quote/sgx/verify:
-    get:
+    post:
       consumes:
       - application/json
       description: |
@@ -98,7 +98,7 @@ paths:
             "quote_verification_result": "OK"
         }
   /quote/tdx/verify:
-    get:
+    post:
       consumes:
       - application/json
       description: |
