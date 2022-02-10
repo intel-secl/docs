@@ -79,7 +79,7 @@ Table of Contents
 
 ### Machines
 
-* RHEL 8.2 Build Machine
+* Ubuntu 18.04 Build Machine
 
 * K8s control-plane Node Setup on CSP (VMs/Physical Nodes + SGX enabled Physical Nodes)
 
@@ -87,7 +87,7 @@ Table of Contents
 
 ### OS Requirements
 
-* RHEL 8.2 for build
+* Ubuntu 18.04 for build
 
 * RHEL 8.2 or Ubuntu 18.04 for K8s cluster deployments
 
@@ -164,15 +164,16 @@ The multi node supports `kubeadm` as a supported K8s distribution
 
 ### Pre-requisites
 
-The below steps need to be done on RHEL 8.2 Build machine (VM/Physical Node)
+The below steps need to be done on Ubuntu 18.04 Build machine (VM/Physical Node)
 
 #### Development Tools and Utilities
 
 ```shell
-dnf install -y git wget tar python3 gcc gcc-c++ zip tar make yum-utils openssl-devel
-dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
+apt-get install -y software-properties-common git gcc zip wget make python3 python3-yaml python3-pip tar lsof jq nginx curl libssl-dev ca-certificates
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
+add-apt-repository ppa:projectatomic/ppa
+apt-get update
 ```
 
 #### Repo tool
@@ -198,10 +199,12 @@ rm -rf go1.14.4.linux-amd64.tar.gz
 #### Docker
 
 ```shell
-dnf module enable -y container-tools
-dnf install -y yum-utils
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce-19.03.13 docker-ce-cli-19.03.13
+wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_1.2.10-3_amd64.deb 
+dpkg -i containerd.io_1.2.10-3_amd64.deb
+wget "https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_19.03.5~3-0~ubuntu-bionic_amd64.deb"
+dpkg -i docker-ce-cli_19.03.5~3-0~ubuntu-bionic_amd64.deb
+wget "https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_19.03.5~3-0~ubuntu-bionic_amd64.deb"
+dpkg -i docker-ce_19.03.5~3-0~ubuntu-bionic_amd64.deb
 
 systemctl enable docker
 systemctl start docker
@@ -223,7 +226,32 @@ systemctl restart docker
 #### Skopeo
 
 ```shell
-dnf install -y skopeo
+add-apt-repository ppa:projectatomic/ppa
+apt-get update
+apt install -y makeself
+apt install -y skopeo
+```
+
+> Note: After skopeo installation, if /etc/containers/policy.json file not available then follow below steps:
+```
+mkdir /etc/containers
+touch /etc/containers/policy.json 
+
+#Add below contents in policy.json
+{
+    "default": [
+        {
+            "type": "insecureAcceptAnything"
+        }
+    ],
+    "transports":
+        {
+            "docker-daemon":
+                {
+                    "": [{"type":"insecureAcceptAnything"}]
+                }
+        }
+}
 ```
 
 ### Build OCI Container images and K8s Manifests

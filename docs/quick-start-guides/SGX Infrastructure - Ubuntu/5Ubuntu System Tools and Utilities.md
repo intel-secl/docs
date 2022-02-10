@@ -13,7 +13,7 @@ apt-get install makeself
 export PATH=/usr/local/bin:$PATH
 ```
 
-???+ note 
+> Note 
     After skopeo installation, if /etc/containers/policy.json file not available then follow below steps:
 ```
 mkdir /etc/containers
