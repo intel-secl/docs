@@ -2,15 +2,34 @@
 
 ## Pre-requisites
 
-The below steps need to be done on RHEL 8.2 or RHEL 8.4(stack based deployment) Build machine (VM/Physical Node)
+The below steps need to be done on Ubuntu 18.04/20.04(stack based deployment) Build machine (VM/Physical Node)
 
 ### Development Tools and Utilities
 
 ```shell
+#RHEL 8.4(stack based deployment only)
 dnf install -y git wget tar python3 gcc gcc-c++ zip tar make yum-utils openssl-devel
 dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
+
+
+# Ubuntu-18.04
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
+
+# Ubuntu-20.04
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
+
+apt-get install makeself
+export PATH=/usr/local/bin:$PATH
 ```
 
 ### Repo tool
@@ -83,11 +102,6 @@ systemctl restart docker
 
 ### Skopeo
 
-For RHEL 8.2 OS
-
-```shell
-dnf install -y skopeo
-```
 For RHEL 8.4 OS	
 
 ```shell
