@@ -1,7 +1,7 @@
 Intel Security Libraries for Data Center
 =========================================
 
-# ***Intel(R) SecL-DC version 4.1 GA***
+# ***Intel(R) SecL-DC version 4.1.1***
 
 Foundational/WL Use Cases:
 
@@ -9,7 +9,7 @@ Foundational/WL Use Cases:
 	-	As part of this feature, the HVS /reports API now has an additional option for asynchronous report generation - see the Swagger API 
 		documentation for details.  Existing calls to /reports will work with no needed changes.
 	-	A new long-lived token is required to give the Trust Agent permissions to generate new asynchronous reports on startup.  To support this 
-		feature in an environment upgraded from an earlier release, use the 4.1 version of the populate-users script.  Use the new resulting 	
+		feature in an environment upgraded from an earlier release, use the 4.1.1 version of the populate-users script.  Use the new resulting 	
 		installation token to run the "tagent setup download-api-token" setup task on each Trust Agent host at the end of the upgrade process.
 	-	The new long-lived token expires after one year.  To regenerate the token, generate a new installation bearer token using the 
 		populate-users script, and use that token to run the "tagent setup download-api-token" setup task on each Trust Agent host.
@@ -21,7 +21,7 @@ Foundational/WL Use Cases:
 	-	As with all Kubernetes worker node tainting, pods can be configured with "tolerations" to be scheduled even on tainted workers.  
 
 
-# ***Intel(R) SecL-DC version 4.0 GA***
+# ***Intel(R) SecL-DC version 4.1.1***
 
 Foundational/WL Use Cases:
 
