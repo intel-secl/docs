@@ -1,6 +1,15 @@
 Intel Security Libraries for Data Center
 =========================================
 
+
+# ***Intel(R) SecL-DC version 4.1.1 GA***
+
+- The base image used in the Dockerfiles for all Intel SecL containers has changed from centos:8 to ubuntu:focal.
+
+# ***Intel(R) SecL-DC version 4.0.2 GA***
+
+- The base image used in the Dockerfiles for all Intel SecL containers has changed from centos:8 to ubuntu:focal.
+
 # ***Intel(R) SecL-DC version 4.1 GA***
 
 - New attestation reports will now be triggered whenever a Trust Agent starts, including as a result of a host reboot.  Note that this does not affect VMWare hosts.  
