@@ -187,67 +187,13 @@ fail, as the decryption key will not be provided.
 ## Container Confidentiality
 --------------------------------
 
-### Container Confidentiality with Cri-o and Skopeo
+### Container Confidentiality with Cri-o
 
 #### Prerequisites
 
-Container Confidentiality with Cri-o and Skopeo requires modified versions of both Cri-o and Skopeo.  Both of these are automatically built with the Intel SecL build scripts, and can be found here after the script has executed:
+Container Confidentiality with Cri-o runtime requires cri-o with version >=1.21 and skopeo version >=1.3.0
 
-```
-isecl/cc-crio/binaries/
-```
-
-[Skopeo](https://github.com/lumjjb/skopeo/tree/sample_integration)
-
-- The patched version of Skopeo 0.1.41-dev must be installed on each Worker Node: https://github.com/lumjjb/skopeo/tree/sample_integration.
-
-- The Skopeo wrapper that allows Skopeo to interface with the ISecL components must be installed on each Worker Node: https://github.com/lumjjb/skopeo/blob/sample_integration/vendor/github.com/lumjjb/seclkeywrap/keywrapper_secl.go.
-
-- Copy the Skopeo wrapper into /usr/bin:
-
-  ```
-  cp isecl/cc-crio/binaries/skopeo /usr/bin/skopeo
-  ```
-
-- Add the following to the crio.service definition to always start Cri-o with the Intel SecL policy parameters enabled:
-
-  ```
-  vi /usr/local/lib/systemd/system/crio.service
-  ExecStart=/usr/local/bin/crio \
-            $CRIO_CONFIG_OPTIONS \
-            $CRIO_RUNTIME_OPTIONS \
-            $CRIO_STORAGE_OPTIONS \
-            $CRIO_NETWORK_OPTIONS \
-            $CRIO_METRICS_OPTIONS \
-            --decryption-secl-parameters secl:enabled
-  ```
-
-[Cri-o 1.17](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o)
-
-- The patched version of Cri-o 1.17 must be installed on each Worker Node:   https://github.com/lumjjb/cri-o/blob/1.16_encryption_sample_integration.
-
-- Copy the CRI-O binary from IsecL build script to /usr/bin/:
-
-  ```
-  cp isecl/cc-crio/binaries/crio /usr/bin/crio
-  ```
-
-
-
-- The Cri-o wrapper that allows Cri-o to interface with ISecL components must be installed on each Worker Node: https://github.com/lumjjb/cri-o/blob/1.16_encryption_sample_integration/vendor/github.com/lumjjb/seclkeywrap/keywrapper_secl.go.
-
-- GoLang 1.16.7 must be installed on each Kubernetes Worker Node
-
-- Crictl must be installed on each Kubernetes Worker Node
-
-  ```
-  $ VERSION="v1.17.0"
-  $ wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
-  $ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
-  $ rm -f crictl-$VERSION-linux-amd64.tar.gz
-  ```
-
-- Kubernetes must be configured to use Cri-o and Skopeo
+- Kubernetes must be configured to use Cri-o
 
 - Platform Integrity Attestation must be configured for the physical Kubernetes Worker Nodes.
 
@@ -256,21 +202,40 @@ isecl/cc-crio/binaries/
 
 - Only physical Worker Nodes are supported at this time.  
 
+## Installing Workload Policy Manager
+
+[Workload Policy Manager Installation](https://github.com/intel-innersource/documentation.security.isecl.docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#installing-the-workload-policy-manager)
+
 #### Workflow
 
-###### Skopeo Commands
+##### Image encryption
+
+Configure the ocicrypt config file  `/etc/ocicrypt-wpm.json` as below 
+
+```shell 
+    {
+        "key-providers": {
+            "isecl": {
+                "cmd": {
+                    "path":"/usr/bin/wpm",
+                    "args": ["get-ocicrypt-wrappedkey"]
+                }
+            }
+        }
+    }
+```
+
+###### Skopeo Commands for encrypting image
 
 ```
-skopeo copy source-image destination-image
-
- Options:
-
---encryption-key [secl:asset_tag|keyfile] Specifies the encryption protocol. When using secl protocol, provide either "any" or an asset tag in the form "at_key:at_value"; only one asset tag can be used at this time. Alternatively, a specific key can be provided to be used for encryption.
-
---decryption-key [secl:enabled|keyfile] specifies the decryption Alternatively, a specific key can be provided to be used for decryption. This flag can be repeated if an image requires more than one key to be decrypted.
+$OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt-wpm.json skopeo copy --encryption-key provider:isecl:any source-image destination-image
 ```
 
-See https://github.com/lumjjb/skopeo/blob/sample_integration/docs/skopeo-copy.1.md for more details.
+Alternatively, encrypt the image and push it to a registry in a single step:
+
+```
+$ OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt-wpm.json skopeo copy --encryption-key provider:isecl:any oci:custom-image:latest docker://registry.server.com:5000/custom-image:enc
+```
 
 ######  Examples
 
@@ -283,31 +248,13 @@ $ skopeo copy docker://docker.io/library/nginx:latest oci:nginx_local
 To encrypt an image (this will allow the image to run only on Trusted platforms):
 
 ```
-$ skopeo copy --encryption-key secl:any oci:nginx_local oci:nginx_secl_enc
-```
-
-To encrypt an image with an Asset Tag (this will allow the image to run only on Trusted platforms with the specified Asset tag):
-
-```
-$ skopeo copy --encryption-key secl:asset_tag_key:asset_tag_value oci:nginx_local oci:nginx_secl_enc_w_at
-```
-
-To decrypt an image:
-
-```
-$ skopeo copy --decryption-key secl:enabled oci:nginx_secl_enc oci:nginx_secl_dec
-```
-
-To copy an encrypted image without decryption:
-
-```
-$ skopeo copy oci:nginx_secl_enc oci:nginx_secl_enc_copy
+$ OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt-wpm.json skopeo copy --encryption-key provider:isecl:any oci:nginx_local oci:nginx_secl_enc
 ```
 
 To copy a local image to a remote registry:
 
 ```
-$ skopeo copy oci:nginx_secl_enc docker://10.80.245.116/nginx_secl_enc:latest
+$ skopeo copy oci:nginx_secl_enc docker://registry.server.com:5000/nginx_secl_enc:latest
 ```
 
 ###### Prepare an Image
@@ -318,10 +265,10 @@ Convert the image to an OCI image using Skopeo:
 $ skopeo copy docker-daemon:custom-image:latest oci:custom-image:latest
 ```
 
-Encrypt the image using Skopeo copy command
+Encrypt the image
 
 ```
-$ skopeo copy --encryption-key secl:any oci:custom-image:latest oci:custom-image:enc
+$ OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt-wpm.json skopeo copy --encryption-key provider:isecl:any oci:custom-image:latest oci:custom-image:enc
 ```
 
 Push the image to a registry:
@@ -330,22 +277,29 @@ Push the image to a registry:
 $ skopeo copy oci:custom-image:enc docker://Registry.server.com:5000/custom-image:enc
 ```
 
-Alternatively, encrypt the image and push it to a registry in a single step:
-
-```
-$ skopeo copy --encryption-key secl:any oci:custom-image:latest docker://registry.server.com:5000/custom-image:enc
-```
-
-
 ##### Pulling and Encrypting a Container Image
 
-Skopeo can be used to pull a container image from an external registry (a private Docker registry is used in the examples below). This image may be encrypted already, but if you wish to pull an image for encryption, it must be in plaintext format. Skopeo has a wrapper that can interact with the Workload Policy Manager. When trying to encrypt an image, Skopeo calls the WPM CLI fetch-key command. In the command, the KBS is called in order to create a new key. The return from the KBS includes the key retrieval URL, which is used when trying to decrypt. After the key is returned to the WPM, the WPM passes the key back to Skopeo. Skopeo uses the key to encrypt the image layer by layer as well as associate the encrypted image with the key's URL. Skopeo then uploads the encrypted image to a remote container registry.
+Skopeo can be used to pull a container image from an external registry (a private Docker registry is used in the examples abocve). This image may be encrypted already, but if you wish to pull an image for encryption, it must be in plaintext format. Skopeo has a wrapper that can interact with the Workload Policy Manager. When trying to encrypt an image, Skopeo calls the WPM CLI fetch-key command. In the command, the KBS is called in order to create a new key. The return from the KBS includes the key retrieval URL, which is used when trying to decrypt. After the key is returned to the WPM, the WPM passes the key back to Skopeo. Skopeo uses the key to encrypt the image layer by layer as well as associate the encrypted image with the key's URL. Skopeo then uploads the encrypted image to a remote container registry.
 
-The modified Cri-o and wrapper will modify the Cri-o commands to allow Intel SecL policies to be utilized.
+#####  Importing Verification Service Certificates
 
+[Importing Verification Service Certificates](https://github.com/intel-innersource/documentation.security.isecl.docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#importing-verification-service-certificates)
 
 #####  Launching an Encrypted Container Image
 
-Cri-o allows for pulling and decryption of an encrypted container image from a container registry. When trying to pull and decrypt a container image, Cri-o has a hook that calls into the Workload Agent (WLA). The WLA will call into the Workload Service (WLS) and pass it the key URL associated with the encrypted image as well as the host's hardware UUID. These two serve as input to /keys endpoint of the WLS. The WLS initializes a HVS client in order to retrieve the host SAML report and then validates the report. If the host is trusted, the WLS will attempt to get the key. First, it will check if it's been cached alredy. If not, it will initialize a KBS client. The WLS uses this client to retrieve the key from the KBS. If the key is retrieved, it will be cached in the WLS temporarily so that the WLS will not need to requery the KBS if attempting to decrypt with the same key. The key is then passed back to the WLA as the return of the WLS's keys API. Finally, the key is returned to Cri-o, which uses the key to decrypt the container image layer by layer.
+##### Configure the ocicrypt config file `ocicrypt-wlagent.json` as below in each WLA nodes.
+```shell script
+    {
+        "key-providers":{
+            "isecl": {
+               "grpc": "unix:///var/run/workload-agent/wlagent.sock"
+            }
+        }
+    }
+```
+???+ note 
+    Its recommended to not to set http_proxy variables if proxy server is running behind, instead please use a registry mirror to pull any publicly available images
 
 Containers of the protected images can now be launched as normal using Kubernetes pods and deployments. Encrypted images will only be accessible on hosts with a Platform Integrity Attestation report showing the host is trusted. If the Crio Container is launched on a host that is not trusted, the launch will fail, as the decryption key will not be provided.
+
+Pull encrypted image using command line from the each WLA node `crictl pull <Registry-IP>:5000/<image-name>:<tag>`

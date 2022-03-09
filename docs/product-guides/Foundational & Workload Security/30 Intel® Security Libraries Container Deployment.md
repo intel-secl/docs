@@ -4,22 +4,22 @@
 
 ### Supported Operating Systems
 
-- RHEL 8.3
-- Ubuntu 18.04
+- RHEL 8.4
+- Ubuntu 20.04
 
 ### Kubernetes Distributions
 
 The included Intel SecL container deployment scripts can deploy using the following Kubernetes distributions:
 
-- Single-node: `microk8s` (1.17.17)
+- Single-node: `microk8s` (1.22.2)
   - A "single-node" deployment will deploy all of the Intel SecL services into a single microk8s deployment on a single **bare metal** container host.   Because all resources are deployed onto a single worker, only local resources are required.  This deployment type is best used for POCs and demos due to the requirement of a physical server.
-- Multi-node: `kubeadm` (1.17.17)
+- Multi-node: `kubeadm` (1.22.2)
   - A "multi-node" deployment will deploy the Intel SecL services using kubeadm as a Kubernetes pod, using NFS shared storage.  Any worker nodes that will be attested must be bare metal physical servers; agents will be deployed as privileged DaemonSets.
 
 ### Container Runtime
 
-- CRIO-1.17.5 on RHEL 8.3
-- CRIO-1.17.5 on Ubuntu 18.04
+- CRIO-1.21 on RHEL 8.4
+- CRIO-1.21 on Ubuntu 20.04
 
 ### Storage
 
@@ -32,18 +32,18 @@ The included Intel SecL container deployment scripts can deploy using the follow
 
 ###  Prerequisites
 
-The following steps need to be performed on a RHEL 8.3 Build machine (VM/Physical Node)
+The following steps need to be performed on a RHEL 8.4 Build machine (VM/Physical Node)
 
 ####  System Tools and Utilities
 
 ```shell
-# RedHat Enterprise Linux 8.3
+# RedHat Enterprise Linux 8.4
 dnf install -y git wget tar python3 gcc gcc-c++ zip make yum-utils openssl-devel
 dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
 
-# Ubuntu-18.04
+# Ubuntu-20.04
 apt update
 apt remove -y gcc gcc-7
 apt install -y python3-problem-report git wget tar python3 gcc-8 make makeself openssl libssl-dev libgpg-error-dev
@@ -75,16 +75,16 @@ rm -rf go1.16.7.linux-amd64.tar.gz
 #### Docker
 
 ```shell
-# RedHat Enterprise Linux-8.3
+# RedHat Enterprise Linux-8.4
 dnf module enable -y container-tools
 dnf install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce-19.03.13 docker-ce-cli-19.03.13
+dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
 
 systemctl enable docker
 systemctl start docker
 
-# Ubuntu-18.04
+# Ubuntu-20.04
 apt-get install -y \
     apt-transport-https \
     ca-certificates \
@@ -99,7 +99,9 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 apt-get update
-apt-get -y install docker-ce=5:19.03.13~3-0~ubuntu-bionic docker-ce-cli=5:19.03.13~3-0~ubuntu-bionic containerd.io
+
+# Ubuntu 20.04 
+apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
 
 systemctl enable docker
 systemctl start docker
@@ -129,7 +131,7 @@ systemctl restart docker
 
   ```shell
   mkdir -p /root/intel-secl/build/fs && cd /root/intel-secl/build/fs
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.0.1
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.1.1
   repo sync
   ```
 
@@ -147,9 +149,9 @@ systemctl restart docker
   # RHEL 8.x
   dnf install -y skopeo
 
-  # Ubuntu 18.04
-  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
+  # Ubuntu 20.04
+  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo apt-key add -
   apt-get update
   apt-get -y upgrade
   apt-get -y install skopeo
@@ -164,7 +166,7 @@ systemctl restart docker
 
 
 
-  - Multi-node: `kubeadm` (1.17.17)
+  - Multi-node: `kubeadm` (1.22.2)
 
     - A "multi-node" deployment will deploy the Intel SecL services using kubeadm as a Kubernetes pod, using NFS shared storage.
     - Multi node cluster with kubeadm - `make k8s`
@@ -185,7 +187,7 @@ Workload Confidentiality can be used with either the CRIO container runtime.
 
   ```shell
   mkdir -p /root/intel-secl/build/cc-crio && cd /root/intel-secl/build/cc-crio
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.0.1
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.1.1
   repo sync
   ```
 
@@ -385,7 +387,7 @@ WLA_SERVICE_USERNAME=wlauser@wls
 WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 KMIP_HOSTNAME=<KMIP IP/Hostname>
 KMIP_SERVER_IP=
@@ -632,7 +634,7 @@ WLA_SERVICE_USERNAME=wlauser@wls
 WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 KMIP_HOSTNAME=<KMIP IP/Hostname>
 KMIP_SERVER_IP=

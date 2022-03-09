@@ -25,13 +25,13 @@
 ???+ note 
     In case of microk8s deployment, when docker registry is enabled locally, the OCI container images need to be copied to the node where registry is enabled and then the above example command can be run. The same would not be required when registry is remotely installed
 
-* On each worker node with `TXT/BTG` enabled and registered to K8s control-plane, the following pre-req needs to be done on `RHEL-8.3`/`Ubuntu-18.04`/`Ubuntu-20.04` systems
+* On each worker node with `TXT/BTG` enabled and registered to K8s control-plane, the following pre-req needs to be done on `RHEL-8.4`/`Ubuntu-20.04` systems
 
   * Foundational Security
 
     * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
 
-    * Only for `Ubuntu-18.04`/`Ubuntu-20.04`, run the following commands
+    * Only for `Ubuntu-20.04`, run the following commands
 
       ```shell
       $ modprobe msr
@@ -44,7 +44,7 @@
         
       * Reboot the server
       
-      * Only for `Ubuntu-18.04`/`Ubuntu-20.04`, run the following command
+      * Only for `Ubuntu-20.04`, run the following command
       
           ```shell
           $ modprobe msr
@@ -170,7 +170,7 @@ WLA_SERVICE_USERNAME=wlauser@wls
 WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 KMIP_HOSTNAME=<KMIP IP/Hostname>
 KMIP_SERVER_IP=
@@ -447,7 +447,7 @@ WLA_SERVICE_USERNAME=wlauser@wls
 WLA_SERVICE_PASSWORD=wlaAdminPass
 
 # KBS
-ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/v1
+ENDPOINT_URL=https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
 KBS_CERT_SAN_LIST=kbs-svc.isecl.svc.cluster.local,<K8s control-plane IP>,<K8s control-plane Hostname>
 KMIP_HOSTNAME=<KMIP IP/Hostname>
 KMIP_SERVER_IP=
@@ -581,3 +581,6 @@ volumes:
 systemctl restart kubelet
 ```
 
+## Installing Workload Policy Manager
+
+[Workload Policy Manager Installation](https://github.com/intel-innersource/documentation.security.isecl.docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#installing-the-workload-policy-manager)

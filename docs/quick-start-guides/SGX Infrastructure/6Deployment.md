@@ -490,7 +490,7 @@ Once the master/worker setup is done, follow below steps on Master Node:
      skopeo copy oci-archive:isecl-k8s-scheduler-v4.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.1
   ```
   
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.1.0). It will automatically pull the images from registry.
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.1.1). It will automatically pull the images from registry.
 
 ##### Deploy isecl-controller
 * Create hostattributes.crd.isecl.intel.com crd

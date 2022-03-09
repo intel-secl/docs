@@ -2,18 +2,18 @@
 
 ## Pre-requisites
 
-The below steps need to be done on `RHEL 8.3`/`Ubuntu-18.04`/`Ubuntu 20.04` Build machine (VM/Physical Node)
+The below steps need to be done on `RHEL 8.4`/`Ubuntu 20.04` Build machine (VM/Physical Node)
 
 ### Development Tools and Utilities
 
 ```shell
-# RedHat Enterprise Linux 8.3
+# RedHat Enterprise Linux 8.4
 dnf install -y git wget tar python3 gcc gcc-c++ zip make yum-utils openssl-devel
 dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
 
-# Ubuntu-18.04/Ubuntu-20.04
+# Ubuntu-20.04
 apt update
 apt remove -y gcc gcc-7
 apt install -y python3-problem-report git wget tar python3 gcc-8 make makeself openssl libssl-dev libgpg-error-dev
@@ -45,7 +45,7 @@ rm -rf go1.16.7.linux-amd64.tar.gz
 ### Docker
 
 ```shell
-# RedHat Enterprise Linux-8.3
+# RedHat Enterprise Linux-8.4
 dnf module enable -y container-tools
 dnf install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -54,7 +54,7 @@ dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
 systemctl enable docker
 systemctl start docker
 
-# Ubuntu-18.04/Ubuntu-20.04
+# Ubuntu-20.04
 apt-get install -y \
     apt-transport-https \
     ca-certificates \
@@ -69,9 +69,6 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 apt-get update
-
-# Ubuntu 18.04
-apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-bionic docker-ce-cli=5:20.10.8~3-0~ubuntu-bionic containerd.io
 
 # Ubuntu 20.04 
 apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
@@ -104,7 +101,7 @@ systemctl restart docker
 
   ```shell
   mkdir -p /root/intel-secl/build/fs && cd /root/intel-secl/build/fs
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.1.0-Beta
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.1.1
   repo sync
   ```
 
@@ -163,7 +160,7 @@ systemctl restart docker
 
   ```shell
   mkdir -p /root/intel-secl/build/cc-crio && cd /root/intel-secl/build/cc-crio
-  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.1.0-Beta
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.1.1
   repo sync
   ```
 

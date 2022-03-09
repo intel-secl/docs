@@ -127,8 +127,7 @@ nav:
         - Workload POD Launch Validation: supplementary-guides/Common Cluster Deployment Guide/4Workload POD Launch Validation.md
         - Appendix: supplementary-guides/Common Cluster Deployment Guide/5Appendix.md
   - Release Notes:
-      - Foundational Security: ReleaseNotes/ReleaseNotes-FS.md
-      #- SGX Infrastructure: ReleaseNotes/ReleaseNotes-TEE.md
+      - Release Notes: ReleaseNotes/ReleaseNotes.md
 theme:
    name: material
    font: 

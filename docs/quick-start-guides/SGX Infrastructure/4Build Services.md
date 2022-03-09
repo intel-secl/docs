@@ -128,7 +128,7 @@ rm -rf go1.16.7.linux-amd64.tar.gz
 
 ```shell
 mkdir -p /root/workspace && cd /root/workspace
-repo init -u https://github.com/intel-secl/build-manifest.git -b refs/tags/v4.1.0-Beta -m manifest/skc.xml
+repo init -u https://github.com/intel-secl/build-manifest.git -b refs/tags/v4.1.1 -m manifest/skc.xml
 repo sync
 ```
 

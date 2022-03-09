@@ -12,14 +12,14 @@ After the components have been built, the installation binaries and database scr
 
 Generated component binaries/installers are:
 
-- CMS: cms-v4.1.0.bin
-- AAS: authservice-v4.1.0.bin
-- SCS: scs-v4.1.0.bin
-- SHVS: shvs-v4.1.0.bin
-- IHUB: ihub-v4.1.0.bin
-- SQVS: sqvs-v4.1.0.bin
-- KBS: kbs-v4.1.0.bin
-- K8S-Extensions: isecl-k8s-extensions-v4.1.0.tar.gz
+- CMS: cms-v4.1.1.bin
+- AAS: authservice-v4.1.1.bin
+- SCS: scs-v4.1.1.bin
+- SHVS: shvs-v4.1.1.bin
+- IHUB: ihub-v4.1.1.bin
+- SQVS: sqvs-v4.1.1.bin
+- KBS: kbs-v4.1.1.bin
+- K8S-Extensions: isecl-k8s-extensions-v4.1.1.tar.gz
 - SGX-Agent: agent_untar.sh, sgx_agent.sha2 and sgx_agent.tar
 - SKC-Library: skclib_untar.sh, skc_library.sha2 and skc_library.tar
 
@@ -38,17 +38,17 @@ After the components have been built, the OCI images and pre-req scripts can be 
 
 Generated components `OCI images`  under `<working directory>/k8s/container-images`:
 
-* Authentication Authorization Service: `aas-v4.1.0.tar`
-* Certificate Management Service: `cms-v4.1.0.tar`
-* Integration Hub: `ihub-v4.1.0.tar`
-* Key Broker Service: `kbs-v4.1.0.tar`
-* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.1.0.tar`
-* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.1.0.tar`
-* SGX Caching Service: `scs-v4.1.0.tar`
-* SGX Quote Verification Service: `sqvs-v4.1.0.tar`
-* SGX Host Verification Service: `shvs-v4.1.0.tar`
-* SGX Agent: `sgx-agent-v4.1.0.tar`
-* SKC Library: `skc-lib-4.1.0.tar`
+* Authentication Authorization Service: `aas-v4.1.1.tar`
+* Certificate Management Service: `cms-v4.1.1.tar`
+* Integration Hub: `ihub-v4.1.1.tar`
+* Key Broker Service: `kbs-v4.1.1.tar`
+* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.1.1.tar`
+* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.1.1.tar`
+* SGX Caching Service: `scs-v4.1.1.tar`
+* SGX Quote Verification Service: `sqvs-v4.1.1.tar`
+* SGX Host Verification Service: `shvs-v4.1.1.tar`
+* SGX Agent: `sgx-agent-v4.1.1.tar`
+* SKC Library: `skc-lib-4.1.1.tar`
 
 Generated Components `K8s Manifests` directories under `<working directory>/k8s/manifests`:
 
@@ -313,7 +313,7 @@ For all configuration options and their descriptions, refer to the Intel® SecL 
 
 3.  Execute the installer binary.
 
-./cms-v4.1.0.bin
+./cms-v4.1.1.bin
 
 When the installation completes, the Certificate Management Service is available. The services can be verified by running cms status from the command line.
 
@@ -412,7 +412,7 @@ Create the authservice.env installation answer file in /root/ directory as below
 Execute the AAS installer:
 
 ```
-./authservice-v4.1.0.bin
+./authservice-v4.1.1.bin
 ```
 
 ???+ note 
@@ -588,7 +588,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 Execute the SCS installer binary:
 
-./scs-v4.1.0.bin
+./scs-v4.1.1.bin
 
 ## Installing the SGX Host Verification Service
 
@@ -689,7 +689,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 Execute the installer binary.
 ```
-./shvs-v4.1.0.bin
+./shvs-v4.1.1.bin
 ```
 When the installation completes, the SGX Host Verification Service is available. The service can be verified by running **shvs** status from the SGX Host Verification Service command line.
 
@@ -825,7 +825,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 3.  Execute the sqvs installer binary.
 
 ```
-./sqvs-v4.1.0.bin
+./sqvs-v4.1.1.bin
 ```
 
 When the installation completes, the SGX Quote Verification Service is available. The service can be verified by sqvs status from the sqvs command line.
@@ -859,11 +859,11 @@ Once done, go to https://vitux.com/install-and-deploy-kubernetes-on-ubuntu/ and 
 * Push images to private registry using skopeo command, (this can be done from build vm also)
 
   ```shell
-     skopeo copy oci-archive:isecl-k8s-controller-v4.1.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.1
-     skopeo copy oci-archive:isecl-k8s-scheduler-v4.1.0-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1
+     skopeo copy oci-archive:isecl-k8s-controller-v4.1.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-controller:v4.0.1
+     skopeo copy oci-archive:isecl-k8s-scheduler-v4.1.1-<commitid>.tar docker://<registryIP>:<registryPort>/isecl-k8s-scheduler:v4.0.1
   ```
 
-* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.1.0). It will automatically pull the images from registry.
+* Add the image names in isecl-controller.yml and isecl-scheduler.yml in /opt/isecl-k8s-extensions/yamls with full image name including registry IP/hostname (e.g <registryIP>:<registryPort>/isecl-k8s-scheduler:v4.1.1). It will automatically pull the images from registry.
 
 
 ##### Deploy isecl-controller
@@ -1103,7 +1103,7 @@ Update the BEARER_TOKEN with the TOKEN obtained after running populate-users.sh 
 
 4.  Execute the installer binary.
 
-./ihub-v4.1.0.bin
+./ihub-v4.1.1.bin
 
 In case installation fails, its recommended to run the following command to clear failed service instance
 
