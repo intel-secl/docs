@@ -1,0 +1,623 @@
+basePath: /scs/sgx/certification/v1/
+definitions:
+  PlatformInfoInput:
+    properties:
+      cpu_svn:
+        type: string
+        x-go-name: CPUSvn
+      enc_ppid:
+        type: string
+        x-go-name: EncPpid
+      hardware_uuid:
+        type: string
+        x-go-name: HardwareUUID
+      manifest:
+        type: string
+        x-go-name: PlatformManifest
+      pce_id:
+        type: string
+        x-go-name: PceID
+      pce_svn:
+        type: string
+        x-go-name: PceSvn
+      qe_id:
+        type: string
+        x-go-name: QeID
+    type: object
+    x-go-package: intel/isecl/scs/v4/swagger/docs
+  Response:
+    properties:
+      Message:
+        type: string
+      Status:
+        type: string
+    type: object
+    x-go-package: intel/isecl/scs/v4/resource
+  TcbInfoJSON:
+    properties:
+      TcbInfo:
+        $ref: '#/definitions/TcbInfoType'
+      signature:
+        type: string
+        x-go-name: Signature
+    type: object
+    x-go-package: intel/isecl/scs/v4/resource
+  TcbInfoType:
+    properties:
+      fmspc:
+        type: string
+        x-go-name: Fmspc
+      issueDate:
+        type: string
+        x-go-name: IssueDate
+      nextUpdate:
+        type: string
+        x-go-name: NextUpdate
+      pceId:
+        type: string
+        x-go-name: PceID
+      tcbEvaluationDataNumber:
+        format: int64
+        type: integer
+        x-go-name: TcbEvaluationDataNumber
+      tcbLevels:
+        items:
+          $ref: '#/definitions/TcbLevelsType'
+        type: array
+        x-go-name: TcbLevels
+      tcbType:
+        format: int64
+        type: integer
+        x-go-name: TcbType
+      version:
+        format: int64
+        type: integer
+        x-go-name: Version
+    type: object
+    x-go-package: intel/isecl/scs/v4/resource
+  TcbLevels:
+    properties:
+      pcesvn:
+        format: uint16
+        type: integer
+        x-go-name: PceSvn
+      sgxtcbcomp01svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp01Svn
+      sgxtcbcomp02svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp02Svn
+      sgxtcbcomp03svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp03Svn
+      sgxtcbcomp04svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp04Svn
+      sgxtcbcomp05svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp05Svn
+      sgxtcbcomp06svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp06Svn
+      sgxtcbcomp07svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp07Svn
+      sgxtcbcomp08svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp08Svn
+      sgxtcbcomp09svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp09Svn
+      sgxtcbcomp10svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp10Svn
+      sgxtcbcomp11svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp11Svn
+      sgxtcbcomp12svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp12Svn
+      sgxtcbcomp13svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp13Svn
+      sgxtcbcomp14svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp14Svn
+      sgxtcbcomp15svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp15Svn
+      sgxtcbcomp16svn:
+        format: uint8
+        type: integer
+        x-go-name: SgxTcbComp16Svn
+    type: object
+    x-go-package: intel/isecl/scs/v4/resource
+  TcbLevelsType:
+    properties:
+      tcb:
+        $ref: '#/definitions/TcbLevels'
+      tcbDate:
+        type: string
+        x-go-name: TcbDate
+      tcbStatus:
+        type: string
+        x-go-name: TcbStatus
+    type: object
+    x-go-package: intel/isecl/scs/v4/resource
+host: scs.server.com:9000
+info:
+  description: |-
+    SGX Caching Service (SCS) provides an interface to fetch all the SGX platform collaterals and PCK Certificate
+    from Intel PCS Server and stores them in a local database.
+    Every SKC SGX Service that needs platform collaterals and workloads that needs PCK Certificate shall always contact SGX SCS.
+    SGX SCS listening port is user-configurable.
+  license:
+    name: 'Copyright (C) 2020 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: SGX Caching Service
+  version: "1.0"
+paths:
+  /pckcert:
+    get:
+      description: |
+        Retrieves the Platform Certification Key (PCK) Certificate for the current TCB level of SGX enabled platform
+        with the provided platform values.
+      operationId: getPckCertificate
+      parameters:
+      - description: Encrypted Platform Provisioning ID.
+        in: query
+        name: encrypted_ppid
+        type: string
+      - description: CPU SVN of the platform.
+        in: query
+        name: cpusvn
+        type: string
+      - description: PCE SVN of the platform.
+        in: query
+        name: pcesvn
+        type: string
+      - description: PCE ID of the platform.
+        in: query
+        name: pceid
+        type: string
+      - description: Quoting Enclave ID specific to a platform.
+        in: query
+        name: qeid
+        type: string
+      produces:
+      - application/x-pem-file
+      responses:
+        "200":
+          description: Successfully retrieved the PCK certificate for the platform.
+          schema:
+            type: string
+      tags:
+      - Certificates
+      x-sample-call-endpoint: |
+        https://scs.server.com:9000/scs/sgx/certification/v1/pckcert?encrypted_ppid=82b1bc029231d52e27b4d7bf3fd2a21df8fd4ced21e11e42c96c27d959be56f2973d80aff2b359db8590d2f05d4175c80755dfb0a3c7111e3be35792cf80c3ca5708481e6a1448e51021df0ccf525002b8c31a707171847b49b969491b6bc339837fe62881e39e064620f6c09a1cbdcd29ab7d5922f961ef1f20d6a294cb92ff9a5f42f82baefefe0eabb25872716cf1ea55cd5f65d903ee5605d89e26cb61cc2e5b064409cc53e012b5ada765b7c28dcb3d8d3d2418b56d10abcecd19c920ba3941240a659d42a5212da9ea938b73b6b78366a09b26994634e95b2a01915689266247acafa8545ac6b734843e03c37ee2200e0f6c48589e4ad0d6dc4fb65be5e9242ed0c4122caf720962eac6f7a2ce43ff8b00ea566e1c087d18ae08d1417bb072ac196b050849f97235c40486453d6ab19c9859951b401edb69abddb074c4b1aa1a306d4d631fcef18d46c44af74cd9c117ce817d582c70fa3ec5b7b3037b16e166165d43156c3e2b463adef2615940e9dd119582ca14e152ca3d654289ea&cpusvn=1bf8deed6f929ce40bd658e61ea722eb&pcesvn=0a00&pceid=0000&qeid=0518145496973c5e69577195511e9080
+      x-sample-call-output: |
+        -----BEGIN CERTIFICATE-----
+        MIIE5jCCBI2gAwIBAgIUNpxbNVz2bbSgFUKTNewIizm6qHEwCgYIKoZIzj0EAwIwcDEiMCAGA1UE
+        AwwZSW50ZWwgU0dYIFBDSyBQbGF0Zm9ybSBDQTEaMBgGA1UECgwRSW50ZWwgQ29ycG9yYXRpb24x
+        FDASBgNVBAcMC1NhbnRhIENsYXJhMQswCQYDVQQIDAJDQTELMAkGA1UEBhMCVVMwHhcNMjAwNjE1
+        MDY0MjAwWhcNMjcwNjE1MDY0MjAwWjBwMSIwIAYDVQQDDBlJbnRlbCBTR1ggUENLIENlcnRpZmlj
+        YXRlMRowGAYDVQQKDBFJbnRlbCBDb3Jwb3JhdGlvbjEUMBIGA1UEBwwLU2FudGEgQ2xhcmExCzAJ
+        BgNVBAgMAkNBMQswCQYDVQQGEwJVUzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH1IQvYf6Vso
+        Y4FR6CPQLeUyeG6ZP0rf5sD/jw5Gc/D8EkyiQCiTVyt47/UZa+kmvGGtLW26NKQcvls/ZrXOrGuj
+        ggMDMIIC/zAfBgNVHSMEGDAWgBRZI9OnSqhjVC45cK3gDwcrVyQqtzBiBgNVHR8EWzBZMFegVaBT
+        hlFodHRwczovL3NieC5hcGkudHJ1c3RlZHNlcnZpY2VzLmludGVsLmNvbS9zZ3gvY2VydGlmaWNh
+        dGlvbi92My9wY2tjcmw/Y2E9cGxhdGZvcm0wHQYDVR0OBBYEFNCyP3X/+Q+mKvcHnJelhFGvTLwO
+        MA4GA1UdDwEB/wQEAwIGwDAMBgNVHRMBAf8EAjAAMIICOQYJKoZIhvhNAQ0BBIICKjCCAiYwHgYK
+        KoZIhvhNAQ0BAQQQK1ICWHdapgGvTsGQnrKGuTCCAWMGCiqGSIb4TQENAQIwggFTMBAGCyqGSIb4
+        TQENAQIBAgECMBAGCyqGSIb4TQENAQICAgECMBAGCyqGSIb4TQENAQIDAgEAMBAGCyqGSIb4TQEN
+        AQIEAgEAMBAGCyqGSIb4TQENAQIFAgEAMBAGCyqGSIb4TQENAQIGAgEAMBAGCyqGSIb4TQENAQIH
+        AgEAMBAGCyqGSIb4TQENAQIIAgEAMBAGCyqGSIb4TQENAQIJAgEAMBAGCyqGSIb4TQENAQIKAgEA
+        MBAGCyqGSIb4TQENAQILAgEAMBAGCyqGSIb4TQENAQIMAgEAMBAGCyqGSIb4TQENAQINAgEAMBAG
+        CyqGSIb4TQENAQIOAgEAMBAGCyqGSIb4TQENAQIPAgEAMBAGCyqGSIb4TQENAQIQAgEAMBAGCyqG
+        SIb4TQENAQIRAgEKMB8GCyqGSIb4TQENAQISBBACAgAAAAAAAAAAAAAAAAAAMBAGCiqGSIb4TQEN
+        AQMEAgAAMBQGCiqGSIb4TQENAQQEBiBgagAAADAPBgoqhkiG+E0BDQEFCgEBMB4GCiqGSIb4TQEN
+        AQYEEOXbV8/Rrz5F3fvX9S50pEgwRAYKKoZIhvhNAQ0BBzA2MBAGCyqGSIb4TQENAQcBAQH/MBAG
+        CyqGSIb4TQENAQcCAQH/MBAGCyqGSIb4TQENAQcDAQH/MAoGCCqGSM49BAMCA0cAMEQCIE6gwTxP
+        C2kacUlGEjRWcz84BTnqZExC87NZqrlCF/HyAiA0qmvZocv+UQ1VnqtGQFrku/HdZdW171dBr4v2
+        UYU+3g==
+        -----END CERTIFICATE-----
+  /pckcrl:
+    get:
+      description: |
+        Retrieves the base64 encoded latest PCK Certificate Revocation List (CRL) for any SGX enabled platforms.
+        A CRL is a list of revoked SGX PCK Certificates that are issued by Intel SGX Processor CA.
+        The query parameter 'ca' should be provided as mandatory for this REST call.
+      operationId: getPckCrl
+      parameters:
+      - description: PCK CRL issuing Certificate Authority (CA). CA can be either
+          "processor" or "platform".
+        in: query
+        name: ca
+        type: string
+      produces:
+      - application/x-x509-ca-cert
+      responses:
+        "200":
+          description: Successfully retrieved the PCK CRL for a platform.
+          schema:
+            type: string
+      tags:
+      - Certificates
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/pckcrl?ca=processor
+      x-sample-call-output: |
+        MIIBKTCB0QIBATAKBggqhkjOPQQDAjBxMSMwIQYDVQQDDBpJbnRlbCBTR1ggUENLIFByb2Nlc3NvciBDQTEaMBgGA1UECgwRSW50ZWwgQ29ycG9yYXRpb24xFDASBgNVBAcMC1NhbnRhIENsYXJhMQswCQYDVQQIDAJDQTELMAkGA1UEBhMCVVMXDTIwMTExMzA0Mzc1NVoXDTIwMTIxMzA0Mzc1NVqgLzAtMAoGA1UdFAQDAgEBMB8GA1UdIwQYMBaAFMHp3Hk19b3/LlphIQ0b13g7pUxaMAoGCCqGSM49BAMCA0cAMEQCIGWhZDw8yQ56EfFYNaIX96ZaEEurMTcyGlxsNYBjBUXAAiBNRVW27AQvV04YimDhB+evEHvgbyOjj1+7bemmpQZoOg==
+  /platforms:
+    post:
+      consumes:
+      - application/json
+      description: |
+        SGX Agent uses this API to push the platform values (such as enc_ppi, pceid, cpisvn, pcesvn, qeid and manifest) to SCS.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: pushPlatformInfo
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/PlatformInfoInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully pushed the platform values to SCS.
+          schema:
+            $ref: '#/definitions/Response'
+      security:
+      - bearerAuth: []
+      tags:
+      - PlatformInfo
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/platforms
+      x-sample-call-input: |
+        {
+           "enc_ppid": "00f51b4272163732be2101ee62dfdb175205a5179c5b5faff4b2ae103cb1150ef7d4e6041775543930600e41dd2e6aee7f4079
+                 0f5a0380f6b29b1f1f7e6aad75bfa666153bb325c6db5b67f694d14bff98996c4994ce153278bfeb1b455dd4acbeacc97df6a3cd439a838218c
+                 1e07dae91a62195b803b9d3808d5b8470d46b0af3f275b6f6573871eb4eeb43ed9c5a5647729f25648fa74f1ce43621618b266abde6f44e92ce
+                 65bbbbe2c50e3e7a8b84d1ed38f53a1d99d3f15fc8c39b0ee568580c37a4eb19dbe87cd447c78f05544684701c01e64e0273dc69c27e46f732f
+                 7a7ee8cc4dfaf3b921bf6bbc3ee83f8de5f4e86039595cddaf7cadfce599f0eb92509ff2a90d189bda51fdd298fa1cffd4e8d79095f104c073a
+                 2b71cf61c727f4e5718cb7ea2f8fc6d7694bf3b40764234dfbe0d35f40f557545e1729ca639be4f1bcdc9028cb590b3ad3fd176bfea3cef13e5
+                 7db057b3bae7ae8553a454515aecb21e4c58c670b19d8ee12668ab8af16d56b285153589eb85d15cd9e56fe459b",
+           "pce_id": "0000",
+           "cpu_svn": "1bf8deed6f929ce40bd658e61ea722eb",
+           "pce_svn": "0a00",
+           "qe_id": "0518145496973c5e69577195511e9080"
+           "manifest": "178e874b49e44aa599bb3057170925b41d6e010000000000000000000000000084947ac684404189902a7e76cd658926bc0101000000
+                 00000000000000000000e5db57cfd1af3e45ddfbd7f52e74a44871d542e3893c9f6f88ef999a7969eacc38e156d8233e6479997f6daa3553d90
+                 2bb6a7fd6e6db21c43c13993c91c2eb95b6654b70d3e1602d5c236f9c5e8209a6a9923f49628eb7ba934913ccee4ae3df1c9ce11d0dac1c2e6e
+                 bbeb7b036e1288ad98d0aac44e5dbe3e01ea40eb7301c513c388d7e87b6630fcee23dccc28e5466a3669137e79021e386db75569606a481ac81
+                 bcd03fdc30a142bce8cca274dc044f2b40dc9abaef952bb4f0d01058d590d6950cd56bd036c7385272789e38de9b7302fafd5514248de83c18a
+                 edc9fb3c4a60754b41d8038be2c85d9e109742450b76989ff262cb0a7a979546018c7c76109ec6dd7965eead462bbd1edf6124e4a7da00de497
+                 408e44869496138cc1383f2caef7b6bf456c1f494c2b539e1741d904515414816a5096e96350b5decc84cdb9c29fe6ffa7a1982b55fe6fb258e
+                 18f03c1724b296aab446a9f4e10de1d49485f4360dfade7bc6abf70c0f1ed59c15ab30face19e3cfee43e1bee2f2800095576af52b46344ea4e
+                 7e08c2bc1d568dd01000100bcf7744b0929b513d15794280f82233b5684b73af7f86c073d1ecec86f6cd34c0000010001000000fd8f5c411b61
+                 4b97a74796f08926757b39050100000000000000000000000000200000000300000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                 00000000000000000000000",
+            "hardware_uuid": "ee37c360-7eae-4250-a677-6ee12adce8e2"
+        }
+      x-sample-call-output: |
+        {
+            "Status": "Created",
+            "Message": "platform data pushed to scs"
+        }
+  /qe/identity:
+    get:
+      description: |
+        Retrieves the Quote Identity information for Quoting Enclave issued by Intel for a platform.
+      operationId: getQeIdentityInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the QE Identity information of a platform.
+          schema:
+            type: string
+      tags:
+      - Certificates
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/qe/identity
+      x-sample-call-output: |
+        {
+            "enclaveIdentity": {
+                "id": "QE",
+                "version": 2,
+                "issueDate": "2020-06-15T06:42:01Z",
+                "nextUpdate": "2020-07-15T06:42:01Z",
+                "tcbEvaluationDataNumber": 5,
+                "miscselect": "00000000",
+                "miscselectMask": "FFFFFFFF",
+                "attributes": "11000000000000000000000000000000",
+                "attributesMask": "FBFFFFFFFFFFFFFF0000000000000000",
+                "mrsigner": "8C4F5775D796503E96137F77C68A829A0056AC8DED70140B081B094490C57BFF",
+                "isvprodid": 1,
+                "tcbLevels": [
+                    {
+                        "tcb": {
+                            "isvsvn": 2
+                        },
+                        "tcbDate": "2019-05-15T00:00:00Z",
+                        "tcbStatus": "UpToDate"
+                    },
+                    {
+                        "tcb": {
+                            "isvsvn": 1
+                        },
+                        "tcbDate": "2018-08-15T00:00:00Z",
+                        "tcbStatus": "OutOfDate"
+                    }
+                ]
+            },
+            "signature": "2c50f0f4297781594e4d86c864ef1bd6797ab77566c9ddc417330ca7f37456f2f998a44e8230c57c2c8f51258ce5044cf0ac0af58e5c953e466f51981dc1390c"
+        }
+  /refreshes:
+    get:
+      description: |
+        This API is used to refresh the platform collaterals stored in the SGX Caching Service (SCS) database,
+        outside of the periodic refresh cycles. An Admin can make use of this REST endpoint to force the refresh of
+        PCK Certificates, PCK CRL, TCB info and QE Identity information. This is useful in scenarios like TCB recovery.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: refreshPlatformInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully refreshed the platform collaterals.
+          schema:
+            $ref: '#/definitions/Response'
+      security:
+      - bearerAuth: []
+      tags:
+      - PlatformInfo
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/refreshes
+      x-sample-call-output: |
+        {
+            "Status": "Success",
+            "Message": "sgx collaterals refreshed successfully"
+        }
+  /tcb:
+    get:
+      description: |
+        Retrieves the Trusted Computing Base (TCB) information for all TCB levels of the SGX enabled platform
+        with the provided FMPSC value.
+      operationId: getTcbInfo
+      parameters:
+      - description: FMSPC value of the platform.
+        in: query
+        name: fmspc
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the TCB info of the platform with the
+            matching fmpsc value.
+          schema:
+            $ref: '#/definitions/TcbInfoJson'
+      tags:
+      - Certificates
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/tcb?fmspc=20606a000000
+      x-sample-call-output: |
+        {
+            "tcbInfo": {
+                "version": 2,
+                "issueDate": "2020-06-15T06:42:01Z",
+                "nextUpdate": "2020-07-15T06:42:01Z",
+                "fmspc": "20606a000000",
+                "pceId": "0000",
+                "tcbType": 0,
+                "tcbEvaluationDataNumber": 5,
+                "tcbLevels": [
+                    {
+                        "tcb": {
+                            "sgxtcbcomp01svn": 2,
+                            "sgxtcbcomp02svn": 2,
+                            "sgxtcbcomp03svn": 0,
+                            "sgxtcbcomp04svn": 0,
+                            "sgxtcbcomp05svn": 0,
+                            "sgxtcbcomp06svn": 0,
+                            "sgxtcbcomp07svn": 0,
+                            "sgxtcbcomp08svn": 0,
+                            "sgxtcbcomp09svn": 0,
+                            "sgxtcbcomp10svn": 0,
+                            "sgxtcbcomp11svn": 0,
+                            "sgxtcbcomp12svn": 0,
+                            "sgxtcbcomp13svn": 0,
+                            "sgxtcbcomp14svn": 0,
+                            "sgxtcbcomp15svn": 0,
+                            "sgxtcbcomp16svn": 0,
+                            "pcesvn": 10
+                        },
+                        "tcbDate": "2020-05-28T00:00:00Z",
+                        "tcbStatus": "UpToDate"
+                    },
+                    {
+                        "tcb": {
+                            "sgxtcbcomp01svn": 1,
+                            "sgxtcbcomp02svn": 1,
+                            "sgxtcbcomp03svn": 0,
+                            "sgxtcbcomp04svn": 0,
+                            "sgxtcbcomp05svn": 0,
+                            "sgxtcbcomp06svn": 0,
+                            "sgxtcbcomp07svn": 0,
+                            "sgxtcbcomp08svn": 0,
+                            "sgxtcbcomp09svn": 0,
+                            "sgxtcbcomp10svn": 0,
+                            "sgxtcbcomp11svn": 0,
+                            "sgxtcbcomp12svn": 0,
+                            "sgxtcbcomp13svn": 0,
+                            "sgxtcbcomp14svn": 0,
+                            "sgxtcbcomp15svn": 0,
+                            "sgxtcbcomp16svn": 0,
+                            "pcesvn": 9
+                        },
+                        "tcbDate": "2020-03-22T00:00:00Z",
+                        "tcbStatus": "OutOfDate"
+                    },
+                    {
+                        "tcb": {
+                            "sgxtcbcomp01svn": 1,
+                            "sgxtcbcomp02svn": 1,
+                            "sgxtcbcomp03svn": 0,
+                            "sgxtcbcomp04svn": 0,
+                            "sgxtcbcomp05svn": 0,
+                            "sgxtcbcomp06svn": 0,
+                            "sgxtcbcomp07svn": 0,
+                            "sgxtcbcomp08svn": 0,
+                            "sgxtcbcomp09svn": 0,
+                            "sgxtcbcomp10svn": 0,
+                            "sgxtcbcomp11svn": 0,
+                            "sgxtcbcomp12svn": 0,
+                            "sgxtcbcomp13svn": 0,
+                            "sgxtcbcomp14svn": 0,
+                            "sgxtcbcomp15svn": 0,
+                            "sgxtcbcomp16svn": 0,
+                            "pcesvn": 0
+                        },
+                        "tcbDate": "2020-03-22T00:00:00Z",
+                        "tcbStatus": "OutOfDate"
+                    }
+                ]
+            },
+            "signature": "40b3536ee9c7028df7f0a976eaa405bc82768a258512be95fd151731f756f20a35c4a2642b91ba8083dca067932af75f1f92265dbdbd12573b05a959f6e3a677"
+        }
+  /tcbstatus:
+    get:
+      description: |
+        This API is used by SGX Agent to determine the TCB up-to-date status of a platform.
+        A valid bearer token should be provided to authorize this REST call.
+      operationId: getTcbStatus
+      parameters:
+      - description: Quoting Enclave ID specific to a platform.
+        in: query
+        name: qeid
+        type: string
+      - description: Provisioning Certificate Enclave ID specific to a platform.
+        in: query
+        name: pceid
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the latest TCB up-to-date status for
+            the provided qeid.
+          schema:
+            $ref: '#/definitions/Response'
+      security:
+      - bearerAuth: []
+      tags:
+      - PlatformInfo
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/tcbstatus?qeid=0f16dfa4033e66e642af8fe358c18751
+      x-sample-call-output: |
+        {
+            "Status": "true",
+            "Message": "TCB Status is UpToDate"
+        }
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: getVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://scs.server.com:9000/scs/sgx/certification/v1/version
+      x-sample-call-output: |-
+        Service Name: SGX Caching Service
+        Version: v3.4.0-0f0162ea
+        Build Date: 2021-03-08T12:17:18+0000
+responses:
+  StatusResponse:
+    description: StatusResponse response payload
+    schema:
+      $ref: '#/definitions/Response'
+  TcbInfoJSONResp:
+    description: TcbInfoJSONResp response payload
+    schema:
+      $ref: '#/definitions/TcbInfoJSON'
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

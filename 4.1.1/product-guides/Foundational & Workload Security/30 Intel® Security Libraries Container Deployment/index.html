@@ -1,0 +1,4150 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../images/isecl-logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.0">
+    
+    
+      
+        <title>Intel® Security Libraries Container Deployment - Intel® SecL-DC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.82f3c0b9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica:300,400,400i,700%7CFira+Code&display=fallback">
+        <style>:root{--md-text-font:"Helvetica";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#intel-security-libraries-container-deployment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        <aside class="md-banner md-banner--warning">
+          
+        </aside>
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Intel® SecL-DC" class="md-header__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intel® SecL-DC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Intel® Security Libraries Container Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/intel-secl/intel-secl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-tabs__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../01/" class="md-tabs__link md-tabs__link--active">
+        Product Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-tabs__link">
+        Supplementary Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-tabs__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Intel® SecL-DC" class="md-nav__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    Intel® SecL-DC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/intel-secl/intel-secl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Quick Start Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Quick Start Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          Foundational & Workload Security - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational & Workload Security - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational & Workload Security - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/3Rpms%20%26%20Debs%20Requirement/" class="md-nav__link">
+        Rpms & Debs Requirement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/2Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/3Build%20Services%20and%20packages/" class="md-nav__link">
+        Build Services and packages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/4Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/5Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/6Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          SGX Infrastructure - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/3RHEL%20RPMs%20Requirements/" class="md-nav__link">
+        RHEL RPMs Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_4">
+          SGX Infrastructure
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/2Hardware%20Requirements/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/3OS%20Requirements/" class="md-nav__link">
+        OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/4Build%20Services/" class="md-nav__link">
+        Build Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/5Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/6Deployment/" class="md-nav__link">
+         Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/7Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/8System%20User%20Configuration/" class="md-nav__link">
+        System User Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/9Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Product Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Product Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Product Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-nav__link">
+        Intel® Security Libraries Components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22%20Building%20Binary%20Installers/" class="md-nav__link">
+        Building Binary Installers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23%20Hardware%20Considerations/" class="md-nav__link">
+        Hardware Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24%20Recommended%20Service%20Layout/" class="md-nav__link">
+        Recommended Service Layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_7" type="checkbox" id="__nav_3_1_7" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_7">
+          Intel Security Libraries Binary Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Binary Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Binary Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25%20Intel%20Security%20Libraries%20Binary%20Installation/" class="md-nav__link">
+        Intel® Security Libraries Binary Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.0%20Using%20NATS%20with%20Intel%20SecL/" class="md-nav__link">
+        Using NATS with Intel SecL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.1%20Installing%20and%20Configuring%20the%20Database/" class="md-nav__link">
+        Installing/Configuring the Database
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.2%20Installing%20the%20Certificate%20Management%20Service/" class="md-nav__link">
+        Installing the Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.3%20Installing%20the%20Authentication%20and%20Authorization%20Service/" class="md-nav__link">
+        Installing the Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.4%20Installing%20the%20Host%20Verification%20Service/" class="md-nav__link">
+        Installing the Host Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.6%20Installing%20the%20Workload%20Service/" class="md-nav__link">
+        Installing the Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.7%20Installing%20the%20Trust%20Agent%20for%20Linux/" class="md-nav__link">
+        Installing the Trust Agent for Linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.8%20Installing%20the%20Workload%20Agent/" class="md-nav__link">
+        Installing the Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.9%20Provisioning%20the%20Trust%20Agent/" class="md-nav__link">
+        Trust Agent Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.10%20Installing%20the%20Intel%20SecL%20Kubernetes%20Extensions%20and%20Integration%20Hub/" class="md-nav__link">
+        Installing the Intel® SecL Kubernetes Extensions and Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.11%20Installing%20the%20Key%20Broker%20Service/" class="md-nav__link">
+        Installing the Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-nav__link">
+        Installing the Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Intel® Security Libraries Container Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Intel® Security Libraries Container Deployment
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites-for-containerized-deployment-using-kubernetes" class="md-nav__link">
+    Prerequisites for Containerized Deployment using Kubernetes
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites for Containerized Deployment using Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-distributions" class="md-nav__link">
+    Kubernetes Distributions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-runtime" class="md-nav__link">
+    Container Runtime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    Storage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from Source
+  </a>
+  
+    <nav class="md-nav" aria-label="Building from Source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-tools-and-utilities" class="md-nav__link">
+    System Tools and Utilities
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repo-tool" class="md-nav__link">
+    Repo tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang" class="md-nav__link">
+    Golang
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-oci-container-images-and-k8s-manifests" class="md-nav__link">
+    Building OCI Container images and K8s Manifests
+  </a>
+  
+    <nav class="md-nav" aria-label="Building OCI Container images and K8s Manifests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foundational-security" class="md-nav__link">
+    Foundational Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workload-confidentiality" class="md-nav__link">
+    Workload Confidentiality
+  </a>
+  
+    <nav class="md-nav" aria-label="Workload Confidentiality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-confidentiality-with-crio-runtime" class="md-nav__link">
+    Container Confidentiality with CRIO Runtime
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intel-secl-dc-foundational-security-k8s-deployment" class="md-nav__link">
+    Intel® SecL-DC Foundational Security K8s Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Intel® SecL-DC Foundational Security K8s Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foundational-security_1" class="md-nav__link">
+    Foundational Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workload-security" class="md-nav__link">
+    Workload Security
+  </a>
+  
+    <nav class="md-nav" aria-label="Workload Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-confidentiality-with-crio-runtime_1" class="md-nav__link">
+    Container Confidentiality with CRIO runtime
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    Deploy
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-node-deployment" class="md-nav__link">
+    Single-Node Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Single-Node Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites_1" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifests" class="md-nav__link">
+    Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-steps" class="md-nav__link">
+    Deploy steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-env-file" class="md-nav__link">
+    Update .env file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-scripts-on-kubernetes-controller-node" class="md-nav__link">
+    Run scripts on Kubernetes Controller Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-node-deployment" class="md-nav__link">
+    Multi-Node Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-Node Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites_2" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_1" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifests_1" class="md-nav__link">
+    Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-steps_1" class="md-nav__link">
+    Deploy steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-env-file_1" class="md-nav__link">
+    Update .env file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-scripts-on-kubernetes-controller-node_1" class="md-nav__link">
+    Run scripts on Kubernetes Controller Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-service-and-agent-mount-paths" class="md-nav__link">
+    Default Service and Agent Mount Paths
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Service and Agent Mount Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-node-deployments" class="md-nav__link">
+    Single Node Deployments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-node-deployments" class="md-nav__link">
+    Multi Node Deployments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-service-ports" class="md-nav__link">
+    Default Service Ports
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40%20Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50%20Connection%20Strings/" class="md-nav__link">
+        Connection Strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../60%20Platform%20Integrity%20Attestation/" class="md-nav__link">
+        Platform Integrity Attestation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65%20Cloud%20Platform%20Integration/" class="md-nav__link">
+        Cloud Platform Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70%20Workload%20Confidentiality/" class="md-nav__link">
+        Workload Confidentiality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../80%20Trusted%20Virtual%20Kubernetes%20Worker%20Nodes/" class="md-nav__link">
+        Trusted Virtual Kubernetes Worker Nodes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90%20Flavor%20Management/" class="md-nav__link">
+        Flavor Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../100%20Scalability%20and%20Sizing/" class="md-nav__link">
+        Scalability and Sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_17" type="checkbox" id="__nav_3_1_17" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_17">
+          Intel Security Libraries Configuration Settings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Configuration Settings" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_17">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Configuration Settings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings1/" class="md-nav__link">
+        Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings2/" class="md-nav__link">
+        Trust Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings3/" class="md-nav__link">
+        Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings4/" class="md-nav__link">
+        Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings5/" class="md-nav__link">
+        Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings6/" class="md-nav__link">
+        Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings7/" class="md-nav__link">
+        Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings8/" class="md-nav__link">
+        Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings9/" class="md-nav__link">
+        Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../120%20Certificate%20and%20Key%20Management/" class="md-nav__link">
+        Certificate and Key Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../130%20Upgrades/" class="md-nav__link">
+        Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../999%20Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          SGX Infrastructure and Secure Key Caching
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure and Secure Key Caching" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure and Secure Key Caching
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2SGX%20Attestation%20Infrastructure/" class="md-nav__link">
+        SGX Attestation Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2.1Secure%20Key%20Caching/" class="md-nav__link">
+        Secure Key Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/3Intel%C2%AE%20Security%20Libraries%20Installation/" class="md-nav__link">
+        Intel® Security Libraries Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/4Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/5SGX%20Features%20Provisioning/" class="md-nav__link">
+        SGX Features Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/6Setup%20Task%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Setup Task Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/7Configuration%20Update%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Configuration Update Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/8Intel%20Security%20Libraries%20Configuration%20Settings/" class="md-nav__link">
+        Intel Security Libraries Configuration Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/9Uninstallation/" class="md-nav__link">
+        Uninstallation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/10Binary%20Upgrades/" class="md-nav__link">
+        Binary Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/11Container%20Upgrades/" class="md-nav__link">
+        Container Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/12Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/13KBS%20key-transfer%20flow%20validation/" class="md-nav__link">
+        KBS key-transfer flow validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/14Note%20on%20Key%20Transfer%20Policy/" class="md-nav__link">
+        Note on Key Transfer Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/15Note%20on%20SKC%20Library%20Deployment/" class="md-nav__link">
+        Note on SKC Library Deployment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Supplementary Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supplementary Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Common Cluster Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Common Cluster Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Common Cluster Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-nav__link">
+        Pre-requisites
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/2Deployment%20Architecture/" class="md-nav__link">
+        Deployment Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/3Deployment%20Steps/" class="md-nav__link">
+        Deployment Steps
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/4Workload%20POD%20Launch%20Validation/" class="md-nav__link">
+        Workload POD Launch Validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/5Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Release Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Release Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-nav__link">
+        Intel Security Libraries for Data Center
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites-for-containerized-deployment-using-kubernetes" class="md-nav__link">
+    Prerequisites for Containerized Deployment using Kubernetes
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites for Containerized Deployment using Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kubernetes-distributions" class="md-nav__link">
+    Kubernetes Distributions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container-runtime" class="md-nav__link">
+    Container Runtime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    Storage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from Source
+  </a>
+  
+    <nav class="md-nav" aria-label="Building from Source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system-tools-and-utilities" class="md-nav__link">
+    System Tools and Utilities
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repo-tool" class="md-nav__link">
+    Repo tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golang" class="md-nav__link">
+    Golang
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-oci-container-images-and-k8s-manifests" class="md-nav__link">
+    Building OCI Container images and K8s Manifests
+  </a>
+  
+    <nav class="md-nav" aria-label="Building OCI Container images and K8s Manifests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foundational-security" class="md-nav__link">
+    Foundational Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workload-confidentiality" class="md-nav__link">
+    Workload Confidentiality
+  </a>
+  
+    <nav class="md-nav" aria-label="Workload Confidentiality">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-confidentiality-with-crio-runtime" class="md-nav__link">
+    Container Confidentiality with CRIO Runtime
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intel-secl-dc-foundational-security-k8s-deployment" class="md-nav__link">
+    Intel® SecL-DC Foundational Security K8s Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Intel® SecL-DC Foundational Security K8s Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foundational-security_1" class="md-nav__link">
+    Foundational Security
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workload-security" class="md-nav__link">
+    Workload Security
+  </a>
+  
+    <nav class="md-nav" aria-label="Workload Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#container-confidentiality-with-crio-runtime_1" class="md-nav__link">
+    Container Confidentiality with CRIO runtime
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    Deploy
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-node-deployment" class="md-nav__link">
+    Single-Node Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Single-Node Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites_1" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifests" class="md-nav__link">
+    Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-steps" class="md-nav__link">
+    Deploy steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-env-file" class="md-nav__link">
+    Update .env file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-scripts-on-kubernetes-controller-node" class="md-nav__link">
+    Run scripts on Kubernetes Controller Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-node-deployment" class="md-nav__link">
+    Multi-Node Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-Node Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites_2" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-requisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup_1" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manifests_1" class="md-nav__link">
+    Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-steps_1" class="md-nav__link">
+    Deploy steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-env-file_1" class="md-nav__link">
+    Update .env file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-scripts-on-kubernetes-controller-node_1" class="md-nav__link">
+    Run scripts on Kubernetes Controller Node
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-service-and-agent-mount-paths" class="md-nav__link">
+    Default Service and Agent Mount Paths
+  </a>
+  
+    <nav class="md-nav" aria-label="Default Service and Agent Mount Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-node-deployments" class="md-nav__link">
+    Single Node Deployments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-node-deployments" class="md-nav__link">
+    Multi Node Deployments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-service-ports" class="md-nav__link">
+    Default Service Ports
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/intel-secl/intel-secl/edit/master/docs/product-guides/Foundational & Workload Security/30 Intel® Security Libraries Container Deployment.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="intel-security-libraries-container-deployment">Intel® Security Libraries Container Deployment</h1>
+<h2 id="prerequisites-for-containerized-deployment-using-kubernetes">Prerequisites for Containerized Deployment using Kubernetes</h2>
+<h3 id="supported-operating-systems">Supported Operating Systems</h3>
+<ul>
+<li>RHEL 8.4</li>
+<li>Ubuntu 20.04</li>
+</ul>
+<h3 id="kubernetes-distributions">Kubernetes Distributions</h3>
+<p>The included Intel SecL container deployment scripts can deploy using the following Kubernetes distributions:</p>
+<ul>
+<li>Single-node: <code>microk8s</code> (1.22.2)</li>
+<li>A "single-node" deployment will deploy all of the Intel SecL services into a single microk8s deployment on a single <strong>bare metal</strong> container host.   Because all resources are deployed onto a single worker, only local resources are required.  This deployment type is best used for POCs and demos due to the requirement of a physical server.</li>
+<li>Multi-node: <code>kubeadm</code> (1.22.2)</li>
+<li>A "multi-node" deployment will deploy the Intel SecL services using kubeadm as a Kubernetes pod, using NFS shared storage.  Any worker nodes that will be attested must be bare metal physical servers; agents will be deployed as privileged DaemonSets.</li>
+</ul>
+<h3 id="container-runtime">Container Runtime</h3>
+<ul>
+<li>CRIO-1.21 on RHEL 8.4</li>
+<li>CRIO-1.21 on Ubuntu 20.04</li>
+</ul>
+<h3 id="storage">Storage</h3>
+<ul>
+<li>Single-node:<code>hostPath</code> storage for all services and agents</li>
+<li>Multi-node:<code>NFS</code> storage for all services, <code>hostPath</code> storage for agents</li>
+</ul>
+<h2 id="building-from-source">Building from Source</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>The following steps need to be performed on a RHEL 8.4 Build machine (VM/Physical Node)</p>
+<h4 id="system-tools-and-utilities">System Tools and Utilities</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># RedHat Enterprise Linux 8.4</span>
+dnf install -y git wget tar python3 gcc gcc-c++ zip make yum-utils openssl-devel
+dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
+ln -s /usr/bin/python3 /usr/bin/python
+ln -s /usr/bin/pip3 /usr/bin/pip
+
+<span class="c1"># Ubuntu-20.04</span>
+apt update
+apt remove -y gcc gcc-7
+apt install -y python3-problem-report git wget tar python3 gcc-8 make makeself openssl libssl-dev libgpg-error-dev
+cp /usr/bin/gcc-8 /usr/bin/gcc
+ln -s /usr/bin/python3 /usr/bin/python
+ln -s /usr/bin/pip3 /usr/bin/pip
+</code></pre></div>
+<h4 id="repo-tool">Repo tool</h4>
+<div class="highlight"><pre><span></span><code><span class="nv">tmpdir</span><span class="o">=</span><span class="k">$(</span>mktemp -d<span class="k">)</span>
+git clone https://gerrit.googlesource.com/git-repo <span class="nv">$tmpdir</span>
+install -m <span class="m">755</span> <span class="nv">$tmpdir</span>/repo /usr/local/bin
+rm -rf <span class="nv">$tmpdir</span>
+</code></pre></div>
+<h4 id="golang">Golang</h4>
+<div class="highlight"><pre><span></span><code>wget https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz
+tar -xzf go1.16.7.linux-amd64.tar.gz
+sudo mv go /usr/local
+<span class="nb">export</span> <span class="nv">GOROOT</span><span class="o">=</span>/usr/local/go
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$GOROOT</span>/bin:<span class="nv">$PATH</span>
+rm -rf go1.16.7.linux-amd64.tar.gz
+</code></pre></div>
+<h4 id="docker">Docker</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># RedHat Enterprise Linux-8.4</span>
+dnf module <span class="nb">enable</span> -y container-tools
+dnf install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
+
+systemctl <span class="nb">enable</span> docker
+systemctl start docker
+
+<span class="c1"># Ubuntu-20.04</span>
+apt-get install -y <span class="se">\</span>
+    apt-transport-https <span class="se">\</span>
+    ca-certificates <span class="se">\</span>
+    curl <span class="se">\</span>
+    gnupg <span class="se">\</span>
+    lsb-release
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+<span class="nb">echo</span> <span class="se">\</span>
+  <span class="s2">&quot;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \</span>
+<span class="s2">  </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+apt-get update
+
+<span class="c1"># Ubuntu 20.04 </span>
+apt-get -y install docker-ce<span class="o">=</span><span class="m">5</span>:20.10.8~3-0~ubuntu-focal docker-ce-cli<span class="o">=</span><span class="m">5</span>:20.10.8~3-0~ubuntu-focal containerd.io
+
+systemctl <span class="nb">enable</span> docker
+systemctl start docker
+</code></pre></div>
+<p>Apply the below steps <strong>only if</strong> running behind a proxy</p>
+<div class="highlight"><pre><span></span><code>mkdir -p /etc/systemd/system/docker.service.d
+touch /etc/systemd/system/docker.service.d/proxy.conf
+
+<span class="c1">#Add the below lines in proxy.conf</span>
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">Environment</span><span class="o">=</span><span class="s2">&quot;HTTP_PROXY=&lt;http_proxy&gt;&quot;</span>
+<span class="nv">Environment</span><span class="o">=</span><span class="s2">&quot;HTTPS_PROXY=&lt;https_proxy&gt;&quot;</span>
+<span class="nv">Environment</span><span class="o">=</span><span class="s2">&quot;NO_PROXY=&lt;no_proxy&gt;&quot;</span>
+
+systemctl daemon-reload
+systemctl restart docker
+</code></pre></div>
+<h3 id="building-oci-container-images-and-k8s-manifests">Building OCI Container images and K8s Manifests</h3>
+<h4 id="foundational-security">Foundational Security</h4>
+<ul>
+<li>Sync the repos</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir -p /root/intel-secl/build/fs <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /root/intel-secl/build/fs
+repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/fs.xml -b refs/tags/v4.1.1
+repo sync
+</code></pre></div>
+<ul>
+<li>Run the <code>pre-requisites</code> setup script</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> utils/build/foundational-security/
+chmod +x fs-prereq.sh
+./fs-prereq.sh -s
+</code></pre></div>
+<ul>
+<li>Install skopeo</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># RHEL 8.x</span>
+dnf install -y skopeo
+
+<span class="c1"># Ubuntu 20.04</span>
+<span class="nb">echo</span> <span class="s2">&quot;deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /&quot;</span> <span class="p">|</span> sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key <span class="p">|</span> sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
+</code></pre></div>
+<ul>
+<li>
+<p>Build</p>
+</li>
+<li>
+<p>Single-node:</p>
+<ul>
+<li>A "single-node" deployment will deploy all of the Intel SecL services into a single microk8s deployment on a single <strong>bare metal</strong> container host.   Because all resources are deployed onto a single worker, only local resources are required.  This deployment type is best used for POCs and demos due to the requirement of a physical server</li>
+<li>Single node cluster with microk8s - <code>make k8s-aio</code></li>
+</ul>
+</li>
+<li>
+<p>Multi-node: <code>kubeadm</code> (1.22.2)</p>
+<ul>
+<li>A "multi-node" deployment will deploy the Intel SecL services using kubeadm as a Kubernetes pod, using NFS shared storage.</li>
+<li>Multi node cluster with kubeadm - <code>make k8s</code></li>
+</ul>
+</li>
+<li>
+<p>After the build process is complete, the container images, Kubernetes manifests and deployment scripts can be found in the following folder:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>/root/intel-secl/build/fs/k8s/
+</code></pre></div>
+<h4 id="workload-confidentiality">Workload Confidentiality</h4>
+<p>Workload Confidentiality can be used with either the CRIO container runtime.</p>
+<h5 id="container-confidentiality-with-crio-runtime">Container Confidentiality with CRIO Runtime</h5>
+<ul>
+<li>Sync the repos</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir -p /root/intel-secl/build/cc-crio <span class="o">&amp;&amp;</span> <span class="nb">cd</span> /root/intel-secl/build/cc-crio
+repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/cc-crio.xml -b refs/tags/v4.1.1
+repo sync
+</code></pre></div>
+<ul>
+<li>Run the <code>pre-requisites</code> script</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> utils/build/workload-security
+chmod +x ws-prereq.sh
+./ws-prereq.sh -c
+</code></pre></div>
+<ul>
+<li>Build</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /root/intel-secl/build/cc-crio
+
+<span class="c1">#Single node cluster with microk8s</span>
+make k8s-aio
+
+<span class="c1">#Multi node cluster with kubeadm</span>
+make k8s
+</code></pre></div>
+<ul>
+<li>The container images, Kubernetes manifests and deployment scripts will output to the following folder:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>/root/intel-secl/build/cc-crio/k8s/
+</code></pre></div>
+<h2 id="intel-secl-dc-foundational-security-k8s-deployment">Intel® SecL-DC Foundational Security K8s Deployment</h2>
+<p>This section details deployment of Intel SecL services as a Kubernetes deployment, using a privileged DaemonSet for the Trust Agent and Workload Agent.</p>
+<h3 id="pre-requisites">Pre-requisites</h3>
+<ul>
+<li>
+<p>Install <code>openssl</code> on the Kubernetes control node</p>
+</li>
+<li>
+<p>Ensure a container registry is running locally or remotely.</p>
+</li>
+</ul>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>For the single-node <code>microk8s</code> deployment, a registry can be brought up by using microk8s addons. More details can be found in the Microk8s documentation. This is not mandatory; if a remote registry already exists, it can be used.</p>
+</details>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>For multi-node <code>kubeadm</code> deployment, a container registry is required.</p>
+</details>
+<ul>
+<li>Push all container images to container registry.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Without TLS enabled</span>
+skopeo copy oci-archive:&lt;oci-image-tar-name&gt; docker://&lt;registry-ip/hostname&gt;:&lt;registry-port&gt;/&lt;image-name&gt;:&lt;image-tag&gt; --dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+
+<span class="c1"># With TLS enabled</span>
+skopeo copy oci-archive:&lt;oci-image-tar-name&gt; docker://&lt;registry-ip/hostname&gt;:&lt;registry-port&gt;/image-name&gt;:&lt;image-tag&gt;
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>For microk8s deployments, when the container registry is enabled locally, the OCI container images need to be copied to the node where registry is enabled and then the above command can be run. This is not required if a remote registry is available.</p>
+</details>
+<ul>
+<li>On each worker node registered to the Kubernetes control plane, perform the following prerequisite steps:</li>
+</ul>
+<h4 id="foundational-security_1">Foundational Security</h4>
+<ul>
+<li>
+<p><code>Tboot-1.10.1</code> or later to be installed for non <code>SUEFI</code> servers. <a href="https://github.com/intel-secl/docs/blob/v4.0.1/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation">Tboot installation Details</a></p>
+</li>
+<li>
+<p>Only for Ubuntu, run the following command</p>
+<div class="highlight"><pre><span></span><code>$ modprobe msr
+</code></pre></div>
+</li>
+</ul>
+<h4 id="workload-security">Workload Security</h4>
+<h5 id="container-confidentiality-with-crio-runtime_1">Container Confidentiality with CRIO runtime</h5>
+<ul>
+<li><code>Tboot-1.10.1</code> or later to be installed for non <code>SUEFI</code> servers. <a href="https://github.com/intel-secl/docs/blob/v4.0.1/develop/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation">Tboot installation Details</a></li>
+<li>
+<p>Copy <code>container-runtime</code> directory to each of the physical servers  </p>
+</li>
+<li>
+<p>Run the <code>install-prereqs-crio.sh</code> script on the physical servers from <code>container-runtime</code></p>
+</li>
+<li>
+<p>Reboot the server</p>
+</li>
+<li>
+<p>For Ubuntu worker nodes only, run the following command</p>
+<div class="highlight"><pre><span></span><code>$ modprobe msr
+</code></pre></div>
+</li>
+</ul>
+<h3 id="deploy">Deploy</h3>
+<h4 id="single-node-deployment">Single-Node Deployment</h4>
+<p>A single-node deployment utilizes Microk8s to deploy all services onto a single physical server.  This deployment type is best suited to POCs and demos.</p>
+<h5 id="pre-requisites_1">Pre-requisites</h5>
+<h6 id="setup">Setup</h6>
+<ul>
+<li>
+<p><code>microk8s</code> must be installed on a physical server with a supported combination of platform integrity security technologies enabled.</p>
+</li>
+<li>
+<p>Copy all manifests and OCI container images as required to the Kubernetes control node</p>
+</li>
+<li>
+<p>Ensure a container registry is available</p>
+</li>
+<li>
+<p>The Kubernetes cluster admin can configure the existing bare metal worker nodes or register fresh bare metal worker nodes with labels. For example, a label like <code>node.type: TXT-ENABLED</code> or <code>node.type: SUEFI-ENABLED</code> respectively for <code>TXT/SUEFI</code> enabled servers can be used by the cluster admin to distinguish the baremetal worker node and the same label can be used in ISECL Agent pod configuration to schedule on all worker nodes marked with the label. The same label is being used as default in the Kubernetes manifests. This can be edited in <code>k8s/manifests/ta/daemonset.yml</code> , <code>k8s/manifests/wla/daemonset.yml</code></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Label node for TXT</span>
+kubectl label node &lt;node-name&gt; node.type<span class="o">=</span>TXT-ENABLED
+
+<span class="c1">#Label node for SUEFI</span>
+kubectl label node &lt;node-name&gt; node.type<span class="o">=</span>SUEFI-ENABLED
+</code></pre></div>
+<ul>
+<li>
+<p>In a <code>microk8s</code> cluster, the <code>--allow-privileged=true</code> flag needs to be added to the <code>kube-apiserver</code> under <code>/var/snap/microk8s/current/args/kube-apiserver</code> and restart <code>kube-apiserver</code> with <code>systemctl restart snap.microk8s.daemon-apiserver</code> to allow running of privileged containers like <code>TRUST-AGENT</code> and <code>WORKLOAD-AGENT</code></p>
+</li>
+<li>
+<p>For container confidentiality use cases, ensure a backend KMIP-2.0 compliant server like pykmip is up and running.</p>
+</li>
+</ul>
+<h6 id="manifests">Manifests</h6>
+<ul>
+<li>Update all the Kubernetes manifests with the image names to be pulled from the registry</li>
+<li>The <code>tolerations</code> and <code>node-affinity</code> for the isecl-scheduler and isecl-controller need to be updated in the respective manifests under the <code>manifests/k8s-extensions-controller</code>  and <code>manifests/k8s-extensions-scheduler</code> directories to <code>microk8s.io/cluster</code> based on the Kubernetes distribution (<code>kubeadm</code> and <code>microk8s,</code> respectively)</li>
+</ul>
+<h5 id="deploy-steps">Deploy steps</h5>
+<p>The bootstrap script will facilitate the deployment of all Intel SecL Foundational Security components based on the use cases to be enabled.</p>
+<h6 id="update-env-file">Update .env file</h6>
+<div class="highlight"><pre><span></span><code><span class="c1">#Kubernetes Distribution - microk8s</span>
+<span class="nv">K8S_DISTRIBUTION</span><span class="o">=</span>microk8s
+<span class="nv">K8S_CONTROL_PLANE_IP</span><span class="o">=</span>
+<span class="nv">K8S_CONTROL_PLANE_HOSTNAME</span><span class="o">=</span>
+
+<span class="c1"># cms</span>
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://cms-svc.isecl.svc.cluster.local:8445/cms/v1
+<span class="nv">CMS_SAN_LIST</span><span class="o">=</span>cms-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="nv">CMS_K8S_ENDPOINT_URL</span><span class="o">=</span>https://&lt;k8s control-plane IP&gt;:30445/cms/v1
+
+<span class="c1"># authservice</span>
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://aas-svc.isecl.svc.cluster.local:8444/aas/v1
+<span class="nv">AAS_API_CLUSTER_ENDPOINT_URL</span><span class="o">=</span>https://&lt;K8s control-plane IP&gt;:30444/aas/v1
+<span class="nv">AAS_ADMIN_USERNAME</span><span class="o">=</span>admin@aas
+<span class="nv">AAS_ADMIN_PASSWORD</span><span class="o">=</span>aasAdminPass
+<span class="nv">AAS_DB_USERNAME</span><span class="o">=</span>aasdbuser
+<span class="nv">AAS_DB_PASSWORD</span><span class="o">=</span>aasdbpassword
+<span class="nv">AAS_DB_HOSTNAME</span><span class="o">=</span>aasdb-svc.isecl.svc.cluster.local
+<span class="nv">AAS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">AAS_DB_NAME</span><span class="o">=</span>aasdb
+<span class="nv">AAS_DB_SSLMODE</span><span class="o">=</span>verify-full
+<span class="nv">AAS_SAN_LIST</span><span class="o">=</span>aas-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="c1">#NATS_ACCOUNT_NAME=ISecL-account</span>
+
+<span class="c1"># Workload Service</span>
+<span class="nv">WLS_SERVICE_USERNAME</span><span class="o">=</span>admin@wls
+<span class="nv">WLS_SERVICE_PASSWORD</span><span class="o">=</span>wlsAdminPass
+<span class="nv">WLS_DB_USERNAME</span><span class="o">=</span>wlsdbuser
+<span class="nv">WLS_DB_PASSWORD</span><span class="o">=</span>wlsdbpassword
+<span class="nv">WLS_DB_HOSTNAME</span><span class="o">=</span>wlsdb-svc.isecl.svc.cluster.local
+<span class="nv">WLS_DB_NAME</span><span class="o">=</span>wlsdb
+<span class="nv">WLS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">WLS_API_URL</span><span class="o">=</span>https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
+<span class="nv">WLS_CERT_SAN_LIST</span><span class="o">=</span>wls-svc.isecl.svc.cluster.local
+
+<span class="c1"># Host Verification Service</span>
+<span class="nv">HVS_SERVICE_USERNAME</span><span class="o">=</span>admin@hvs
+<span class="nv">HVS_SERVICE_PASSWORD</span><span class="o">=</span>hvsAdminPass
+<span class="nv">HVS_DB_USERNAME</span><span class="o">=</span>hvsdbuser
+<span class="nv">HVS_DB_PASSWORD</span><span class="o">=</span>hvsdbpassword
+<span class="nv">HVS_DB_HOSTNAME</span><span class="o">=</span>hvsdb-svc.isecl.svc.cluster.local
+<span class="nv">HVS_DB_NAME</span><span class="o">=</span>hvsdb
+<span class="nv">HVS_CERT_SAN_LIST</span><span class="o">=</span>hvs-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="nv">HVS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">HVS_URL</span><span class="o">=</span>https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2/
+
+<span class="c1">#Nats Servers configuration for TA and HVS</span>
+<span class="c1">#NATS_SERVERS=nats://&lt;K8s control-plane IP/Hostname&gt;:30222</span>
+
+<span class="c1"># ihub bootstrap</span>
+<span class="nv">IHUB_SERVICE_USERNAME</span><span class="o">=</span>admin@hub
+<span class="nv">IHUB_SERVICE_PASSWORD</span><span class="o">=</span>hubAdminPass
+<span class="nv">IH_CERT_SAN_LIST</span><span class="o">=</span>ihub-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="c1"># For microk8s</span>
+<span class="c1"># K8S_API_SERVER_CERT=/var/snap/microk8s/current/certs/server.crt</span>
+<span class="nv">K8S_API_SERVER_CERT</span><span class="o">=</span>/var/snap/microk8s/current/certs/server.crt
+<span class="c1"># This is valid for multinode deployment, should be populated once ihub is deployed successfully</span>
+<span class="nv">IHUB_PUB_KEY_PATH</span><span class="o">=</span>
+<span class="nv">HVS_BASE_URL</span><span class="o">=</span>https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2
+
+<span class="c1"># TrustAgent</span>
+<span class="c1"># e.g TA_CERT_SAN_LIST=*.example.com,192.168.1.*</span>
+<span class="nv">TA_CERT_SAN_LIST</span><span class="o">=</span>
+<span class="nv">TPM_OWNER_SECRET</span><span class="o">=</span>
+
+<span class="c1"># Workload Agent</span>
+<span class="nv">WLA_SERVICE_USERNAME</span><span class="o">=</span>wlauser@wls
+<span class="nv">WLA_SERVICE_PASSWORD</span><span class="o">=</span>wlaAdminPass
+
+<span class="c1"># KBS</span>
+<span class="nv">ENDPOINT_URL</span><span class="o">=</span>https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
+<span class="nv">KBS_CERT_SAN_LIST</span><span class="o">=</span>kbs-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP&gt;,&lt;K8s control-plane Hostname&gt;
+<span class="nv">KMIP_HOSTNAME</span><span class="o">=</span>&lt;KMIP IP/Hostname&gt;
+<span class="nv">KMIP_SERVER_IP</span><span class="o">=</span>
+<span class="nv">KMIP_SERVER_PORT</span><span class="o">=</span>
+<span class="c1"># Retrieve the following KMIP server’s client certificate, client key and root ca certificate from the KMIP server.</span>
+<span class="c1"># This key and certificates will be available in KMIP server, /etc/pykmip is the default path copy them to this system manifests/kbs/kmip-secrets path</span>
+<span class="nv">KMIP_CLIENT_CERT_NAME</span><span class="o">=</span>client_certificate.pem
+<span class="nv">KMIP_CLIENT_KEY_NAME</span><span class="o">=</span>client_key.pem
+<span class="nv">KMIP_ROOT_CERT_NAME</span><span class="o">=</span>root_certificate.pem
+
+<span class="c1"># ISecl Scheduler</span>
+<span class="c1"># For microk8s</span>
+<span class="c1"># K8S_CA_KEY=/var/snap/microk8s/current/certs/ca.key</span>
+<span class="c1"># K8S_CA_CERT=/var/snap/microk8s/current/certs/ca.crt</span>
+<span class="nv">K8S_CA_KEY</span><span class="o">=</span>/var/snap/microk8s/current/certs/ca.key
+<span class="nv">K8S_CA_CERT</span><span class="o">=</span>/var/snap/microk8s/current/certs/ca.crt
+
+<span class="c1"># populate users.env</span>
+<span class="nv">ISECL_INSTALL_COMPONENTS</span><span class="o">=</span><span class="s2">&quot;AAS,HVS,WLS,IHUB,KBS,WLA,TA,WPM&quot;</span>
+
+<span class="c1">#NATS_CERT_SAN_LIST=</span>
+<span class="c1">#NATS_TLS_COMMON_NAME=</span>
+
+<span class="nv">GLOBAL_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">GLOBAL_ADMIN_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">INSTALL_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">INSTALL_ADMIN_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">WPM_SERVICE_USERNAME</span><span class="o">=</span>
+<span class="nv">WPM_SERVICE_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">CUSTOM_CLAIMS_COMPONENTS</span><span class="o">=</span>
+<span class="nv">CCC_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">CCC_ADMIN_PASSWORD</span><span class="o">=</span>
+</code></pre></div>
+<h6 id="run-scripts-on-kubernetes-controller-node">Run scripts on Kubernetes Controller Node</h6>
+<ul>
+<li>These bootstrap scripts are sample scripts to allow for a quick start of Intel SecL services and agents.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Pre-reqs.sh</span>
+./pre-requisites.sh
+
+<span class="c1">#isecl-bootstrap-db-services</span>
+<span class="c1">#Reference</span>
+<span class="c1">#./isecl-bootstrap-db-services.sh: option requires an argument -- h</span>
+<span class="c1">#Usage: ./isecl-bootstrap-db-services.sh [-help/up/purge]</span>
+<span class="c1">#    -help          print help and exit</span>
+<span class="c1">#    up        Bootstrap Database Services for Authservice, Workload Service and Host verification Service</span>
+<span class="c1">#    purge     Delete Database Services for Authservice, Workload Service and Host verification Service</span>
+
+./isecl-bootstrap-db-services.sh up
+
+<span class="c1">#isecl-bootstrap</span>
+<span class="c1">#Reference</span>
+<span class="c1">#Usage: Usage: ./isecl-bootstrap.sh [-help/up/down/purge]</span>
+<span class="c1">#    -help                                     Print help and exit</span>
+<span class="c1">#    up   [all/&lt;agent&gt;/&lt;service&gt;/&lt;usecase&gt;]    Bootstrap ISecL K8s environment for specified agent/service/usecase</span>
+<span class="c1">#    down [all/&lt;agent&gt;/&lt;service&gt;/&lt;usecase&gt;]    Delete ISecL K8s environment for specified agent/service/usecase [will not delete data, config, logs]</span>
+<span class="c1">#    purge                                     Delete ISecL K8s environment with data, config, logs [only supported for single node deployments]</span>
+
+<span class="c1">#    Available Options for up/down command:</span>
+<span class="c1">#        agent      Can be one of tagent, wlagent</span>
+<span class="c1">#        service    Can be one of cms, authservice, hvs, ihub, wls, kbs, isecl-controller, isecl-scheduler</span>
+<span class="c1">#        usecase    Can be one of foundation-security, workload-security, isecl-orchestration-k8s</span>
+
+./isecl-bootstrap.sh up &lt;all/usecase of choice&gt;
+</code></pre></div>
+<ul>
+<li>Perform the following steps for isecl-scheduler</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Copy scheduler-policy.json</span>
+cp manifests/k8s-extensions-scheduler/config/scheduler-policy.json /opt/isecl-k8s-extensions/
+
+<span class="c1">#Edit the kube-scheduler</span>
+vi /var/snap/microk8s/current/args/kube-scheduler
+
+<span class="c1">#Add the below line</span>
+--policy-config-file<span class="o">=</span>/opt/isecl-k8s-extensions/scheduler-policy.json
+
+<span class="c1">#Restart kubelet</span>
+systemctl restart snap.microk8s.daemon-kubelet.service
+</code></pre></div>
+<h4 id="multi-node-deployment">Multi-Node Deployment</h4>
+<p>A multi-node deployment will deploy Intel SecL control plane services as a pod on a kubeadm Kubernetes cluster, using a DaemonSet to deploy agent components to worker nodes.  </p>
+<h5 id="pre-requisites_2">Pre-requisites</h5>
+<h6 id="setup_1">Setup</h6>
+<ul>
+<li>
+<p><code>kubeadm</code> must be deployed</p>
+</li>
+<li>
+<p>Copy all manifests and OCI container images as required to the Kubernetes control node</p>
+</li>
+<li>
+<p>Intel SecL container images must be pushed to a container registry</p>
+</li>
+<li>
+<p>The Kubernetes cluster admin can configure the existing bare metal worker nodes or register fresh bare metal worker nodes with labels. For example, a label like <code>node.type: TXT-ENABLED</code> or <code>node.type: SUEFI-ENABLED</code> respectively for <code>TXT/SUEFI</code> enabled servers can be used by the cluster admin to distinguish the baremetal worker node and the same label can be used in ISECL Agent pod configuration to schedule on all worker nodes marked with the label. The same label is being used as default in the K8s manifests. This can be edited in <code>k8s/manifests/ta/daemonset.yml</code> , <code>k8s/manifests/wla/daemonset.yml</code></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Label node for TXT</span>
+kubectl label node &lt;node-name&gt; node.type<span class="o">=</span>TXT-ENABLED
+
+<span class="c1">#Label node for SUEFI</span>
+kubectl label node &lt;node-name&gt; node.type<span class="o">=</span>SUEFI-ENABLED
+</code></pre></div>
+<ul>
+<li>
+<p>The <code>NFS</code> storage class is used in Kubernetes for data persistence. An NFS server with appropriate directory structure and permissions is required. Intel recommends creation of a separate user ID with permissions for all Intel SecL directories. Below are some samples for reference</p>
+</li>
+<li>
+<p>Snapshot showing directory structure for which user needs to create on NFS volumes manually or using custom scripts.</p>
+</li>
+</ul>
+<p><img alt="NFS structure" src="../images/nfs-fsws-structure.jpg" /></p>
+<ul>
+<li>Snapshot showing ownership and permissions for directories for which user needs to manually grant the ownership.</li>
+</ul>
+<p><img alt="NFS Directory Permissions FS/WS Usecase" src="../images/nfs-fsws-permissions.jpg" /></p>
+<ul>
+<li>
+<p>Snapshot for configuring PV and PVC , user need to provide the NFS server IP or hostname and paths for each of the service directories. Sample manifest for creating <code>config-pv</code> for cms service</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">PersistentVolume</span>
+<span class="nt">metadata</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cms-config-pv</span>
+<span class="nt">spec</span><span class="p">:</span>
+    <span class="nt">capacity</span><span class="p">:</span>
+    <span class="nt">storage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">128Mi</span>
+    <span class="nt">volumeMode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
+    <span class="nt">accessModes</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ReadWriteMany</span>
+    <span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Retain</span>
+    <span class="nt">storageClassName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nfs</span>
+    <span class="nt">nfs</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/&lt;NFS-vol-base-path&gt;/isecl/cms/config</span>
+    <span class="nt">server</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS Server IP/Hostname&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Sample manifest for creating config-pvc for cms service</p>
+<div class="highlight"><pre><span></span><code>  <span class="l l-Scalar l-Scalar-Plain">---</span>
+  <span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
+  <span class="nt">metadata</span><span class="p">:</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cms-config-pvc</span>
+      <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">isecl</span>
+  <span class="nt">spec</span><span class="p">:</span>
+      <span class="nt">storageClassName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nfs</span>
+      <span class="nt">accessModes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ReadWriteMany</span>
+      <span class="nt">resources</span><span class="p">:</span>
+      <span class="nt">requests</span><span class="p">:</span>
+          <span class="nt">storage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">128Mi</span>
+</code></pre></div>
+</li>
+</ul>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The user id specified in security context in <code>deployment.yml</code> for a given service and owner of the service related directories in NFS must be same</p>
+</details>
+<ul>
+<li>For container confidentiality use cases, a backend KMIP-2.0 compliant server like pykmip must be availabe</li>
+</ul>
+<h6 id="manifests_1">Manifests</h6>
+<ul>
+<li>Update Kubernetes manifests with the image names to be pulled from the registry</li>
+<li>The <code>tolerations</code> and <code>node-affinity</code> for the isecl-scheduler and isecl-controller nees to be updated in the respective manifests under the <code>manifests/k8s-extensions-controller</code>  and <code>manifests/k8s-extensions-scheduler</code> directories to <code>node-role.kubernetes.io/master</code></li>
+<li>All NFS PV yaml files must be updated with the  <code>path: /&lt;NFS-vol-path&gt;</code>  and <code>server: &lt;NFS Server IP/Hostname&gt;</code> under each service manifest file for <code>config</code>, <code>logs</code> , <code>db-data</code></li>
+</ul>
+<h5 id="deploy-steps_1">Deploy steps</h5>
+<h6 id="update-env-file_1">Update .env file</h6>
+<div class="highlight"><pre><span></span><code><span class="c1">#Kubernetes Distribution - kubeadm</span>
+<span class="nv">K8S_DISTRIBUTION</span><span class="o">=</span>kubeadm
+<span class="nv">K8S_CONTROL_PLANE_IP</span><span class="o">=</span>
+<span class="nv">K8S_CONTROL_PLANE_HOSTNAME</span><span class="o">=</span>
+
+<span class="c1"># cms</span>
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://cms-svc.isecl.svc.cluster.local:8445/cms/v1
+<span class="nv">CMS_SAN_LIST</span><span class="o">=</span>cms-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="nv">CMS_K8S_ENDPOINT_URL</span><span class="o">=</span>https://&lt;k8s control-plane IP&gt;:30445/cms/v1
+
+<span class="c1"># authservice</span>
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://aas-svc.isecl.svc.cluster.local:8444/aas/v1
+<span class="nv">AAS_API_CLUSTER_ENDPOINT_URL</span><span class="o">=</span>https://&lt;K8s control-plane IP&gt;:30444/aas/v1
+<span class="nv">AAS_ADMIN_USERNAME</span><span class="o">=</span>admin@aas
+<span class="nv">AAS_ADMIN_PASSWORD</span><span class="o">=</span>aasAdminPass
+<span class="nv">AAS_DB_USERNAME</span><span class="o">=</span>aasdbuser
+<span class="nv">AAS_DB_PASSWORD</span><span class="o">=</span>aasdbpassword
+<span class="nv">AAS_DB_HOSTNAME</span><span class="o">=</span>aasdb-svc.isecl.svc.cluster.local
+<span class="nv">AAS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">AAS_DB_NAME</span><span class="o">=</span>aasdb
+<span class="nv">AAS_DB_SSLMODE</span><span class="o">=</span>verify-full
+<span class="nv">AAS_SAN_LIST</span><span class="o">=</span>aas-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="c1">#NATS_ACCOUNT_NAME=ISecL-account</span>
+
+<span class="c1"># Workload Service</span>
+<span class="nv">WLS_SERVICE_USERNAME</span><span class="o">=</span>admin@wls
+<span class="nv">WLS_SERVICE_PASSWORD</span><span class="o">=</span>wlsAdminPass
+<span class="nv">WLS_DB_USERNAME</span><span class="o">=</span>wlsdbuser
+<span class="nv">WLS_DB_PASSWORD</span><span class="o">=</span>wlsdbpassword
+<span class="nv">WLS_DB_HOSTNAME</span><span class="o">=</span>wlsdb-svc.isecl.svc.cluster.local
+<span class="nv">WLS_DB_NAME</span><span class="o">=</span>wlsdb
+<span class="nv">WLS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">WLS_API_URL</span><span class="o">=</span>https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
+<span class="nv">WLS_CERT_SAN_LIST</span><span class="o">=</span>wls-svc.isecl.svc.cluster.local
+
+<span class="c1"># Host Verification Service</span>
+<span class="nv">HVS_SERVICE_USERNAME</span><span class="o">=</span>admin@hvs
+<span class="nv">HVS_SERVICE_PASSWORD</span><span class="o">=</span>hvsAdminPass
+<span class="nv">HVS_DB_USERNAME</span><span class="o">=</span>hvsdbuser
+<span class="nv">HVS_DB_PASSWORD</span><span class="o">=</span>hvsdbpassword
+<span class="nv">HVS_DB_HOSTNAME</span><span class="o">=</span>hvsdb-svc.isecl.svc.cluster.local
+<span class="nv">HVS_DB_NAME</span><span class="o">=</span>hvsdb
+<span class="nv">HVS_CERT_SAN_LIST</span><span class="o">=</span>hvs-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="nv">HVS_DB_PORT</span><span class="o">=</span><span class="s2">&quot;5432&quot;</span>
+<span class="nv">HVS_URL</span><span class="o">=</span>https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2/
+
+<span class="c1">#Nats Servers configuration for TA and HVS</span>
+<span class="c1">#NATS_SERVERS=nats://&lt;K8s control-plane IP/Hostname&gt;:30222</span>
+
+<span class="c1"># ihub bootstrap</span>
+<span class="nv">IHUB_SERVICE_USERNAME</span><span class="o">=</span>admin@hub
+<span class="nv">IHUB_SERVICE_PASSWORD</span><span class="o">=</span>hubAdminPass
+<span class="nv">IH_CERT_SAN_LIST</span><span class="o">=</span>ihub-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP/K8s control-plane Hostname&gt;
+<span class="c1"># For Kubeadm</span>
+<span class="c1"># K8S_API_SERVER_CERT=/etc/kubernetes/pki/apiserver.crt</span>
+<span class="nv">K8S_API_SERVER_CERT</span><span class="o">=</span>/etc/kubernetes/pki/apiserver.crt
+<span class="c1"># This is valid for multinode deployment, should be populated once ihub is deployed successfully</span>
+<span class="nv">IHUB_PUB_KEY_PATH</span><span class="o">=</span>
+<span class="nv">HVS_BASE_URL</span><span class="o">=</span>https://hvs-svc.isecl.svc.cluster.local:8443/hvs/v2
+
+<span class="c1"># TrustAgent</span>
+<span class="c1"># e.g TA_CERT_SAN_LIST=*.example.com,192.168.1.*</span>
+<span class="nv">TA_CERT_SAN_LIST</span><span class="o">=</span>
+<span class="nv">TPM_OWNER_SECRET</span><span class="o">=</span>
+
+<span class="c1"># Workload Agent</span>
+<span class="nv">WLA_SERVICE_USERNAME</span><span class="o">=</span>wlauser@wls
+<span class="nv">WLA_SERVICE_PASSWORD</span><span class="o">=</span>wlaAdminPass
+
+<span class="c1"># KBS</span>
+<span class="nv">ENDPOINT_URL</span><span class="o">=</span>https://kbs-svc.isecl.svc.cluster.local:9443/kbs/v1
+<span class="nv">KBS_CERT_SAN_LIST</span><span class="o">=</span>kbs-svc.isecl.svc.cluster.local,&lt;K8s control-plane IP&gt;,&lt;K8s control-plane Hostname&gt;
+<span class="nv">KMIP_HOSTNAME</span><span class="o">=</span>&lt;KMIP IP/Hostname&gt;
+<span class="nv">KMIP_SERVER_IP</span><span class="o">=</span>
+<span class="nv">KMIP_SERVER_PORT</span><span class="o">=</span>
+<span class="c1"># Retrieve the following KMIP server’s client certificate, client key and root ca certificate from the KMIP server.</span>
+<span class="c1"># This key and certificates will be available in KMIP server, /etc/pykmip is the default path copy them to this system manifests/kbs/kmip-secrets path</span>
+<span class="nv">KMIP_CLIENT_CERT_NAME</span><span class="o">=</span>client_certificate.pem
+<span class="nv">KMIP_CLIENT_KEY_NAME</span><span class="o">=</span>client_key.pem
+<span class="nv">KMIP_ROOT_CERT_NAME</span><span class="o">=</span>root_certificate.pem
+
+<span class="c1"># ISecl Scheduler</span>
+<span class="c1"># For Kubeadm</span>
+<span class="c1"># K8S_CA_KEY=/etc/kubernetes/pki/ca.key</span>
+<span class="c1"># K8S_CA_CERT=/etc/kubernetes/pki/ca.crt</span>
+<span class="nv">K8S_CA_KEY</span><span class="o">=</span>/etc/kubernetes/pki/ca.key
+<span class="nv">K8S_CA_CERT</span><span class="o">=</span>/etc/kubernetes/pki/ca.crt
+
+<span class="c1"># populate users.env</span>
+<span class="nv">ISECL_INSTALL_COMPONENTS</span><span class="o">=</span><span class="s2">&quot;AAS,HVS,WLS,IHUB,KBS,WLA,TA,WPM&quot;</span>
+
+<span class="c1">#NATS_CERT_SAN_LIST=</span>
+<span class="c1">#NATS_TLS_COMMON_NAME=</span>
+
+<span class="nv">GLOBAL_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">GLOBAL_ADMIN_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">INSTALL_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">INSTALL_ADMIN_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">WPM_SERVICE_USERNAME</span><span class="o">=</span>
+<span class="nv">WPM_SERVICE_PASSWORD</span><span class="o">=</span>
+
+<span class="nv">CUSTOM_CLAIMS_COMPONENTS</span><span class="o">=</span>
+<span class="nv">CCC_ADMIN_USERNAME</span><span class="o">=</span>
+<span class="nv">CCC_ADMIN_PASSWORD</span><span class="o">=</span>
+</code></pre></div>
+<h6 id="run-scripts-on-kubernetes-controller-node_1">Run scripts on Kubernetes Controller Node</h6>
+<ul>
+<li>The following bootstrap scripts are sample scripts to allow for a quick start of Intel SecL services and agents.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Pre-reqs.sh</span>
+./pre-requisites.sh
+
+<span class="c1">#isecl-bootstrap-db-services</span>
+<span class="c1">#Reference</span>
+<span class="c1">#./isecl-bootstrap-db-services.sh: option requires an argument -- h</span>
+<span class="c1">#Usage: ./isecl-bootstrap-db-services.sh [-help/up/purge]</span>
+<span class="c1">#    -help          print help and exit</span>
+<span class="c1">#    up        Bootstrap Database Services for Authservice, Workload Service and Host verification Service</span>
+<span class="c1">#    purge     Delete Database Services for Authservice, Workload Service and Host verification Service</span>
+
+./isecl-bootstrap-db-services.sh up
+
+<span class="c1">#isecl-bootstrap</span>
+<span class="c1">#Reference</span>
+<span class="c1">#Usage: Usage: ./isecl-bootstrap.sh [-help/up/down/purge]</span>
+<span class="c1">#    -help                                     Print help and exit</span>
+<span class="c1">#    up   [all/&lt;agent&gt;/&lt;service&gt;/&lt;usecase&gt;]    Bootstrap ISecL K8s environment for specified agent/service/usecase</span>
+<span class="c1">#    down [all/&lt;agent&gt;/&lt;service&gt;/&lt;usecase&gt;]    Delete ISecL K8s environment for specified agent/service/usecase [will not delete data, config, logs]</span>
+<span class="c1">#    purge                                     Delete ISecL K8s environment with data, config, logs [only supported for single node deployments]</span>
+
+<span class="c1">#    Available Options for up/down command:</span>
+<span class="c1">#        agent      Can be one of tagent, wlagent</span>
+<span class="c1">#        service    Can be one of cms, authservice, hvs, ihub, wls, kbs, isecl-controller, isecl-scheduler</span>
+<span class="c1">#        usecase    Can be one of foundation-security, workload-security, isecl-orchestration-k8s</span>
+
+./isecl-bootstrap.sh up &lt;all/usecase of choice&gt;
+</code></pre></div>
+<ul>
+<li>Copy the <code>ihub_public_key.pem</code> from NFS path -<code>&lt;mnt&gt;/isecl/ihub/config/ihub_public_key.pem</code> to K8s Master</li>
+<li>Update the <code>isecl-k8s.env</code> for <code>IHUB_PUB_KEY_PATH</code></li>
+<li>Bring up the <code>isecl-k8s-scheduler</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>./isecl-bootstrap.sh up isecl-scheduler
+</code></pre></div>
+<ul>
+<li>Create and update <code>scheduler-policy.json</code> path</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir -p /opt/isecl-k8s-extensions
+cp manifests/k8s-extensions-scheduler/config/scheduler-policy.json /opt/isecl-k8s-extensions
+</code></pre></div>
+<ul>
+<li>Configure kube-scheduler to establish communication with isecl-scheduler. Add <code>scheduler-policy.json</code> under kube-scheduler section, <code>mountPath</code> under container section and <code>hostPath</code> under volumes section in<code>/etc/kubernetes/manifests/kube-scheduler.yaml</code> as mentioned below</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">containers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">command</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">kube-scheduler</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">--policy-config-file=/opt/isecl-k8s-extensions/scheduler-policy.json</span>
+<span class="nt">containers</span><span class="p">:</span>
+    <span class="nt">volumeMounts</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">mountPath</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/isecl-k8s-extensions/</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">extendedsched</span>
+      <span class="nt">readOnly</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">volumes</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">hostPath</span><span class="p">:</span>
+      <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/isecl-k8s-extensions/</span>
+      <span class="nt">type</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">extendedsched</span>
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Make sure to use proper indentation and don't delete existing <code>mountPath</code> and <code>hostPath</code> sections in <code>kube-scheduler.yaml</code></p>
+</details>
+<ul>
+<li>Restart <code>kubelet</code> which restart all the k8s services including kube-scheduler</li>
+</ul>
+<div class="highlight"><pre><span></span><code>systemctl restart kubelet
+</code></pre></div>
+<h2 id="default-service-and-agent-mount-paths">Default Service and Agent Mount Paths</h2>
+<h3 id="single-node-deployments">Single Node Deployments</h3>
+<p>Single node Deployments use <code>hostPath</code> mounting pod(container) files directly on the host.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Certificate-Management-Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/cms</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/cms</span>
+
+<span class="c1">#Authentication Authorization Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/authservice</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/authservice</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/local/kube/data/authservice/pgdata</span>
+
+<span class="c1">#Host Attestation Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hvs</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/hvs</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/local/kube/data/hvs</span>
+
+<span class="c1">#Integration-Hub</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/ihub</span>
+<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/ihub</span>
+
+<span class="c1">#Workload Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/workload-service</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/workload-service</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/local/kube/data/workload-service</span>
+
+<span class="c1">#Key-Broker-Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/kbs</span>
+<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/kbs</span>
+<span class="nt">Opt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/kbs</span>
+
+<span class="c1">#Trust Agent:</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/trustagent/configuration</span>
+<span class="nt">Logs</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/var/log/trustagent/</span>
+<span class="nt">tpmrm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/dev/tpmrm0</span>
+<span class="nt">txt-stat</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/sbin/txt-stat</span>
+<span class="nt">ta-hostname-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hostname</span>
+<span class="nt">ta-hosts-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hosts</span>
+
+<span class="c1">#Workload Agent:</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/workload-agent/</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/workload-agent</span>
+<span class="nt">TA Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/trustagent/configuration</span>
+<span class="nt">WLA-Socket</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/workload-agent</span>
+</code></pre></div>
+<h3 id="multi-node-deployments">Multi Node Deployments</h3>
+<p>Multi node Deployments use Kubernetes persistent volume and persistent volume claims for mounting pod(container) files on NFS volumes for all services.  Agents will use <code>hostPath</code> for persistent storage. F</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Certificate-Management-Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/cms/config</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/cms/logs</span>
+
+<span class="c1">#Authentication Authorization Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/config</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/logs</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/db</span>
+
+<span class="c1">#Host Attestation Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/hvs/config</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/hvs/logs</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/usr/local/kube/data/hvs</span>
+
+<span class="c1">#Integration-Hub</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/ihub/config</span>
+<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/ihub/logs</span>
+
+<span class="c1">#Workload Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/wls/config</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/wls/log</span>
+<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/usr/local/kube/data/wls</span>
+
+<span class="c1">#Key-Broker-Service</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/config</span>
+<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/logs</span>
+<span class="nt">Opt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/kbs/opt</span>
+
+<span class="c1">#Trust Agent:</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/opt/trustagent/configuration</span>
+<span class="nt">Logs</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/var/log/trustagent/</span>
+<span class="nt">tpmrm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/dev/tpmrm0</span>
+<span class="nt">txt-stat</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/sbin/txt-stat</span>
+<span class="nt">ta-hostname-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hostname</span>
+<span class="nt">ta-hosts-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hosts</span>
+
+<span class="c1">#Workload Agent:</span>
+<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/workload-agent/</span>
+<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/workload-agent</span>
+<span class="nt">WLA-Socket</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/workload-agent</span>
+</code></pre></div>
+<h2 id="default-service-ports">Default Service Ports</h2>
+<p>For both single-node and multi-node deployments, the following ports are used:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">CMS</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30445</span>
+<span class="nt">AAS</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30444</span>
+<span class="nt">HVS</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30443</span>
+<span class="nt">WLS</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30447</span>
+<span class="nt">IHUB</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="nt">KBS</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30448</span>
+<span class="nt">K8s-scheduler</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30888</span>
+<span class="nt">K8s-controller</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="nt">TA</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">31443</span>
+<span class="nt">WLA</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+</code></pre></div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installing the Workload Policy Manager" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Installing the Workload Policy Manager
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../40%20Authentication/" class="md-footer__link md-footer__link--next" aria-label="Next: Authentication" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Authentication
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.indexes", "navigation.top", "search.suggest"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.cefbb252.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.17f42bbf.min.js"></script>
+      
+    
+  </body>
+</html>

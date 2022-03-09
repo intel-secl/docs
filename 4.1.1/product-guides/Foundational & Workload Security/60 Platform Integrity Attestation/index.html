@@ -1,0 +1,3759 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../images/isecl-logo.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.0">
+    
+    
+      
+        <title>Platform Integrity Attestation - Intel® SecL-DC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.82f3c0b9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.9204c3b2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica:300,400,400i,700%7CFira+Code&display=fallback">
+        <style>:root{--md-text-font:"Helvetica";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#platform-integrity-attestation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        <aside class="md-banner md-banner--warning">
+          
+        </aside>
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Intel® SecL-DC" class="md-header__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intel® SecL-DC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Platform Integrity Attestation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/intel-secl/intel-secl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-tabs__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../01/" class="md-tabs__link md-tabs__link--active">
+        Product Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-tabs__link">
+        Supplementary Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-tabs__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Intel® SecL-DC" class="md-nav__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    Intel® SecL-DC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/intel-secl/intel-secl/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Quick Start Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Quick Start Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          Foundational & Workload Security - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational & Workload Security - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational & Workload Security - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/3Rpms%20%26%20Debs%20Requirement/" class="md-nav__link">
+        Rpms & Debs Requirement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/2Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/3Build%20Services%20and%20packages/" class="md-nav__link">
+        Build Services and packages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/4Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/5Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/6Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          SGX Infrastructure - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/3RHEL%20RPMs%20Requirements/" class="md-nav__link">
+        RHEL RPMs Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_4">
+          SGX Infrastructure
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/2Hardware%20Requirements/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/3OS%20Requirements/" class="md-nav__link">
+        OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/4Build%20Services/" class="md-nav__link">
+        Build Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/5Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/6Deployment/" class="md-nav__link">
+         Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/7Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/8System%20User%20Configuration/" class="md-nav__link">
+        System User Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/9Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Product Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Product Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Product Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-nav__link">
+        Intel® Security Libraries Components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22%20Building%20Binary%20Installers/" class="md-nav__link">
+        Building Binary Installers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23%20Hardware%20Considerations/" class="md-nav__link">
+        Hardware Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24%20Recommended%20Service%20Layout/" class="md-nav__link">
+        Recommended Service Layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_7" type="checkbox" id="__nav_3_1_7" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_7">
+          Intel Security Libraries Binary Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Binary Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Binary Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25%20Intel%20Security%20Libraries%20Binary%20Installation/" class="md-nav__link">
+        Intel® Security Libraries Binary Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.0%20Using%20NATS%20with%20Intel%20SecL/" class="md-nav__link">
+        Using NATS with Intel SecL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.1%20Installing%20and%20Configuring%20the%20Database/" class="md-nav__link">
+        Installing/Configuring the Database
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.2%20Installing%20the%20Certificate%20Management%20Service/" class="md-nav__link">
+        Installing the Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.3%20Installing%20the%20Authentication%20and%20Authorization%20Service/" class="md-nav__link">
+        Installing the Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.4%20Installing%20the%20Host%20Verification%20Service/" class="md-nav__link">
+        Installing the Host Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.6%20Installing%20the%20Workload%20Service/" class="md-nav__link">
+        Installing the Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.7%20Installing%20the%20Trust%20Agent%20for%20Linux/" class="md-nav__link">
+        Installing the Trust Agent for Linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.8%20Installing%20the%20Workload%20Agent/" class="md-nav__link">
+        Installing the Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.9%20Provisioning%20the%20Trust%20Agent/" class="md-nav__link">
+        Trust Agent Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.10%20Installing%20the%20Intel%20SecL%20Kubernetes%20Extensions%20and%20Integration%20Hub/" class="md-nav__link">
+        Installing the Intel® SecL Kubernetes Extensions and Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.11%20Installing%20the%20Key%20Broker%20Service/" class="md-nav__link">
+        Installing the Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-nav__link">
+        Installing the Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30%20Intel%C2%AE%20Security%20Libraries%20Container%20Deployment/" class="md-nav__link">
+        Intel® Security Libraries Container Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40%20Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50%20Connection%20Strings/" class="md-nav__link">
+        Connection Strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Platform Integrity Attestation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Platform Integrity Attestation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#host-registration" class="md-nav__link">
+    Host Registration
+  </a>
+  
+    <nav class="md-nav" aria-label="Host Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trust-agent" class="md-nav__link">
+    Trust Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registration-via-trust-agent-command-line" class="md-nav__link">
+    Registration via Trust Agent Command Line
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registration-via-verification-service-api" class="md-nav__link">
+    Registration via Verification Service API
+  </a>
+  
+    <nav class="md-nav" aria-label="Registration via Verification Service API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-call" class="md-nav__link">
+    Sample Call
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-for-esxi-cluster-registration" class="md-nav__link">
+    Sample Call for ESXi Cluster Registration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flavor-creation-for-automatic-flavor-matching" class="md-nav__link">
+    Flavor Creation for Automatic Flavor Matching
+  </a>
+  
+    <nav class="md-nav" aria-label="Flavor Creation for Automatic Flavor Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-flavor-from-a-sample-host" class="md-nav__link">
+    Importing a Flavor from a Sample Host
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-flavor-manually" class="md-nav__link">
+    Creating a Flavor Manually
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-default-software-flavor-linux-only" class="md-nav__link">
+    Creating the Default SOFTWARE Flavor (Linux Only)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-and-provisioning-asset-tags" class="md-nav__link">
+    Creating and Provisioning Asset Tags
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating and Provisioning Asset Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-asset-tag-certificates" class="md-nav__link">
+    Creating Asset Tag Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-asset-tags" class="md-nav__link">
+    Deploying Asset Tags
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploying Asset Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#red-hat-enterprise-linux" class="md-nav__link">
+    Red Hat Enterprise Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware" class="md-nav__link">
+    VMWare
+  </a>
+  
+    <nav class="md-nav" aria-label="VMWare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculate-the-certificate-hash-value" class="md-nav__link">
+    Calculate the Certificate Hash Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provision-the-certificate-hash-to-the-host-tpm" class="md-nav__link">
+    Provision the Certificate Hash to the Host TPM
+  </a>
+  
+    <nav class="md-nav" aria-label="Provision the Certificate Hash to the Host TPM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vsphere-65-update-2-or-later" class="md-nav__link">
+    vSphere 6.5 Update 2 or Later
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vsphere-65-update-1-or-older" class="md-nav__link">
+    vSphere 6.5 Update 1 or Older
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-asset-tag-flavor-vmware-esxi-only" class="md-nav__link">
+    Creating the Asset Tag Flavor (VMWare ESXi Only)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-current-attestation-reports" class="md-nav__link">
+    Retrieving Current Attestation Reports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-current-host-state-information" class="md-nav__link">
+    Retrieving Current Host State Information
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-hosts-in-the-datacenter-to-a-new-bios-or-os-version" class="md-nav__link">
+    Upgrading Hosts in the Datacenter to a New BIOS or OS Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-hosts-from-the-verification-service" class="md-nav__link">
+    Removing Hosts From the Verification Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-flavors" class="md-nav__link">
+    Removing Flavors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invalidating-asset-tags" class="md-nav__link">
+    Invalidating Asset Tags
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remediating-an-untrusted-attestation" class="md-nav__link">
+    Remediating an Untrusted attestation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attestation-reporting" class="md-nav__link">
+    Attestation Reporting
+  </a>
+  
+    <nav class="md-nav" aria-label="Attestation Reporting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-generating-a-new-attestation-report" class="md-nav__link">
+    Sample Call – Generating a New Attestation Report
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-retrieving-an-existing-attestation-report" class="md-nav__link">
+    Sample Call – Retrieving an Existing Attestation Report
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65%20Cloud%20Platform%20Integration/" class="md-nav__link">
+        Cloud Platform Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70%20Workload%20Confidentiality/" class="md-nav__link">
+        Workload Confidentiality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../80%20Trusted%20Virtual%20Kubernetes%20Worker%20Nodes/" class="md-nav__link">
+        Trusted Virtual Kubernetes Worker Nodes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90%20Flavor%20Management/" class="md-nav__link">
+        Flavor Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../100%20Scalability%20and%20Sizing/" class="md-nav__link">
+        Scalability and Sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_17" type="checkbox" id="__nav_3_1_17" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_17">
+          Intel Security Libraries Configuration Settings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Configuration Settings" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_17">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Configuration Settings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings1/" class="md-nav__link">
+        Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings2/" class="md-nav__link">
+        Trust Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings3/" class="md-nav__link">
+        Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings4/" class="md-nav__link">
+        Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings5/" class="md-nav__link">
+        Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings6/" class="md-nav__link">
+        Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings7/" class="md-nav__link">
+        Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings8/" class="md-nav__link">
+        Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings9/" class="md-nav__link">
+        Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../120%20Certificate%20and%20Key%20Management/" class="md-nav__link">
+        Certificate and Key Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../130%20Upgrades/" class="md-nav__link">
+        Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../999%20Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          SGX Infrastructure and Secure Key Caching
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure and Secure Key Caching" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure and Secure Key Caching
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2SGX%20Attestation%20Infrastructure/" class="md-nav__link">
+        SGX Attestation Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2.1Secure%20Key%20Caching/" class="md-nav__link">
+        Secure Key Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/3Intel%C2%AE%20Security%20Libraries%20Installation/" class="md-nav__link">
+        Intel® Security Libraries Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/4Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/5SGX%20Features%20Provisioning/" class="md-nav__link">
+        SGX Features Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/6Setup%20Task%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Setup Task Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/7Configuration%20Update%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Configuration Update Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/8Intel%20Security%20Libraries%20Configuration%20Settings/" class="md-nav__link">
+        Intel Security Libraries Configuration Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/9Uninstallation/" class="md-nav__link">
+        Uninstallation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/10Binary%20Upgrades/" class="md-nav__link">
+        Binary Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/11Container%20Upgrades/" class="md-nav__link">
+        Container Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/12Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/13KBS%20key-transfer%20flow%20validation/" class="md-nav__link">
+        KBS key-transfer flow validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/14Note%20on%20Key%20Transfer%20Policy/" class="md-nav__link">
+        Note on Key Transfer Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/15Note%20on%20SKC%20Library%20Deployment/" class="md-nav__link">
+        Note on SKC Library Deployment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Supplementary Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supplementary Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Common Cluster Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Common Cluster Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Common Cluster Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-nav__link">
+        Pre-requisites
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/2Deployment%20Architecture/" class="md-nav__link">
+        Deployment Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/3Deployment%20Steps/" class="md-nav__link">
+        Deployment Steps
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/4Workload%20POD%20Launch%20Validation/" class="md-nav__link">
+        Workload POD Launch Validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/5Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Release Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Release Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-nav__link">
+        Intel Security Libraries for Data Center
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#host-registration" class="md-nav__link">
+    Host Registration
+  </a>
+  
+    <nav class="md-nav" aria-label="Host Registration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trust-agent" class="md-nav__link">
+    Trust Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#registration-via-trust-agent-command-line" class="md-nav__link">
+    Registration via Trust Agent Command Line
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registration-via-verification-service-api" class="md-nav__link">
+    Registration via Verification Service API
+  </a>
+  
+    <nav class="md-nav" aria-label="Registration via Verification Service API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-call" class="md-nav__link">
+    Sample Call
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-for-esxi-cluster-registration" class="md-nav__link">
+    Sample Call for ESXi Cluster Registration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flavor-creation-for-automatic-flavor-matching" class="md-nav__link">
+    Flavor Creation for Automatic Flavor Matching
+  </a>
+  
+    <nav class="md-nav" aria-label="Flavor Creation for Automatic Flavor Matching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-flavor-from-a-sample-host" class="md-nav__link">
+    Importing a Flavor from a Sample Host
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-flavor-manually" class="md-nav__link">
+    Creating a Flavor Manually
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-default-software-flavor-linux-only" class="md-nav__link">
+    Creating the Default SOFTWARE Flavor (Linux Only)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-and-provisioning-asset-tags" class="md-nav__link">
+    Creating and Provisioning Asset Tags
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating and Provisioning Asset Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-asset-tag-certificates" class="md-nav__link">
+    Creating Asset Tag Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-asset-tags" class="md-nav__link">
+    Deploying Asset Tags
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploying Asset Tags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#red-hat-enterprise-linux" class="md-nav__link">
+    Red Hat Enterprise Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware" class="md-nav__link">
+    VMWare
+  </a>
+  
+    <nav class="md-nav" aria-label="VMWare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculate-the-certificate-hash-value" class="md-nav__link">
+    Calculate the Certificate Hash Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#provision-the-certificate-hash-to-the-host-tpm" class="md-nav__link">
+    Provision the Certificate Hash to the Host TPM
+  </a>
+  
+    <nav class="md-nav" aria-label="Provision the Certificate Hash to the Host TPM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vsphere-65-update-2-or-later" class="md-nav__link">
+    vSphere 6.5 Update 2 or Later
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vsphere-65-update-1-or-older" class="md-nav__link">
+    vSphere 6.5 Update 1 or Older
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-asset-tag-flavor-vmware-esxi-only" class="md-nav__link">
+    Creating the Asset Tag Flavor (VMWare ESXi Only)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-current-attestation-reports" class="md-nav__link">
+    Retrieving Current Attestation Reports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-current-host-state-information" class="md-nav__link">
+    Retrieving Current Host State Information
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-hosts-in-the-datacenter-to-a-new-bios-or-os-version" class="md-nav__link">
+    Upgrading Hosts in the Datacenter to a New BIOS or OS Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-hosts-from-the-verification-service" class="md-nav__link">
+    Removing Hosts From the Verification Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-flavors" class="md-nav__link">
+    Removing Flavors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invalidating-asset-tags" class="md-nav__link">
+    Invalidating Asset Tags
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remediating-an-untrusted-attestation" class="md-nav__link">
+    Remediating an Untrusted attestation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attestation-reporting" class="md-nav__link">
+    Attestation Reporting
+  </a>
+  
+    <nav class="md-nav" aria-label="Attestation Reporting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-generating-a-new-attestation-report" class="md-nav__link">
+    Sample Call – Generating a New Attestation Report
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-call-retrieving-an-existing-attestation-report" class="md-nav__link">
+    Sample Call – Retrieving an Existing Attestation Report
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/intel-secl/intel-secl/edit/master/docs/product-guides/Foundational & Workload Security/60 Platform Integrity Attestation.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="platform-integrity-attestation">Platform Integrity Attestation</h1>
+<p>Platform attestation is the cornerstone use case for ISecL. Platform
+attestation involves taking measurements of system components during
+system boot, and then cryptographically verifying that the actual
+measurements taken matched a set of expected or approved values,
+ensuring that the measured components were in an acceptable or "<strong>trusted</strong>"
+state at the time of the last system boot.</p>
+<p>ISecL leverages the Trusted Compute Group specification for a trusted
+boot process, extending measurements of platform components to registers
+in a Trusted Platform Module, and securely generating quotes of those
+measurements from the TPM for remote comparison to expected values
+(attestation).</p>
+<p>This section includes basic REST API examples for these workflows. See
+the Javadoc for more detailed documentation on REST APIs supported by
+ISecL.</p>
+<p>Typical workflows in the datacenter might include:</p>
+<ul>
+<li>
+<p>Creating a set of acceptable flavors for attestation with automatic
+    flavor matching that represent the known-good measurements for
+    acceptable BIOS and OS versions in the datacenter</p>
+</li>
+<li>
+<p>Registering hosts for attestation with automatic flavor matching</p>
+</li>
+<li>
+<p>Upgrading hosts in the datacenter to a new BIOS or OS version</p>
+</li>
+<li>
+<p>Removing hosts from the Verification Service</p>
+</li>
+<li>
+<p>Removing flavors</p>
+</li>
+<li>
+<p>Provisioning asset tags to hosts</p>
+</li>
+<li>
+<p>Invalidating asset tags</p>
+</li>
+<li>
+<p>Retrieving current attestation reports</p>
+</li>
+<li>
+<p>Retrieving current host state information</p>
+</li>
+<li>
+<p>Remediating an untrusted attestation</p>
+</li>
+</ul>
+<h2 id="host-registration">Host Registration</h2>
+<hr />
+<p>Registration creates a host record with connectivity details and other
+host information in the Verification Service database. This host record
+will be used by the Verification Service to retrieve TPM attestation
+quotes from the Trust Agent to generate an attestation report.</p>
+<h3 id="trust-agent">Trust Agent</h3>
+<h4 id="registration-via-trust-agent-command-line">Registration via Trust Agent Command Line</h4>
+<p>The Trust Agent can register the host with a Verification Service by
+running the following command:</p>
+<div class="highlight"><pre><span></span><code>tagent setup create-host
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The following environment variables must be exported for this command:</p>
+</details>
+<div class="highlight"><pre><span></span><code><span class="nv">HVS_URL</span><span class="o">=</span>https://&lt;hvs_IP/hostname&gt;:8443/hvs/v2
+<span class="nv">CURRENT_IP</span><span class="o">=</span>&lt;trustagent_IP&gt;
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;authentication token&gt;
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Because VMWare ESXi hosts do not use a Trust Agent, this method is not applicable for registration of ESXi hosts.</p>
+</details>
+<h3 id="registration-via-verification-service-api">Registration via Verification Service API</h3>
+<p>Any Trust Agent or VMware ESXi host/cluster can be registered using a
+Verification Service API request. Registration can be performed with or
+without a set of existing Flavors. Rules for Flavor matching can be set
+by using the Flavor Group in the request; if no Flavor Group is
+specified, the <code>automatic</code> Flavor Group will be used. See the
+Flavor Management section for additional details on Flavors, Flavor
+Groups, and Flavor matching.</p>
+<h4 id="sample-call">Sample Call</h4>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/hosts
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;host_name&quot;: &quot;&lt;hostname of host to be registered&gt;&quot;,
+    &quot;connection_string&quot;: &quot;&lt;connection string&gt;&quot;,
+    &quot;flavorgroup_name&quot; : &quot;&quot;,
+    &quot;description&quot; : &quot;&lt;description&gt;&quot;
+}
+</code></pre></div>
+<p>Requires the permission <code>hosts:create</code></p>
+<h4 id="sample-call-for-esxi-cluster-registration">Sample Call for ESXi Cluster Registration</h4>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/hosts
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot; esxi_clusters&quot;: [
+       {
+          &quot;connection_string&quot;: &quot;&lt;password&gt;&quot;,
+          &quot;cluster_name&quot;: &quot;&lt;cluster name&gt;&quot;
+       }
+    ]
+ }
+</code></pre></div>
+<p>Requires the permission <code>esxi_clusters:create</code></p>
+<h2 id="flavor-creation-for-automatic-flavor-matching">Flavor Creation for Automatic Flavor Matching</h2>
+<p>Flavor creation is the process of adding one or more sets of acceptable
+measurements to the Verification Service database. These measurements
+correspond to specific system components, and are used as the basis of
+comparison to generate trust attestations.</p>
+<p>Flavors can be created manually, or can be imported from an example
+host.</p>
+<p>Flavors are automatically matched to hosts based on the Flavorgroup used
+by the host and the Flavors, and the Flavor Match Policies of the
+Flavorgroup. The ISecL Verification Service creates a default
+Flavorgroups during installation called "<strong>automatic</strong>" This Flavorgroup is
+configured to be used as a pool of all acceptable Flavors in a given
+environment, and will automatically match the appropriate Flavor parts
+to the correct host. This Flavorgroup is used by default and is expected
+to be useful for the majority of deployments. If no Flavorgroup is
+specified when creating a Flavor, it will be placed in the "<strong>automatic</strong>"
+Flavorgroup.</p>
+<p>Flavors are also divided into Flavor parts, which correspond to the
+<code>PLATFORM</code>, <code>OS</code>, <code>HOST_UNIQUE</code>, <code>SOFTWARE</code>, and <code>ASSET_TAG</code> measurements. These
+can be created and maintained separately (so that users can manage
+acceptable OS and BIOS versions, rather than entire host
+configurations). By default, if not specified, the Verification Service
+will import Flavors as separate Flavor parts, as appropriate for the
+host type.</p>
+<p>By using individual Flavor parts, individual versions of OS or PLATFORM
+measurements can be managed and automatically mapped. Whenever a host
+changes states (Untrusted, Connected, etc.) the Verification Service
+will attempt to match appropriate Flavors to that host. If a Flavor is
+removed or added, all appropriate hosts will be updated to use the new
+Flavor, or to no longer use the deleted Flavor. Hosts that are currently
+using a BIOS where that BIOS versions’ PLATFORM Flavor was deleted will
+now appear Untrusted, for example. This can be used to easily flag as
+Untrusted hosts that are using software that has been End-Of-Lifed, or
+perhaps an OS kernel with a known security vulnerability.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>See the Flavor Management section for additional details on how flavors can be managed, and how the Flavor matching engine works. The sample workflow provided here is intended to be an introduction only.</p>
+</details>
+<h3 id="importing-a-flavor-from-a-sample-host">Importing a Flavor from a Sample Host</h3>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;connection_string&quot;: &quot;&lt;connection string&gt;&quot;,
+    &quot;partial_flavor_types&quot;: [&quot;PLATFORM&quot;, &quot;OS&quot;, &quot;HOST_UNIQUE&quot;],
+    &quot;flavorgroup_names&quot;: []
+}
+</code></pre></div>
+<p>Requires the permission <code>flavors:create</code></p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The HOST_UNIQUE Flavor parts, used by Red Hat Enterprise Linux and VMWare ESXi host types, MUST be created for each registered host of that type, and should in general be imported from that host. This means that importing the HOST_UNIQUE flavor should always be done for each host registered.</p>
+</details>
+<p>To import ONLY the HOST_UNIQUE Flavor part from a host:</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;connection_string&quot;: &quot;&lt;connection string&gt;&quot;,
+    &quot;partial_flavor_types&quot;: [&quot;HOST_UNIQUE&quot;],
+    flavorgroup_names&quot;: []
+}
+</code></pre></div>
+<p>Requires the permission <code>flavors:create</code></p>
+<h3 id="creating-a-flavor-manually">Creating a Flavor Manually</h3>
+<p>Flavors can be directly created (rather than importing from a sample
+host) if the required information is known. If no Flavorgroup is
+specified, the Flavor will be placed in the <code>automatic</code> group. Note that
+the <code>label</code> is a required field and must be unique.</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;connection_string&quot;: &quot;&quot;,
+    &quot;flavor_collection&quot;: {
+        &quot;flavors&quot;: [
+            {
+                &quot;meta&quot;: {
+                    &quot;vendor&quot;: &quot;INTEL&quot;,
+                    &quot;description&quot;: {
+                        &quot;flavor_part&quot;: &quot;PLATFORM&quot;,
+                        &quot;label&quot;: &quot;Intel Corporation_SE5C610.86B.01.01.1008.031920151331_TPM2.0&quot;,
+                        &quot;bios_name&quot;: &quot;Intel Corporation&quot;,
+                        &quot;bios_version&quot;: &quot;SE5C620.86B.00.01.0004.071220170215&quot;,
+                        &quot;tpm_version&quot;: &quot;2.0&quot;
+                    }
+                },
+                &quot;hardware&quot;: {
+                    &quot;processor_info&quot;: &quot;…&quot;,
+                    &quot;processor_flags&quot;: &quot;…&quot;,
+                    &quot;feature&quot;: {
+                        &quot;tpm&quot;: {
+                            &quot;enabled&quot;: true,
+                            &quot;pcr_banks&quot;: [
+                                &quot;SHA1&quot;,
+                                &quot;SHA256&quot;
+                            ]
+                        },
+                        &quot;txt&quot;: {
+                            &quot;enabled&quot;: true
+                        }
+                    }
+                },
+                &quot;pcrs&quot;: {
+                    &quot;SHA1&quot;: {
+                        &quot;pcr_0&quot;: {
+                            &quot;value&quot;: &quot;d2ed125942726641a7260c4f92beb67d531a0def&quot;
+                        },
+                        &quot;pcr_17&quot;: {
+                            &quot;value&quot;: &quot;1ec12004b371e3afd43d04155abde7476a3794fa&quot;,
+                            &quot;event&quot;: ...
+                        }
+</code></pre></div>
+<p>Requires the permission <code>flavors:create</code></p>
+<h2 id="creating-the-default-software-flavor-linux-only">Creating the Default SOFTWARE Flavor (Linux Only)</h2>
+<p>As part of the new Application Integrity feature added in Intel® SecL-DC
+version 1.5, a new default SOFTWARE Flavor part is provided so that the
+Linux Trust Agent itself can be measured and included in the attestation
+process. The default SOFTWARE Flavor includes a manifest for the static
+files and folders in the Trust Agent. The manifest is automatically
+deployed to each Linux Trust Agent during the provisioning step.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The Linux Trust Agent <strong>must</strong> be rebooted after the Provisioning step is completed (typically Provisioning happens during installation, based on whether all of the required variables are set in the trustagent.env file). Rebooting allows the default SOFTWARE Flavor manifest to be measured and extended to the TPM PCRs. If the reboot is not performed, the system will require a SOFTWARE Flavor, but the measurements will not exist, and the system will appear Untrusted. If an un-rebooted host is used to create the SOFTWARE Flavor, the Flavor will be created based on measurements that do not exist, and will fail.</p>
+</details>
+<p>The <code>SOFTWARE</code> Flavor part should be created separately from the other
+Flavor parts. Only one default <code>SOFTWARE</code> Flavor needs to be created for
+each version of the Linux Trust Agent. If the <code>SOFTWARE</code> Flavor for the
+same Trust Agent version is imported multiple times, subsequent imports
+will fail as the Flavor already exists.</p>
+<p>To import the <code>SOFTWARE</code> Flavor part from a host:</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;connection_string&quot;: &quot;&lt;connection string&gt;&quot;,
+    &quot;partial_flavor_types&quot;: [&quot;SOFTWARE&quot;],
+    flavorgroup_names&quot;: []
+}
+</code></pre></div>
+<p>Requires the permission <code>flavors:create</code></p>
+<h2 id="creating-and-provisioning-asset-tags">Creating and Provisioning Asset Tags</h2>
+<p>Asset Tags represent a set of key/value pairs that can be associated
+with a host in hardware. This enables usages around restricting
+workflows to specific hosts based on tags, which could include location
+information, compliance tags, etc.</p>
+<p>ISecL creates Asset Tags by creating a certificate containing the list
+of key/value pairs to be tagged to the host, with the host’s hardware
+UUID as the certificate subject. A hash of this certificate is then
+written to an NVRAM index in the host’s TPM. This value is included in
+TPM quotes, and can be attested using an Asset Tag flavor that matches
+up the expected value and the actual key/value pairs.</p>
+<h3 id="creating-asset-tag-certificates">Creating Asset Tag Certificates</h3>
+<p>Asset Tag certificates can be created with a single REST API call, with
+any number of key/value pairs. Note that one certificate must be created
+for each host to be tagged, even if they will all be tagged with
+identical key/value pairs.</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/tag-certificates
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;hardware_uuid&quot;: &quot;&lt;hardware UUID of host to be tagged&gt;&quot;,
+    &quot;selection_content&quot;: [
+        {
+            &quot;name&quot;: &quot;&lt;key&gt;&quot;,
+            &quot;value&quot;: &quot;&lt;value&gt;&quot;
+        },
+        {
+            &quot;name&quot;: &quot;&lt;key&gt;&quot;,
+            &quot;value&quot;: &quot;&lt;value&gt;&quot;
+        },
+        {
+            &quot;name&quot;: &quot;&lt;key&gt;&quot;,
+            &quot;value&quot;: &quot;&lt;value&gt;&quot;
+        }
+    ]
+}
+</code></pre></div>
+<h3 id="deploying-asset-tags">Deploying Asset Tags</h3>
+<h4 id="red-hat-enterprise-linux">Red Hat Enterprise Linux</h4>
+<p>Asset Tags can be provisioned to a Windows or RHEL host via a REST API
+request on the Verification Service that will in turn make a request to
+the Trust Agent on the host to be tagged.</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/rpc/deploy-tag-certificate
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;certificate_id&quot;: &quot;&lt;certificate ID&gt;&quot;
+}
+</code></pre></div>
+<h4 id="vmware">VMWare</h4>
+<p>Since VMWare ESXi hosts do not use a Trust Agent, the process for
+writing Asset Tags to a VMWare host is different from RHEL. A
+new interface has been added to ESXi via a new <code>esxcli</code> command starting
+in vSphere 6.5 Update 2 that allows the Asset Tag information to be
+written to the TPM via a command-line command. The older process is also
+described below.</p>
+<p>The high-level workflow for using Asset Tags with VMWare ESXi is:</p>
+<ol>
+<li>Create the Asset Tag Certificate for the host.</li>
+<li>Calculate the Certificate Hash value.</li>
+<li>Provision the Certificate Hash value to the host TPM and reboot</li>
+<li>Create the Asset Tag Flavor.</li>
+</ol>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Asset Tag is currently not supported for VMWare hosts using TPM 2.0.</p>
+</details>
+<h5 id="calculate-the-certificate-hash-value">Calculate the Certificate Hash Value</h5>
+<p>Only the hash value of the Asset Tag Certificate can be provisioned to
+the TPM, due to the low size of the NVRAM.</p>
+<ol>
+<li>
+<p>Retrieve the Asset Tag Certificate. The Asset Tag Certificate can be
+    retrieved either from the response when the Asset Tag certificate is
+    created, or by using a GET API request to retrieve the certificate:</p>
+<div class="highlight"><pre><span></span><code>GET https://verification.service.com:8443/hvs/v2/tag-certificates?subjectEqualTo=&lt;HardwareUUID&gt;
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Copy only the <code>certificate</code> value (this will be the certificate in
+    encoded format) and write the data to a file on a Linux system.
+    Remove any line breaks and save the file. Assuming the filename used
+    is <code>tag-cert</code> use the following to generate the correct hash:</p>
+<div class="highlight"><pre><span></span><code>cat tag-cert <span class="p">|</span> base64 --decode <span class="p">|</span> openssl dgst -sha1 <span class="p">|</span> awk -F<span class="s2">&quot; &quot;</span> <span class="s1">&#39;{print $2}&#39;</span>
+</code></pre></div>
+<p>This hash value will be what is actually written to the TPM NVRAM.</p>
+</li>
+</ol>
+<h5 id="provision-the-certificate-hash-to-the-host-tpm">Provision the Certificate Hash to the Host TPM</h5>
+<p>Due to a new feature added in vSphere 6.5 Update 2, the process for
+provisioning Asset Tags on VMWare ESXi hosts has been significantly
+improved. Both the old and new process for provisioning Asset Tags is
+documented below. Intel recommends using vSphere 6.5 Update 2 or later
+due to the significant difference in the process.</p>
+<h6 id="vsphere-65-update-2-or-later"><strong>vSphere 6.5 Update 2 or Later</strong></h6>
+<p>Starting in ESXi 6.5u2, you can now use SSH to write Asset Tags directly
+with no need for TPM clears, reboots, PXE, or BIOS access. SSH to the
+ESXi host using root credentials. Then use the command:</p>
+<ol>
+<li>
+<p>```shell
+    esxcli hardware tpm tag set -d <hash>
+    <div class="highlight"><pre><span></span><code>You can use the following command to verify that the tag was written:
+
+```shell
+esxcli hardware tpm tag get
+</code></pre></div></p>
+</li>
+<li>
+<p>Reboot the host. After rebooting, the TPM PCR 22 will have the
+    measured value of the hash.</p>
+</li>
+</ol>
+<h6 id="vsphere-65-update-1-or-older"><strong>vSphere 6.5 Update 1 or Older</strong></h6>
+<p>There is no direct interface from VMWare vCenter or ESXi previous to
+vSphere 6.5 Update 2 that will write the Tag information to the host
+TPM.</p>
+<p>Writing Asset Tag information to a TPM requires TPM ownership; VMWare
+ESXi takes TPM ownership with a secret password at boot time. This means
+that the process for writing Asset Tags to a VMWare host requires:</p>
+<ol>
+<li>
+<p>Clear TPM ownership.</p>
+<ul>
+<li>This can be done via the system BIOS, or using One Touch Activation
+  through the IPMI interface (if enabled by the server OEM).</li>
+</ul>
+</li>
+<li>
+<p>Reactivate TPM/TXT.</p>
+</li>
+<li>
+<p>This can be done via the system BIOS, or using One Touch Activation
+     through the IPMI interface (if enabled by the server OEM).</p>
+</li>
+<li>
+<p>Booting to an OS that has the ability to issue TPM commands</p>
+</li>
+<li>
+<p>Typically the provisioning OS used is Ubuntu or RHEL, booted
+     temporarily using PXE.</p>
+</li>
+<li>
+<p>Writing the Tag information</p>
+</li>
+<li>
+<p>The TPM index 0x40000010 must be defined, and the hash of the Asset
+     Tag certificate must be written to that index.</p>
+</li>
+<li>
+<p>Clear TPM ownership.</p>
+</li>
+<li>
+<p>This can be done via the system BIOS, or using One Touch Activation
+     through the IPMI interface (if enabled by the server OEM).</p>
+</li>
+<li>
+<p>Reactivate TPM/TXT</p>
+</li>
+<li>
+<p>This can be done via the system BIOS, or using One Touch Activation
+     through the IPMI interface (if enabled by the server OEM).</p>
+</li>
+<li>
+<p>Boot back to VMWare ESXi.</p>
+</li>
+</ol>
+<p>When the system is rebooted to ESXi, the Trusted Boot process will
+extend the value to PCR22, and this value can be used during
+attestation.</p>
+<h5 id="creating-the-asset-tag-flavor-vmware-esxi-only">Creating the Asset Tag Flavor (VMWare ESXi Only)</h5>
+<p>While for RHEL and Windows hosts the Asset Tag Flavor is automatically
+created during the Tag Provisioning step, for VMWare ESXi hosts the
+Flavor must be created by importing it from the host after the Tag has
+been provisioned.</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{   
+    &quot;connection_string&quot;: &quot;&lt;VMWare vCenter connection string&gt;&quot;,
+    &quot;partial_flavor_types&quot;: [&quot;ASSET_TAG&quot;]
+}
+</code></pre></div>
+<p>Once the Asset Tag Flavor is imported, the host can be attested
+including Asset Tags as normal.</p>
+<h2 id="retrieving-current-attestation-reports">Retrieving Current Attestation Reports</h2>
+<div class="highlight"><pre><span></span><code>GET https://verification.service.com:8443/hvs/v2/reports?latestPerHost=true
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<h2 id="retrieving-current-host-state-information">Retrieving Current Host State Information</h2>
+<div class="highlight"><pre><span></span><code>GET https://verification.service.com:8443/hvs/v2/host-status?latestPerHost=true
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<h2 id="upgrading-hosts-in-the-datacenter-to-a-new-bios-or-os-version">Upgrading Hosts in the Datacenter to a New BIOS or OS Version</h2>
+<p>Software and firmware updates are a common occurrence in the datacenter.
+Automatic Flavor matching makes this process relatively simple:</p>
+<ol>
+<li>
+<p>Create a new Flavor for the new version. This may be manually
+    created or imported directly from a sample host that has already
+    received the upgrade. Be sure to create new Flavors for each TPM
+    version represented in your datacenter.</p>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/flavors
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;connection_string&quot;: &quot;&lt;connection string&gt;&quot;,
+    &quot;partial_flavor_types&quot;: [&quot;PLATFORM&quot;, &quot;OS&quot;, &quot;HOST_UNIQUE&quot;],
+    flavorgroup_names&quot;: []
+}
+</code></pre></div>
+</li>
+<li>
+<p>Update the hosts to the new software or firmware version as normal.
+    On the next attestation attempt, the Verification Service will
+    automatically match the updated hosts to the new Flavor.</p>
+</li>
+<li>
+<p>(Optional) If desired, delete the Flavor for the older version after
+    the update is completed. This will cause any hosts that are still
+    using the old version to attest as Untrusted. Which can easily flag
+    hosts that missed the upgrade for remediation.</p>
+<div class="highlight"><pre><span></span><code>DELETE https://verification.service.com:8443/hvs/v2/flavors/&lt;flavorId&gt;
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+</li>
+</ol>
+<h2 id="removing-hosts-from-the-verification-service">Removing Hosts From the Verification Service</h2>
+<p>Hosts can be deleted at any time. Reports for that host will remain in
+the Verification Service database for audit purposes.</p>
+<div class="highlight"><pre><span></span><code>DELETE https://verification.service.com:8443/hvs/v2/hosts/&lt;hostId&gt;
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<p>The <code>hostId</code> can be retrieved either at the time the host is created, or
+by searching hosts using the host’s hostname.</p>
+<h2 id="removing-flavors">Removing Flavors</h2>
+<p>Flavors can be deleted; this will cause any hosts that match the deleted
+Flavor to evaluate as Untrusted. This can be done if, for example, an
+old BIOS version needs to be retired and should no longer exist in the
+datacenter. By deleting the PLATFORM Flavor, hosts with the old BIOS
+version will attest as Untrusted, flagging them for easy remediation.</p>
+<div class="highlight"><pre><span></span><code>DELETE https://verification.service.com:8443/hvs/v2/flavors/&lt;flavorId&gt;
+</code></pre></div>
+<h2 id="invalidating-asset-tags">Invalidating Asset Tags</h2>
+<hr />
+<p>Asset Tags can be deleted in two ways.</p>
+<p>Deleting the <code>ASSET_TAG</code> Flavor part will retain the Asset Tag
+certificate in the database, but will cause the host using this Tag to
+no longer use the Asset Tag for attestation (the Tag result will be
+disregarded and no tags will be exposed in the attestation Reports).</p>
+<div class="highlight"><pre><span></span><code>DELETE https://verification.service.com:8443/hvs/v2/flavors/&lt;assetTagflavorId&gt;
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<p>Deleting the actual Asset Tag certificate will remove the certificate
+from the database, but will not actually affect attestation results (the
+authority for attestation results is the Flavor).</p>
+<div class="highlight"><pre><span></span><code>DELETE https://verification.service.com:8443/hvs/v2/tag-certificates/&lt;assetTagCertificateId&gt;
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<h2 id="remediating-an-untrusted-attestation">Remediating an Untrusted attestation</h2>
+<p>Hosts can become Untrusted for a wide variety of causes. The first clue
+to finding the root cause for an Untrusted attestation is the
+attestation Report itself – the Report will show Trust results for the
+<code>PLATFORM</code>, <code>OS</code>, <code>HOST_UNIQUE</code>, and <code>ASSET_TAG</code> Flavor parts individually,
+along with the <code>OVERALL</code> trust. If the Report shows that the PLATFORM
+Flavor part trust is “false” for example, it means that the PLATFORM
+measurements did not match any Flavors in the host’s Flavorgroup.</p>
+<p>Untrusted attestation Reports will contain <strong>faults</strong> that describe the
+specific attestation rules that were not satisfied. This often shows
+enough information to describe the cause of the Untrusted status. A
+fault like <strong>RequiredButNotDefined</strong> means that a Flavor part is required
+by the Flavorgroup policy, but no Flavors for that Flavor part exist in
+the Flavorgroup (for example, generally Flavorgroups should always
+require a PLATFORM Flavor part; if no PLATFORM Flavors are in the
+Flavorgroup, hosts in the Flavorgroup will attest with this fault).</p>
+<p>Other faults include:</p>
+<p><strong>"PcrMatchesConstant"</strong> - describes a rule that evaluates whether a TPM
+PCR has a specific value</p>
+<p><strong>"PcrEventLogIntegrity"</strong> - the module event log is replayed during
+attestation to verify that the resulting measurement matches the actual
+value in the module PCR. If the replay does not match, it indicates the
+event log cannot itself be trusted.</p>
+<p><strong>"AikCertificateTrusted"</strong> – This rule evaluates whether the TPM quote
+was signed by the TPM associated with this host. As part of host
+registration, the public half of the Attestation Identity Keypair is
+captured, and this public key is used to verify the signature on TPM
+quotes from that host.</p>
+<p>See the Appendix for a full list of the rules evaluated during
+Attestation.</p>
+<p>The Flavor matching engine will use the most-similar Flavor for the
+attestation Report in the case of an Untrusted result.</p>
+<p>The fault will explain in a general sense what rule the host attestation
+violated. To remediate, the rule will need to be satisfied. This could
+mean creating a new Flavor to match the actual observed values, or it
+could mean that the host has been tampered with and should have its BIOS
+flashed or OS reloaded.</p>
+<h2 id="attestation-reporting">Attestation Reporting</h2>
+<hr />
+<p>Attestation results are delivered in the form of Host Reports. A Report
+can delivered in several different formats, which can change the type of
+data returned.</p>
+<p>The preferred format for Host Reports is a SAML attestation. A
+SAML-formatted report includes a chain or signatures that provides
+auditability for the Report. The SAML attestation will include the base
+trust status of the host, as well as the overall trust for each
+individual Flavor used in the attestation. The Report will also contain
+host information, such as TPM version, Operating System name and
+version, BIOS version, etc. The SAML Report will not, however, contain
+individual measurements and comparisons of values. This format of the
+Report is ideal for securely communicating the trust status of a host
+and for audit history.</p>
+<p>Attestation Reports can also be retrieved in <code>json</code> format. This
+format will not include the signature chain provided in the SAML
+format, but will contain the actual measurement values and expected
+Flavor values used for comparison. These reports are typically used for
+remediation, because they will show specifically why a given Host
+attested as Untrusted.</p>
+<p>The format for a Report is determined by the <code>Accept</code> header in the
+request.</p>
+<p>Attestations are automatically generated in the Verification Service by
+a repeating scheduled background process. This process looks for
+Attestation Reports that are close to expiration, and triggers a new
+Attestation Report. By default, Attestation Reports are valid for 24 hours, and the background refresh process will trigger a new
+attestation when a Report is found to be within 3 minutes of expiration.</p>
+<p>Starting in version 4.1, new attestation reports are automatically generated whenever the Trust Agent starts, including when a host reboots.  This affects only Trust Agent hosts (and so does not apply to VMware servers).  This means that a GET request to find the most recently generated report should reflect any possible changes to the host state from flavor changes, a reboot, etc.  Forcing a new report using a POST request will ensure the state is absolutely current, but should not be required for most circumstances.  New reports are generated automatically when:</p>
+<ul>
+<li>The Trust Agent starts (via service stop/start operations, including pod starts on Kubernetes)</li>
+<li>The Trust Agent host is rebooted</li>
+<li>The HVS detects that the existing report is nearing its expiration</li>
+<li>If the Workload Confidentiality feature is used, new reports are generated with every key request</li>
+</ul>
+<p>A user can either retrieve the most recent currently valid Attestation
+Report for a given host, or may trigger a new Attestation Report to be
+generated. Typically, it is best to retrieve an existing Report for
+performance reasons. Generating a new Attestation Report requires the
+generation of a new TPM quote from the TPM of the host being attested;
+TPM performance differs greatly between vendors, and a quote can take
+anywhere between 2-7 seconds to generate.</p>
+<h3 id="sample-call-generating-a-new-attestation-report">Sample Call – Generating a New Attestation Report</h3>
+<div class="highlight"><pre><span></span><code>POST https://verification.service.com:8443/hvs/v2/reports
+Authorization: Bearer &lt;token&gt;
+
+{
+    &quot;host_name&quot;:&quot;host-1&quot;
+}
+</code></pre></div>
+<p>Requires the permission <code>reports:create</code></p>
+<h3 id="sample-call-retrieving-an-existing-attestation-report">Sample Call – Retrieving an Existing Attestation Report</h3>
+<div class="highlight"><pre><span></span><code>GET https://verification.service.com:8443/hvs/v2/reports?hostName=HostName.server.com
+Authorization: Bearer &lt;token&gt;
+</code></pre></div>
+<p>Below are the supported criteria options in order of precedence. If no
+host filter criteria is specified, then results are returned for all
+active hosts.</p>
+<ul>
+<li>
+<p><code>id</code> - unique UUID of the report entry in the database</p>
+</li>
+<li>
+<p><code>hostId</code> - unique UUID of the host entry in the database</p>
+</li>
+<li>
+<p><code>hostName</code> - name of the host</p>
+</li>
+<li>
+<p><code>hostHardwareId</code> - hardware UUID of the host</p>
+</li>
+<li>
+<p><code>hostStatus</code> - current state of the host, which supports the following
+    options:</p>
+<ul>
+<li>CONNECTED - host is in connected state</li>
+<li>QUEUE - host is in queue to be processed</li>
+<li>CONNECTION_FAILURE - connection failure</li>
+<li>UNAUTHORIZED - unauthorized</li>
+<li>AIK_NOT_PROVISIONED - AIK certificate is not provisioned</li>
+<li>EC_NOT_PRESENT - endorsement certificate is not present</li>
+<li>MEASURED_LAUNCH_FAILURE - TXT measured launch failure</li>
+<li>TPM_OWNERSHIP_FAILURE - TPM ownership failureTPM_NOT_PRESENT - TPM is not present</li>
+<li>UNSUPPORTED_TPM - unsupported TPM version</li>
+<li>UNKNOWN - unknown host state</li>
+</ul>
+</li>
+</ul>
+<p>Requires the permissions <code>reports:search</code></p>
+<p>Other search criteria may also be used. By default, the most recent
+currently valid attestation is returned. However, different query
+parameters can be used to retrieve all attestations for a specific host
+over the last 30 days, for example.</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../50%20Connection%20Strings/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Connection Strings" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Connection Strings
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../65%20Cloud%20Platform%20Integration/" class="md-footer__link md-footer__link--next" aria-label="Next: Cloud Platform Integration" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Cloud Platform Integration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.indexes", "navigation.top", "search.suggest"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.cefbb252.min.js", "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.17f42bbf.min.js"></script>
+      
+    
+  </body>
+</html>
