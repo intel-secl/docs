@@ -491,11 +491,6 @@ AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-p
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
 WLS_SERVICE_PASSWORD=wlsAdminPass
-WLS_DB_USERNAME=wlsdbuser
-WLS_DB_PASSWORD=wlsdbpassword
-WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
-WLS_DB_NAME=wlsdb
-WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
 
@@ -757,11 +752,6 @@ AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-p
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
 WLS_SERVICE_PASSWORD=wlsAdminPass
-WLS_DB_USERNAME=wlsdbuser
-WLS_DB_PASSWORD=wlsdbpassword
-WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
-WLS_DB_NAME=wlsdb
-WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
 
@@ -953,9 +943,8 @@ Config: /etc/ihub
 Log: /var/log/ihub
 
 #Workload Service
-Config: /etc/workload-service
-Logs: /var/log/workload-service
-Pg-data: /usr/local/kube/data/workload-service
+Config: /etc/wls
+Logs: /var/log/wls
 
 #Key-Broker-Service
 Config: /etc/kbs
@@ -1003,7 +992,6 @@ Log: <NFS-vol-base-path>/isecl/ihub/logs
 #Workload Service
 Config: <NFS-vol-base-path>/isecl/wls/config
 Logs: <NFS-vol-base-path>/isecl/wls/log
-Pg-data: <NFS-vol-base-path>/usr/local/kube/data/wls
 
 #Key-Broker-Service
 Config: <NFS-vol-base-path>/isecl/kbs/config

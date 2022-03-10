@@ -89,9 +89,8 @@ Copyright © 2020, Intel Corporation. All Rights Reserved.
       - [Platform Integrity](#platform-integrity)
       - [Data Sovereignty](#data-sovereignty)
       - [Application Integrity](#application-integrity)
-      - [Workload Confidentiality for Virtual Machines and Containers](#workload-confidentiality-for-virtual-machines-and-containers)
+      - [Workload Confidentiality for Containers](#workload-confidentiality-for-containers)
       - [Signed Flavors](#signed-flavors)
-      - [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes)
   - [Intel® Security Libraries Components](#intel-security-libraries-components)
   - [Certificate Management Service](#certificate-management-service)
     - [Authentication and Authorization Service](#authentication-and-authorization-service)
@@ -201,9 +200,8 @@ Copyright © 2020, Intel Corporation. All Rights Reserved.
       - [Platform Integrity](#platform-integrity)
       - [Data Sovereignty](#data-sovereignty)
       - [Application Integrity](#application-integrity)
-      - [Workload Confidentiality for Virtual Machines and Containers](#workload-confidentiality-for-virtual-machines-and-containers)
+      - [Workload Confidentiality for Containers](#workload-confidentiality-containers)
       - [Signed Flavors](#signed-flavors)
-      - [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes)
   - [Intel® Security Libraries Components](#intel-security-libraries-components)
   - [Certificate Management Service](#certificate-management-service)
     - [Authentication and Authorization Service](#authentication-and-authorization-service)
@@ -402,13 +400,6 @@ Copyright © 2020, Intel Corporation. All Rights Reserved.
       - [Configuring Pods to Require Intel® SecL Attributes](#configuring-pods-to-require-intel-secl-attributes)
       - [Tainting Untrusted Worker Nodes](#tainting-untrusted-worker-nodes)
 - [Workload Confidentiality](#workload-confidentiality-2)
-  - [Virtual Machine Confidentiality](#virtual-machine-confidentiality)
-    - [Prerequisites](#prerequisites-10)
-    - [Workflow](#workflow)
-      - [Encrypting Images](#encrypting-images)
-      - [Uploading the Image Flavor](#uploading-the-image-flavor)
-      - [Creating the Image Flavor to Image ID Association](#creating-the-image-flavor-to-image-id-association)
-      - [Launching Encrypted VMs](#launching-encrypted-vms)
   - [Container Confidentiality](#container-confidentiality)
     - [Container Confidentiality with Cri-o and Skopeo](#container-confidentiality-with-cri-o-and-skopeo)
       - [Prerequisites](#prerequisites-11)
@@ -420,10 +411,6 @@ Copyright © 2020, Intel Corporation. All Rights Reserved.
         - [Pulling and Encrypting a Container Image](#pulling-and-encrypting-a-container-image)
         - [Launching an Encrypted Container Image](#launching-an-encrypted-container-image)
         - [Configure the ocicrypt config file for ocicrypt within cri-o.](#configure-the-ocicrypt-config-file-for-ocicrypt-within-cri-o)
-- [Trusted Virtual Kubernetes Worker Nodes](#trusted-virtual-kubernetes-worker-nodes-1)
-  - [Prerequisites](#prerequisites-12)
-  - [Workflow](#workflow-2)
-  - [Sample VM Trust Report](#sample-vm-trust-report)
 - [Flavor Management](#flavor-management)
   - [Flavor Format Definitions](#flavor-format-definitions)
     - [Meta](#meta)
@@ -650,9 +637,9 @@ Data Sovereignty builds on the Platform Integrity use case to allow physical TPM
 
 Added in the Intel® SecL-DC 1.5 release, Application Integrity allows any files and folders on a Linux host system to be included in the Chain of Trust integrity measurements. These measurements are attested by the Verification Service along with the other platform measurements, and are included in determining the host’s overall Trust status. The measurements are performed by a measurement agent called tbootXM, which is built into initrd during Trust Agent installation. Because initrd is included in other Trusted Computing measurements, this allows Intel® SecL-DC to carry the Chain of Trust all the way to the Linux filesystem.
 
-#### Workload Confidentiality for Virtual Machines and Containers
+#### Workload Confidentiality for Containers
 
-Added in the Intel® SecL-DC 1.6 release, Workload Confidentiality allows virtual machine and container images to be encrypted at rest, with key access tied to platform integrity attestation. Because security attributes contained in the platform integrity attestation report are used to control access to the decryption keys, this feature provides both protection for at-rest data, IP, code, etc in container or virtual machine images, and also enforcement of image-owner-controlled placement policies. When decryption keys are released, they are sealed to the physical TPM of the host that was attested, meaning that only a server that has successfully met the policy requirements for the image can actually gain access.
+Added in the Intel® SecL-DC 1.6 release, Workload Confidentiality allows container images to be encrypted at rest, with key access tied to platform integrity attestation. Because security attributes contained in the platform integrity attestation report are used to control access to the decryption keys, this feature provides both protection for at-rest data, IP, code, etc in container, and also enforcement of image-owner-controlled placement policies. When decryption keys are released, they are sealed to the physical TPM of the host that was attested, meaning that only a server that has successfully met the policy requirements for the image can actually gain access.
 
 Workload Confidentiality begins with the Workload Policy Manager (WPM) and a qcow2 or container image that needs to be protected. The WPM is a lightweight application that will request a new key from the Key Broker, use that key to encrypt the image, and generate an Image Flavor. The image owner will then upload the encrypted image to their desired image storage service (for example, OpenStack Glance or a local container registry), and the image ID from the image storage will be uploaded along with the Image Flavor to the Intel® SecL Workload Service. When that image is used to launch a new VM or container, the Workload Agent will intercept the VM or container start and request the decryption key for that image from the Workload Service. The Workload Service will use the image ID and the Image Flavor to find the key transfer URL for the appropriate Key Broker, and will query the Verification Service for the latest Platform Integrity trust attestation report for the host. The Key Broker will use the attestation report to determine whether the host meets the policy requirements for the key transfer, and to verify that the report is signed by a Verification Service known to the Broker. If the report is genuine and meets the policy requirements, the image decryption key is sealed using an asymmetric key from that host’s TPM, and sent back to the Workload Service. The Workload Service then caches the key for 5 minutes (to avoid performance issues for multiple rapid launch requests; note that these keys are still wrapped using a sealing key unique to the hosts TPM, so multiple hosts would require multiple keys even for an identical image) and return the wrapped key to the Workload Agent on the host, which then uses the host TPM to unseal the image decryption key. The key is then used to create a new LUKS volume, and the image is decrypted into this volume.
 
@@ -665,14 +652,6 @@ Beginning with the Intel® SecL-DC version 2.1 release, the Key Broker now suppo
 Added in the Intel® SecL-DC 1.6 release, Flavor signing is an improvement to the existing handling of expected attestation measurements, called “Flavors.” This feature adds the ability to digitally sign Flavors so that the integrity of the expected measurements themselves can be verified when attestations occur. This also means that Flavors can be more securely transferred between different Verification Service instances.
 
 Flavor signing is seamlessly added to the existing Flavor creation process (both importing from a sample host and “manually” creating a Flavor using the POST method to the /v2/flavors resource). When a Flavor is created, the Verification Service will sign it using a signing certificate signed by the Certificate Management Service (this is created during Verification Service setup). Each time that the Verification Service evaluates a Flavor, it will first verify the signature on that Flavor to ensure the integrity of the Flavor contents before it is used to attest the integrity of any host.
-
-#### Trusted Virtual Kubernetes Worker Nodes
-
-Added in the Intel® SecL-DC version 2.1 release, this feature provides a Chain of Trust solution extending to Kubernetes Worker Nodes deployed as Virtual Machines. This feature addresses Kubernetes deployments that use Virtual Machines as Worker Nodes, rather than using bare-metal servers.
-
-When libvirt initiates a VM Start, the Intel® SecL-DC Workload Agent will create a report for the VM that associates the VM’s trust status with the trust status of the host launching the VM. This VM report will be retrievable via the Workload Service, and contains the hardware UUID of the physical server hosting the VM. This UUID can be correlated to the Trust Report of that server at the time of VM launch, creating an audit trail validating that the VM launched on a trusted platform. A new report is created for every VM Start, which includes actions like VM migrations, so that each time a VM is launched or moved a new report is generated ensuring an accurate trust status.
-
-By using Platform Integrity and Data Sovereignty-based orchestration (or Workload Confidentiality with encrypted worker VMs) for the Virtual Machines to ensure that the virtual Kubernetes Worker nodes only launch on trusted hardware, these VM trust reports provide an auditing capability to extend the Chain of Trust to the virtual Worker Nodes.
 
 ## Intel® Security Libraries Components
 
@@ -693,7 +672,7 @@ Platform security technologies like Intel® TXT, Intel® BootGuard, and UEFI Sec
 
 ### Workload Service
 
-The Workload Service acts as a management service for handling Workload Flavors (Flavors used for Virtual Machines and Containers). In the Intel® SecL-DC 1.6 release, the Workload Service uses Flavors to map decryption key IDs to image IDs. When a launch request for an encrypted workload image is intercepted by the Workload Agent, the Workload Service will handle mapping the image ID to the appropriate key ID and key request URL, and will initiate the key transfer request to the Key Broker.
+The Workload Service acts as a management service for handling Workload Flavors (Flavors used for Containers). In the Intel® SecL-DC 1.6 release, the Workload Service uses Flavors to map decryption key IDs to image IDs. When a launch request for an encrypted workload image is intercepted by the Workload Agent, the Workload Service will handle mapping the image ID to the appropriate key ID and key request URL, and will initiate the key transfer request to the Key Broker.
 
 ### Trust Agent
 
@@ -703,7 +682,7 @@ The Trust Agent is supported for Windows* Server 2016 Datacenter and Red Hat Ent
 
 ### Workload Agent
 
-The Workload Agent is the component responsible for handling all of the functions needed for Workload Confidentiality for virtual machines and containers on a physical server. The Workload Agent uses libvirt hooks to identify VM lifecycle events (VM start, stop, hibernate, etc), and intercepts those events to perform needed functions like requesting decryption keys, creation and deletion of encrypted LUKS volumes, using the TPM to unseal decryption keys, etc. The WLA also performs analogous functionality for containers.
+The Workload Agent is the component responsible for handling all of the functions needed for Workload Confidentiality for containers on a physical server. The Workload Agent uses libvirt hooks to identify VM lifecycle events (VM start, stop, hibernate, etc), and intercepts those events to perform needed functions like requesting decryption keys, creation and deletion of encrypted LUKS volumes, using the TPM to unseal decryption keys, etc. The WLA also performs analogous functionality for containers.
 
 ### Integration Hub
 
@@ -791,7 +770,7 @@ The Integration Hub may be added to provide integration support for OpenStack or
 
 ### Workload Confidentiality
 
-Workload Confidentiality introduces a number of additional services and agents. For a POC environment, all of the management services can be installed on a single machine or VM. This includes:
+Workload Confidentiality introduces a number of additional services and agents. For a POC environment, all the management services can be installed on a single machine or VM. This includes:
 
 Certificate Management Service (CMS)
 
@@ -860,7 +839,8 @@ Installing/Configuring the Database
 
 The Intel® SecL-DC Authentication and Authorization Service (AAS) requires a Postgresql 11 database. Scripts (install_pgdb.sh, create_db.sh) are provided with the AAS that will automatically add the Postgresql repositories and install/configure a sample database. If this script will not be used, a Postgresql 11 database must be installed by the user before executing the AAS installation.
 
-### Using the Provided Database Installation Script
+### Using the Provided Database
+Installation Script
 
 Install a sample Postgresql 11 database using the install_pgdb.sh script. This script will automatically install the Postgresql database and client packages required.
 
@@ -911,7 +891,6 @@ If separate database servers will be used (for example, if the management plane 
 ```shell
 ./create_db.sh isecl_hvs_db hvs_db_username hvs_db_password
 ./create_db.sh isecl_aas_db aas_db_username aas_db_password
-./create_db.sh isecl_wls_db wls_db_username wls_db_password
 ```
 
 Note that the database name, username, and password details for each service must be used in the corresponding installation answer file for that service.
@@ -1455,7 +1434,7 @@ Installing the Workload Service
 
 The WLS is REQUIRED for the following use cases.
 
-* Workload Confidentiality (both VMs and Containers)
+* Workload Confidentiality for Containers
 
 ### Prerequisites
 
@@ -1483,15 +1462,9 @@ Ubuntu 18.04
 
 * Copy the Workload Service installation binary to the `/root` directory.
 
-* Create the `workload-service.env` installation answer file
+* Create the `wls.env` installation answer file
 
   ```shell
-  WLS_DB_USERNAME=<database username>
-  WLS_DB_PASSWORD=<database password>
-  WLS_DB_HOSTNAME=<IP or hostname of database server>
-  WLS_DB_PORT=<Database port; 5432 by default>
-  WLS_DB=<name of the WLS database>
-  WLS_DB_SSLCERTSRC=<path to database TLS certificate; the default location is typically /usr/local/pgsql/data/server.crt >
   HVS_URL=https://<Ip address or hostname of the Host verification Service>:8443/hvs/v2/
   WLS_SERVICE_USERNAME=<username for WLS service account>
   WLS_SERVICE_PASSWORD=<password for WLS service account>
@@ -1562,9 +1535,6 @@ The following must be completed before installing the Trust Agent:
 * (Provisioning step only) Intel® SecL Verification Service server installed and active.
 * (Required for NATS mode only) A NATS server must be configured and available
 * (REQUIRED for servers configured with TXT and tboot only) If the server is installed using an LVM, the LVM name must be identical for all Trust Agent systems. The Grub bootloader line that calls the Linux kernel will contain the LVM name of the root volume, and this line with all arguments is part of what is measured in the TXT/Tboot boot process. This will cause the OS Flavor measurements to differ between two otherwise identical hosts if their LVM names are different. Simply using a uniform name for the LVM during OS installation will resolve this possible discrepancy.
-* (Optional, REQUIRED for Virtual Machine Confidentiality only):
-  * QEMU/KVM must be installed
-  * Libvirt must be installed
 
   
 
@@ -1822,12 +1792,6 @@ The following must be completed before installing the Workload Agent:
 -   Intel® SecL Trust Agent installed and active.
 
 -   cryptsetup
-
--   (REQUIRED for Virtual Machine Confidentiality only):
-
--   QEMU/KVM must be installed
-
--   libvirt must be installed
 
 
 ### Installation
@@ -3038,11 +3002,6 @@ AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-p
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
 WLS_SERVICE_PASSWORD=wlsAdminPass
-WLS_DB_USERNAME=wlsdbuser
-WLS_DB_PASSWORD=wlsdbpassword
-WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
-WLS_DB_NAME=wlsdb
-WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
 
@@ -3284,11 +3243,6 @@ AAS_SAN_LIST=aas-svc.isecl.svc.cluster.local,<K8s control-plane IP/K8s control-p
 # Workload Service
 WLS_SERVICE_USERNAME=admin@wls
 WLS_SERVICE_PASSWORD=wlsAdminPass
-WLS_DB_USERNAME=wlsdbuser
-WLS_DB_PASSWORD=wlsdbpassword
-WLS_DB_HOSTNAME=wlsdb-svc.isecl.svc.cluster.local
-WLS_DB_NAME=wlsdb
-WLS_DB_PORT="5432"
 WLS_API_URL=https://wls-svc.isecl.svc.cluster.local:5000/wls/v1
 WLS_CERT_SAN_LIST=wls-svc.isecl.svc.cluster.local
 
@@ -3468,9 +3422,8 @@ Config: /etc/ihub
 Log: /var/log/ihub
 
 #Workload Service
-Config: /etc/workload-service
-Logs: /var/log/workload-service
-Pg-data: /usr/local/kube/data/workload-service
+Config: /etc/wls
+Logs: /var/log/wls
 
 #Key-Broker-Service
 Config: /etc/kbs
@@ -3791,7 +3744,6 @@ CreateUsers script) and exist by default.
 | TA:Administrator          | TA:\*:\*                                                     | Used by the Verification Service to access Trust Agent APIs, including retrieval of TPM quotes, provisioning Asset Tags and SOFTWARE Flavors, etc. |
 | HVS:ReportSearcher        | HVS: \[reports:search:\*"]                                   | Used by the Integration Hub to retrieve attestation reports from the Verification Service |
 | KBS:Keymanager            | KBS: \["keys:create:\*", "keys:transfer:\*"\]                | Used by the WPM to create and retrieve symmetric encryption keys to encrypt workload images |
-| WLS:FlavorsImageRetrieval | WLS: image\_flavors:retrieve:\*                              | Used by the Workload Agent during Workload Confidentiality flows to retrieve the image Flavor |
 | HVS: ReportCreator        | HVS: \["reports:create:\*"\]                                 | Used by the Workload Service to create new attestation reports on the Verification Service as part of Workload Confidentiality key retrievals. |
 | Administrator             | \*:\*:\*                                                     | Global administrator role used for the initial administrator account. This role has all permissions across all services, including permissions to create new roles and users. |
 | AAS: Administrator        | \*:\*:\*                                                     | Administrator role for the AAS only. Has all permissions for AAS resources, including the ability to create or delete users and roles. |
@@ -4978,7 +4930,7 @@ Workload Confidentiality
 ========================
 
 Workload Confidentiality builds upon Platform Attestation to protect
-data in virtual machine and container images. At its core, this feature
+data in container images. At its core, this feature
 is about allowing an image owner to set policies that define the
 conditions under which their image will be allowed to run; if the policy
 conditions are met, the decryption key will be provided, and if the
@@ -5059,108 +5011,6 @@ detectable by the Platform Integrity feature, protected images will be
 unable to launch on this server.
 
 <img src="Images/workload-decryption" alt="image-20200622081137301" style="zoom:150%;" />
-
-Virtual Machine Confidentiality
--------------------------------
-
-### Prerequisites
-
-To enable Virtual Machine Confidentiality, the following Intel® SecL-DC
-components must be installed and available:
-
--   Authentication and Authorization Service
-
--   Certificate Management Service
-
--   Key Broker Service
-
--   Host Verification Service
-
--   Workload Service
-
--   Trust Agent + Workload Agent (on each virtualization host)
-
--   Workload Policy Manager
-
-See the Installation subsection on Recommended Service Layout for
-recommendations on how/where to install each service.
-
-It is strongly recommended to use a VM orchestration solution (for
-example, OpenStack) with the Intel® SecL-DC Integration Hub to
-schedule encrypted workloads on compute hosts that have already been
-pre-checked for their Platform Integrity status. See the Platform
-Integrity Attestation subsection on Integration with OpenStack for an
-example.
-
-You will need at least one QCOW2-format virtual machine image (for
-quick testing purposes, a very small minimal premade image like CirrOS
-is recommended; a good place to look for testing images is the
-OpenStack Image Guide found here:
-<https://docs.openstack.org/image-guide/obtain-images.html>).
-
-One or more hypervisor compute nodes running QEMU/KVM is required.
-Each of these nodes must have the Intel® SecL-DC Trust Agent and
-Workload Agent installed, and they must be registered with the
-Verification Service. Each of these servers should show as `trusted` see the Platform Integrity Attestation section for details. You should
-have Flavors that match the system configuration for these hosts, and
-attestation reports should show all Flavor parts as `trusted=true`
-Hosts that are not trusted (including servers where there is no trust
-status, like hosts with no Trust Agent) will fail to launch any
-encrypted workloads.
-
-### Workflow
-
-#### Encrypting Images
-
-```shell
-wpm create-image-flavor -l <user-friendly unique label> -i <path to image file> -e <output path and filename for encrypted image> -o <output path for JSON image flavor>`
-```
-
-After generating the encrypted image with the WPM, the encrypted image
-can be uploaded to the Image Storage service of choice (for example,
-OpenStack Glance). Note that the ID of the image in this Image Storage
-service must be retained and used for the next steps.
-
-#### Uploading the Image Flavor
-
-```
-POST https://<Workload Service IP or Hostname>:5000/wls/flavors
-Authorization: Bearer <token>
-
-{<Image Flavor content from WPM output>}
-```
-
-Use the above API request to upload the Image Flavor to the WLS. The
-Image Flavor will tell other Intel® SecL-DC components the Key Transfer
-URL for this image.
-
-#### Creating the Image Flavor to Image ID Association
-
-The WLS needs to know the ID of the image as it exists in the image
-storage service used by the CSP (for example, OpenStack Glance). Use the
-below API request to create an association between the Image Flavor
-created in the previous step and the image ID.
-
-```
-POST https://<Workload Service IP or Hostname>:5000/wls/images
-Authorization: Bearer <token>
-
-{
-    "id": "<image ID on image storage>",
-    "flavor_ids": ["<Image Flavor ID>"]
-}
-```
-
-#### Launching Encrypted VMs
-
-Instances of the protected images can now be launched as normal.
-Encrypted images will only be accessible on hosts with a Platform
-Integrity Attestation report showing the host is trusted.
-
-If the VM is launched on a host that is not trusted, the launch will
-fail, as the decryption key will not be provided.
-
-
 
 Container Confidentiality
 --------------------------------
@@ -5290,226 +5140,6 @@ Containers of the protected images can now be launched as normal using Kubernete
 
 
 
-
-
-Trusted Virtual Kubernetes Worker Nodes
-=======================================
-
-While the existing Platform Integrity Attestation functions support
-bare-metal Kubernetes Worker Nodes, using Virtual Machines to host the
-Worker Nodes is a common deployment architecture. This feature aims to
-help extend the Chain of Trust to protect the integrity of Virtual
-Machines, including virtual Kubernetes Worker Nodes. This feature
-requires the foundational Platform integrity Attestation feature as a
-prerequisite for the bare-metal servers hosting the virtual Worker
-Nodes.
-
-> **Note**: This feature requires a degree of separation between the VM
-> and Kubernetes infrastructure. All physical, bare-metal servers should
-> be virtualization hosts, and all Kubernetes Worker Nodes should be
-> Virtual Machines running on those physical virtualization hosts.
-> Kubernetes clusters should not use a mixture of both virtual and
-> bare-metal Workers. The physical virtualization clusters should not
-> include a mixture of hosts protected by Intel® SecL Platform integrity
-> Attestation and hosts that are not protected. VM trust reports can
-> only be generated for VM instances launched on hosts with Intel® SecL
-> services enabled.
->
-> **Also important to note is that this feature alone will not prevent
-> any VMs from launching**. VMs will still be launched on Untrusted
-> platforms unless additional steps are taken (for example, using
-> OpenStack orchestration integration with Intel® SecL, or using the
-> Workload Confidentiality feature to encrypt the Kubernetes Worker Node
-> VM image). This feature generates VM attestation reports that can be
-> used to audit compliance and extend the Chain of Trust, and relies on
-> other datacenter policies and/or Intel® SecL features to enforce
-> compliance.
-
-When libvirt initiates a VM Start, the Intel® SecL-DC Workload Agent
-will create a report for the VM that associates the VM’s trust status
-with the trust status of the host launching the VM. This VM report will
-be retrievable via the Workload Service, and contains the hardware UUID
-of the physical server hosting the VM. This UUID can be correlated to
-the Trust Report of that server at the time of VM launch, creating an
-audit trail validating that the VM launched on a trusted platform. A new
-report is created for every VM Start, which includes actions like VM
-migrations, so that each time a VM is launched or moved a new report is
-generated ensuring an accurate trust status.
-
-By using Platform Integrity and Data Sovereignty-based orchestration (or
-Workload Confidentiality with encrypted worker VMs) for the Virtual
-Machines to ensure that the virtual Kubernetes Worker nodes only launch
-on trusted hardware, these VM trust reports provide an auditing
-capability to extend the Chain of Trust to the virtual Worker Nodes.
-
-Optionally, the Kubernetes Worker Node VM images can be encrypted and
-protected as per the Workload Confidentiality feature of Intel® SecL.
-This adds a layer of enforcement – rather than simply reporting whether
-the VM started on a Trusted platform (and is therefore Trusted),
-Workload Confidentiality ensures that the Worker Node VM image can only
-be decrypted on compliant platforms.
-
-In both cases (with VM image encryption and without), the VM Trust
-Reports are accessed through the Workload Service:
-
-```
-GET https://<Workload Service IP or Hostname>:5000/wls/reports?instance_id=<instance ID>
-Authorization: Bearer <token>
-```
-
-This query will return the latest VM trust report for the provided
-Instance ID (the Instance ID is the VM’s ID as it is identified by
-Libvirt; in OpenStack this would correspond directly to the OpenStack
-Instance ID).
-
-As a best practice, Intel® recommends using an orchestration layer (such
-as OpenStack) integrated with Intel® SecL to launch VMs only on Trusted
-platforms. See the previous section, “Integration” under the “Platform
-Integrity Attestation” feature for details.
-
-As an additional layer of protection, the Kubernetes Worker Node VM
-images can be encrypted using the Workload Confidentiality feature. This
-adds cryptographic enforcement to the workload orchestration and ensures
-instances of the Worker Node images will only be launched on Trusted
-platforms.
-
-Prerequisites
--------------
-
--   All physical, bare-metal servers should be virtualization hosts.
-    Virtualization hosts must be Linux platforms using Libvirt.
-
--   All Kubernetes Worker Nodes should be Virtual Machines running on
-    those physical virtualization hosts.
-
--   Kubernetes clusters must not use a mixture of both virtual and
-    bare-metal Workers.
-
--   The physical virtualization clusters must not include a mixture of
-    hosts protected by Intel® SecL Platform integrity Attestation and
-    hosts that are not protected. VM trust reports can only be generated
-    for VM instances launched on hosts with Intel® SecL services
-    enabled.
-
--   The Intel® SecL Platform integrity Attestation feature must be used
-    to protect all physical virtualization hosts. These platforms must
-    all be registered with the Verification Service, must have the Trust
-    Agent installed and running, and must be Trusted. See the Platform
-    integrity Attestation section for details.
-
--   In addition to the services required by Platform Integrity
-    Attestation, the Workload Agent must be installed on each physical
-    virtualization host, and the Workload Service must be installed on
-    the management plane.
-
--   (Optional; recommended) Virtual Machines should be orchestrated
-    using an Intel® SecL-supported orchestrator, such as OpenStack. This
-    will help launch the VMs only on compliant platforms.
-
--   (Optional) Virtual Machine Images may be encrypted using the
-    Workload Confidentiality feature. This adds a layer of cryptographic
-    enforcement to the orchestration of virtual worker VMs, ensuring
-    that the VMs can only be launched on compliant platforms.
-
-Workflow
---------
-
-There are no additional steps required to enable this feature; if the
-Workload Agent is running on the physical virtualization host, VM trust
-reports will automatically be generated at every VM Start. Intel®
-strongly recommends using an orchestration integration for the VM
-management layer (for example, the provided Integration Hub integration
-with OpenStack) to help ensure that the worker node VMs only launch on
-Trusted physical hosts. If no orchestration is used, the platform
-service provider should ensure that all physical hosts are always in a
-Trusted state and take action to ensure Untrusted platforms cannot
-launch VMs.
-
-The primary benefit of the Trusted Virtual Kubernetes Worker Node
-feature is auditability of the Chain of Trust. By retrieving the VM
-Trust Report from the Workload Service for a given Worker Node instance,
-auditors can verify that the VM launched on a Trusted platform. The VM
-trust report also includes the hardware UUID of the physical host. This
-UUID, along with the time that the VM instance was launched, can be used
-to pull the correlating physical host trust report from the Verification
-Service to provide proof of compliance.
-
-To retrieve a VM trust report from the Workload Service:
-
-```
-GET https://<Workload Service IP or Hostname>:5000/wls/reports?instance_id=<instance ID>
-Authorization: Bearer <token>
-```
-
-This will return the latest report for the specified instance ID.
-
-Sample VM Trust Report
-----------------------
-
-A sample VM Trust Report from the Workload Service is below. The report
-is generated by the Workload Agent and signed using the host’s TPM, then
-stored in the Workload Service. The report contains some key attributes:
-
-**instance\_id**: This is the ID of the instance. In OpenStack, this
-would correlate directly to the Instance ID for the VM.
-
-**image\_id**: This is the ID for the source image used to launch the
-instance. In OpenStack, this correlates directly to the Image ID for the
-VM.
-
-**host\_hardware\_uuid**: The hardware UUID of the physical host that
-started the VM. This attribute identifies which host performed the VM
-start and attested the VM. This UUID can be used to query the
-Verification Service to retrieve attestations of the host. By
-correlating the VM Trust Report with the Host Trust Report, we can
-verify that this instance was started on a Trusted platform.
-
-**image\_encrypted**: True or False based on whether the source image
-was protected using the Workload Confidentiality feature.
-
-**trusted**: True or False, based on whether the VM instance was started
-on a Trusted platform. Because the report is generated at every `vm
-start` through Libvirt, a new report will be generated whenever the VM
-is turned on or migrated, reflecting the state of the VM and its host at
-every opportunity for the state to change.
-
-```xml
-<Response xmlns="http://wls.server.com/wls/reports">
-    <instance_manifest>
-        <instance_info>
-            <instance_id>bd06385a-5530-4644-a510-e384b8c3323a</instance_id>
-            <host_hardware_uuid>00964993-89c1-e711-906e-00163566263e</host_hardware_uuid>
-            <image_id>773e22da-f687-47ca-89e7-5df655c60b7b</image_id>
-        </instance_info>
-        <image_encrypted>true</image_encrypted>
-    </instance_manifest>
-    <policy_name>Intel VM Policy</policy_name>
-    <results>
-        <e>
-            <rule>
-                <rule_name>EncryptionMatches</rule_name>
-                <markers>
-                    <e>IMAGE</e>
-                </markers>
-                <expected>
-                    <name>encryption_required</name>
-                    <value>true</value>
-                </expected>
-            </rule>
-            <flavor_id>3a3e1ccf-2618-4a0d-8426-fb7acb1ebabc</flavor_id>
-            <trusted>true</trusted>
-        </e>
-    </results>
-    <trusted>true</trusted>
-    <data>eyJpbnN0YW5jZV9tYW5pZmVzdC…data>
-        <hash_alg>SHA-256</hash_alg>
-        <cert>-----BEGIN CERTIFICATE-----
-…
------END CERTIFICATE-----</cert>
-        <signature>…</signature>
-    </Response>
-
-```
 
 
 
@@ -8083,11 +7713,6 @@ Workload Service
 | WLS\_LOGLEVEL       | INFO                                                | (Optional) Alternatives include WARN and DEBUG. Sets the log level for the service. |
 | WLS\_NOSETUP        | false                                               | (Optional) Determines whether “setup” will be executed after installation. Typically this is set to “false” to install and perform setup in one action. The “true” option is intended for building the service as a container, where the installation would be part of the image build, and setup would be performed when the container starts for the first time to generate any persistent data. Defaults to “false” if unset. |
 | WLS\_PORT           | 5000                                                | (Optional) Defines the HTTPS port used by the service Defaults to 5000 if unset. |
-| WLS\_DB\_HOSTNAME   | localhost                                           | (Required) Database hostname                                 |
-| WLS\_DB             | wlsdb                                               | (Required) Database name                                     |
-| WLS\_DB\_PORT       | 5432                                                | (Required) Database port number                              |
-| WLS\_DB\_USERNAME   | wlsdbuser                                           | (Required) Database username                                 |
-| WLS\_DB\_PASSWORD   | wlsdbuserpass                                       | (Required) Database password                                 |
 | HVS\_URL            | https://\<HVS IP address or hostname\>:8443/hvs/v2/ | (Required) Base URL for the HVS                              |
 | AAS\_API\_URL       | https://\<AAS IP address or hostname\>:8444/aas/v1  | Base URL for the AAS                                         |
 | SAN\_LIST           | 127.0.0.1,localhost,10.x.x.x                        | Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service. |
@@ -8106,18 +7731,11 @@ Workload Service
 ### Configuration Options
 
 The Workload Service configuration can be found in
-`/etc/workload-service/config.yml`:
+`/etc/wls/config.yml`:
 
 ```
 port: 5000
 cmstlscertdigest: <sha384>
-postgres:
-  dbname: wlsdb
-  user: <database username>
-  password: <database password>
-  hostname: <database IP or hostname>
-  port: 5432
-  sslmode: false
 hvs_api_url: https://<HVS IP or hostname>:8443/hvs/v2/
 cms_base_url: https://<CMS IP or hostname>:8445:/cms/v1/
 aas_api_url: https://<AAS IP or hostname>:8444/aas/v1/
@@ -8141,7 +7759,7 @@ executed only as the Root user:
 
 Syntax:
 
-`workload-service <command>`
+`wls <command>`
 
 ####  Help
 
@@ -8149,18 +7767,18 @@ Available Commands:
 
 help\|-help\|--help Show this help message
 
-start Start workload-service
+wls start : Starts workload-service service
 
-stop Stop workload-service
+wls stop: Stops workload-service service
 
-status Determine if workload-service is running
+wls status: Determine if workload-service is running
 
 uninstall \[--purge\] Uninstall workload-service. --purge option needs
 to be applied to remove configuration and data files
 
-setup Setup workload-service for use
+wls setup: setup workload-service for use
 
-Setup command usage: workload-service \<command\> \[task...\]
+Setup command usage: wls \<command\> \[task...\]
 
 Available tasks for setup:
 
@@ -8204,20 +7822,6 @@ server Setup http server on given port
 
 -Environment variable WLS\_PORT=\<port\> should be set
 
-database Setup workload-service database
-
-Required env variables are:
-
-\- WLS\_DB\_HOSTNAME : database host name
-
-\- WLS\_DB\_PORT : database port number
-
-\- WLS\_DB\_USERNAME : database user name
-
-\- WLS\_DB\_PASSWORD : database password
-
-\- WLS\_DB : database schema name
-
 hvsconnection Setup task for setting up the connection to the Host
 Verification Service(HVS)
 
@@ -8237,15 +7841,15 @@ logs Setup workload-service log level
 
 ####  start
 
-Start workload-service
+wls start: Starts workload-service
 
 ####  stop
 
-Stop workload-service
+wls stop: Stops workload-service
 
 ####  status
 
-Determine if workload-service is running
+wls status: Determine if workload-service is running
 
 ####  uninstall
 
@@ -8254,7 +7858,7 @@ applied to remove configuration and data files
 
 ####  setup
 
-Setup command usage:     workload-service setup [task] [--force]
+Setup command usage:     wls setup [task] [--force]
 
 Available tasks for setup:
    all                              Runs all setup tasks
@@ -8290,27 +7894,6 @@ Available tasks for setup:
                                         - KEY_PATH=<key_path>                      : Path of file where TLS key needs to be stored
                                         - CERT_PATH=<cert_path>                    : Path of file/directory where TLS certificate needs to be stored
                                         - WLS_TLS_CERT_CN=<COMMON NAME>            : to override default specified in config
-
-   database                         Setup workload-service database
-                                    - Option [--force] overwrites existing database config
-                                    Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                               : AAS API url
-                                        - HVS_URL=<url>                                   : HVS API Endpoint URL
-                                        - WLS_SERVICE_USERNAME=<service username>         : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>         : WLS service password
-                                    Required env variables specific to setup task are:
-                                        - WLS_DB_HOSTNAME=<db host name>                   : database host name
-                                        - WLS_DB_PORT=<db port>                            : database port number
-                                        - WLS_DB=<db name>                                 : database schema name
-                                        - WLS_DB_USERNAME=<db user name>                   : database user name
-                                        - WLS_DB_PASSWORD=<db password>                    : database password
-                                    Optional env variables specific to setup task are:
-                                        - WLS_DB_SSLMODE=<db sslmode>                      : database SSL Connection Mode <disable|allow|prefer|require|verify-ca|verify-full>
-                                        - WLS_DB_SSLCERT=<ssl certificate path>            : database SSL Certificate target path. Only applicable for WLS_DB_SSLMODE=<verify-ca|verify-full>. If left empty, the cert will be copied to /etc/workload-service/wlsdbsslcert.pem
-                                        - WLS_DB_SSLCERTSRC=<ssl certificate source path>  : database SSL Certificate source path. Mandatory if WLS_DB_SSLCERT does not already exist
-
    server                           Setup http server on given port
                                     - Option [--force] overwrites existing server config
                                     Required env variables if WLS_NOSETUP=true or variable not set in config.yml:

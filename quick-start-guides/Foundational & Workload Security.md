@@ -19,7 +19,6 @@ Table of Contents
     - [Building](#building)
       - [Foundational Security Usecase](#foundational-security-usecase)
       - [Workload Security Usecase](#workload-security-usecase)
-        - [VM Confidentiality](#vm-confidentiality)
         - [Container Confidentiality with CRIO Runtime](#container-confidentiality-with-crio-runtime)
   - [**4. Deployment**](#4-deployment)
     - [Pre-requisites](#pre-requisites-1)
@@ -174,36 +173,6 @@ The below steps needs to be carried out on the Build and Deployment VM
 
 #### Workload Security Usecase
 
-##### VM Confidentiality
-
-* Sync the repo
-
-  ```shell
-  mkdir -p /root/intel-secl/build/vmc && cd /root/intel-secl/build/vmc
-  repo init -u https://github.com/intel-secl/build-manifest.git -b refs/tags/v5.0.0 -m manifest/vmc.xml
-  repo sync
-  ```
-
-* Run the pre-req script
-
-  ```shell
-  cd utils/build/workload-security
-  chmod +x ws-prereq.sh
-  ./ws-prereq.sh -v
-  ```
-  
-* Build repo
-
-  ```shell
-  cd /root/intel-secl/build/vmc/
-  make all
-  ```
-
-* Built Binaries
-  ```shell
-  /root/intel-secl/build/vmc/binaries/
-  ```
-
 ##### Container Confidentiality with CRIO Runtime
 
 * Sync the repo
@@ -334,7 +303,6 @@ cd tools/ansible-role
 | Data Fencing & Asset Tags                                    | `setup: data-fencing` in playbook or via `--extra-vars` as `setup=data-fencing` in CLI |
 | Trusted Workload Placement - VM            | `setup: trusted-workload-placement-vm` in playbook or via `--extra-vars` as `setup=trusted-workload-placement-vm` in CLI |
 | Trusted Workload Placement - Containers                      | `setup: trusted-workload-placement-containers` in playbook or via `--extra-vars` as `setup=trusted-workload-placement-containers` in CLI |
-| Launch Time Protection - VM Confidentiality                  | `setup: workload-conf-vm` in playbook or via `--extra-vars` as `setup=workload-conf-vm` in CLI |
 | Launch Time Protection - Container Confidentiality with CRIO Runtime | `setup: workload-conf-containers-crio` in playbook or via `--extra-vars` as `setup=workload-conf-containers-crio`in CLI |
 
 > **Note:**  Orchestrator installation is not bundled with the role and need to be done independently. Also, components dependent on the orchestrator like `isecl-k8s-extensions` and `integration-hub` are installed either partially or not installed
@@ -524,10 +492,9 @@ The below allow to get started with workflows within Intel® SecL-DC for Foundat
 |                        | Data Fencing  with Asset Tags(RHEL & VMWARE)                 | ✔️                  |
 |                        | Trusted Workload Placement (VM & Containers)  | ✔️ |
 |                        | Application Integrity                         | ✔️                  |
-| Launch Time Protection | VM Confidentiality                            | ✔️                  |
 |                        | Container Confidentiality with CRIO Runtime   | ✔️                  |
 
-> **Note: ** `Foundational Security - Host Attestation` is a pre-requisite for all usecases beyond Host Attestation. E.g: For working with `Launch Time Protection - VM Confidentiality` , Host Attestation flow must be run as a pre-req before trying VM Confidentiality
+> **Note: ** `Foundational Security - Host Attestation` is a pre-requisite for all usecases beyond Host Attestation. 
 
 ### Downloading API Collections
 
