@@ -67,3 +67,19 @@ The below allow to get started with workflows within Intel® SecL-DC for Foundat
 
   ![running-collection](./images/running_collection.gif)
 
+# Commands to fetch EK certicate and Issuer for Allow Registration of Specific Nodes Feature
+
+The below obtained EK certificate can be used to upload to HVS DB, for allow registration of specific nodes use case.
+If a specific host has to be allowed to register to HVS, then, that host EK certificate should be uploaded to HVS using /hvs/tpm-endorsements API
+
+For RHEL OS
+```
+yum install tpm2-tools
+tpm2_nvread -P hex:<owner secret> -x 0x1c00002 -a 0x40000001 -f ekcert.der or tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
+openssl x509 -inform der -in ekcert.der | base64 | tr -d " \t\n\r"
+
+To get certificate Issuer
+openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
+```
+
+Note: Above "owner secret" is TPM owner secret of 40 character hex string
