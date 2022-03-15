@@ -29,6 +29,15 @@ nav:
       - Default Service Ports: quick-start-guides/Foundational & Workload Security - Containerization/8Default Service Ports.md
       - Usecase Workflows API Collections: quick-start-guides/Foundational & Workload Security - Containerization/9Usecase Workflows API Collections.md
       - Appendix: quick-start-guides/Foundational & Workload Security - Containerization/10Appendix.md
+    - Foundational & Workload Security - Helm Based Deployment:
+      - Hardware & OS Requirements: quick-start-guides/Foundational & Workload Security - Containerization/1Hardware & OS Requirements.md
+      - Network Requirements: quick-start-guides/Foundational & Workload Security - Containerization/2Network Requirements.md
+      - Rpms & Debs Requirement: quick-start-guides/Foundational & Workload Security - Containerization/3Rpms & Debs Requirement.md
+      - Build: quick-start-guides/Foundational & Workload Security - Containerization/5Build.md
+      - Host Attestation Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/Host Attestation - Helm based deployment.md
+      - Trusted Workload Placement(TWP) Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/Trusted Workload Placement - Helm based deployment.md
+      - TWP Control Plane Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/TWP Control Plane - Helm based deployment.md
+      - TWP Cloud Service Provider Deployment: quick-start-guides/Foundational & Workload Security - Containerization/TWP Cloud Service Provider - Helm based deployment.md
     - Foundational and Workload Security: 
       - Hardware & OS Requirements: quick-start-guides/Foundational & Workload Security/1Hardware & OS Requirements.md
       - Deployment Model: quick-start-guides/Foundational & Workload Security/2Deployment Model.md

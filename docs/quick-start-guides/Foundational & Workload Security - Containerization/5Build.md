@@ -152,8 +152,61 @@ systemctl restart docker
   /root/intel-secl/build/fs/k8s/
   ```
 
-### Workload Security
+### Trusted workload placement (Data-sovereignty)
 
+* Sync the repos
+
+  ```shell
+  mkdir -p /root/intel-secl/build/data-sovereignty && cd /root/intel-secl/build/data-sovereignty
+  repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/data-sovereignty.xml -b refs/tags/v4.1.0-Beta
+  repo sync
+  ```
+
+* Run the `pre-requisites` setup script
+
+  ```shell
+  cd utils/build/foundational-security/
+  chmod +x fs-prereq.sh
+  ./fs-prereq.sh -s
+  ```
+
+* Install skopeo
+
+  ```shell
+  # RHEL 8.x
+  dnf install -y skopeo
+
+  # Ubuntu 18.04
+  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo 
+  
+  # Ubuntu 20.04
+  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo 
+
+  # Ubuntu-18.04/Ubuntu-20.04
+  apt-key add -
+  apt-get update
+  apt-get -y upgrade
+  apt-get -y install skopeo
+  ```
+  
+* Build
+
+  ```shell
+  cd /root/intel-secl/build/data-sovereignty/
+  
+  make k8s
+  ```
+
+* Built Container images,K8s manifests and deployment scripts
+
+  ```shell
+  /root/intel-secl/build/data-sovereignty/k8s/
+  ```
+
+### Workload Security (Not supported for Helm based deployment)
+ 
 #### Container Confidentiality with CRIO Runtime
 
 * Sync the repos
