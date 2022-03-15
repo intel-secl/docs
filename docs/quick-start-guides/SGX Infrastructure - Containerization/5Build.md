@@ -2,18 +2,11 @@
 
 ## Pre-requisites
 
-The below steps need to be done on Ubuntu 18.04/20.04(stack based deployment) Build machine (VM/Physical Node)
+The below steps need to be done on Ubuntu 18.04/20.04 Build machine (VM/Physical Node)
 
 ### Development Tools and Utilities
 
 ```shell
-#RHEL 8.4(stack based deployment only)
-dnf install -y git wget tar python3 gcc gcc-c++ zip tar make yum-utils openssl-devel
-dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/32/Everything/x86_64/os/Packages/m/makeself-2.4.0-5.fc32.noarch.rpm
-ln -s /usr/bin/python3 /usr/bin/python
-ln -s /usr/bin/pip3 /usr/bin/pip
-
-
 # Ubuntu-18.04
 echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo apt-key add -
@@ -61,12 +54,6 @@ On RHEL 8.2:
     dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
     dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
 
-On RHEL 8.4:
-    dnf module enable -y container-tools
-    dnf install -y yum-utils
-    dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-    dnf install -y docker-ce-20.10.9 docker-ce-cli-20.10.9
-
 On Ubuntu 18.04:
     wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_1.4.11-1_amd64.deb
     dpkg -i containerd.io_1.4.11-1_amd64.deb
@@ -102,12 +89,6 @@ systemctl restart docker
 
 ### Skopeo
 
-For RHEL 8.4 OS	
-
-```shell
-dnf install -y skopeo --nobest
-```
-
 For Ubuntu 18.04 OS
 
 ```shell
@@ -132,8 +113,6 @@ apt-get -y install skopeo
 
 The build process for OCI containers images and K8s manifests for RHEL 8.2 & Ubuntu 18.04 deployments must be done on RHEL 8.2 machine only
 
-The build process for OCI containers images and K8s manifests for RHEL 8.4 must be done on RHEL 8.4 machine only
-
 ### Single Node
 
 * Sync the repos
@@ -148,12 +127,6 @@ The build process for OCI containers images and K8s manifests for RHEL 8.4 must 
 
   ```shell
   make k8s-aio
-  ```
-
-* Build - Stack Based Deployment
-
-  ```shell
-  make k8s-aio-stacks
   ```
 
 * Built Container images,K8s manifests and deployment scripts
@@ -178,12 +151,6 @@ The build process for OCI containers images and K8s manifests for RHEL 8.4 must 
   make k8s
   ```
   
-* Build - Stack Based Deployment
-
-  ```shell
-  make k8s-stacks
-  ```
-
 * Built Container images,K8s manifests and deployment scripts
 
   ```shell

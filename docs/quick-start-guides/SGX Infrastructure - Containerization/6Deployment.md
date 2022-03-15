@@ -29,7 +29,7 @@
 
 * On each worker node with SGX enabled and registered to K8s control-plane, the following pre-req needs to be done
 
-  * Ubuntu 18.04/20.04 or RHEL 8.4 stack based` enabled K8s worker node with SGX:
+  * Ubuntu 18.04/20.04 enabled K8s worker node with SGX:
     * Pre requisite scripts will be available under `k8s/platform-dependencies/` on build machine
     * Copy the platform-dependencies script to SGX enabled worker nodes on K8s
     * Execute  `./agent_untar.sh`  
