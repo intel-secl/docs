@@ -74,20 +74,20 @@ nav:
         -  Building Binary Installers: product-guides/Foundational & Workload Security/22 Building Binary Installers.md
         -  Hardware Considerations: product-guides/Foundational & Workload Security/23 Hardware Considerations.md
         -  Recommended Service Layout: product-guides/Foundational & Workload Security/24 Recommended Service Layout.md
-        -  Intel Security Libraries Binary Installation: 
-            - Intel Security Libraries Binary Installation: product-guides/Foundational & Workload Security/25 Intel Security Libraries Binary Installation.md
-            -  Using NATS with Intel SecL: product-guides/Foundational & Workload Security/25.0 Using NATS with Intel SecL.md
-            -  Installing and Configuring the Database: product-guides/Foundational & Workload Security/25.1 Installing and Configuring the Database.md
-            -  Installing the Certificate Management Service: product-guides/Foundational & Workload Security/25.2 Installing the Certificate Management Service.md
-            -  Installing the Authentication and Authorization Service: product-guides/Foundational & Workload Security/25.3 Installing the Authentication and Authorization Service.md
-            -  Installing the Host Verification Service: product-guides/Foundational & Workload Security/25.4 Installing the Host Verification Service.md
-            -  Installing the Workload Service: product-guides/Foundational & Workload Security/25.6 Installing the Workload Service.md
-            -  Installing the Trust Agent for Linux: product-guides/Foundational & Workload Security/25.7 Installing the Trust Agent for Linux.md
-            -  Installing the Workload Agent: product-guides/Foundational & Workload Security/25.8 Installing the Workload Agent.md
-            -  Provisioning the Trust Agent: product-guides/Foundational & Workload Security/25.9 Provisioning the Trust Agent.md
-            -  Installing the Intel SecL Kubernetes Extensions and Integration Hub: product-guides/Foundational & Workload Security/25.10 Installing the Intel SecL Kubernetes Extensions and Integration Hub.md
-            -  Installing the Key Broker Service: product-guides/Foundational & Workload Security/25.11 Installing the Key Broker Service.md
-            -  Installing the Workload Policy Manager: product-guides/Foundational & Workload Security/25.12 Installing the Workload Policy Manager.md
+        # -  Intel Security Libraries Binary Installation: 
+        #     - Intel Security Libraries Binary Installation: product-guides/Foundational & Workload Security/25 Intel Security Libraries Binary Installation.md
+        #     -  Using NATS with Intel SecL: product-guides/Foundational & Workload Security/25.0 Using NATS with Intel SecL.md
+        #     -  Installing and Configuring the Database: product-guides/Foundational & Workload Security/25.1 Installing and Configuring the Database.md
+        #     -  Installing the Certificate Management Service: product-guides/Foundational & Workload Security/25.2 Installing the Certificate Management Service.md
+        #     -  Installing the Authentication and Authorization Service: product-guides/Foundational & Workload Security/25.3 Installing the Authentication and Authorization Service.md
+        #     -  Installing the Host Verification Service: product-guides/Foundational & Workload Security/25.4 Installing the Host Verification Service.md
+        #     -  Installing the Workload Service: product-guides/Foundational & Workload Security/25.6 Installing the Workload Service.md
+        #     -  Installing the Trust Agent for Linux: product-guides/Foundational & Workload Security/25.7 Installing the Trust Agent for Linux.md
+        #     -  Installing the Workload Agent: product-guides/Foundational & Workload Security/25.8 Installing the Workload Agent.md
+        #     -  Provisioning the Trust Agent: product-guides/Foundational & Workload Security/25.9 Provisioning the Trust Agent.md
+        #     -  Installing the Intel SecL Kubernetes Extensions and Integration Hub: product-guides/Foundational & Workload Security/25.10 Installing the Intel SecL Kubernetes Extensions and Integration Hub.md
+        #     -  Installing the Key Broker Service: product-guides/Foundational & Workload Security/25.11 Installing the Key Broker Service.md
+        #     -  Installing the Workload Policy Manager: product-guides/Foundational & Workload Security/25.12 Installing the Workload Policy Manager.md
         -  Intel® Security Libraries Container Deployment: product-guides/Foundational & Workload Security/30 Intel® Security Libraries Container Deployment.md
         -  Authentication: product-guides/Foundational & Workload Security/40 Authentication.md
         -  Connection Strings: product-guides/Foundational & Workload Security/50 Connection Strings.md
