@@ -47,7 +47,7 @@
 
   * Add the isecl-helm charts in helm chart repository
    ```shell script
-  helm repo add isecl-helm https://github.com/intel-secl/helm-charts/charts
+  helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
   helm repo update
   ```
 
