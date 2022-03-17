@@ -2,8 +2,6 @@
 
 ## Pre-requisites
 
-* Install `openssl` on K8s control-plane
-
 * Ensure a docker registry is running locally or remotely. 
 
 * Push all container images to docker registry. Example below
@@ -16,6 +14,8 @@
   skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/image-name>:<image-tag>
   ```
 
+ * Non Managed Kubernetes Cluster up and running
+
 * On each worker node with `TXT/BTG` enabled and registered to K8s control-plane, the following pre-req needs to be done on `RHEL-8.4`/`Ubuntu-20.04` systems
 
   * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
@@ -26,7 +26,16 @@
      $ modprobe msr
  ```
 
-  * Non Managed Kubernetes Cluster up and running
+ * The K8s cluster admin configure the existing bare metal worker nodes or register fresh bare metal worker nodes with labels. For example, a label like `node.type: SGX-SUEFI-ENABLED` can be used by the cluster admin to distinguish the baremetal worker node and the same label can be used in ISECL Agent pod configuration to schedule on all worker nodes marked with the label.
+
+  ```shell
+  #Label node , below example is for TXT & SUEFI enabled host
+  kubectl label node <node-name> node.type=SUEFI-ENABLED
+  
+  #Label node , below example is for SGX & TXT enabled host
+  kubectl label node <node-name> node.type=TXT-ENABLED
+  ```
+
   * Helm 3 installed
    ```shell
    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -34,18 +43,24 @@
    ./get_helm.sh
    ```
 
-  * Clone the helm repo for ISecl  
-  * Clone the repo
-  ```shell
-  git clone https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts.git
+  * Add the isecl-helm charts in helm chart repository
+   ```shell script
+  helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
+  helm repo update
+  ```
+
+  * To find list of avaliable charts
+  ```shell script
+  helm search repo
   ```
 
   * NFS setup
-   > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
-     ```shell script 
->        cd applications.security.isecl.engineering.helm-charts/
-         ./setup-nfs.sh /mnt/nfs_share 1001 <IP/IP Range>
-     ```
+    ```shell script 
+     curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
+     chmod +x setup-nfs.sh
+    ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
+    ```
+
 
 ### Commands to fetch EK certicate and Issuer on worker node
 
@@ -64,6 +79,10 @@ openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
 
 Note: Above "owner secret" is TPM owner secret of 40 character hex string
 
+## Installing isecl-helm charts
+
+* Individual service and jobs charts
+* Usecase charts(Umbrella charts)
     
 ### Individual helm chart deployment (using service/job charts)
 
@@ -102,37 +121,43 @@ hvsdb-cert-generator
 
 aas-manager
 
-#### Individual chart deployment and along with sequence to be followed
-Helm deployment commands: 
-
-```shell script
-helm dependency update <chart folder>/
-helm install <helm release name> <chart folder>/ --create-namespace -n isecl (--create-namespace for the 1st helm install command to be run)
-```
-
-CMS, AAS are common dependent services for any of the ISecl services/agents to be deployed except ISecl K8s Extensions(ISecl K8s Scheduler and ISecl K8s controller). Hence these two services 
-needs to be up and running before deploying any individual services. AAS manager job needs to be run to generate bearer-token as a secret.
+#### Deployment steps along with the sequence to be followed
 
 Services which has database deployment associated with it needs db ssl certificates to be generated as secrets, this is done by deploying \<service\>db-cert-generator job.
 
-Below are the common/mandatory steps need to be performed for deploying individual charts except ISecl K8s Extensions.
+Download the values.yaml for each of the services.
+
 ```shell script
-helm dependency update jobs/cleanup-secrets/
-helm install cleanup-secrets jobs/cleanup-secrets/ -n isecl --create-namespace
-helm dependency update services/cms
-helm install cms services/cms -n isecl
-helm dependency update jobs/aasdb-cert-generator/
-helm install aasdb-cert-generator jobs/aasdb-cert-generator/ -n isecl
-helm dependency update services/aas
-helm install aas services/aas -n isecl
-helm dependency update jobs/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl
-helm dependency update jobs/hvsdb-cert-generator/
-helm install hvsdb-cert-generator jobs/hvsdb-cert-generator/ -n isecl
-helm dependency update services/hvs
-helm install hvs services/hvs -n isecl
-helm dependency update services/ta 
-helm install ta services/ta -n isecl
+curl -fsSL -o cleanup-secrets.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml
+curl -fsSL -o cms.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/cms/values.yaml
+curl -fsSL -o aasdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml
+curl -fsSL -o aas.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/aas/values.yaml
+curl -fsSL -o aas-manager.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aas-manager/values.yaml
+curl -fsSL -o hvsdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/hvsdb-cert-generator/values.yaml
+curl -fsSL -o hvs.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/hvs/values.yaml
+curl -fsSL -o trustagent.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/ta/values.yaml
+```
+
+Update all the downloaded values.yaml with appropriate values.
+ 
+Following are the steps need to be run for deploying individual charts.
+```shell script
+helm repo pull isecl-helm/cleanup-secrets
+helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
+helm repo pull isecl-helm/cms
+helm install cms isecl-helm/cms -n isecl -f cms.yaml
+helm repo pull isecl-helm/aasdb-cert-generator
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator aasdb-cert-generator.yaml -f  -n isecl
+helm repo pull isecl-helm/aas
+helm install aas services/aas -n isecl -f aas.yaml
+helm repo pull isecl-helm/aas-manager
+helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
+helm repo pull isecl-helm/hvsdb-cert-generator
+helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
+helm repo pull isecl-helm/hvs
+helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
+helm repo pull isecl-helm/trustagent 
+helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
 ```
 
 To uninstall a chart
@@ -160,6 +185,11 @@ Cleanup steps that needs to be done for a fresh deployment
 
 ### Usecase based chart deployment (using umbrella charts)
 
+Download the values.yaml file for host-attestation usecase chart
+```shell script
+curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-control-plane/values.yaml
+```
+
 #### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
@@ -177,10 +207,9 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 
 #### Use Case charts Deployment
 
-```shell
-cd usecases/
-helm dependency update host-attestation/
-helm install <helm release name> host-attestation/ --create-namespace -n <namespace>
+```shell script
+helm repo pull isecl-helm/Host-Attestation
+helm install host-attastation isecl-helm/Host-Attestation -f values.yaml --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
