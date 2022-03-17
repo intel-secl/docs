@@ -16,16 +16,23 @@
   skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/image-name>:<image-tag>
   ```
 
-  * Clone the helm repo for ISecl  
-```shell
-  git clone https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts.git
-```
-
+  * Add the isecl-helm charts in helm chart repository
+  ```shell
+  helm repo add isecl-helm https://github.com/intel-secl/helm-charts/charts
+  helm repo update
+  ```
+  
+  * To find list of avaliable charts
+  ```shell script
+  helm repo search
+  ```  
+  
   * NFS setup
    > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
      ```shell script 
->        cd applications.security.isecl.engineering.helm-charts/
-         ./setup-nfs.sh /mnt/nfs_share 1001 <IP/IP Range>
+     curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
+     chmod +x setup-nfs.sh
+    ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
      ```
 
 ### Commands to fetch EK certicate and Issuer
@@ -51,18 +58,15 @@ Note: Above "owner secret" is TPM owner secret of 40 character hex string
 
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
-| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*nats*<br /> |
+| Trusted-Workload-Placement Control-Plane | *cms*<br />*aas*<br />*hvs*<br />*nats*<br /> |
 
 
 ### Setting up for Helm deployment
 
-### Installing isecl-helm charts
+## Installing isecl-helm charts
 
-* Clone the repo
-```shell
-git clone https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts.git
-cd applications.security.isecl.engineering.helm-charts/
-```
+* Individual service and jobs charts
+* Usecase charts(Umbrella charts)
 
 ### Individual helm chart deployment (using service/job charts)
 
@@ -100,7 +104,7 @@ aasdb-cert-generator
 hvsdb-cert-generator
 
 
-#### Individual chart deployment and along with sequence to be followed
+#### Deployment steps along with the sequence to be followed
 Helm deployment commands: 
 
 ```shell script
@@ -115,24 +119,24 @@ Services which has database deployment associated with it needs db ssl certifica
 
 Below are the common/mandatory steps need to be performed for deploying individual charts except ISecl K8s Extensions.
 ```shell script
-helm dependency update jobs/cleanup-secrets/
-helm install cleanup-secrets jobs/cleanup-secrets/ -n isecl --create-namespace
-helm dependency update services/cms
-helm install cms services/cms -n isecl
-helm dependency update jobs/aasdb-cert-generator/
-helm install aasdb-cert-generator jobs/aasdb-cert-generator/ -n isecl
-helm dependency update services/aas
-helm install aas services/aas -n isecl
-helm dependency update jobs/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl
-helm dependency update jobs/hvsdb-cert-generator/
-helm install hvsdb-cert-generator jobs/hvsdb-cert-generator/ -n isecl
-helm dependency update services/hvs
-helm install hvs services/hvs -n isecl
-helm dependency update jobs/nats 
-helm install nats-init jobs/nats -n isecl
-helm dependency update services/nats
-helm install nats services/nats -n isecl
+helm repo pull isecl-helm/cleanup-secrets
+helm install cleanup-secrets isecl-helm/cleanup-secrets -n isecl --create-namespace
+helm repo pull isecl-helm/cms
+helm install cms isecl-helm/cms -n isecl -f values.yaml
+helm repo pull isecl-helm/aasdb-cert-generator
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -n isecl 
+helm repo pull isecl-helm/aas
+helm install aas services/aas -n isecl -f values.yaml
+helm repo pull isecl-helm/aas-manager
+helm install aas-manager jobs/aas-manager -n isecl -f values.yaml
+helm repo pull isecl-helm/hvsdb-cert-generator
+helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -n isecl
+helm repo pull isecl-helm/hvs
+helm install hvs isecl-helm/hvs -n isecl -f values.yaml
+helm repo pull isecl-helm/nats-init 
+helm install nats-init isecl-helm/nats-init -f values.yaml -n isecl
+helm repo pull isecl-helm/nats
+helm install nats isecl-helm/nats -n isecl
 ```
 
 To uninstall a chart
@@ -160,7 +164,22 @@ Cleanup steps that needs to be done for a fresh deployment
     
 ### Usecase based chart deployment (using umbrella charts)
 
+values.yaml for this usecase chart can be found here [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/usecases/twp-control-plane/values.yaml)
+| service/jobs            | Link to values.yaml file    |
+| ----------------------- | --------------------------- |
+| cleanup-secrets         | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml)  |
+| cms                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/cms/values.yaml) |
+| aasdb-cert-generator    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml)                                                       |
+| aas                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/aas/values.yaml) |
+| aas-manager             | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/aas-manager/values.yaml)  |
+| hvsdb-cert-generator    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/hvsdb-cert-generator/values.yaml)  |
+| hvs                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/hvs/values.yaml)  |
+| nats-init               | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/nats/values.yaml)  |
+| nats                    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/nats/values.yaml)  |
+
 #### Update `values.yaml` for Use Case chart deployments
+
+values.yaml for this usecase chart can be found here [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/usecases/twp-control-plane/values.yaml)
 
 Some assumptions before updating the `values.yaml` are as follows:
 * The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.2.0) as version for each image
@@ -177,11 +196,11 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 
 #### Use Case charts Deployment
 
-```shell
-cd usecases/
-helm dependency update twp-control-plane/
-helm install <helm release name> twp-control-plane/ --create-namespace -n <namespace>
+```shell script
+helm repo pull isecl-helm/Trusted-Workload-Placement-Control-Plane
+helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-Plane --create-namespace -n <namespace>
 ```
+
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
 
