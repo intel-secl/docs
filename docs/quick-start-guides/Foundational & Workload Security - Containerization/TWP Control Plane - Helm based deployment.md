@@ -40,6 +40,11 @@
      chmod +x setup-nfs.sh
     ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
      ```
+     nfs client needs to be installed on every worker node
+         
+     For ubuntu ```apt install nfs-common```
+         
+     For rhel ```dnf install nfs-utils```
 
 ### Commands to fetch EK certicate and Issuer
 
@@ -130,23 +135,23 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/cms
+helm pull isecl-helm/cms
 helm install cms isecl-helm/cms -n isecl -f cms.yaml
-helm repo pull isecl-helm/aasdb-cert-generator
+helm pull isecl-helm/aasdb-cert-generator
 helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator aasdb-cert-generator.yaml -f  -n isecl
-helm repo pull isecl-helm/aas
+helm pull isecl-helm/aas
 helm install aas services/aas -n isecl -f aas.yaml
-helm repo pull isecl-helm/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/hvsdb-cert-generator
+helm pull isecl-helm/aas-manager
+helm install aas-manager isecl-helm/aas-manager -n isecl -f aas-manager.yaml
+helm pull isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
-helm repo pull isecl-helm/hvs
+helm pull isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
-helm repo pull isecl-helm/nats-init 
+helm pull isecl-helm/nats-init 
 helm install nats-init isecl-helm/nats-init -f values.yaml -f nats-init.yaml -n isecl
-helm repo pull isecl-helm/nats
+helm pull isecl-helm/nats
 helm install nats isecl-helm/nats -f nats.yaml -n isecl
 ```
 
@@ -200,7 +205,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-helm repo pull isecl-helm/Trusted-Workload-Placement-Control-Plane
+helm pull isecl-helm/Trusted-Workload-Placement-Control-Plane
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-Plane --create-namespace -n <namespace>
 ```
 

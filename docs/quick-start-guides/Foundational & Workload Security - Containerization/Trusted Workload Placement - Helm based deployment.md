@@ -60,6 +60,7 @@
      chmod +x setup-nfs.sh
      ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
      ```
+     
 
 ### Commands to fetch EK certicate and Issuer on worker node
 
@@ -223,29 +224,29 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/cms
+helm pull isecl-helm/cms
 helm install cms isecl-helm/cms -n isecl -f cms.yaml
-helm repo pull isecl-helm/aasdb-cert-generator
+helm pull isecl-helm/aasdb-cert-generator
 helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator aasdb-cert-generator.yaml -f  -n isecl
-helm repo pull isecl-helm/aas
+helm pull isecl-helm/aas
 helm install aas services/aas -n isecl -f aas.yaml
-helm repo pull isecl-helm/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/hvsdb-cert-generator
+helm pull isecl-helm/aas-manager
+helm install aas-manager isecl-helm/aas-manager -n isecl -f aas-manager.yaml
+helm pull isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
-helm repo pull isecl-helm/hvs
+helm pull isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
-helm repo pull isecl-helm/trustagent 
+helm pull isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
-helm repo pull isecl-helm/isecl-controller
+helm pull isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
-helm repo pull isecl-helm/ihub
+helm pull isecl-helm/ihub
 helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
-helm repo pull isecl-helm/isecl-scheduler
+helm pull isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
-helm repo pull isecl-helm/admission-controller
+helm pull isecl-helm/admission-controller
 helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
@@ -298,7 +299,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm repo pull isecl-helm/Trusted-Workload-Placement
+helm pull isecl-helm/Trusted-Workload-Placement
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement -f values.yaml --create-namespace -n <namespace>
 ```
 

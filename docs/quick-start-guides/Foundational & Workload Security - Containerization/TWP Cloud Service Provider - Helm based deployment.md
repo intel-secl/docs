@@ -60,7 +60,12 @@
     chmod +x setup-nfs.sh
    ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
    ```
-
+   nfs client needs to be installed on every worker node
+      
+   For ubuntu ```apt install nfs-common```
+      
+   For rhel ```dnf install nfs-utils```
+    
 ### Commands to fetch EK certicate and Issuer
 
 The below obtained EK certificate can be used to upload to HVS DB, for allow registration of specific nodes use case.
@@ -213,19 +218,19 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/trustagent 
+helm pull isecl-helm/aas-manager
+helm install aas-manager isecl-helm/aas-manager -n isecl -f aas-manager.yaml
+helm pull isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
-helm repo pull isecl-helm/isecl-controller
+helm pull isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
-helm repo pull isecl-helm/ihub
+helm pull isecl-helm/ihub
 helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
-helm repo pull isecl-helm/isecl-scheduler
+helm pull isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
-helm repo pull isecl-helm/admission-controller
+helm pull isecl-helm/admission-controller
 helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
@@ -279,7 +284,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-helm repo pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
+helm pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --create-namespace -n <namespace>
 ```
 
