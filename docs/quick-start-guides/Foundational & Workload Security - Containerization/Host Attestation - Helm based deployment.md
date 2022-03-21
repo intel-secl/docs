@@ -87,6 +87,37 @@ Note: Above "owner secret" is TPM owner secret of 40 character hex string
 
 * Individual service and jobs charts
 * Usecase charts(Umbrella charts)
+
+### Bearer-token and Users and role permission generation.
+
+After Authentication and Authorization Service(AAS) pod is bootstrapped and ready, a number of roles and user accounts must be generated. 
+Most of these accounts will be service users, used by the various Intel® SecL services to work together. 
+Another set of users will be used for installation permissions, and a final administrative user will be created to provide the initial authentication interface for the actual human user. 
+The administrative user can be used to create additional users with appropriately restricted roles based on organizational needs.
+
+Creating these required users and roles is facilitated by a job called aas-manager that will accept credentials and roles and permission settings from a aas-manager json file and automate the process.
+aas-manager job gets trigged automatically once aas pod is ready. 
+This job generates a secret called bearer-token in a given namespace for given a set of values in superAdminUsername and superAdminPassword in values.yaml file, has necessary roles and permissions required for bootstraping all the services.
+By default this token will be valid for two hours, therfore it is refresed every 5 minutes as part of cronjob. User need not worry to refresh the bearer token while performing any of the setup tasks.
+This job can be deleted and rerun for generating bearer-token secret on demand if at all required.
+
+User needs to update the appropriate values for credential in usecase chart values.yaml file or values.yaml file in case of deploying individual charts.
+
+The job will automatically generate the following users:
+
+Verification Service User
+
+Integration Hub Service User
+
+Global Admin User
+
+Installation User
+
+These user accounts will be used during installation of several of the Intel® SecL-DC applications. In general, whenever credentials are required by an installation answer file.
+
+The Global Admin user account has all roles for all services. This is a default administrator account that can be used to perform any task, including creating any other users. 
+In general this account is useful for POC installations, but in production it should be used only to create user accounts with more restrictive roles. 
+The administrator credentials should be protected and not shared.
     
 ### Individual helm chart deployment (using service/job charts)
 
