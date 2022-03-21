@@ -73,6 +73,7 @@ tar -xzf go1.16.7.linux-amd64.tar.gz
 mv go /usr/local
 export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
+export GOPATH=/tmp/go 	#optional command to define location of go workspace
 rm -rf go1.16.7.linux-amd64.tar.gz
 ```
 
