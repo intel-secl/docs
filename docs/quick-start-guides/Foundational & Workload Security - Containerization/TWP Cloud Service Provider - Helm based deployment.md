@@ -55,16 +55,22 @@
    ```
   
   * NFS setup
-   ```shell script 
-    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
-    chmod +x setup-nfs.sh
-   ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
-   ```
-   nfs client needs to be installed on every worker node
-      
-   For ubuntu ```apt install nfs-common```
-      
-   For rhel ```dnf install nfs-utils```
+  
+    - NFS server setup
+        ```shell script 
+         curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
+         chmod +x setup-nfs.sh
+        ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
+        ```
+        
+        Either each node IPs/Hostnames or node subnet range in cluster should be added in /etc/exports file in NFS server
+        
+    - All nodes in cluster needs nfs-client to be installed
+    
+        - For ubuntu ```apt install nfs-common```
+        
+        - For rhel ```dnf install nfs-utils```
+
     
 ### Commands to fetch EK certicate and Issuer
 
@@ -257,7 +263,7 @@ helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
 helm pull isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
 helm pull isecl-helm/ihub
-helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
+helm install ihub isecl-helm/ihub -n isecl -f ihub.yaml
 helm pull isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
 helm pull isecl-helm/admission-controller
