@@ -4,54 +4,60 @@ The Intel SecL-DC services can individually be deployed using Helm, instead of a
 
 Below is a list of the Helm charts available on the Intel SecL Helm repository for deploying individual services (not entire use cases):
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/aas                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Authentica...
-isecl-helm/admission-controller                         4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Admision C...
-isecl-helm/cms                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Certificat...
-isecl-helm/hvs                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Host Verif...
-isecl-helm/ihub                                         4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Integratio...
-isecl-helm/isecl-controller                             4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Custom Con...
-isecl-helm/isecl-scheduler                              4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Extended S...
-isecl-helm/nats                                         4.2.0           v4.2.0          A Helm chart for Installing NATS server
-isecl-helm/trustagent                                   4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Trust Agent
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/aas                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/admission-controller    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Admision C... |
+|isecl-helm/cms                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Certificat... |
+|isecl-helm/hvs                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/ihub                    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+|isecl-helm/isecl-controller        |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/nats                    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing NATS server            |
+|isecl-helm/trustagent              |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
 
 Below is a list of Helm charts used to run specific jobs needed during deployment:
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/aasdb-cert-generator                         4.2.0           v4.2.0          A Helm chart for creating aasdb certificates
-isecl-helm/hvsdb-cert-generator                         4.2.0           v4.2.0          A Helm chart for creating hvsdb certificates
-isecl-helm/cleanup-secrets                              4.2.0           v4.2.0          A Helm chart for cleaning up secrets
-isecl-helm/aas-manager                                  4.2.0           v4.2.0          A Helm chart for bootstrapping default users an...
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/aasdb-cert-generator    |                    4.2.0         |  v4.2.0      |    A Helm chart for creating aasdb certificates       |
+|isecl-helm/hvsdb-cert-generator    |                    4.2.0         |  v4.2.0      |    A Helm chart for creating hvsdb certificates       |
+|isecl-helm/cleanup-secrets         |                    4.2.0         |  v4.2.0      |    A Helm chart for cleaning up secrets               |
+|isecl-helm/aas-manager             |                    4.2.0         |  v4.2.0      |    A Helm chart for bootstrapping default users an... |
+
 
 Note that not all services are needed for all use cases.
 
 The following services are needed for all deployments:
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/cms                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Certificat...
-isecl-helm/aas                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Authentica...
-isecl-helm/hvs                                          4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Host Verif...
-isecl-helm/trustagent                                   4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Trust Agent
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/aas                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/cms                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Certificat... |
+|isecl-helm/hvs                     |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/trustagent              |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
 
 These services are the basis for any deployment, and will enable the Platform Integrity Attestation use case.
 
 Intel SecL-DC can optionally utilize a NATS server to manage connectivity between the Host Verification Service and any number of deployed Trust Agent hosts.  This acts as an alternative to communication via REST APIs - in NATS mode, a connection is established with the NATS server, and messages are sent and received over that connection.  Using NATS mode requires configuration changes in the values.yaml files for the HVS and Trust Agent charts, as well as deployment of NATS itself:
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/nats                                         4.2.0           v4.2.0          A Helm chart for Installing NATS server
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/nats                    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing NATS server            |
 
 NATS deployments also require a setup job:
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/nats-init                                    4.2.0           v4.2.0          A Helm chart for creating TLS certificates and ...
-
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/nats-init               |                    4.2.0         |  v4.2.0      |    A Helm chart for creating TLS certificates and ... |
 
 Intel SecL-DC can optionally integrate with Kubernetes to control the placement of workloads based on the attestation status of worker nodes.  Trusted Workload Placement requires the following additional services:
 
-NAME                                                    CHART VERSION   APP VERSION     DESCRIPTION
-isecl-helm/ihub                                         4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Integratio...
-isecl-helm/isecl-controller                             4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Custom Con...
-isecl-helm/isecl-scheduler                              4.2.0           v4.2.0          A Helm chart for Installing ISecL-DC Extended S...
+|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
+|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
+|isecl-helm/admission-controller    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Admision C... |
+|isecl-helm/isecl-controller        |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Extended S... |
 
 ## Downloading the Deployment Answer Files
 

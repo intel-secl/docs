@@ -13,6 +13,7 @@ To enable this feature, set the following options to "true" in the Helm congifur
 ```
 ---
 **NOTE**
+
 When this feature is enabled, Trust Agent provisioning will fail for any hosts whose TPM EC has not been pre-registered.  For the Trust Agent Kubernetes daemonset, this means teh Trust Agent pods will fail to deploy.
 
 If deploying Intel SecL as individual service deployments, it is recommended that the ECs be registered to the HVS before deploying teh Trust Agent service.
@@ -20,6 +21,7 @@ If deploying Intel SecL as individual service deployments, it is recommended tha
 The Trust Agent daemonset will continually re-attempt provisioning after failure, so the EC can also be registered after the entire application (or entire use case deployment) has been deployed.  After the EC is registered, simply delete the Trust Agent pod running on the worker node whose EC was just registered.  This will trigger a re-deployment of the pod from the daemonset, and the Trust Agent should deploy successfully.
 
 This feature is primarily intended for worker nodes added to the cluster after the Intel SecL applciation has been fully deployed.  In this case, the TPM EC should be registerd before adding the node to the cluster.  Once the node is added, the Trust Agent will deploy successfully as expected.
+
 ---
 
 To register a TPM Endorsement Certificate with the HVS, the EC and its issuer need to be retrieved from the TPM, and then provided as part of an API call to the HVS.  **These steps must be followed for each individual host to be attested, as each TPM Endorsement Certificate is unique.**
@@ -42,11 +44,13 @@ openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
 
 ---
 **NOTE**
+
 The TPM "owner secret" will either be null or a 40 character hex string.  Note that if the TPM ownership secret is set to a value, the Trust Agent must be configured to use that same TPM owner secret when it is deployed.  This means either:
 
 - Setting the TPM owner secret to run the above commands and then clearing TPM ownership to use the null secret for the Trust Agent
   **OR** 
 - Configuring an identical owner secret for all Trust Agent hosts and using that secret both for these commands and for the Trust Agent deployment.
+
 ---
 
 ## Register the Endorsement Certificate to the HVS

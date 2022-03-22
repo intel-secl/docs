@@ -37,21 +37,24 @@ Root Cause: tboot requires the "noefi" kernel parameter to be passed during boot
 
 The EFI variables required by SGX are only needed during the SGX provisioning/registration phase. Once this step is completed successfully, access to the EFI variables is no longer required. This means this issue can be worked around by installing the SGX agent without booting to tboot, then rebooting the system to tboot. SGX attestation will then work as expected while booted to tboot.
 
-Enable SGX and TXT in the platform BIOS
+- Enable SGX and TXT in the platform BIOS
 
-Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)
+- Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)
 
-Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)
+- Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)
 
 The SGX Agent installation fetches the SGX Platform Manifest data and caches it
 
-Reboot the system into the tboot kernel mode.
+- Reboot the system into the tboot kernel mode.
 
-Verify that TXT measured launch was successful:
+- Verify that TXT measured launch was successful:
 
+```
 ​ txt-stat |grep "TXT measured launch"
+```
 
 The SGX and Platform Integrity Attestation use cases should now work as normal.
+
 ---
 
 
@@ -63,61 +66,81 @@ https://sourceforge.net/projects/tboot/files/tboot/
 
 Tboot requires configuration of the grub boot loader after installation. To install and configure tboot:
 
-Install tboot
+## Install tboot
 
+```
 yum install tboot
+```
+
 If the package manager does not support a late enough version of tboot, it will need to be compiled from source and installed manually. Instructions can be found here:
 
 https://sourceforge.net/p/tboot/wiki/Home/
 
-Note that the step "copy platform SINIT to /boot" should not be required, as datacenter platforms include the SINIT in the system BIOS package.
+---
+**NOTE**
+The step "copy platform SINIT to /boot" should not be required, as datacenter platforms include the SINIT in the system BIOS package.
 
-Ensure that multiboot2.mod and relocator.mod are available for grub2
+---
 
-This step may not be necessary for all OS versions, for instance, this step is NA in case of Tboot installation on Ubuntu 18.04. In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).
+## Ensure that multiboot2.mod and relocator.mod are available for grub2
+
+This step may not be necessary for all OS versions. For instance, this step is not applicable for tboot installation on Ubuntu 18.04. In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).
 
 These files must be present in this directory:
 
+```
 /boot/efi/EFI/redhat/x86_64-efi/multiboot2.mod
 /boot/efi/EFI/redhat/x86_64-efi/relocator.mod
+```
+
 If the files are not present in this directory, they can be moved from their installation location:
 
+```
 cp /usr/lib/grub/x86_64-efi/multiboot2.mod /boot/efi/EFI/redhat/x86_64-efi/
 cp /usr/lib/grub/x86_64-efi/relocator.mod /boot/efi/EFI/redhat/x86_64-efi/
+```
+
 Make a backup of your current grub.cfg file
 
 The below examples assume a RedHat OS that has been installed on a platform using UEFI boot mode. The grub path will be slightly different for platforms using a non-RedHat OS.
 
+```
 cp /boot/efi/EFI/redhat/grub.cfg /boot/efi/EFI/redhat/grub.cfg.bak
+```
+
 Generate a new grub.cfg with the tboot boot option
 
 For RHEL:
+
 ```
 grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 ```
 
 For Ubuntu:
+
 ```
 grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 Update the default boot option
 ```
 
-Ensure that the GRUB_DEFAULT value is set to the tboot option.
+## Ensure that the GRUB_DEFAULT value is set to the tboot option.
 
-a. Update /etc/default/grub and set the GRUB_DEFAULT value to 'tboot-1.10.1'
+Update /etc/default/grub and set the GRUB_DEFAULT value to 'tboot-1.10.1'
 
 ```
 GRUB_DEFAULT='tboot-1.10.1'
 ```
 
-c. Regenerate grub.cfg:
+## Regenerate grub.cfg:
 
 For RHEL:
+
 ```
 grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 ```
 
 For Ubuntu:
+
 ```
 grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 ```
@@ -134,6 +157,7 @@ txt-stat
 
 If the measured launch was successful, proceed to install the Trust Agent.
 
+```
 Intel(r) TXT Configuration Registers:
         STS: 0x0001c091
             senter_done: TRUE
@@ -169,3 +193,4 @@ Intel(r) TXT Configuration Registers:
          **TXT measured launch: TRUE**
          **secrets flag set: TRUE**
 ***********************************************************
+```

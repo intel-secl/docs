@@ -75,5 +75,6 @@ If the Endorsement Certificate Pre-Registration feature is enabled for the HVS:
 The worker node TPM Endorsement Certificates (ECs) must be registered with the HVS before the Trust Agent daemonsets will fully deploy.  This is because a necessary step during Trust Agent provisioning will be denied access until the HVS has the EC registered in its database.  See the Endorsement Certificate Pre-Registration section for more details about this feature.
 
 The Trust Agent daemonset will continue to reattempt deployment on all worker nodes, so the deployment will self-recover after the EC registration happens.  Trust Agent deployment failures should be expected if the Trust Agent is deployed before this step is completed.
+
 ---
 
