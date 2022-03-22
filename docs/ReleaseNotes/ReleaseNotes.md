@@ -3,15 +3,18 @@ Intel Security Libraries for Data Center
 
 # ***Intel(R) SecL-DC version 4.2 BETA***
 
-Foundational Security/Workload Security Use Cases
+Foundational Security/Workload Security Use Cases:
 
 - Intel SecL-DC no longer supports bare-metal binary installation.  All deployment of Intel SecL components will now require Kubernetes and use Helm charts for deployment.
-- Because bare-metal deployments are no longer supported, the following use cases no longer apply and will be deprecated:
+- Because bare-metal deployments are no longer supported, the following use cases no longer apply and will be deprecated for all future releases:
   - Application Integrity
   - Virtual Machine Confidentiality
 - The following use cases are unsupported for this BETA release only.  These will not be deprecated going forward, but are unsupported for the 4.2 BETA release
-  - Workload Confidentiality
+  - Workload Confidentiality 
 
+SKC/ SGX Attestation Use Cases:
+
+- Helm deployments are not currently supported for SKC / SGX use cases.  No changes have been made for this Beta release.
 
 # ***Intel(R) SecL-DC version 4.1 GA***
 
