@@ -69,7 +69,7 @@ nav:
   - Product Guide: 
       - Foundational and Workload Security:
         -  Product Guide: product-guides/Foundational & Workload Security/01.md
-        -  Introduction: product-guides/Foundational & Workload Security/Introduction.md
+        -  Introduction: product-guides/Foundational & Workload Security/02 Introduction.md
         -  Intel® Security Libraries Components: product-guides/Foundational & Workload Security/20 Intel® Security Libraries Components.md
         # -  Building Binary Installers: product-guides/Foundational & Workload Security/22 Building Binary Installers.md
         -  Hardware Security Technology Considerations: product-guides/Foundational & Workload Security/23 Hardware Security Technology Considerations.md
