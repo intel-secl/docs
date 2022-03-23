@@ -14,9 +14,9 @@ To enable this feature, set the following options to "true" in the Helm congifur
 ---
 **NOTE**
 
-When this feature is enabled, Trust Agent provisioning will fail for any hosts whose TPM EC has not been pre-registered.  For the Trust Agent Kubernetes daemonset, this means teh Trust Agent pods will fail to deploy.
+When this feature is enabled, Trust Agent provisioning will fail for any hosts whose TPM EC has not been pre-registered.  For the Trust Agent Kubernetes daemonset, this means the Trust Agent pods will fail to deploy.
 
-If deploying Intel SecL as individual service deployments, it is recommended that the ECs be registered to the HVS before deploying teh Trust Agent service.
+If deploying Intel SecL as individual service deployments, it is recommended that the ECs be registered to the HVS before deploying the Trust Agent service.
 
 The Trust Agent daemonset will continually re-attempt provisioning after failure, so the EC can also be registered after the entire application (or entire use case deployment) has been deployed.  After the EC is registered, simply delete the Trust Agent pod running on the worker node whose EC was just registered.  This will trigger a re-deployment of the pod from the daemonset, and the Trust Agent should deploy successfully.
 
