@@ -68,13 +68,23 @@ Tboot requires configuration of the grub boot loader after installation. To inst
 
 ## Install tboot
 
-```
-yum install tboot
-```
-
 If the package manager does not support a late enough version of tboot, it will need to be compiled from source and installed manually. Instructions can be found here:
 
 https://sourceforge.net/p/tboot/wiki/Home/
+
+---
+**NOTE**
+Check if kernal packages are excluded in `/etc/yum.conf`,then comment (or remove the 'kernel*' part) : `#exclude=kernel*`
+
+---
+```
+yum install -y mercurial zlib-devel openssl-devel gcc
+wget https://sourceforge.net/projects/tboot/files/tboot/tboot-1.10.5.tar.gz
+tar -zxf tboot-1.10.5.tar.gz
+cd tboot-1.10.5/
+make
+make install
+```
 
 ---
 **NOTE**
@@ -96,8 +106,15 @@ These files must be present in this directory:
 If the files are not present in this directory, they can be moved from their installation location:
 
 ```
+mkdir -p /boot/efi/EFI/redhat/x86_64-efi/
 cp /usr/lib/grub/x86_64-efi/multiboot2.mod /boot/efi/EFI/redhat/x86_64-efi/
 cp /usr/lib/grub/x86_64-efi/relocator.mod /boot/efi/EFI/redhat/x86_64-efi/
+```
+
+If the files are not present in their installation location `/usr/lib/grub/x86_64-efi/`, then follow below steps:
+
+```
+yum install -y grub2-efi-x64-modules
 ```
 
 Make a backup of your current grub.cfg file
@@ -119,16 +136,16 @@ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 For Ubuntu:
 
 ```
-grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+grub2-mkconfig -o /boot/grub/grub.cfg
 Update the default boot option
 ```
 
 ## Ensure that the GRUB_DEFAULT value is set to the tboot option.
 
-Update /etc/default/grub and set the GRUB_DEFAULT value to 'tboot-1.10.1'
+Update /etc/default/grub and set the GRUB_DEFAULT value to 'tboot-1.10.5'
 
 ```
-GRUB_DEFAULT='tboot-1.10.1'
+GRUB_DEFAULT='tboot-1.10.5'
 ```
 
 ## Regenerate grub.cfg:
@@ -142,7 +159,7 @@ grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
 For Ubuntu:
 
 ```
-grub-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+grub2-mkconfig -o /boot/grub/grub.cfg
 ```
 
 Reboot the system.  Because measurement happens at system boot, a reboot is needed to boot to the tboot boot option and populate measurements in the TPM.
