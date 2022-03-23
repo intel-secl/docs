@@ -18,7 +18,7 @@
 
 * On each worker node with `TXT/BTG` enabled and registered to K8s control-plane, the following pre-req needs to be done on `RHEL-8.4`/`Ubuntu-20.04` systems
 
-  * `Tboot-1.10.1` or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation)
+  * `Tboot-1.10.5` or later to be installed for servers using TXT and not using Secure Boot. [Tboot installation Details](../../product-guides/Foundational%&%Workload%Security/../Foundational%20&%20Workload%20Security/23%20Hardware%20Security%20Technology%20Considerations.md)
 
   * Only for `Ubuntu-20.04`, run the following commands
 
