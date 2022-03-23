@@ -137,7 +137,6 @@ For Ubuntu:
 
 ```
 grub2-mkconfig -o /boot/grub/grub.cfg
-Update the default boot option
 ```
 
 ## Ensure that the GRUB_DEFAULT value is set to the tboot option.
