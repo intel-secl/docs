@@ -1,0 +1,431 @@
+basePath: /sgx-hvs/v2
+definitions:
+  HardwareFeatures:
+    properties:
+      SGX:
+        $ref: '#/definitions/SGX'
+    type: object
+    x-go-package: intel/isecl/shvs/v4/types
+  HostInfo:
+    properties:
+      hardware_features:
+        $ref: '#/definitions/HardwareFeatures'
+      host_ID:
+        format: uuid
+        type: string
+        x-go-name: ID
+      host_name:
+        type: string
+        x-go-name: Name
+      status:
+        type: string
+        x-go-name: Status
+      uuid:
+        format: uuid
+        type: string
+        x-go-name: HardwareUUID
+    type: object
+    x-go-package: intel/isecl/shvs/v4/types
+  HostStatusResponse:
+    properties:
+      host_id:
+        $ref: '#/definitions/UUID'
+      host_status:
+        type: string
+        x-go-name: Status
+    type: object
+    x-go-package: intel/isecl/shvs/v4/resource
+  Hosts:
+    items:
+      $ref: '#/definitions/HostInfo'
+    type: array
+    x-go-package: intel/isecl/shvs/v4/types
+  NewHostSgxData:
+    properties:
+      epc_size:
+        type: string
+        x-go-name: EpcSize
+      flc_enabled:
+        type: boolean
+        x-go-name: FlcEnabled
+      host_id:
+        $ref: '#/definitions/UUID'
+      sgx_enabled:
+        type: boolean
+        x-go-name: SgxEnabled
+      sgx_supported:
+        type: boolean
+        x-go-name: SgxSupported
+      tcb_upToDate:
+        type: boolean
+        x-go-name: TcbUptodate
+      validTo:
+        format: date-time
+        type: string
+        x-go-name: ExpiryTime
+    type: object
+    x-go-package: intel/isecl/shvs/v4/swagger/docs
+  NewHostsSgxData:
+    items:
+      $ref: '#/definitions/NewHostSgxData'
+    type: array
+    x-go-package: intel/isecl/shvs/v4/swagger/docs
+  ResponseJSON:
+    properties:
+      ID:
+        $ref: '#/definitions/UUID'
+      Message:
+        type: string
+      Status:
+        type: string
+    type: object
+    x-go-package: intel/isecl/shvs/v4/resource
+  SGX:
+    properties:
+      enabled:
+        type: boolean
+        x-go-name: Enabled
+      meta:
+        $ref: '#/definitions/SGXMeta'
+    type: object
+    x-go-package: intel/isecl/shvs/v4/types
+  SGXHostInfo:
+    properties:
+      description:
+        type: string
+        x-go-name: Description
+      epc_offset:
+        type: string
+        x-go-name: EpcOffset
+      epc_size:
+        type: string
+        x-go-name: EpcSize
+      flc_enabled:
+        type: boolean
+        x-go-name: FlcEnabled
+      host_name:
+        type: string
+        x-go-name: HostName
+      sgx_enabled:
+        type: boolean
+        x-go-name: SgxEnabled
+      sgx_supported:
+        type: boolean
+        x-go-name: SgxSupported
+      tcb_upToDate:
+        type: boolean
+        x-go-name: TcbUptodate
+      uuid:
+        type: string
+        x-go-name: UUID
+    type: object
+    x-go-package: intel/isecl/shvs/v4/resource
+  SGXMeta:
+    properties:
+      epc_size:
+        type: string
+        x-go-name: EpcSize
+      flc_enabled:
+        type: boolean
+        x-go-name: FlcEnabled
+      tcb_upToDate:
+        type: boolean
+        x-go-name: TcbUpToDate
+    type: object
+    x-go-package: intel/isecl/shvs/v4/types
+  UUID:
+    description: |-
+      A UUID is a 128 bit (16 byte) Universal Unique IDentifier as defined in RFC
+      4122.
+    items:
+      format: uint8
+      type: integer
+    type: array
+    x-go-package: github.com/google/uuid
+host: sgx-hvs.com:13000
+info:
+  description: |-
+    Agent pushes the platform enablement info and TCB status to SHVS at regular Interval
+    SGX HVS also exposes API for SGX HUB to get platform-specific values.
+    SGX HVS listening port is user-configurable.
+  license:
+    name: 'Copyright (C) 2020 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: SGX-Host-Verification-Service
+  version: "1.0"
+paths:
+  /host-status:
+    get:
+      description: |
+        Retrieves the host status of the host based on the provided filter criteria from the SHVS database.
+        A valid bearer token is required to authorize this REST call.
+      operationId: hostStateInformation
+      parameters:
+      - description: Unique ID of the host
+        format: uuid
+        in: query
+        name: hostId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the host status.
+          schema:
+            $ref: '#/definitions/HostStatusResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - HostStatus
+      x-sample-call-endpoint: https://sgx-hvs.com:13000/sgx-hvs/v2/host-status?hostId=58cee2f3-d694-48ba-b8d2-e541544f5e22
+      x-sample-call-output: |
+        [
+            {
+                "host_id": "58cee2f3-d694-48ba-b8d2-e541544f5e22",
+                "host_status": "CONNECTED"
+            }
+        ]
+  /hosts:
+    get:
+      description: |
+        Retrieves the list of hosts based on the provided filter criteria from the SHVS database.
+        A valid bearer token is required to authorize this REST call.
+      operationId: queryHosts
+      parameters:
+      - description: Hardware UUID of the host.
+        format: uuid
+        in: query
+        name: HardwareUUID
+        type: string
+      - description: Name of the host.
+        in: query
+        name: HostName
+        type: string
+      - description: Add platform data to the host info.
+        in: query
+        name: getPlatformData
+        type: boolean
+      - description: Add host status to the host info.
+        in: query
+        name: getStatus
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the hosts.
+          schema:
+            $ref: '#/definitions/Hosts'
+      security:
+      - bearerAuth: []
+      tags:
+      - Host
+      x-sample-call-endpoint: https://sgx-hvs.com:13000/sgx-hvs/v2/hosts?HostName=kbshostname
+      x-sample-call-output: |
+        [
+          {
+              "host_ID": "d60c9d18-a272-49b9-bf45-872f28407775",
+              "host_name": "kbshostname",
+              "uuid": "88888888-8887-1214-0516-3707a5a5a5a5"
+          }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Agent pushes the platform enablement info and TCB status to SHVS at regular Interval
+        A valid bearer token is required to authorize this REST call.
+      operationId: registerHost
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/SGXHostInfo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully registered the host.
+          schema:
+            $ref: '#/definitions/ResponseJSON'
+      security:
+      - bearerAuth: []
+      tags:
+      - Host
+      x-sample-call-endpoint: https://sgx-hvs.com:13000/sgx-hvs/v2/hosts
+      x-sample-call-input: |
+        {
+            "host_name": "kbshostname",
+            "description": "Rhel test host",
+            "uuid": "88888888-8887-1214-0516-3707a5a5a5a5",
+            "sgx_supported": true,
+            "flc_enabled": true,
+            "epc_offset": "0x40000000",
+            "epc_size": "3.0 GB",
+            "tcb_upToDate": true
+        }
+      x-sample-call-output: |
+        {
+            "Id": "d60c9d18-a272-49b9-bf45-872f28407775",
+            "Status": "Created",
+            "Message": "SGX Host Data Created Successfully"
+        }
+  /hosts/{id}:
+    delete:
+      description: |
+        Deletes a host associated with the specified host id from the SHVS database.
+        A valid bearer token is required to authorize this REST call.
+        Once done, Please make sure to uninstall the SGX Agent running on the corresponding host.
+      operationId: deleteHost
+      parameters:
+      - description: Unique ID of the host.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the host associated with the specified
+            host id.
+      security:
+      - bearerAuth: []
+      tags:
+      - Host
+      x-sample-call-endpoint: |
+        https://sgx-hvs.com:13000/sgx-hvs/v2/hosts/d60c9d18-a272-49b9-bf45-872f28407775
+      x-sample-call-output: |
+        204 No content
+    get:
+      description: |
+        Retrieves the host details associated with a specified host id from the SHVS database.
+        A valid bearer token is required to authorize this REST call.
+      operationId: getHosts
+      parameters:
+      - description: Unique ID of the host.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Add platform data to the host info.
+        in: query
+        name: getPlatformData
+        type: boolean
+      - description: Add host status to the host info.
+        in: query
+        name: getStatus
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the host associated with the specified
+            host id.
+          schema:
+            $ref: '#/definitions/HostInfo'
+      security:
+      - bearerAuth: []
+      tags:
+      - Host
+      x-sample-call-endpoint: |
+        https://sgx-hvs.com:13000/sgx-hvs/v2/hosts/d60c9d18-a272-49b9-bf45-872f28407775
+      x-sample-call-output: |
+        {
+          "host_ID": "d60c9d18-a272-49b9-bf45-872f28407775",
+          "host_name": "kbshostname",
+          "description": "",
+          "uuid": "88888888-8887-1214-0516-3707a5a5a5a5",
+        }
+  /platform-data:
+    get:
+      description: |
+        Retrieves the platform data of the host based on the provided filter criteria from the SHVS database.
+        A valid bearer token is required to authorize this REST call.
+      operationId: getPlatformData
+      parameters:
+      - description: Name of the host.
+        in: query
+        name: HostName
+        type: string
+      - description: Results returned will be restricted to between the current time
+          and number of minutes prior.
+        in: query
+        name: numberOfMinutes
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the platform data.
+          schema:
+            $ref: '#/definitions/NewHostsSgxData'
+      security:
+      - bearerAuth: []
+      tags:
+      - PlatformData
+      x-sample-call-endpoint: https://sgx-hvs.com:13000/sgx-hvs/v2/platform-data?HostName=kbshostname
+      x-sample-call-output: |
+        [
+            {
+                "epc_size": "2.0 GB",
+                "flc_enabled": true,
+                "host_id": "77baebed-5c94-4872-8da9-a754c3c0f4a1",
+                "sgx_enabled": true,
+                "sgx_supported": true,
+                "tcb_upToDate": true,
+                "validTo": "2020-07-10T17:20:41Z"
+            }
+        ]
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: GetVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://sgx-hvs.com:13000/sgx-hvs/v2/version
+      x-sample-call-output: |-
+        Service Name: SGX Host Verification Service
+        Version: v3.4.0-0f0162ea
+        Build Date: 2021-03-08T12:17:18+0000
+responses:
+  HostInfo:
+    description: HostInfo response payload
+    schema:
+      $ref: '#/definitions/HostInfo'
+  HostStatusResponse:
+    description: HostStatusResponse response payload
+    schema:
+      $ref: '#/definitions/HostStatusResponse'
+  Hosts:
+    description: Hosts response payload
+    schema:
+      $ref: '#/definitions/Hosts'
+  NewHostsSgxData:
+    description: NewHostsSgxData response payload
+    schema:
+      $ref: '#/definitions/NewHostsSgxData'
+  ResponseJSON:
+    description: ResponseJSON response payload
+    schema:
+      $ref: '#/definitions/ResponseJSON'
+  SGXHostInfo:
+    description: SGXHostInfo response payload
+    schema:
+      $ref: '#/definitions/SGXHostInfo'
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
