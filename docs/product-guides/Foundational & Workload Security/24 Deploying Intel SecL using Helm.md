@@ -65,7 +65,7 @@ Persistent storage will not be deleted if the Helm deployment is uninstalled.  B
 
 ---
 **NOTE**
-If the Endorsement Certificate Pre-Registration feature is enabled for the HVS:
+If the Endorsement Certificate (EC) Pre-Registration feature is enabled for the HVS:
 
 ```
   requireEKCertForHostProvision: true # If set to true, worker node EK certificate should be registered in HVS DB, for AIK provisioning step of TA. (Allowed values: `true`\`false`)

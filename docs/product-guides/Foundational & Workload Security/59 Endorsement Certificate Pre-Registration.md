@@ -1,6 +1,6 @@
 # Endorsement Certificate Pre-Registration
 
-Added in the 4.2 release, this feature adds an additional pre-registration step for Trust Agent hosts.  When this feature is enabled, Trust Agent provisioning and registration will be denied unless the Endorsement Certificate from teh TPM of the Trust Agent host is known to the Verification Service.
+Added in the 4.2 release, this feature adds an additional pre-registration step for Trust Agent hosts.  When this feature is enabled, Trust Agent provisioning and registration will be denied unless the Endorsement Certificate (EC) from the TPM of the Trust Agent host is known to the Verification Service.
 
 This feature is intended for deployments where physical control of compute resources is limited, as in some 5G wireless, Edge, or IoT device deployments.  By pre-registering the Endorsement Certificate of the TPM before shipping the equipment to its physical destination, the HVS can be restricted to allow provisioning and registration only with known TPMs.  This mitigates the possibility of a malicious host being registered from a remote location where physical security may be weaker.
 
