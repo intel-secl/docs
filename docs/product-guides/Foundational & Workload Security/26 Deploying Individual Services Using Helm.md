@@ -58,6 +58,8 @@ Intel SecL-DC can optionally integrate with Kubernetes to control the placement 
 |isecl-helm/admission-controller    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Admision C... |
 |isecl-helm/isecl-controller        |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
 |isecl-helm/isecl-scheduler         |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/ihub                    |                    4.2.0         |  v4.2.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+
 
 ## Downloading the Deployment Answer Files
 
