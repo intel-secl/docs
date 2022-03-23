@@ -2,7 +2,7 @@ Intel® Security Libraries for Datacenter
 =========================================
 
 # Current Release
-INTEL® SECL - DC V4.1 GA RELEASE (NEW!)
+INTEL® SECL - DC V4.2 BETA RELEASE (NEW!)
  
 # WHAT IS INTEL® SECL - DC?
 Hardware-based cloud security solutions provide a higher level of protection as compared to software-only security measures. There are many Intel platform security technologies, which can be used to secure customers' data. Customers have found adopting and deploying these technologies at a broad scale challenging, due to the lack of solution integration and deployment tools. Intel® Security Libraries for Data Centers (Intel® SecL - DC) was built to aid our customers in adopting and deploying Intel Security features, rooted in silicon, at scale.

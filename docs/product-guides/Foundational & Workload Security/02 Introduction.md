@@ -41,7 +41,7 @@ Because Intel® BtG only measures/verifies the integrity of the IBB, it’s impo
 Intel® SecL-DC supports several options for Trusted Computing, depending
 on the features available on the platform.
 
-  ![hardware-options](./images/tboot options.png)
+  ![hardware-considerations](./images/hardware_considerations.png)
 
 
 
@@ -61,13 +61,15 @@ Both local and remote attestation can be used concurrently. However, Intel® Sec
 
 Platform Integrity is the use case enabled by the specific implementation of the Chain of Trust and Remote Attestation concepts. This involves the use of a Root of Trust to begin an unbroken chain of platform measurements at server boot time, with measurements extended to the Trusted Platform Module and compared against expected values to verify the integrity of measured components. This use case is foundational for other Intel® SecL use cases.
 
-### Data Sovereignty
+### Data Sovereignty / Trusted Workload Placement
 
 Data Sovereignty builds on the Platform Integrity use case to allow physical TPMs to be written with Asset Tags containing any number of key/value pairs. This use case is typically used to identify the geographic location of the physical server, but can also be used to identify other attributes. For example, the Asset Tags provided by the Data Sovereignty use case could be used to identify hosts that meet specific compliance requirements and can run controlled workloads.
 
 ### Application Integrity
 
 Added in the Intel® SecL-DC 1.5 release, Application Integrity allows any files and folders on a Linux host system to be included in the Chain of Trust integrity measurements. These measurements are attested by the Verification Service along with the other platform measurements, and are included in determining the host’s overall Trust status. The measurements are performed by a measurement agent called tbootXM, which is built into initrd during Trust Agent installation. Because initrd is included in other Trusted Computing measurements, this allows Intel® SecL-DC to carry the Chain of Trust all the way to the Linux filesystem.
+
+This feature is deprecated as of the 4.2 Beta release.
 
 ### Workload Confidentiality for Virtual Machines and Containers
 
@@ -78,6 +80,8 @@ Workload Confidentiality begins with the Workload Policy Manager (WPM) and a qco
 This functionality means that a physical host must pass policy requirements in order to gain access to the image key, and the image will be encrypted at rest both in image storage and on the compute host.
 
 Beginning with the Intel® SecL-DC version 2.1 release, the Key Broker now supports 3rd-party key managers that are KMIP-compliant. The Key Broker has been updated to use the “gemalto kmip-go” client.
+
+Virtual Machine confidentiality is deprecated as of the 4.2 Beta release.
 
 ### Signed Flavors
 
@@ -92,3 +96,5 @@ Added in the Intel® SecL-DC version 2.1 release, this feature provides a Chain 
 When libvirt initiates a VM Start, the Intel® SecL-DC Workload Agent will create a report for the VM that associates the VM’s trust status with the trust status of the host launching the VM. This VM report will be retrievable via the Workload Service, and contains the hardware UUID of the physical server hosting the VM. This UUID can be correlated to the Trust Report of that server at the time of VM launch, creating an audit trail validating that the VM launched on a trusted platform. A new report is created for every VM Start, which includes actions like VM migrations, so that each time a VM is launched or moved a new report is generated ensuring an accurate trust status.
 
 By using Platform Integrity and Data Sovereignty-based orchestration (or Workload Confidentiality with encrypted worker VMs) for the Virtual Machines to ensure that the virtual Kubernetes Worker nodes only launch on trusted hardware, these VM trust reports provide an auditing capability to extend the Chain of Trust to the virtual Worker Nodes.
+
+Because virtual machine functionality is deprecated as of the 4.2 Beta release, this feature is also deprecated.

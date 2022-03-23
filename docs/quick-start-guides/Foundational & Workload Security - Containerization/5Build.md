@@ -112,27 +112,6 @@ systemctl restart docker
   chmod +x fs-prereq.sh
   ./fs-prereq.sh -s
   ```
-
-* Install skopeo
-
-  ```shell
-  # RHEL 8.x
-  dnf install -y skopeo
-
-  # Ubuntu 18.04
-  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo 
-  
-  # Ubuntu 20.04
-  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo 
-
-  # Ubuntu-18.04/Ubuntu-20.04
-  apt-key add -
-  apt-get update
-  apt-get -y upgrade
-  apt-get -y install skopeo
-  ```
   
 * Build
 
@@ -168,27 +147,6 @@ systemctl restart docker
   cd utils/build/foundational-security/
   chmod +x fs-prereq.sh
   ./fs-prereq.sh -s
-  ```
-
-* Install skopeo
-
-  ```shell
-  # RHEL 8.x
-  dnf install -y skopeo
-
-  # Ubuntu 18.04
-  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04/Release.key | sudo 
-  
-  # Ubuntu 20.04
-  echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo 
-
-  # Ubuntu-18.04/Ubuntu-20.04
-  apt-key add -
-  apt-get update
-  apt-get -y upgrade
-  apt-get -y install skopeo
   ```
   
 * Build

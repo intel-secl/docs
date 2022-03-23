@@ -69,10 +69,15 @@ nav:
   - Product Guide: 
       - Foundational and Workload Security:
         -  Product Guide: product-guides/Foundational & Workload Security/01.md
-        -  Introduction: product-guides/Foundational & Workload Security/Introduction.md
+        -  Introduction: product-guides/Foundational & Workload Security/02 Introduction.md
         -  Intel® Security Libraries Components: product-guides/Foundational & Workload Security/20 Intel® Security Libraries Components.md
         # -  Building Binary Installers: product-guides/Foundational & Workload Security/22 Building Binary Installers.md
-        -  Hardware Considerations: product-guides/Foundational & Workload Security/23 Hardware Considerations.md
+        -  Hardware Security Technology Considerations: product-guides/Foundational & Workload Security/23 Hardware Security Technology Considerations.md
+        -  Building the Intel SecL-DC Container Images: product-guides/Foundational & Workload Security/23.9 Building the Intel SecL-DC Container Images.md
+        -  Deploying Intel SecL-DC Using Helm: 
+              -  Deploying Intel SecL-DC Using Helm: product-guides/Foundational & Workload Security/24 Deploying Intel SecL using Helm.md
+              -  Deploying Intel SecL Use Cases Using Helm: product-guides/Foundational & Workload Security/25 Deploying Intel SecL Use Cases Using Helm.md
+              -  Deploying Individual Services Using Helm: product-guides/Foundational & Workload Security/26 Deploying Individual Services Using Helm.md
         # -  Recommended Service Layout: product-guides/Foundational & Workload Security/24 Recommended Service Layout.md
         # -  Intel Security Libraries Binary Installation: 
         #     - Intel Security Libraries Binary Installation: product-guides/Foundational & Workload Security/25 Intel Security Libraries Binary Installation.md
@@ -91,6 +96,7 @@ nav:
         # -  Intel® Security Libraries Container Deployment: product-guides/Foundational & Workload Security/30 Intel® Security Libraries Container Deployment.md
         -  Authentication: product-guides/Foundational & Workload Security/40 Authentication.md
         -  Connection Strings: product-guides/Foundational & Workload Security/50 Connection Strings.md
+        -  Endorsement Certificate Pre-Registration: product-guides/Foundational & Workload Security/59 Endorsement Certificate Pre-Registration.md
         -  Platform Integrity Attestation: product-guides/Foundational & Workload Security/60 Platform Integrity Attestation.md
         -  Cloud Platform Integration: product-guides/Foundational & Workload Security/65 Cloud Platform Integration.md
         # -  Workload Confidentiality: product-guides/Foundational & Workload Security/70 Workload Confidentiality.md
