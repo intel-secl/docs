@@ -41,7 +41,7 @@ Because Intel® BtG only measures/verifies the integrity of the IBB, it’s impo
 Intel® SecL-DC supports several options for Trusted Computing, depending
 on the features available on the platform.
 
-  ![hardware-options](./images/tboot options.png)
+  ![hardware-considerations](./images/hardware_considerations.png)
 
 
 
