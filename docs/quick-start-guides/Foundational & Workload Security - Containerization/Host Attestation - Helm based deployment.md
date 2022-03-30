@@ -37,19 +37,22 @@
   ```
 
   * Helm 3 installed
-   ```shell
+  
+  ```shell
    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
    chmod 700 get_helm.sh
    ./get_helm.sh
-   ```
+  ```
 
   * Add the isecl-helm charts in helm chart repository
-   ```shell
+  
+  ```shell
   helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
   helm repo update
   ```
 
   * To find list of avaliable charts
+
   ```shell
   helm search repo
   ```
