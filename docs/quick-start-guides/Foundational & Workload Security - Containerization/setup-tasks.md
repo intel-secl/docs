@@ -1,5 +1,5 @@
 ### Available setup task for Authservice/AAS
-```shell script
+```shell
     all                      Runs all setup tasks
     download-ca-cert         Download CMS root CA certificate
     download-cert-tls        Download CA certificate from CMS for tls
@@ -11,7 +11,7 @@
     update-service-config    Sets or Updates the Service configuration
 ```
 
-```shell script
+```shell
 Following environment variables are required for download-ca-cert
     CMS_BASE_URL                CMS base URL in the format https://{{cms}}:{{cms_port}}/cms/v1/
     CMS_TLS_CERT_SHA384         SHA384 hash value of CMS TLS certificate
@@ -83,19 +83,19 @@ Following environment variables are required for update-service-config setup:
 ```
 
 Variables that needs to be updated or added under aas-credentials secrets:
-```shell script
+```shell
 AAS_ADMIN_USERNAME   
 AAS_ADMIN_PASSWORD 
 ```
 
 Variables that needs to be updated or added under aasdb-credentials secrets:
-```shell script
+```shell
 AAS_DB_USERNAME   
 AAS_DB_PASSWORD 
 ```
 
 ### Available setup task for CMS
-```shell script
+```shell
     all                       Runs all setup tasks
     root-ca                   Creates a self signed Root CA key pair in /etc/cms/root-ca/ for quality of life
     intermediate-ca           Creates a Root CA signed intermediate CA key pair(signing, tls-server and tls-client) in /etc/cms/intermediate-ca/ for quality of life
@@ -104,7 +104,7 @@ AAS_DB_PASSWORD
     update-service-config     Sets or Updates the Service configuration
 ```
 
-```shell script
+```shell
 Following environment variables are required for tls setup:
     SAN_LIST    TLS SAN list
 
@@ -143,7 +143,7 @@ Following environment variables are required for intermediate-ca setup:
 ```
 
 ### Available setup task for HVS
-```shell script
+```shell
         all                             Runs all setup tasks
         database                        Setup hvs database
         create-default-flavorgroup      Create default flavor groups in database
@@ -159,7 +159,7 @@ Following environment variables are required for intermediate-ca setup:
         update-service-config           Sets or Updates the Service configuration
 
 ```
-```shell script
+```shell
 Following environment variables are required for Database related setups:
     DB_SSL_CERT                 Database SSL certificate, or use HVS_DB_SSLCERT alternatively
     DB_SSL_CERT_SOURCE          Database SSL certificate to be copied from, or use HVS_DB_SSLCERTSRC alternatively
@@ -278,19 +278,19 @@ Following environment variables are required for Database related setups:
 ```
 
 Variables that needs to be updated or added under hvs-credentials secrets:
-```shell script
+```shell
 HVS_ADMIN_USERNAME   
 HVS_ADMIN_PASSWORD 
 ```
 
 Variables that needs to be updated or added under hvsdb-credentials secrets:
-```shell script
+```shell
 HVS_DB_USERNAME   
 HVS_DB_PASSWORD 
 ```
 
 ### Available setup task for IHub
-```shell script
+```shell
     all                                 Runs all setup tasks
     download-ca-cert                    Download CMS root CA certificate
     download-cert-tls                   Download CA certificate from CMS for tls
@@ -301,7 +301,7 @@ HVS_DB_PASSWORD
     update-service-config               Sets or Updates the Service configuration
 ```
 
-```shell script
+```shell
 Following environment variables are required for update-service-config setup:
     SERVICE_USERNAME    The service username as configured in AAS
     SERVICE_PASSWORD    The service password as configured in AAS
@@ -339,7 +339,7 @@ Following environment variables are required for Kubernetes tenant:
 ```
 
 ### Available setup task for TA
-```shell script
+```shell
 all                         Runs all setup tasks to provision the trust agent. This command can be omitted with running only tagent setup
 download-ca-cert            Fetches the latest CMS Root CA Certificates, overwriting existing files.
 download-cert               Fetches the latest CMS Root CA Certificates, overwriting existing files.
@@ -354,7 +354,7 @@ update-service-config       Updates service configuration
 define-tag-index            Allocates nvram in the TPM for use by asset tags.
 ```
 
-```shell script
+```shell
    all                                      - Runs all setup tasks to provision the trust agent. This command can be omitted with running only tagent setup
                                                 Required environment variables [in env/trustagent.env]:
                                                   - AAS_API_URL=<url>                                 : AAS API URL

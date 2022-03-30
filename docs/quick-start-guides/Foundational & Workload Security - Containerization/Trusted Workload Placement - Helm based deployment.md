@@ -44,20 +44,20 @@
    ```
 
   * Add the isecl-helm charts in helm chart repository
-  ```shell script
+  ```shell
    helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
    helm repo update
    ```
 
   * To find list of avaliable charts
-   ```shell script
+   ```shell
    helm search repo
    ```
 
   * NFS setup
   
     - NFS server setup
-        ```shell script 
+        ```shell 
          curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
          chmod +x setup-nfs.sh
         ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
@@ -159,7 +159,7 @@ kubectl create secret tls admission-controller-certs --cert=/tmp/adm-certs/tls-c
 ```
 
 Generate CA Bundle
-```shell script
+```shell
 kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
 ```
 Add the output base64 encoded string to value in caBundle sub field of admission-controller in usecase/trusted-workload-placement/values.yml in case of usecase deployment chart.
@@ -246,7 +246,7 @@ Services which has database deployment associated with it needs db ssl certifica
 
 Download the values.yaml for each of the services.
 
-```shell script
+```shell
 curl -fsSL -o cleanup-secrets.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml
 curl -fsSL -o cms.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/cms/values.yaml
 curl -fsSL -o aasdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml
@@ -264,7 +264,7 @@ curl -fsSL -o admission-controller.yaml https://raw.githubusercontent.com/intel-
 Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
-```shell script
+```shell
 helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
 helm pull isecl-helm/cms
@@ -292,12 +292,12 @@ helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admissi
 ```
 
 To uninstall a chart
-```shell script
+```shell
 helm uninstall <release-name> -n isecl
 ```
 
 To list all the helm chart deployments 
-```shell script
+```shell
 helm list -A
 ```
 
@@ -318,7 +318,7 @@ Cleanup steps that needs to be done for a fresh deployment
 ### Usecase based chart deployment (using umbrella charts)
 
 Download the values.yaml file for Trusted Workload Placement usecase chart
-```shell script
+```shell
 curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/trusted-workload-placement/values.yaml
 ```
 

@@ -513,7 +513,7 @@ systemctl restart snap.microk8s.daemon-kubelet.service
 ```
 
 In order to clean single service and bring up again on single node without data, config from previous deployment
-```shell script
+```shell
 ./skc-bootstrap.sh down <service-name>
 rm -rf /etc/<service-name>
 rm -rf /var/log/<service-name>
@@ -670,7 +670,7 @@ systemctl restart kubelet
 In order to clean single service and bring up again on multi node without data, config from previous deployment
 ```./skc-bootstrap.sh down <service-name>```
 log into nfs system 
-```shell script
+```shell
 
 rm -rf /<nfs-mount-path>/isecl/<service-name>/config
 rm -rf /<nfs-mount-path>/isecl/<service-name>/logs

@@ -6,7 +6,7 @@
 
 * Push all container images to docker registry. Example below
 
-  ```shell script
+  ```shell
   # Without TLS enabled
   skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/<image-name>:<image-tag> --dest-tls-verify=false
   
@@ -17,27 +17,27 @@
   * Non Managed Kubernetes Cluster up and running
   
   * Helm 3 installed
-   ```shell script
+   ```shell
    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
    chmod 700 get_helm.sh
    ./get_helm.sh
    ```  
   
   * Add the isecl-helm charts in helm chart repository
-  ```shell script
+  ```shell
   helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
   helm repo update
   ```
   
   * To find list of avaliable charts
-  ```shell script
+  ```shell
   helm search repo
   ```  
   
   * NFS setup
   
     - NFS server setup
-        ```shell script 
+        ```shell 
          curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
          chmod +x setup-nfs.sh
         ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
@@ -156,7 +156,7 @@ hvsdb-cert-generator
 
 Services which has database deployment associated with it needs db ssl certificates to be generated as secrets, this is done by deploying \<service\>db-cert-generator job.
 
-```shell script
+```shell
 curl -fsSL -o cleanup-secrets.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml
 curl -fsSL -o cms.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/cms/values.yaml
 curl -fsSL -o aasdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml
@@ -171,7 +171,7 @@ curl -fsSL -o nats.yaml https://raw.githubusercontent.com/intel-secl/helm-charts
 Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
-```shell script
+```shell
 helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
 helm pull isecl-helm/cms
@@ -193,12 +193,12 @@ helm install nats isecl-helm/nats -f nats.yaml -n isecl
 ```
 
 To uninstall a chart
-```shell script
+```shell
 helm uninstall <release-name> -n isecl
 ```
 
 To list all the helm chart deployments 
-```shell script
+```shell
 helm list -A
 ```
 
@@ -218,7 +218,7 @@ Cleanup steps that needs to be done for a fresh deployment
 ### Usecase based chart deployment (using umbrella charts)
 
 Download the values.yaml file for TWP Control Plane usecase chart
-```shell script
+```shell
 curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-control-plane/values.yaml
 ```
 
@@ -241,7 +241,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 
 #### Use Case charts Deployment
 
-```shell script
+```shell
 helm pull isecl-helm/Trusted-Workload-Placement-Control-Plane
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-Plane --create-namespace -n <namespace>
 ```
