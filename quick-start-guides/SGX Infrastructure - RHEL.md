@@ -534,20 +534,25 @@ Update orchestrator.conf with the following
   - Deployment system IP address
   - SAN List (a list of ip address and hostname for the deployment system)
   - Network Port numbers for CMS, AAS, SCS and SHVS
-  - Install Admin and CSP Admin credentials
+  - Install Admin and CCC Admin credentials
   - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
   - System IP address where Kubernetes or Openstack is deployed
-  - Netowrk Port Number of Kubernetes or Openstack Keystone/Placement Service
+  - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
+  - SHVS Service Account Credentials
   - Database name, Database username and password for SHVS
+  - IHUB Service Account Credentials
 Update enterprise_skc.conf with the following
   - Deployment system IP address
   - SAN List (a list of ip address and hostname for the deployment system)
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS
-  - Install Admin and CSP Admin credentials
+  - Install User Admin and CCC Admin credentials
+  - AAS Service Account Credentials
+  - SCS Service Account Credentials
+  - KBS Service Account Credentials
   - Database name, Database username and password for AAS and SCS services
   - Intel PCS Server API URL and API Keys
   - Key Manager can be set to either Directory or KMIP
-  - KMIP server configuration if KMIP is set
+  - KMIP server configuration if KMIP is set (KMIP Port, KMIP Server Certificates Path)
 Save and Close
 ./install_skc.sh
 ```
@@ -564,12 +569,18 @@ Copy the binaries directory generated in the build system system to the /root/ d
 Update csp_skc.conf with the following
   - CSP system IP Address
   - SAN List (a list of ip address and hostname for the CSP system)
-  - Network Port numbers for CMS, AAS, SCS and SHVS
+  - Network Port numbers for CMS, AAS, SCS, SHVS and K8S
   - Install Admin and CSP Admin credentials
-  - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - SHVS Service Account Credentials	
+  - SHVS DB Name and SHVS DB Credentials	
+  - IHUB Service Account Credentials
+  - TENANT (Set either as KUBERNETES or OPENSTACK)
   - System IP address where Kubernetes or Openstack is deployed
-  - Netowrk Port Number of Kubernetes or Openstack Keystone/Placement Service
-  - Database name, Database username and password for AAS, SCS and SHVS services
+  - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
   - Intel PCS Server API URL and API Keys
 Save and Close
 ./install_csp_skc.sh
@@ -694,10 +705,15 @@ Update enterprise_skc.conf with the following
   - Enterprise system IP address
   - SAN List (a list of ip address and hostname for the Enterprise system)
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS
-  - Install Admin credentials
-  - Database name, Database username and passwords for AAS and SCS services
+  - Install Admin User Credentials
+  - CCC Admin User Credentials (Custom Claim Creator Credentials are only required if all components would be deployed on same system)
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - KBS Service Account Credentials
   - Intel PCS Server API URL and API Keys
-  - KMIP server configuration if KMIP is set
+  - KMIP server configuration if KMIP is set (KMIP Port, KMIP Server Certificates Path)
 Save and Close
 ./install_enterprise_skc.sh
 ```
@@ -710,7 +726,7 @@ Copy sgx_agent.tar, sgx_agent.sha2 and agent_untar.sh from binaries directoy to 
 
 Edit agent.conf with the following
   - CSP system IP address where CMS, AAS, SHVS and SCS services deployed
-  - CSP Admin credentials (same which are provided in service configuration file. for ex: csp_skc.conf, orchestrator.conf or skc.conf)
+  - CSP Admin credentials (same which are provided in service configuration file. for ex: csp_skc.conf, orchestrator.conf or enterprise_skc.conf)
   - Network Port numbers for CMS, AAS, SCS and SHVS
   - Token validity period in days
   - CMS TLS SHA Value (Run "cms tlscertsha384" on CSP system)
@@ -741,12 +757,12 @@ Copy the token printed on console.
 
 Update skc_library.conf with the following
   - IP address for CMS and KBS services deployed on Enterprise system
+  - KBS_HOSTNAME should point to the hostnam where KBS is deployed
   - CSP_CMS_IP should point to the IP of CMS service deployed on CSP system
   - CSP_SCS_IP should point to the IP of SCS service deployed on CSP system
-  - Hostname of the Enterprise system where KBS is deployed
   - Network Port numbers for CMS and SCS services deployed on CSP system
   - Network Port numbers for CMS and KBS services deployed on Enterprise system
-  - For Each SKC Library installation on a SGX compute node, please change SKC_USER (should be same as SKC_USER provided in create_roles.conf)
+  - For Each SKC Library installation on a SGX compute node, please add SKC_USER (should be same as SKC_USER provided in create_roles.conf)
   - SKC_TOKEN with the token copied from previous step
 
 Save and Close
