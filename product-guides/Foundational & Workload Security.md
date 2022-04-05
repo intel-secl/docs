@@ -8015,22 +8015,22 @@ wlagent setup \[task\] Run setup task
 
 ##### Available Tasks for setup
 
-###### SigningKey
+###### signing-key
 
 Generate a TPM signing key
 
-###### BindingKey
+###### binding-key
 
 Generate a TPM binding key
 
-###### RegisterSigningKey
+###### register-signing-key
 
 Register a signing key with the host verification service
 
 -   Environment variable BEARER\_TOKEN=\<token\> for authenticating with
     Verification service
 
-###### RegisterBindingKey
+###### register-binding-key
 
 Register a binding key with the host verification service
 
