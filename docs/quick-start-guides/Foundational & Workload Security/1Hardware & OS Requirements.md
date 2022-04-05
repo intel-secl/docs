@@ -11,7 +11,7 @@
 
 ## OS Requirements
 
-* `RHEL 8.3` OS
+* `RHEL 8.4` OS
 * `rhel-8-for-x86_64-baseos-rpms` and `rhel-8-for-x86_64-appstream-rpms` repositories need to be enabled on build machine and remote machines
 * Date and time should be in sync across the machines
 

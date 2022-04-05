@@ -64,10 +64,7 @@ deployment in the `isecl` namespace.
 *  Create `hostattributes.crd.isecl.intel.com` CRD
 
    ```shell
-   #1.14<=k8s_version<=1.16
-   kubectl apply -f yamls/crd-1.14.yaml
-   
-   #1.16<=k8s_version<=1.18
+   #1.17<=k8s_version<=1.22
    kubectl apply -f yamls/crd-1.17.yaml
    ```
 
