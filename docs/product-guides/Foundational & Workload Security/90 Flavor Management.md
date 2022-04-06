@@ -947,7 +947,7 @@ This will apply for RedHat hosts with TPM2.0 and tboot enabled.  If a Flavor is 
 ```json
                "host_info": {
                     "os_name": "RedHatEnterprise",
-                    "os_version": "8.3",
+                    "os_version": "8.4",
                     "os_type": "linux",
                     "bios_version": "SE11111.111.11.11.1111.11111111111",
                     "vmm_name": "",

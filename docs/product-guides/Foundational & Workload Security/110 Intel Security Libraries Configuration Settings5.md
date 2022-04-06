@@ -52,6 +52,7 @@ Usage of authservice setup:
                 admin                    Add authservice admin username and password to database and assign respective
                                          roles to the user
                 jwt                      Create jwt signing key and jwt certificate signed by CMS
+                create-credentials       Generates credentials to support third party authentication and authorization
                 update-service-config    Sets or Updates the Service configuration
 
 

@@ -24,9 +24,9 @@ Config: /etc/ihub
 Log: /var/log/ihub
 
 #Workload Service
-Config: /etc/workload-service
-Logs: /var/log/workload-service
-Pg-data: /usr/local/kube/data/workload-service
+Config: /etc/wls
+Logs: /var/log/wls
+Pg-data: /usr/local/kube/data/wls
 
 #Key-Broker-Service
 Config: /etc/kbs

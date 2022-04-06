@@ -75,7 +75,7 @@ usage : wpm setup [<tasklist>]
 
 #### wpm setup RegisterEnvelopeKey
 
-#### wpm setup download_ca_cert [--force]
+#### wpm setup download-ca-cert [--force]
 
 \- Download CMS root CA certificate
 

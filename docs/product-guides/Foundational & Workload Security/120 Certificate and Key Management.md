@@ -169,7 +169,7 @@ the following commands (note: environment variables will need to be set;
 typically these are the same variables set in the service installation
 .env file):
 
--   `<servicename> download_ca_cert`
+-   `<servicename> download-ca-cert`
 -   Download CMS root CA certificate
 
 -   Environment variable CMS\_BASE\_URL=\<url\> for CMS API url

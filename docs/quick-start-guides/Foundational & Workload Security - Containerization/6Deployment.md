@@ -38,7 +38,7 @@
       ```
 
   * Workload Security
-    * Container Confidentiality with CRIO(>=v1.21) runtime
+    * Container Confidentiality with CRIO(>=v1.22) runtime
       
       * `Tboot-1.10.1`  or later to be installed for non `SUEFI` servers. [Tboot installation Details](https://github.com/intel-secl/docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#tboot-installation) 
         

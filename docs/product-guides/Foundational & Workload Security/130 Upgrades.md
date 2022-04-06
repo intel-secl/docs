@@ -323,7 +323,7 @@ kubectl apply -f <componenet>/rollback.yml
 #For WLA
 kubectl apply -f <componenet>/<component>-rollback.yml
 ```
-2. Update the image name to previous version in `<component>/daemonset.yml` and `<component>/daemonset-suefi.yml`(if upgrade path is 4.0 -> 4.1, then update image tag to 4.0)
+2. Update the image name to previous version in `<component>/daemonset.yml` and `<component>/daemonset-suefi.yml`(if upgrade path is 4.1 -> 5.0, then update image tag to 4.1)
 ```shell
 kubectl apply -f <component>/daemonset.yml
 ```

@@ -30,7 +30,7 @@
 ## Configuration Options
 
 The Workload Service configuration can be found in
-`/etc/workload-service/config.yml`:
+`/etc/wls/config.yml`:
 
 ```
 port: 5000
@@ -65,7 +65,7 @@ executed only as the Root user:
 
 Syntax:
 
-`workload-service <command>`
+`wls <command>`
 
 ###  Help
 
@@ -73,21 +73,21 @@ Available Commands:
 
 `help` Show this help message
 
-`start` Start workload-service
+`start` Start wls
 
-`stop` Stop workload-service
+`stop` Stop wls
 
-`status` Determine if workload-service is running
+`status` Determine if wls is running
 
-`uninstall \ [--purge\` Uninstall workload-service. --purge option needs to be applied to remove configuration and data files
+`uninstall \ [--purge\` Uninstall wls. --purge option needs to be applied to remove configuration and data files
 
-`setup` Setup workload-service for use
+`setup` Setup wls for use
 
-Setup command usage: workload-service <command\> [task...]
+Setup command usage: wls <command\> [task...]
 
 Available tasks for setup:
 
-download_ca_cert
+download-ca-cert
 
 \- Download CMS root CA certificate
 
@@ -127,7 +127,7 @@ server Setup http server on given port
 
 -Environment variable WLS\_PORT=<port> should be set
 
-database Setup workload-service database
+database Setup wls database
 
 Required env variables are:
 
@@ -154,121 +154,38 @@ aasconnection Setup to create workload service user roles in AAS
 
 \- BEARER_TOKEN : Bearer Token
 
-logs Setup workload-service log level
+logs Setup wls log level
 
 \- Environment variable WLS_LOG_LEVEL=<log level\> should be set
 
 ####  start
 
-Start workload-service
+Start wls
 
 ####  stop
 
-Stop workload-service
+Stop wls
 
 ####  status
 
-Determine if workload-service is running
+Determine if wls is running
 
 ####  uninstall
 
-\[--purge\] Uninstall workload-service. --purge option needs to be
+\[--purge\] Uninstall wls. --purge option needs to be
 applied to remove configuration and data files
 
 ####  setup
 
-Setup command usage:     workload-service setup [task] [--force]
+Setup command usage:     wls setup [task] [--force]
 
 Available tasks for setup:
    all                              Runs all setup tasks
-                                    Required env variables:
-                                        - get required env variables from all the setup tasks
-                                    Optional env variables:
-                                        - get optional env variables from all the setup tasks
-
-   download_ca_cert                 Download CMS root CA certificate
-                                    - Option [--force] overwrites any existing files, and always downloads new root CA cert
-                                    Required env variables if WLS_NOSETUP=true or variables not set in config.yml:
-                                        - AAS_API_URL=<url>                            : AAS API url
-                                        - HVS_URL=<url>                                : HVS API Endpoint URL
-                                        - WLS_SERVICE_USERNAME=<service username>      : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>      : WLS service password
-                                    Required env variables specific to setup task are:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-
-   download_cert TLS                Generates Key pair and CSR, gets it signed from CMS
-                                    - Option [--force] overwrites any existing files, and always downloads newly signed WLS TLS cert
-                                    Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                            : AAS API url
-                                        - HVS_URL=<url>                                : HVS API Endpoint URL
-                                        - WLS_SERVICE_USERNAME=<service username>      : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>      : WLS service password
-                                    Required env variables specific to setup task are:
-                                        - CMS_BASE_URL=<url>                       : for CMS API url
-                                        - BEARER_TOKEN=<token>                     : for authenticating with CMS
-                                        - SAN_LIST=<CSV List>                      : List of FQDNs to be added to the SAN field in TLS cert to override default specified in config
-                                    Optional env variables specific to setup task are:
-                                        - KEY_PATH=<key_path>                      : Path of file where TLS key needs to be stored
-                                        - CERT_PATH=<cert_path>                    : Path of file/directory where TLS certificate needs to be stored
-                                        - WLS_TLS_CERT_CN=<COMMON NAME>            : to override default specified in config
-
-   database                         Setup workload-service database
-                                    - Option [--force] overwrites existing database config
-                                    Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                               : AAS API url
-                                        - HVS_URL=<url>                                   : HVS API Endpoint URL
-                                        - WLS_SERVICE_USERNAME=<service username>         : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>         : WLS service password
-                                    Required env variables specific to setup task are:
-                                        - WLS_DB_HOSTNAME=<db host name>                   : database host name
-                                        - WLS_DB_PORT=<db port>                            : database port number
-                                        - WLS_DB=<db name>                                 : database schema name
-                                        - WLS_DB_USERNAME=<db user name>                   : database user name
-                                        - WLS_DB_PASSWORD=<db password>                    : database password
-                                    Optional env variables specific to setup task are:
-                                        - WLS_DB_SSLMODE=<db sslmode>                      : database SSL Connection Mode <disable|allow|prefer|require|verify-ca|verify-full>
-                                        - WLS_DB_SSLCERT=<ssl certificate path>            : database SSL Certificate target path. Only applicable for WLS_DB_SSLMODE=<verify-ca|verify-full>. If left empty, the cert will be copied to /etc/workload-service/wlsdbsslcert.pem
-                                        - WLS_DB_SSLCERTSRC=<ssl certificate source path>  : database SSL Certificate source path. Mandatory if WLS_DB_SSLCERT does not already exist
-
-   server                           Setup http server on given port
-                                    - Option [--force] overwrites existing server config
-                                    Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                               : AAS API url
-                                        - HVS_URL=<url>                                   : HVS API Endpoint URL
-                                    Optional env variables specific to setup task are:
-                                        - WLS_PORT=<port>    : WLS API listener port
-                                        - WLS_SERVICE_USERNAME=<service username>         : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>         : WLS service password
-
-   hvsconnection                    Setup task for setting up the connection to the Host Verification Service(HVS)
-                                    - Option [--force] overwrites existing HVS config
-                                    Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                               : AAS API url
-                                        - WLS_SERVICE_USERNAME=<service username>         : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>         : WLS service password
-                                    Required env variable specific to setup task is:
-                                        - HVS_URL=<url>      : HVS API Endpoint URL
-
-   download_saml_ca_cert            Setup to download SAML CA certificates from HVS
-                                    - Option [--force] overwrites existing certificate
-                                                                        Required env variables if WLS_NOSETUP=true or variable not set in config.yml:
-                                        - CMS_BASE_URL=<url>                              : for CMS API url
-                                        - CMS_TLS_CERT_SHA384=<CMS TLS cert sha384 hash>  : to ensure that WLS is talking to the right CMS instance
-                                        - AAS_API_URL=<url>                               : AAS API url
-                                        - WLS_SERVICE_USERNAME=<service username>         : WLS service username
-                                        - WLS_SERVICE_PASSWORD=<service password>         : WLS service password
-                                                                        Required env variables specific to setup task are:
-                                        - HVS_URL=<url>      : HVS API Endpoint URL
-                                        - BEARER_TOKEN=<token> for authenticating with HVS
-
+   download-ca-cert                 Download CMS root CA certificate
+   download-cert-tls                Generates Key pair and CSR, gets it signed from CMS
+   database                         Setup wls database
+   download-saml-ca-cert            Setup to download SAML CA certificates from HVS
+   update-service-config            Sets or Updates the Service configuration  
 ### Directory Layout
 
 The Workload Service installs by default to /opt/wls with the following
