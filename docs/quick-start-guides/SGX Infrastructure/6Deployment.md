@@ -56,9 +56,12 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
-  - Database name, Database username and password for AAS and SCS services
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - KBS Service Account Credentials	
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
-  - Key Manager (can be set to either Directory or KMIP)
   - KMIP server configuration if KMIP is set
 
 If ECDSA Quote verification response needs to be signed, please set SIGN_QUOTE_RESPONSE=true in /root/binaries/env/sqvs.env
@@ -81,10 +84,16 @@ Update csp_skc.conf
   - SAN List (a list of ip address and hostname for the CSP system)
   - Network Port numbers for CMS, AAS, SCS and SHVS
   - Install Admin and CSP Admin credentials
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - SHVS Service Account Credentials	
+  - SHVS DB Name and SHVS DB Credentials	
+  - IHUB Service Account Credentials
   - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
   - System IP address where Kubernetes or Openstack is deployed
   - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
-  - Database name, Database username and password for AAS, SCS and SHVS services
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
 
 ```shell
@@ -128,12 +137,15 @@ Update orchestrator.conf
   
   - Deployment System IP address
   - SAN List (Subject Alternative Name List contains list of all domain names for the deployment system)
-  - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
+  - Network Port numbers for CMS, AAS, SCS, SHVS and K8S (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - SHVS Service Account Credentials
   - Database name, Database username and password for SHVS
+  - IHUB Service Account Credentials
   - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
   - System IP address where Kubernetes or Openstack is deployed
+  - If TENANT is KUBERNETES, Provide token of master node in K8S_TOKEN.
   - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
   
 Update enterprise_skc.conf
@@ -142,8 +154,12 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS and SQVS
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - AAS Service Account Credentials
+  - SCS Service Account Credentials
+  - KBS Service Account Credentials
   - Database name, Database username and password for AAS and SCS services
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 ```shell
 ./install_orchestrator.sh
@@ -159,12 +175,15 @@ Update orchestrator.conf
 
   - Deployment System IP address
   - SAN List (Subject Alternative Name List contains list of all domain names for the deployment system)
-  - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
+  - Network Port numbers for CMS, AAS, SCS, SHVS and K8S (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - SHVS Service Account Credentials
   - Database name, Database username and password for SHVS
+  - IHUB Service Account Credentials
   - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
   - System IP address where Kubernetes or Openstack is deployed
+  - If TENANT is KUBERNETES, Provide token of master node in K8S_TOKEN.
   - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
 
 Update enterprise_skc.conf
@@ -173,10 +192,12 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - AAS Service Account Credentials
+  - SCS Service Account Credentials
+  - KBS Service Account Credentials
   - Database name, Database username and password for AAS and SCS services
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
-  - Key Manager (can be set to either Directory or KMIP)
-  - KMIP server configuration if KMIP is set
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 ```shell
 ./install_skc.sh
@@ -191,7 +212,7 @@ Update agent.conf
 ???+ note 
     In case orchestration support is not needed, please comment/delete SHVS_IP in agent.conf available in same folder
   - CSP system IP address where CMS, AAS, SHVS and SCS services deployed
-  - CSP Admin credentials (same which are provided in service configuration file. for ex: csp_skc.conf, orchestrator.conf or skc.conf)
+  - CSP Admin credentials (same which are provided in service configuration file. for ex: orchestrator.conf or enterprise_skc.conf)
   - Network Port numbers for CMS, AAS, SCS and SHVS
   - Token validity period in days
   - CMS TLS SHA Value (Run "cms tlscertsha384" on CSP system)
