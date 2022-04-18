@@ -55,15 +55,15 @@ nav:
         -  Flavor Management: product-guides/Foundational & Workload Security/90 Flavor Management.md
         -  Scalability and Sizing: product-guides/Foundational & Workload Security/100 Scalability and Sizing.md
         -  Intel Security Libraries Configuration Settings: 
-            - Configuration Settings (Verification Services): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings1.md
-            - Configuration Settings (Trust Agent): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings2.md
-            - Configuration Settings (Integration Hub): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings3.md
-            - Configuration Settings (Certificate Management Services): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings4.md
-            - Configuration Settings (Authentication and Authorization Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings5.md
-            - Configuration Settings (Workload Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings6.md
-            - Configuration Settings (Key Broker Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings7.md
-            - Configuration Settings (Workload Agent): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings8.md
-            - Configuration Settings (Workload Policy Manager): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings9.md
+            - Configuration Settings (Verification Services): product-guides/Foundational & Workload Security/110.3 HVS Configuration Settings.md
+            - Configuration Settings (Trust Agent): product-guides/Foundational & Workload Security/110.6 Trust Agent Configuration Settings.md
+            - Configuration Settings (Integration Hub): product-guides/Foundational & Workload Security/110.9 Integration Hub Configuration Settings.md
+            - Configuration Settings (Certificate Management Services): product-guides/Foundational & Workload Security/110.1 CMS Configuration Settings.md
+            - Configuration Settings (Authentication and Authorization Service): product-guides/Foundational & Workload Security/110.2 AAS Configuration Settings.md
+            - Configuration Settings (Workload Service): product-guides/Foundational & Workload Security/110.4 WLS Configuration Settings.md
+            - Configuration Settings (Key Broker Service): product-guides/Foundational & Workload Security/110.5 KBS Configuration Settings.md
+            - Configuration Settings (Workload Agent): product-guides/Foundational & Workload Security/110.7 Workload Agent Configuration Settings.md
+            - Configuration Settings (Workload Policy Manager): product-guides/Foundational & Workload Security/110.8 WPM Configuration Settings.md
         -  Certificate and Key Management: product-guides/Foundational & Workload Security/120 Certificate and Key Management.md
         -  Upgrades: product-guides/Foundational & Workload Security/130 Upgrades.md
         -  Appendix: product-guides/Foundational & Workload Security/999 Appendix.md
