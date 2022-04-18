@@ -1,7 +1,7 @@
 # Workload Confidentiality
 
 Workload Confidentiality builds upon Platform Attestation to protect
-data in virtual machine and container images. At its core, this feature
+data in container images. At its core, this feature
 is about allowing an image owner to set policies that define the
 conditions under which their image will be allowed to run; if the policy
 conditions are met, the decryption key will be provided, and if the
@@ -12,9 +12,9 @@ rest.
 
 Workload Encryption relies on Platform Attestation to define the
 security attributes of hosts. When a protected image is launched, the
-Workload Agent on the host launching the VM or container image will
-detect the attempt (using either Libvirt hooks for VMs, or as a function
-of CRI-O in the case of containers) and use the Image ID to find the Image Flavor on the Workload Service. The Workload Service will retrieve the current trust report for the host
+Workload Agent on the host launching the container image will
+detect the attempt (using a function
+of the CRI-O container runtime) and use the Image ID to find the Image Flavor on the Workload Service. The Workload Service will retrieve the current trust report for the host
 launching the image, and use that report to make a key retrieval request
 to the key transfer URL retrieved from the image flavor. The key
 transfer URL refers to the URL to the image owner’s Key Broker Service,
@@ -82,106 +82,6 @@ detectable by the Platform Integrity feature, protected images will be
 unable to launch on this server.
 
 ![workload-decryption](./images/workload-decryption.png)
-
-## Virtual Machine Confidentiality
-
-### Prerequisites
-
-To enable Virtual Machine Confidentiality, the following Intel® SecL-DC
-components must be installed and available:
-
--   Authentication and Authorization Service
-
--   Certificate Management Service
-
--   Key Broker Service
-
--   Host Verification Service
-
--   Workload Service
-
--   Trust Agent + Workload Agent (on each virtualization host)
-
--   Workload Policy Manager
-
-See the Installation subsection on Recommended Service Layout for
-recommendations on how/where to install each service.
-
-It is strongly recommended to use a VM orchestration solution (for
-example, OpenStack) with the Intel® SecL-DC Integration Hub to
-schedule encrypted workloads on compute hosts that have already been
-pre-checked for their Platform Integrity status. See the Platform
-Integrity Attestation subsection on Integration with OpenStack for an
-example.
-
-You will need at least one QCOW2-format virtual machine image (for
-quick testing purposes, a very small minimal premade image like CirrOS
-is recommended; a good place to look for testing images is the
-OpenStack Image Guide found here:
-<https://docs.openstack.org/image-guide/obtain-images.html>).
-
-One or more hypervisor compute nodes running QEMU/KVM is required.
-Each of these nodes must have the Intel® SecL-DC Trust Agent and
-Workload Agent installed, and they must be registered with the
-Verification Service. Each of these servers should show as `trusted` see the Platform Integrity Attestation section for details. You should
-have Flavors that match the system configuration for these hosts, and
-attestation reports should show all Flavor parts as `trusted=true`
-Hosts that are not trusted (including servers where there is no trust
-status, like hosts with no Trust Agent) will fail to launch any
-encrypted workloads.
-
-### Workflow
-
-#### Encrypting images
-
-```shell
-wpm create-image-flavor -l <user-friendly unique label> -i <path to image file> -e <output path and filename for encrypted image> -o <output path for JSON image flavor>`
-```
-
-After generating the encrypted image with the WPM, the encrypted image
-can be uploaded to the Image Storage service of choice (for example,
-OpenStack Glance). Note that the ID of the image in this Image Storage
-service must be retained and used for the next steps.
-
-#### Uploading the Image Flavor
-
-```
-POST https://<Workload Service IP or Hostname>:5000/wls/flavors
-Authorization: Bearer <token>
-
-{<Image Flavor content from WPM output>}
-```
-
-Use the above API request to upload the Image Flavor to the WLS. The
-Image Flavor will tell other Intel® SecL-DC components the Key Transfer
-URL for this image.
-
-#### Creating the Image Flavor to Image ID Association
-
-The WLS needs to know the ID of the image as it exists in the image
-storage service used by the CSP (for example, OpenStack Glance). Use the
-below API request to create an association between the Image Flavor
-created in the previous step and the image ID.
-
-```
-POST https://<Workload Service IP or Hostname>:5000/wls/images
-Authorization: Bearer <token>
-
-{
-    "id": "<image ID on image storage>",
-    "flavor_ids": ["<Image Flavor ID>"]
-}
-```
-
-#### Launching Encrypted VMs
-
-Instances of the protected images can now be launched as normal.
-Encrypted images will only be accessible on hosts with a Platform
-Integrity Attestation report showing the host is trusted.
-
-If the VM is launched on a host that is not trusted, the launch will
-fail, as the decryption key will not be provided.
-
 
 
 ## Container Confidentiality
@@ -279,7 +179,7 @@ $ skopeo copy oci:custom-image:enc docker://Registry.server.com:5000/custom-imag
 
 ##### Pulling and Encrypting a Container Image
 
-Skopeo can be used to pull a container image from an external registry (a private Docker registry is used in the examples abocve). This image may be encrypted already, but if you wish to pull an image for encryption, it must be in plaintext format. Skopeo has a wrapper that can interact with the Workload Policy Manager. When trying to encrypt an image, Skopeo calls the WPM CLI fetch-key command. In the command, the KBS is called in order to create a new key. The return from the KBS includes the key retrieval URL, which is used when trying to decrypt. After the key is returned to the WPM, the WPM passes the key back to Skopeo. Skopeo uses the key to encrypt the image layer by layer as well as associate the encrypted image with the key's URL. Skopeo then uploads the encrypted image to a remote container registry.
+Skopeo can be used to pull a container image from an external registry (a private Docker registry is used in the examples above). This image may be encrypted already, but if you wish to pull an image for encryption, it must be in plaintext format. Skopeo has a wrapper that can interact with the Workload Policy Manager. When trying to encrypt an image, Skopeo calls the WPM CLI fetch-key command. In the command, the KBS is called in order to create a new key. The return from the KBS includes the key retrieval URL, which is used when trying to decrypt. After the key is returned to the WPM, the WPM passes the key back to Skopeo. Skopeo uses the key to encrypt the image layer by layer as well as associate the encrypted image with the key's URL. Skopeo then uploads the encrypted image to a remote container registry.
 
 #####  Importing Verification Service Certificates
 
