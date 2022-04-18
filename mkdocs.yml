@@ -17,55 +17,6 @@ plugins:
 nav: 
   - Home:
     - Intel® Security Libraries for Data Center (Intel® SecL-DC): index.md
-  - Quick Start Guide: 
-    - Foundational & Workload Security - Containerization:
-      - Hardware & OS Requirements: quick-start-guides/Foundational & Workload Security - Containerization/1Hardware & OS Requirements.md
-      - Network Requirements: quick-start-guides/Foundational & Workload Security - Containerization/2Network Requirements.md
-      - Rpms & Debs Requirement: quick-start-guides/Foundational & Workload Security - Containerization/3Rpms & Debs Requirement.md
-      - Deployment Model: quick-start-guides/Foundational & Workload Security - Containerization/4Deployment Model.md
-      - Build: quick-start-guides/Foundational & Workload Security - Containerization/5Build.md
-      - Deployment: quick-start-guides/Foundational & Workload Security - Containerization/6Deployment.md
-      - Default Service and Agent Mount Paths: quick-start-guides/Foundational & Workload Security - Containerization/7Default Service and Agent Mount Paths.md
-      - Default Service Ports: quick-start-guides/Foundational & Workload Security - Containerization/8Default Service Ports.md
-      - Usecase Workflows API Collections: quick-start-guides/Foundational & Workload Security - Containerization/9Usecase Workflows API Collections.md
-      - Appendix: quick-start-guides/Foundational & Workload Security - Containerization/10Appendix.md
-    - Foundational & Workload Security - Helm Based Deployment:
-      - Hardware & OS Requirements: quick-start-guides/Foundational & Workload Security - Containerization/1Hardware & OS Requirements.md
-      - Network Requirements: quick-start-guides/Foundational & Workload Security - Containerization/2Network Requirements.md
-      - Rpms & Debs Requirement: quick-start-guides/Foundational & Workload Security - Containerization/3Rpms & Debs Requirement.md
-      - Build: quick-start-guides/Foundational & Workload Security - Containerization/5Build.md
-      - Host Attestation Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/Host Attestation - Helm based deployment.md
-      - Trusted Workload Placement(TWP) Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/Trusted Workload Placement - Helm based deployment.md
-      - TWP Control Plane Usecase Deployment: quick-start-guides/Foundational & Workload Security - Containerization/TWP Control Plane - Helm based deployment.md
-      - TWP Cloud Service Provider Deployment: quick-start-guides/Foundational & Workload Security - Containerization/TWP Cloud Service Provider - Helm based deployment.md
-    - Foundational and Workload Security: 
-      - Hardware & OS Requirements: quick-start-guides/Foundational & Workload Security/1Hardware & OS Requirements.md
-      - Deployment Model: quick-start-guides/Foundational & Workload Security/2Deployment Model.md
-      - Build Services and packages: quick-start-guides/Foundational & Workload Security/3Build Services and packages.md
-      - Deployment: quick-start-guides/Foundational & Workload Security/4Deployment.md
-      - Usecase Workflows API Collections: quick-start-guides/Foundational & Workload Security/5Usecase Workflows API Collections.md
-      - Appendix: quick-start-guides/Foundational & Workload Security/6Appendix.md
-    - SGX Infrastructure - Containerization:
-      - Hardware & OS Requirements: quick-start-guides/SGX Infrastructure - Containerization/1Hardware & OS Requirements.md
-      - Network Requirements: quick-start-guides/SGX Infrastructure - Containerization/2Network Requirements.md
-      - RHEL RPMs Requirements: quick-start-guides/SGX Infrastructure - Containerization/3RHEL RPMs Requirements.md
-      - Deployment Model: quick-start-guides/SGX Infrastructure - Containerization/4Deployment Model.md
-      - Build: quick-start-guides/SGX Infrastructure - Containerization/5Build.md
-      - Deployment: quick-start-guides/SGX Infrastructure - Containerization/6Deployment.md
-      - Default Service and Agent Mount Paths: quick-start-guides/SGX Infrastructure - Containerization/7Default Service and Agent Mount Paths.md
-      - Default Service Ports: quick-start-guides/SGX Infrastructure - Containerization/8Default Service Ports.md
-      - Usecase Workflows API Collections: quick-start-guides/SGX Infrastructure - Containerization/9Usecase Workflows API Collections.md
-      - Appendix: quick-start-guides/SGX Infrastructure - Containerization/10Appendix.md
-    - SGX Infrastructure:
-      - Introduction: quick-start-guides/SGX Infrastructure/1Introduction.md
-      - Hardware Requirements: quick-start-guides/SGX Infrastructure/2Hardware Requirements.md
-      - OS Requirements: quick-start-guides/SGX Infrastructure/3OS Requirements.md
-      - Build Services: quick-start-guides/SGX Infrastructure/4Build Services.md
-      - Deployment Model: quick-start-guides/SGX Infrastructure/5Deployment Model.md
-      - Deployment: quick-start-guides/SGX Infrastructure/6Deployment.md
-      - Usecase Workflows with Postman API Collections: quick-start-guides/SGX Infrastructure/7Usecase Workflows API Collections.md
-      - System User Configuration: quick-start-guides/SGX Infrastructure/8System User Configuration.md
-      - Appendix: quick-start-guides/SGX Infrastructure/9Appendix.md
   - Product Guide: 
       - Foundational and Workload Security:
         -  Product Guide: product-guides/Foundational & Workload Security/01.md
@@ -99,7 +50,7 @@ nav:
         -  Endorsement Certificate Pre-Registration: product-guides/Foundational & Workload Security/59 Endorsement Certificate Pre-Registration.md
         -  Platform Integrity Attestation: product-guides/Foundational & Workload Security/60 Platform Integrity Attestation.md
         -  Cloud Platform Integration: product-guides/Foundational & Workload Security/65 Cloud Platform Integration.md
-        # -  Workload Confidentiality: product-guides/Foundational & Workload Security/70 Workload Confidentiality.md
+        -  Workload Confidentiality: product-guides/Foundational & Workload Security/70 Workload Confidentiality.md
         # -  Trusted Virtual Kubernetes Worker Nodes: product-guides/Foundational & Workload Security/80 Trusted Virtual Kubernetes Worker Nodes.md
         -  Flavor Management: product-guides/Foundational & Workload Security/90 Flavor Management.md
         -  Scalability and Sizing: product-guides/Foundational & Workload Security/100 Scalability and Sizing.md
@@ -109,10 +60,10 @@ nav:
             - Configuration Settings (Integration Hub): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings3.md
             - Configuration Settings (Certificate Management Services): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings4.md
             - Configuration Settings (Authentication and Authorization Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings5.md
-            # - Configuration Settings (Workload Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings6.md
-            # - Configuration Settings (Key Broker Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings7.md
-            # - Configuration Settings (Workload Agent): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings8.md
-            # - Configuration Settings (Workload Policy Manager): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings9.md
+            - Configuration Settings (Workload Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings6.md
+            - Configuration Settings (Key Broker Service): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings7.md
+            - Configuration Settings (Workload Agent): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings8.md
+            - Configuration Settings (Workload Policy Manager): product-guides/Foundational & Workload Security/110 Intel Security Libraries Configuration Settings9.md
         -  Certificate and Key Management: product-guides/Foundational & Workload Security/120 Certificate and Key Management.md
         -  Upgrades: product-guides/Foundational & Workload Security/130 Upgrades.md
         -  Appendix: product-guides/Foundational & Workload Security/999 Appendix.md
