@@ -49,7 +49,7 @@ nav:
         -  Connection Strings: product-guides/Foundational & Workload Security/50 Connection Strings.md
         -  Endorsement Certificate Pre-Registration: product-guides/Foundational & Workload Security/59 Endorsement Certificate Pre-Registration.md
         -  Platform Integrity Attestation: product-guides/Foundational & Workload Security/60 Platform Integrity Attestation.md
-        -  Cloud Platform Integration: product-guides/Foundational & Workload Security/65 Cloud Platform Integration.md
+        -  Trusted Workload Placement: product-guides/Foundational & Workload Security/65 Trusted Workload Placement.md
         -  Workload Confidentiality: product-guides/Foundational & Workload Security/70 Workload Confidentiality.md
         # -  Trusted Virtual Kubernetes Worker Nodes: product-guides/Foundational & Workload Security/80 Trusted Virtual Kubernetes Worker Nodes.md
         -  Flavor Management: product-guides/Foundational & Workload Security/90 Flavor Management.md
