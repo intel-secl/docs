@@ -28,7 +28,7 @@ nav:
         -  Deploying Intel SecL-DC Using Helm: 
               -  Deploying Intel SecL-DC Using Helm: product-guides/Foundational & Workload Security/24 Deploying Intel SecL using Helm.md
               -  Deploying Intel SecL Use Cases Using Helm: product-guides/Foundational & Workload Security/25 Deploying Intel SecL Use Cases Using Helm.md
-              -  Deploying Individual Services Using Helm: product-guides/Foundational & Workload Security/26 Deploying Individual Services Using Helm.md
+              #-  Deploying Individual Services Using Helm: product-guides/Foundational & Workload Security/26 Deploying Individual Services Using Helm.md
         # -  Recommended Service Layout: product-guides/Foundational & Workload Security/24 Recommended Service Layout.md
         # -  Intel Security Libraries Binary Installation: 
         #     - Intel Security Libraries Binary Installation: product-guides/Foundational & Workload Security/25 Intel Security Libraries Binary Installation.md

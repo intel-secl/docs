@@ -21,7 +21,7 @@ Download the values.yaml deployment answer file for the desired usecase:
 Only download the values.yaml file for the specific deployment needed.  For example, the host-attestation values.yaml is all that is required to deploy the host-attestation use case.
 ---
 
-```
+```bash
 curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/host-attestation/values.yaml
 curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/trusted-workload-placement/values.yaml
 curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-control-plane/values.yaml
@@ -30,9 +30,8 @@ curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-char
 
 Configure the values.yaml answer file.  Each values.yaml file will contain "<user input>" prompts and a comment describing the information required.  Below is a sample of the Trusted Workload Placement values.yaml:
 
-```
+```yaml
 ---
-# The below section can be used to override additional values defined under each of the dependent charts
 cms:
   image:
     name: <user input> # Certificate Management Service image name (**REQUIRED**)
@@ -65,16 +64,16 @@ hvs:
 
 trustagent:
   image:
-    name: <user input> # Trust Agent image name<br> (**REQUIRED**)
+    name: <user input> # Trust Agent image name (**REQUIRED**)
 
   nodeLabel:
     txt: TXT-ENABLED # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
     suefi: "SUEFI-ENABLED" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
 
   config:
-    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned, recommended to leave blank for a null secret unless the TPM is already owned with a different secret
+    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned. Recommended to leave blank for a null secret unless the TPM is already owned with a different secret
 
-  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  hostAliasEnabled: false # Set this to true for using host aliases.  Also add corresponding entries for ip and hostnames. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
     hostAliases:
       - ip: ""
@@ -189,4 +188,11 @@ helm install host-attastation isecl-helm/twp-cloud-service-provider -f values.ya
 ```
 helm pull isecl-helm/twp-control-plane
 helm install host-attastation isecl-helm/twp-control-plane -f values.yaml --create-namespace -n <namespace>
+```
+
+### Workload Confidentiality
+
+```
+helm pull isecl-helm/workload-confidentiality
+helm install host-attastation isecl-helm/workload-confidentiality -f values.yaml --create-namespace -n <namespace>
 ```
