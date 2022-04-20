@@ -163,6 +163,10 @@ ansible-playbook <playbook-name> \
 --extra-vars binaries_path=<path where built binaries are copied to>
 ```
 
+## Installing Workload Policy Manager
+
+[Workload Policy Manager Installation](https://github.com/intel-innersource/documentation.security.isecl.docs/blob/master/product-guides/Foundational%20%26%20Workload%20Security.md#installing-the-workload-policy-manager)
+
 ## Additional Examples & Tips
 
 ### TBoot Installation

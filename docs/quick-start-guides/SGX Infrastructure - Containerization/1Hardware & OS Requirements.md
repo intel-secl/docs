@@ -2,7 +2,7 @@
 
 ## Machines
 
-* RHEL 8.2 Build Machine
+* Ubuntu 18.04/20.04 Build Machine
 
 * RHEL 8.4 Build Machine for stack based deployment
 
@@ -12,15 +12,15 @@
 
 ## OS Requirements
 
-* RHEL 8.2 for build
+* Ubuntu 18.04/20.04 for build
 
 * RHEL 8.4 for build for stack based deployment
 
-* RHEL 8.2 or Ubuntu 18.04 for K8s cluster deployments
+* RHEL 8.2 or Ubuntu 18.04/20.04 for K8s cluster deployments
 
 * RHEL 8.4 for stack based K8s cluster deployments 
 
-???+ note 
+> Note 
     SKC Solution is built, installed and tested with root privileges. Please ensure that all the following instructions are executed with root privileges
 
 ## Container Runtime

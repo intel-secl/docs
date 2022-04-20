@@ -122,7 +122,7 @@ Below steps to be followed post successful deployment with Single-Node/Multi-Nod
 
 * Establish tls session with the nginx using the key transferred inside the enclave
    `wget https://<K8s control-plane IP>:30443 --no-check-certificate`
-
+ 
 #### Other Workloads
 
 Secure Key Caching use case employs nginx web server as a workload to demonstrate confidential computing. If the need is to use other custom workloads, then following reference Dockerfile and entrypoint scripts can be used as starting point to deploy custom workload as a container.
@@ -132,16 +132,21 @@ Reference `Dockerfile` for Nginx with skc library
 # Copyright (C) 2021 Intel Corporation
 # SPDX-License-Identifier: BSD-3-Clause
 
-FROM centos:8
+FROM ubuntu:focal
+
+LABEL org.label-schema.name="SKC Library" \
+      org.label-schema.vendor="Intel Corporation" \
+      org.label-schema.license="BSD-3-Clause" \
+      org.label-schema.url="https://github.com/intel-secl/intel-secl"
 
 # Set env variables
 ENV SGX_INSTALL_DIR /opt/intel
 ENV SKC_LIBRARY_BIN_NAME skc_library_*.bin
 
 # Copy binaries and SGX local repo
-COPY dist/image/bin/pkcs11.so /usr/lib64/engines-1.1/
-COPY dist/image/bin/libp11.so.3.4.3 /usr/lib64/
-COPY dist/image/bin/sgx_rpm_local_repo ${PWD}/sgx_rpm_local_repo
+COPY dist/image/bin/libp11.so* /usr/lib/x86_64-linux-gnu/
+COPY dist/image/bin/pkcs11.so /usr/lib/x86_64-linux-gnu/engines-1.1/
+
 COPY dist/image/bin/${SKC_LIBRARY_BIN_NAME} $PWD
 COPY dist/image/entrypoint.sh $PWD
 RUN chmod 700 /entrypoint.sh
@@ -151,24 +156,27 @@ COPY dist/image/sgxssl ${SGX_INSTALL_DIR}/sgxssl
 COPY dist/image/cryptoapitoolkit ${SGX_INSTALL_DIR}/cryptoapitoolkit
 
 #Install dependencies and SGX components
-RUN dnf install -y https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/l/libgda-5.2.9-6.fc33.x86_64.rpm \
-    https://dl.fedoraproject.org/pub/fedora/linux/releases/33/Everything/x86_64/os/Packages/l/libgda-sqlite-5.2.9-6.fc33.x86_64.rpm \
-    https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/jsoncpp-1.8.4-6.el8.x86_64.rpm \
-    https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/jsoncpp-devel-1.8.4-6.el8.x86_64.rpm
-RUN dnf install -y yum-utils jq protobuf opensc nginx cronie sudo ncurses
+RUN apt-get -yqq update
+RUN apt-get -yqq install wget gnupg1 gnupg2 apt-utils curl p11-kit
+RUN echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu/ focal main' | tee /etc/apt/sources.list.d/intel-sgx.list
+RUN wget -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add -
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC  apt-get -yqq install opensc makeself libgda-5.0-bin libgda-5.0-dev libcurl4-openssl-dev libssl-dev \
+    libjsoncpp1 libjsoncpp-dev libcppunit-dev libcrypto++6 libglib2.0-dev jq cron nginx
+
+RUN apt-get -yqq update
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install libsgx-launch libsgx-uae-service libsgx-urts libsgx-ae-qve libsgx-dcap-ql libsgx-dcap-ql-dev \
+    libsgx-dcap-default-qpl-dev libsgx-dcap-default-qpl
+
 RUN groupadd intel && \
-    usermod -G intel nginx && \
-    ln -sf /usr/lib64/libp11.so.3.4.3 /usr/lib64/libp11.so && \
-    ln -sf /usr/lib64/engines-1.1/pkcs11.so /usr/lib64/engines-1.1/libpkcs11.so && \
-    ln -sf /usr/lib64/libjsoncpp.so /usr/lib64/libjsoncpp.so.0
-RUN yum-config-manager --add-repo file://${PWD}/sgx_rpm_local_repo && \
-    dnf install -y --nogpgcheck libsgx-launch libsgx-uae-service libsgx-urts libsgx-ae-qve libsgx-dcap-ql libsgx-dcap-ql-devel \
-    libsgx-dcap-default-qpl-devel libsgx-dcap-default-qpl && \
-    rm -rf sgx_rpm_local_repo /etc/yum.repos.d/*sgx_rpm_local_repo.repo
+    usermod -G intel www-data && \
+    ln -sf /usr/lib/x86_64-linux-gnu/libp11.so.3.4.3 /usr/lib/x86_64-linux-gnu/libp11.so
+
+RUN apt-get clean && apt-get autoclean
 
 # Install SKC-Library and copy entrypoint script
 RUN ./${SKC_LIBRARY_BIN_NAME}
 ENTRYPOINT ["./entrypoint.sh"]
+
 ```
 
 Sample entrypoint script `entrypoint.sh`
@@ -505,7 +513,7 @@ systemctl restart snap.microk8s.daemon-kubelet.service
 ```
 
 In order to clean single service and bring up again on single node without data, config from previous deployment
-```shell script
+```shell
 ./skc-bootstrap.sh down <service-name>
 rm -rf /etc/<service-name>
 rm -rf /var/log/<service-name>
@@ -662,7 +670,7 @@ systemctl restart kubelet
 In order to clean single service and bring up again on multi node without data, config from previous deployment
 ```./skc-bootstrap.sh down <service-name>```
 log into nfs system 
-```shell script
+```shell
 
 rm -rf /<nfs-mount-path>/isecl/<service-name>/config
 rm -rf /<nfs-mount-path>/isecl/<service-name>/logs

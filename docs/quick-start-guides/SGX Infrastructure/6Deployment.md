@@ -26,12 +26,16 @@ Update enterprise_skc.conf
 
   - SYSTEM_IP (Deployment System IP address)
   - SYSTEM_SAN (Subject Alternative Name List contains list of all domain names for the deployment system)
-  - Network Port numbers for CMS, AAS, SCS and SQVS (Default Ports can be specified as mentioned in config file)
+  - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
-  - Database name, Database username and password for AAS and SCS services
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - KBS Service Account Credentials
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)
-
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 If ECDSA Quote verification response needs to be signed, please set SIGN_QUOTE_RESPONSE=true in /root/binaries/env/sqvs.env
 
@@ -56,10 +60,14 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - KBS Service Account Credentials
   - Database name, Database username and password for AAS and SCS services
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
-  - Key Manager (can be set to either Directory or KMIP)
-  - KMIP server configuration if KMIP is set
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 If ECDSA Quote verification response needs to be signed, please set SIGN_QUOTE_RESPONSE=true in /root/binaries/env/sqvs.env
 
@@ -79,12 +87,18 @@ Update csp_skc.conf
 
   - CSP system IP Address
   - SAN List (a list of ip address and hostname for the CSP system)
-  - Network Port numbers for CMS, AAS, SCS and SHVS
-  - Install Admin and CSP Admin credentials
-  - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
-  - System IP address where Kubernetes or Openstack is deployed
-  - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
-  - Database name, Database username and password for AAS, SCS and SHVS services
+  - Network Port numbers for CMS, AAS, SCS, SHVS and K8S
+  - Install Admin Credentials
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - SHVS Service Account Credentials	
+  - SHVS DB Name and SHVS DB Credentials	
+  - IHUB Service Account Credentials
+  - System IP address where Kubernetes is deployed
+  - Network Port Number of Kubernetes Service
+  - K8S Controller node Token in K8S_TOKEN
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
 
 ```shell
@@ -104,10 +118,13 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
-  - Database name, Database username and password for AAS and SCS services
+  - AAS Service Account Credentials
+  - AAS DB Name and AAS DB Credentials
+  - SCS Service Account Credentials
+  - SCS DB Name and SCS DB Credentials
+  - KBS Service Account Credentials
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
-  - Key Manager (can be set to either Directory or KMIP)
-  - KMIP server configuration if KMIP is set
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 If ECDSA Quote verification response needs to be signed, please set SIGN_QUOTE_RESPONSE=true in /root/binaries/env/sqvs.env
 
@@ -131,10 +148,12 @@ Update orchestrator.conf
   - Network Port numbers for CMS, AAS, SCS, SQVS and KBS (Default Ports can be specified as mentioned in config file)
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - SHVS Service Account Credentials
   - Database name, Database username and password for SHVS
-  - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
-  - System IP address where Kubernetes or Openstack is deployed
-  - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
+  - IHUB Service Account Credentials
+  - System IP address where Kubernetes is deployed
+  - K8S controller node token in K8S_TOKEN
+  - Network Port Number of Kubernetes or Service
   
 Update enterprise_skc.conf
   - Deployment system IP address
@@ -142,8 +161,12 @@ Update enterprise_skc.conf
   - Network Port numbers for CMS, AAS, SCS and SQVS
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
+  - AAS Service Account Credentials
+  - SCS Service Account Credentials
+  - KBS Service Account Credentials
   - Database name, Database username and password for AAS and SCS services
-  - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
+  - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)
+  - KMIP server configuration (KMIP Port, KMIP Server Certificates Path)
 
 ```shell
 ./install_orchestrator.sh
@@ -163,9 +186,9 @@ Update orchestrator.conf
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
   - Database name, Database username and password for SHVS
-  - TENANT as KUBERNETES or OPENSTACK (based on the orchestrator chosen)
-  - System IP address where Kubernetes or Openstack is deployed
-  - Network Port Number of Kubernetes or Openstack Keystone/Placement Service
+  - System IP address where Kubernetes is deployed
+  - K8S Controller node token in K8S_TOKEN
+  - Network Port Number of Kubernetes Service
 
 Update enterprise_skc.conf
   - Deployment System IP address
@@ -174,6 +197,7 @@ Update enterprise_skc.conf
   - INSTALL_ADMIN_USERNAME and INSTALL_ADMIN_PASSWORD (Admin Credentials for installation of services)
   - CCC_ADMIN_USERNAME and CCC_ADMIN_PASSWORD (User credentials for generating long-lived tokens)
   - Database name, Database username and password for AAS and SCS services
+  - KBS Service Account Credentials
   - Intel PCS Server API URL and API Keys (Refer config file for instructions on getting a API Key)  
   - Key Manager (can be set to either Directory or KMIP)
   - KMIP server configuration if KMIP is set
@@ -191,7 +215,7 @@ Update agent.conf
 ???+ note 
     In case orchestration support is not needed, please comment/delete SHVS_IP in agent.conf available in same folder
   - CSP system IP address where CMS, AAS, SHVS and SCS services deployed
-  - CSP Admin credentials (same which are provided in service configuration file. for ex: csp_skc.conf, orchestrator.conf or skc.conf)
+  - CSP Admin credentials (same which are provided in service configuration file. for ex: orchestrator.conf or enterprise_skc.conf)
   - Network Port numbers for CMS, AAS, SCS and SHVS
   - Token validity period in days
   - CMS TLS SHA Value (Run "cms tlscertsha384" on CSP system)
@@ -315,8 +339,6 @@ cd tools/ansible-role
 | Secure Key Caching           | `setup: secure-key-caching` in playbook or via `--extra-vars` as `setup=secure-key-caching`in CLI |
 | SGX Orchestration Kubernetes | `setup: sgx-orchestration-kubernetes` in playbook or via `--extra-vars` as `setup=sgx-orchestration-kubernetes`in CLI |
 | SGX Attestation Kubernetes   | `setup: sgx-attestation-kubernetes` in playbook or via `--extra-vars` as `setup=sgx-attestation-kubernetes`in CLI |
-| SGX Orchestration Openstack  | `setup: sgx-orchestration-openstack` in playbook or via `--extra-vars` as `setup=sgx-orchestration-openstack`in CLI |
-| SGX Attestation Openstack    | `setup: sgx-attestation-openstack` in playbook or via `--extra-vars` as `setup=sgx-attestation-openstack`in CLI |
 | SKC No Orchestration         | `setup: skc-no-orchestration` in playbook or via `--extra-vars` as `setup=skc-no-orchestration`in CLI |
 | SGX Attestation No Orchestration | `setup: sgx-attestation-no-orchestration` in playbook or via `--extra-vars` as `setup=sgx-attestation-no-orchestration`in CLI |
 
@@ -462,15 +484,15 @@ ansible-playbook <playbook-name> --extra-vars setup=<setup var from supported us
 
 #### Setup K8S Cluster and Deploy Isecl-k8s-extensions
 
-Note: For Stack based deployment, setup master and worker node for k8s is part of Linux Stacks for SGX deployment.
+Note: For Stack based deployment, setup Controller and worker node for k8s is part of Linux Stacks for SGX deployment.
 
-* Setup master and worker node for k8s. Worker node should be setup on SGX enabled host machine. Master node can be any system.
+* Setup Controller and worker node for k8s. Worker node should be setup on SGX enabled host machine. Controller node can be any system.
 
 * To setup k8 cluster for RHEL, follow https://phoenixnap.com/kb/how-to-install-kubernetes-on-centos.
 
 * To setup k8 cluster for Ubuntu, follow https://phoenixnap.com/kb/install-kubernetes-on-ubuntu 
 
-Once the master/worker setup is done, follow below steps on Master Node:
+Once the Controller/worker setup is done, follow below steps on Controller Node:
 
 ##### Untar packages and push OCI images to registry
 
@@ -520,8 +542,8 @@ Once the master/worker setup is done, follow below steps on Master Node:
 ```
 
 For IHUB installation, make sure to update below configuration in /root/binaries/env/ihub.env before installing ihub on CSP system:
-* Copy /etc/kubernetes/pki/apiserver.crt from master node to /root on CSP system. Update KUBERNETES_CERT_FILE.
-* Get k8s token in master, using above commands and update KUBERNETES_TOKEN
+* Copy /etc/kubernetes/pki/apiserver.crt from Controller node to /root on CSP system. Update KUBERNETES_CERT_FILE.
+* Get k8s token in Controller, using above commands and update KUBERNETES_TOKEN
 * Update the value of CRD name
 ```
 	KUBERNETES_CRD=custom-isecl-sgx
@@ -548,7 +570,7 @@ For example, if only sgx based attestation is required then remove/comment HVS_I
     chmod +x create_k8s_extsched_cert.sh
     ./create_k8s_extsched_cert.sh -n "K8S Extended Scheduler" -s "<K8_MASTER_IP>","<K8_MASTER_HOST>" -c /etc/kubernetes/pki/ca.crt -k /etc/kubernetes/pki/ca.key
 ```
-* After iHub deployment, copy /etc/ihub/ihub_public_key.pem from ihub to /opt/isecl-k8s-extensions/ directory on k8 master system. Also, copy tls key pair generated in previous step to secrets directory.
+* After iHub deployment, copy /etc/ihub/ihub_public_key.pem from ihub to /opt/isecl-k8s-extensions/ directory on k8 Controller system. Also, copy tls key pair generated in previous step to secrets directory.
 ```
     mkdir secrets
     cp /opt/isecl-k8s-extensions/server.key secrets/
@@ -650,73 +672,4 @@ Validate if pod can be launched on the node. Run following commands:
 Pod should be in running state and launched on the host as per values in pod.yml. Validate by running below command on sgx host:
 ```
 	docker ps
-```
-
-#### Openstack Setup and Associate Traits
-
-???+ note 
-    Openstack Support only validated with RHEL 8.1/8.2
-
-* Setup Compute and Controller node for Openstack. Compute node should be setup on SGX host machine, Controller node can be any system. After the compute/controller setup is done, follow the below steps:
-
-* IHUB should be installed and configured with Openstack
-
-???+ note 
-    * While using deployment scripts to install the components, in the env directory of the binaries folder comment "KUBERNETES_TOKEN" in the ihub.env before installation.
-    * Openstack compute node and build VM should have the same OS package repositories, else there will be package mismatch for SKC library.
-  
-* On the openstack controller, if resource provider is not listing the resources then install the "osc-placement"
-```
-  pip3 install osc-placement
-```
-* source the admin-openrc credentials to gain access to user-only CLI commands and export the os_placement_API_version
-```
-   source admin-openrc
-```
-* List the set of resources mapped to the Openstack
-```
-  openstack resource provider list
-```
-* Set the required traits for SGX Hosts
-```
-  #For example 'cirros' image can be used for the instances
-  openstack image set --property trait:CUSTOM_ISECL_SGX_ENABLED_TRUE=required <image name>
-```
-* View the Traits that has been set:
-```
-  #The trait should be set and assinged to the respective image successfully. For example 'cirros' image can be used for the instances 
-   openstack image show <image name>
-```
-* Verify the trait is enabled for the SGX Host:
-```
-  openstack resource provider trait list <uuid of the host which the openstack resoruce provider lists>
-
-  #SGX Supported, SGX TCB upto Date, SGX FLC enabled, SGX EPC size attritubes of the SGX host for which the 'required' trait set to TRUE or FALSE is displayed. For example,if required trait is set as TRUE:
-  
-  CUSTOM_ISECL_SGX_ENABLED_TRUE
-  CUSTOM_ISECL_SGX_SUPPORTED_TRUE
-  CUSTOM_ISECL_SGX_TCBUPTODATE_FALSE
-  CUSTOM_ISECL_SGX_FLC_ENABLED_TRUE
-  CUSTOM_ISECL_SGX_EPC_SIZE_2_0_GB
-
-  For example, if the required trait is set as FALSE
-  CUSTOM_ISECL_SGX_ENABLED_FALSE
-  CUSTOM_ISECL_SGX_SUPPORTED_TRUE
-  CUSTOM_ISECL_SGX_TCBUPTODATE_FALSE
-  CUSTOM_ISECL_SGX_FLC_ENABLED_FALSE
-  CUSTOM_ISECL_SGX_EPC_SIZE_0_B
-```
-* Create the instances
-```
-  openstack server create --flavor tiny --image <image name> --net vmnet <vm instance name>
-
-  Instances should be created and the status should be "Active". Instance should be launched successfully.
-  openstack server list
-```
-???+ note 
-    To unset the trait, use the following CLI commands:
-```
- openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_TRUE <image name>
-
- openstack image unset --property trait:CUSTOM_ISECL_SGX_ENABLED_FALSE <image name>
 ```
