@@ -28,27 +28,27 @@ VERSION=v5.0.0
 ### Host-Attestation:
 
 ```
-helm pull isecl-helm/host-attestation && tar -xzf host-attestation-$VERSION.tgz host-attestation/values.yaml
-helm install host-attastation isecl-helm/host-attestation -f host-attestation/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Host-Attestation --version $VERSION && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml
+helm install host-attastation isecl-helm/Host-Attestation --version $VERSION -f Host-Attestation/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement
 
 ```
-helm pull isecl-helm/trusted-workload-placement && tar -xzf trusted-workload-placement-$VERSION.tgz trusted-workload-placement/values.yaml
-helm install trusted-workload-placement isecl-helm/trusted-workload-placement -f trusted-workload-placement/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement --version $VERSION && tar -xzf Trusted-Workload-Placement-$VERSION.tgz Trusted-Workload-Placement/values.yaml
+helm install trusted-workload-placement isecl-helm/Trusted-Workload-Placement --version $VERSION -f Trusted-Workload-Placement/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement - Cloud Service Provider Components Only
 
 ```
-helm pull isecl-helm/twp-cloud-service-provider && tar -xzf twp-cloud-service-provider-$VERSION.tgz twp-cloud-service-provider/values.yaml
-helm install twp-cloud-service-provider isecl-helm/twp-cloud-service-provider -f twp-cloud-service-provider/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --version $VERSION && tar -xzf Trusted-Workload-Placement-Cloud-Service-Provider-$VERSION.tgz Trusted-Workload-Placement-Cloud-Service-Provider/values.yaml
+helm install twp-cloud-service-provider isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --version $VERSION -f Trusted-Workload-Placement-Cloud-Service-Provider/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement - Control Plane Components Only
 
 ```
-helm pull isecl-helm/twp-control-plane && tar -xzf twp-control-plane-$VERSION.tgz twp-control-plane/values.yaml
-helm install twp-control-plane isecl-helm/twp-control-plane -f twp-control-plane/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement-Control-Plane --version $VERSION && tar -xzf Trusted-Workload-Placement-Control-Plane-$VERSION.tgz Trusted-Workload-Placement-Control-Plane/values.yaml
+helm install twp-control-plane isecl-helm/Twp-Control-Plane --version $VERSION -f Twp-Control-Plane/values.yaml --create-namespace -n <namespace>
 ```

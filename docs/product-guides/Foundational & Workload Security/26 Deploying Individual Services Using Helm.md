@@ -14,26 +14,26 @@ export VERSION=5.0.0
 ```
 Following are the steps need to be run for deploying individual charts for host attestation usecase
 ```shell script
-helm pull isecl-helm/cleanup-secrets && tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml # Update values.yaml with appropriate values.
-helm install cleanup-secrets isecl-helm/cleanup-secrets -f cleanup-secrets/values.yaml -n isecl
+helm pull isecl-helm/cleanup-secrets --version $VERSION && tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
+helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
 
-helm pull isecl-helm/cms && tar -xzf cms-$VERSION.tgz cms/values.yaml # Update values.yaml with appropriate values.
-helm install cms isecl-helm/cms -f cms/values.yaml -n isecl
+helm pull isecl-helm/cms --version $VERSION && tar -xzf cms-$VERSION.tgz cms/values.yaml 
+helm install cms isecl-helm/cms --version $VERSION -f cms/values.yaml -n isecl
 
-helm pull isecl-helm/aasdb-cert-generator && tar -xzf aasdb-cert-generator-$VERSION.tgz aasdb-cert-generator/values.yaml # Update values.yaml with appropriate values.
-helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -f aasdb-cert-generator/values.yaml -n isecl
+helm pull isecl-helm/aasdb-cert-generator --version $VERSION && tar -xzf aasdb-cert-generator-$VERSION.tgz aasdb-cert-generator/values.yaml 
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator --version $VERSION -f aasdb-cert-generator/values.yaml -n isecl
 
-helm pull isecl-helm/aas && tar -xzf aas-$VERSION.tgz aas/values.yaml # Update values.yaml with appropriate values.
-helm install aas isecl-helm/aas -f aas/values.yaml -n isecl
+helm pull isecl-helm/aas --version $VERSION && tar -xzf aas-$VERSION.tgz aas/values.yaml 
+helm install aas isecl-helm/aas --version $VERSION -f aas/values.yaml -n isecl
 
-helm pull isecl-helm/hvsdb-cert-generator && tar -xzf hvsdb-cert-generator-$VERSION.tgz hvsdb-cert-generator/values.yaml # Update values.yaml with appropriate values.
-helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator/values.yaml -n isecl
+helm pull isecl-helm/hvsdb-cert-generator --version $VERSION && tar -xzf hvsdb-cert-generator-$VERSION.tgz hvsdb-cert-generator/values.yaml 
+helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator --version $VERSION -f hvsdb-cert-generator/values.yaml -n isecl
 
-helm pull isecl-helm/hvs && tar -xzf hvs-$VERSION.tgz hvs/values.yaml # Update values.yaml with appropriate values.
-helm install hvs isecl-helm/hvs -f hvs/values.yaml -n isecl
+helm pull isecl-helm/hvs --version $VERSION && tar -xzf hvs-$VERSION.tgz hvs/values.yaml 
+helm install hvs isecl-helm/hvs --version $VERSION -f hvs/values.yaml -n isecl
 
-helm pull isecl-helm/trustagent && tar -xzf trustagent-$VERSION.tgz trustagent/values.yaml # Update values.yaml with appropriate values.
-helm install trustagent isecl-helm/trustagent -f trustagent/values.yaml -n isecl
+helm pull isecl-helm/trustagent --version $VERSION && tar -xzf trustagent-$VERSION.tgz trustagent/values.yaml 
+helm install trustagent isecl-helm/trustagent --version $VERSION -f trustagent/values.yaml -n isecl
 ```
 
 
@@ -150,7 +150,7 @@ The following example shows an installation for of NATS
 ## NATS Deployment Instruction
 
 ```
-helm pull isecl-helm/nats && tar -xzf nats-$VERSION.tgz nats/values.yaml # Update values.yaml with appropriate values.
+helm pull isecl-helm/nats && tar -xzf nats-$VERSION.tgz nats/values.yaml 
 helm install nats isecl-helm/nats -f nats/values.yaml -n isecl
 ```
 

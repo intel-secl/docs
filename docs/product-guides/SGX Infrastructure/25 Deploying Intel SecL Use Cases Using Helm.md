@@ -42,8 +42,8 @@ export VERSION=v5.0.0
 ### TEE-Attestation:
 
 ```
-helm pull isecl-helm/tee-attestation && tar -xzf tee-attestation-$VERSION.tgz tee-attestation/values.yaml
-helm install tee-attastation isecl-helm/tee-attestation -f tee-attestation/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/TEE-Attestation --version $VERSION && tar -xzf TEE-Attestation-$VERSION.tgz TEE-Attestation/values.yaml
+helm install tee-attastation isecl-helm/tee-attestation --version $VERSION -f tee-attestation/values.yaml --create-namespace -n <namespace>
 ```
 
 Follow the build instructions for SKC Library and update the isecl-skc-k8s.env and install SKC Library using below command
@@ -56,8 +56,8 @@ Follow the build instructions for SKC Library and update the isecl-skc-k8s.env a
 ### TEE Attestation Orchestration
 
 ```
-helm pull isecl-helm/tee-attestation-orchestration && tar -xzf tee-attestation-orchestration-$VERSION.tgz tee-attestation-orchestration/values.yaml
-helm install tee-attestation-orchestration isecl-helm/tee-attestation-orchestration -f tee-attestation-orchestration/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/TEE-Attestation-Orchestration --version $VERSION && tar -xzf TEE-Attestation-Orchestration-$VERSION.tgz TEE-Attestation-Orchestration/values.yaml
+helm install tee-attestation-orchestration isecl-helm/TEE-Attestation-Orchestration --version $VERSION -f TEE-Attestation-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 
 Follow the build instructions for SKC Library and update the isecl-skc-k8s.env and install SKC Library using below command
@@ -69,8 +69,8 @@ Follow the build instructions for SKC Library and update the isecl-skc-k8s.env a
 ### TEE Orchestration
 
 ```
-helm pull isecl-helm/tee-orchestration && tar -xzf tee-orchestration-$VERSION.tgz tee-orchestration/values.yaml
-helm install tee-orchestration isecl-helm/tee-orchestration -f tee-orchestration/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/TEE-Orchestration --version $VERSION && tar -xzf TEE-Orchestration-$VERSION.tgz TEE-Orchestration/values.yaml
+helm install tee-orchestration isecl-helm/TEE-Orchestration --version $VERSION -f TEE-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 
 Follow the build instructions for SKC Library and update the isecl-skc-k8s.env and install SKC Library using below command
