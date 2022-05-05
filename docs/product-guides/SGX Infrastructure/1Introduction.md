@@ -54,7 +54,7 @@ The SGX Attestation Infrastructure allows to fetch PCK certificates and SGX coll
 
 ### SGX Support in Orchestrators
 
-The SGX Attestation Infrastructure can optionally push the SGX information on compute nodes to cloud orchestrators so that SGX workloads (like SKC) can be scheduled on compute nodes that support SGX. Currently, the Kubernetes and Openstack orchestrators are supported.
+The SGX Attestation Infrastructure can optionally push the SGX information on compute nodes to cloud orchestrators so that SGX workloads (like SKC) can be scheduled on compute nodes that support SGX. Currently, Kubernetes is supported.
 
 ### Key Protection
 
