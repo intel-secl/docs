@@ -1,10 +1,6 @@
 # Note on SKC Library Deployment
 
-SKC Library Deployment (Binary as well as container) needs to performed with root privilege
-
-For binary deployment of SKC client Library, only one instance of Workload can use SKC Client Library. The config information for SKC client library is bound to the workload.
-In future, Multiple workloads might be supported
-For container deployment, since configmaps are used, each container instance of workload gets its own private SKC Client Library config information
+SKC Library Deployment needs root privileges
 
 The SKC Client Library TLS client certificate private key is stored in the configuration directories and can be read only with elevated root privileges
 keys.txt (set of PKCS11 URIs for the keys to be securely provisioned into an SGX enclave) can only be modified with elevated privileges
