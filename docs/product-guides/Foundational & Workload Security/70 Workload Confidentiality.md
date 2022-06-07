@@ -193,10 +193,11 @@ can be found on the Verification Service.
 
 #### Importing a SAML certificate
 
-Display the SAML certificate:
+Retrieve the HVS SAML certificate:
 
-```shell
-kubectl exec -it <HVS pod name> -n <namespace> -- cat /etc/hvs/certs/trustedca/saml-crt.pem
+```curl
+GET https://<HVS IP or hostname>:<KVS port>/hvs/v2/ca-certificates?domain=saml
+accept: application/x-pem-file
 ```
 
 Use the SAML certificate output in the following POST call to the Key
@@ -235,8 +236,9 @@ JAF53vmU+1jE
 
 Use OpenSSL to display the PrivacyCA certificate content:
 
-```shell
-kubectl exec -it <HVS pod name> -n <namespace> -- openssl x509 -in /etc/hvs/certs/trustedca/privacy-ca/privacy-ca-cert.pem
+```curl
+GET https://<HVS IP or hostname>:<KVS port>/hvs/v2/ca-certificates?domain=root
+accept: application/x-pem-file
 ```
 
 Use the PrivacyCA certificate output in the following POST call to the

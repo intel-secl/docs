@@ -1,6 +1,20 @@
 Intel Security Libraries for Data Center
 =========================================
 
+# ***Intel(R) SecL-DC version 5.0 GA***
+
+Foundational Security/Workload Security Use Cases:
+
+- All bare-metal binary installation deployments have been deprecated.
+- The Workload Confidentiality use case is now supported again for conatiner workloads only
+- Intel SecL now supports Endorsement Certificate (EC) Pre-Registration.  This feature allows a hardware owner to pre-register TPM ECs for any devices that will later be registered to the HVS for attestation.  This feature is intended for Edge and IoT devices that may be provisioned centrally and then installed in remote locations, and is intended to prevent unauthorized devices from being registered.
+- 
+
+SKC/SGX Attestation Use Cases:
+
+- All SGX/SKC use cases now support containerized deployment using Helm
+- All bare-metal binary installation deployments have been deprecated.  
+
 # ***Intel(R) SecL-DC version 4.2 BETA***
 
 Foundational Security/Workload Security Use Cases:
