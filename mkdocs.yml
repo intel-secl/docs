@@ -27,6 +27,7 @@ nav:
         -  Deploying Intel SecL-DC Using Helm: 
               -  Deploying Intel SecL-DC Using Helm: product-guides/Foundational & Workload Security/24 Deploying Intel SecL using Helm.md
               -  Deploying Intel SecL Use Cases Using Helm: product-guides/Foundational & Workload Security/25 Deploying Intel SecL Use Cases Using Helm.md
+              -  Installing the Workload Policy Manager (Workload Confidentiality Only): product-guides/Foundational & Workload Security/25.12 Installing the Workload Policy Manager.md
         -  Authentication: product-guides/Foundational & Workload Security/40 Authentication.md
         -  Connection Strings: product-guides/Foundational & Workload Security/50 Connection Strings.md
         -  Endorsement Certificate Pre-Registration: product-guides/Foundational & Workload Security/59 Endorsement Certificate Pre-Registration.md
@@ -71,9 +72,8 @@ nav:
             - Configuration Settings (Feature Discovery Agent): product-guides/SGX Infrastructure/110.6 FDA Configuration Settings.md
             - Configuration Settings (Quote Verification Service): product-guides/SGX Infrastructure/110.7 QVS Configuration Settings.md
             - Configuration Settings (Integration Hub): product-guides/SGX Infrastructure/110.9 Integration Hub Configuration Settings.md
-        -  Uninstallation: product-guides/SGX Infrastructure/9Uninstallation.md
-        -  Binary Upgrades: product-guides/SGX Infrastructure/10Binary Upgrades.md
-        -  Container Upgrades: product-guides/SGX Infrastructure/11Container Upgrades.md
+        #-  Uninstallation: product-guides/SGX Infrastructure/9Uninstallation.md
+        #-  Upgrades: product-guides/SGX Infrastructure/11Container Upgrades.md
         -  Appendix: product-guides/SGX Infrastructure/12Appendix.md
         -  KBS key-transfer flow validation: product-guides/SGX Infrastructure/13KBS key-transfer flow validation.md
         -  Note on Key Transfer Policy: product-guides/SGX Infrastructure/14Note on Key Transfer Policy.md
