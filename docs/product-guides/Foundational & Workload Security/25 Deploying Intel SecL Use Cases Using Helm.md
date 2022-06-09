@@ -9,8 +9,8 @@ Available use case deployments include:
   - The Trusted Workload Placement deployment can optionally be divided into separate deployments for the Cloud Service Provider and the Control Plane
     - The Control Plane deployment includes the CMS, AAS, HVS, and optionally supports NATS
     - The Cloud Service Provider deployment includes the Trust Agent, Integration Hub, Admission-Controller, Intel SecL Controller, and Intel SecL Scheduler
+- Workload Security (this deploys Host Attestation and Trusted Workload Placement, and adds components to enable Workload Confidentiality)
 
-Additional use case deployments may be made available in future releases.
 
 ## Deployment Steps
 

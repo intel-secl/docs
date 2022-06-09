@@ -105,11 +105,30 @@ Container Confidentiality with Cri-o runtime requires cri-o with version >=1.21 
 - The Workload Policy Manager must be installed and available
 
 
+???+ note 
+    Its recommended to not to not use a proxy to access container registries.  A local registry mirror is recommended instead.
+
+
+#### Configure Ocicrypt on all Worker Nodes
+
+While Help will install the Workload Agent, each worker node will ned to be configured to use the WLA as a key provider in `/etc/ocicrypt-wpm.json`:
+
+```shell
+    {
+        "key-providers":{
+            "isecl": {
+               "grpc": "unix:///var/run/workload-agent/wlagent.sock"
+            }
+        }
+    }
+```
+
+
 #### Workflow
 
 ##### Image encryption
 
-Configure the ocicrypt config file  `/etc/ocicrypt-wpm.json` as below 
+Configure the ocicrypt config file  `/etc/ocicrypt-wpm.json` as below on the system(s) running the WPM:
 
 ```shell 
     {
@@ -122,6 +141,15 @@ Configure the ocicrypt config file  `/etc/ocicrypt-wpm.json` as below
             }
         }
     }
+```
+
+Add the variable `OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt-wlagent.json` in `/etc/sysconfig/crio`
+
+Restart CRI-O
+
+```shell
+systemctl daemon-reload
+systemctl restart crio
 ```
 
 ###### Encrypting the Image with Skopeo
@@ -292,19 +320,6 @@ WTeXt+1HCFSo5WcAZWV8R9FYv7tzFxPY8aoLj82sgrOE4IwRqaA8KMbq3anF4RCk
 ```
 
 #####  Launching an Encrypted Container Image
-
-##### Configure the ocicrypt config file `ocicrypt-wlagent.json` as below in each WLA nodes.
-```shell script
-    {
-        "key-providers":{
-            "isecl": {
-               "grpc": "unix:///var/run/workload-agent/wlagent.sock"
-            }
-        }
-    }
-```
-???+ note 
-    Its recommended to not to set http_proxy variables if proxy server is running behind, instead please use a registry mirror to pull any publicly available images
 
 Containers of the protected images can now be launched as normal using Kubernetes pods and deployments. Encrypted images will only be accessible on hosts with a Platform Integrity Attestation report showing the host is trusted. If the Crio Container is launched on a host that is not trusted, the launch will fail, as the decryption key will not be provided.
 

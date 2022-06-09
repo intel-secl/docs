@@ -60,7 +60,7 @@ On the NFS server, execute the provided setup-nfs.sh script to set up the needed
 
 ---
 **NOTE**
-Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/opt/trustagent and /var/log/trustagent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
+Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
 ---
 
 ---
