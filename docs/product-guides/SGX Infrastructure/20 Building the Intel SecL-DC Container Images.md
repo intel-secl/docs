@@ -90,15 +90,23 @@ Sync the Repo:
 
 ```
 mkdir -p /root/intel-secl/build/secure-key-caching && cd /root/intel-secl/build/secure-key-caching
-repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.0
+repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.0.0
 repo sync
+```
+
+Run the additional prerequisite script:
+
+```
+cd utils/build/skc-tools/common_attest/tee/build_scripts/
+chmod +x tee-build-prereqs.sh
+./tee-build-prereqs.sh
 ```
 
 ## Building the Container Images
 
 ```
 cd /root/intel-secl/build/secure-key-caching/
-make k8s
+make k8s_skc
 ```
 
 The resulting container images will be placed in the following folder:
@@ -119,9 +127,9 @@ Build steps are same for single node and multi node deployment.
 
 Once built, the images must be uploaded to a container registry using the appropriate version tags.  
 
-| Itel SecL-DC Release Version | Required Container Version Tag |
-| ------ | ---- |
-| 5.0    | v5.0 |
+| Intel SecL-DC Release Version | Required Container Version Tag |
+| ----------------------------- | ------------------------------ |
+| 5.0                           | v5.0.0                         |
 
 The specific command to upload the images to the registry may differ based on the registry used.  The sample below assumes a Docker registry.
 
