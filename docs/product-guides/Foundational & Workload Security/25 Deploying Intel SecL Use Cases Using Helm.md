@@ -22,7 +22,7 @@ Pull the Helm charts from the Helm repository and then deploy.
 
 Set the release version
 ```
-VERSION=v5.0.0
+export VERSION=v5.0.0
 ```
 
 ### Host-Attestation:

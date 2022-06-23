@@ -43,8 +43,6 @@ using the KBS, and will output the encrypted image and an Image Flavor.
 The image owner can then upload the encrypted image to the CSP’s image
 storage service, and then upload the Image Flavor to the CSP-hosted WLS.
 
-![image-encryption](./images/image-encryption.png)
-
 When a compute host at the CSP attempts to launch a protected image, the
 WLA on the host will detect the launch request, and will issue a key
 transfer request to the WLS. The WLS will use the image ID to retrieve
@@ -210,8 +208,6 @@ $ skopeo copy oci:custom-image:enc docker://Registry.server.com:5000/custom-imag
 Skopeo can be used to pull a container image from an external registry (a private Docker registry is used in the examples above). This image may be encrypted already, but if you wish to pull an image for encryption, it must be in plaintext format. Skopeo has a wrapper that can interact with the Workload Policy Manager. When trying to encrypt an image, Skopeo calls the WPM CLI fetch-key command. In the command, the KBS is called in order to create a new key. The return from the KBS includes the key retrieval URL, which is used when trying to decrypt. After the key is returned to the WPM, the WPM passes the key back to Skopeo. Skopeo uses the key to encrypt the image layer by layer as well as associate the encrypted image with the key's URL. Skopeo then uploads the encrypted image to a remote container registry.
 
 #####  Importing Verification Service Certificates
-
-### Importing Verification Service Certificates
 
 After installing the Key Broker, the Key Broker must import the SAML and PrivacyCA
 certificates from any Verification Service(s) it will trust. This provides
