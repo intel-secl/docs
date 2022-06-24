@@ -19,7 +19,7 @@ nav:
     - Intel® Security Libraries for Data Center (Intel® SecL-DC): index.md
   - Product Guide: 
       - Foundational and Workload Security:
-        -  Disclaimer: product-guides/Foundational & Workload Security/01.md
+        -  Disclaimer: Intel Disclaimer.md
         -  Introduction: product-guides/Foundational & Workload Security/02 Introduction.md
         -  Intel® Security Libraries Components: product-guides/Foundational & Workload Security/20 Intel® Security Libraries Components.md
         -  Hardware Security Technology Considerations: product-guides/Foundational & Workload Security/23 Hardware Security Technology Considerations.md
@@ -52,11 +52,12 @@ nav:
         -  Upgrades: product-guides/Foundational & Workload Security/130 Upgrades.md
         -  Appendix: product-guides/Foundational & Workload Security/999 Appendix.md
       - SGX Infrastructure and Secure Key Caching:
-        -  Disclaimer: product-guides/SGX Infrastructure/01.md
+        -  Disclaimer: Intel Disclaimer.md
         -  Introduction: product-guides/SGX Infrastructure/1Introduction.md
         -  SGX Attestation Infrastructure : product-guides/SGX Infrastructure/2SGX Attestation Infrastructure.md
         -  Secure Key Caching: product-guides/SGX Infrastructure/2.1Secure Key Caching.md
-        -  Intel® Security Libraries Installation: product-guides/SGX Infrastructure/3Intel® Security Libraries Installation.md
+        -  Building the Intel® Security Libraries Container Images: product-guides/SGX Infrastructure/20 Building the Intel SecL-DC Container Images.md
+        -  Deploying Intel® SecL Use Cases Using Helm: product-guides/SGX Infrastructure/25 Deploying Intel SecL Use Cases Using Helm.md
         -  Authentication: product-guides/SGX Infrastructure/4Authentication.md
         -  SGX Features Provisioning: product-guides/SGX Infrastructure/5SGX Features Provisioning.md
         -  Setup Task Flows for K8s Deployments: product-guides/SGX Infrastructure/6Setup Task Flows for K8s Deployments.md
