@@ -116,13 +116,6 @@ The resulting container images will be placed in the following folder:
 ```
 
 
----
-**NOTE**
-
-Build steps are same for single node and multi node deployment.
-
----
-
 ## Uploading the Container Images to a Registry
 
 Once built, the images must be uploaded to a container registry using the appropriate version tags.  
