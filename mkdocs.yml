@@ -54,14 +54,17 @@ nav:
       - SGX Infrastructure and Secure Key Caching:
         -  Disclaimer: Intel Disclaimer.md
         -  Introduction: product-guides/SGX Infrastructure/1Introduction.md
-        -  SGX Attestation Infrastructure : product-guides/SGX Infrastructure/2SGX Attestation Infrastructure.md
-        -  Secure Key Caching: product-guides/SGX Infrastructure/2.1Secure Key Caching.md
-        -  Building the Intel® Security Libraries Container Images: product-guides/SGX Infrastructure/20 Building the Intel SecL-DC Container Images.md
-        -  Deploying Intel® SecL Use Cases Using Helm: product-guides/SGX Infrastructure/25 Deploying Intel SecL Use Cases Using Helm.md
-        -  Authentication: product-guides/SGX Infrastructure/4Authentication.md
-        -  SGX Features Provisioning: product-guides/SGX Infrastructure/5SGX Features Provisioning.md
-        -  Setup Task Flows for K8s Deployments: product-guides/SGX Infrastructure/6Setup Task Flows for K8s Deployments.md
-        -  Configuration Update Flows for K8s Deployments: product-guides/SGX Infrastructure/7Configuration Update Flows for K8s Deployments.md
+        -  SGX Attestation Infrastructure : product-guides/SGX Infrastructure/20 SGX Attestation Infrastructure.md
+        -  Secure Key Caching: product-guides/SGX Infrastructure/30 Secure Key Caching.md
+        -  Building the Intel® Security Libraries Container Images: product-guides/SGX Infrastructure/35 Building the Intel SecL-DC Container Images.md
+        -  Getting Started with Helm: product-guides/SGX Infrastructure/40  Getting Started with Helm Deployment.md
+        -  Deploying Intel® SecL Use Cases Using Helm: product-guides/SGX Infrastructure/50 Deploying Intel SecL Use Cases Using Helm.md
+        -  Authentication: product-guides/SGX Infrastructure/55 Authentication.md
+        -  Note on SKC Library Deployment: product-guides/SGX Infrastructure/60 Note on SKC Library Deployment.md
+        -  Note on Key Transfer Policy: product-guides/SGX Infrastructure/65 Note on Key Transfer Policy.md
+        -  KBS key-transfer flow validation: product-guides/SGX Infrastructure/70 KBS key-transfer flow validation.md
+        -  Appendix: product-guides/SGX Infrastructure/100 Appendix.md
+        -  Deploying individual Intel® SecL Services Using Helm: product-guides/SGX Infrastructure/105 Deploying Individual Services Using Helm.md
         -  Intel Security Libraries Configuration Settings: 
             - Chainging Configuration Settings: product-guides/SGX Infrastructure/110.0 Changing Configuration Settings.md
             - Configuration Settings (Certificate Management Services): product-guides/SGX Infrastructure/110.1 CMS Configuration Settings.md
@@ -73,12 +76,6 @@ nav:
             - Configuration Settings (Feature Discovery Agent): product-guides/SGX Infrastructure/110.6 FDA Configuration Settings.md
             - Configuration Settings (Quote Verification Service): product-guides/SGX Infrastructure/110.7 QVS Configuration Settings.md
             - Configuration Settings (Integration Hub): product-guides/SGX Infrastructure/110.9 Integration Hub Configuration Settings.md
-        #-  Uninstallation: product-guides/SGX Infrastructure/9Uninstallation.md
-        #-  Upgrades: product-guides/SGX Infrastructure/11Container Upgrades.md
-        -  Appendix: product-guides/SGX Infrastructure/12Appendix.md
-        -  KBS key-transfer flow validation: product-guides/SGX Infrastructure/13KBS key-transfer flow validation.md
-        -  Note on Key Transfer Policy: product-guides/SGX Infrastructure/14Note on Key Transfer Policy.md
-        -  Note on SKC Library Deployment: product-guides/SGX Infrastructure/15Note on SKC Library Deployment.md
   - Supplementary Guide:
       - Common Cluster Deployment:
         - Pre-requisites: supplementary-guides/Common Cluster Deployment Guide/1Pre-requisites.md
