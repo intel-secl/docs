@@ -10,7 +10,7 @@ When deploying individual services, all of the values.yaml files must be configu
 
 Set deployment version
 ```
-export VERSION=5.0.0
+export VERSION=v5.0.0
 ```
 Following are the steps need to be run for deploying individual charts for host attestation usecase
 ```shell script
@@ -36,6 +36,56 @@ helm pull isecl-helm/trustagent --version $VERSION && tar -xzf trustagent-$VERSI
 helm install trustagent isecl-helm/trustagent --version $VERSION -f trustagent/values.yaml -n isecl
 ```
 
+Following are the steps need to be run for deploying individual charts for workload security usecase
+```shell script
+helm pull isecl-helm/cleanup-secrets --version $VERSION && tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
+helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
+
+helm pull isecl-helm/cms --version $VERSION && tar -xzf cms-$VERSION.tgz cms/values.yaml 
+helm install cms isecl-helm/cms --version $VERSION -f cms/values.yaml -n isecl
+
+helm pull isecl-helm/aasdb-cert-generator --version $VERSION && tar -xzf aasdb-cert-generator-$VERSION.tgz aasdb-cert-generator/values.yaml 
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator --version $VERSION -f aasdb-cert-generator/values.yaml -n isecl
+
+helm pull isecl-helm/aas --version $VERSION && tar -xzf aas-$VERSION.tgz aas/values.yaml 
+helm install aas isecl-helm/aas --version $VERSION -f aas/values.yaml -n isecl
+
+helm pull isecl-helm/hvsdb-cert-generator --version $VERSION && tar -xzf hvsdb-cert-generator-$VERSION.tgz hvsdb-cert-generator/values.yaml 
+helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator --version $VERSION -f hvsdb-cert-generator/values.yaml -n isecl
+
+helm pull isecl-helm/hvs --version $VERSION && tar -xzf hvs-$VERSION.tgz hvs/values.yaml 
+helm install hvs isecl-helm/hvs --version $VERSION -f hvs/values.yaml -n isecl
+
+helm pull isecl-helm/trustagent --version $VERSION && tar -xzf trustagent-$VERSION.tgz trustagent/values.yaml 
+helm install trustagent isecl-helm/trustagent --version $VERSION -f trustagent/values.yaml -n isecl
+
+helm pull isecl-helm/isecl-controller --version $VERSION && tar -xzf isecl-controller-$VERSION.tgz isecl-controller/values.yaml 
+helm install isecl-controller isecl-helm/isecl-controller --version $VERSION -f isecl-controller/values.yaml -n isecl
+
+helm pull isecl-helm/ihub --version $VERSION && tar -xzf ihub-$VERSION.tgz ihub/values.yaml 
+helm install ihub isecl-helm/ihub --version $VERSION -f ihub/values.yaml -n isecl
+
+helm pull isecl-helm/isecl-scheduler --version $VERSION && tar -xzf isecl-scheduler-$VERSION.tgz isecl-scheduler/values.yaml 
+helm install isecl-scheduler isecl-helm/isecl-scheduler --version $VERSION -f isecl-scheduler/values.yaml -n isecl
+
+helm pull isecl-helm/kbs --version $VERSION && tar -xzf kbs-$VERSION.tgz kbs/values.yaml 
+helm install kbs isecl-helm/kbs --version $VERSION -f kbs/values.yaml -n isecl
+
+helm pull isecl-helm/wls --version $VERSION && tar -xzf wls-$VERSION.tgz wls/values.yaml 
+helm install wls isecl-helm/wls --version $VERSION -f wls/values.yaml -n isecl
+
+helm pull isecl-helm/workload-agent --version $VERSION && tar -xzf workload-agent-$VERSION.tgz workload-agent/values.yaml 
+helm install workload-agent isecl-helm/workload-agent --version $VERSION -f workload-agent/values.yaml -n isecl
+
+helm pull isecl-helm/wpm --version $VERSION && tar -xzf wpm-$VERSION.tgz wpm/values.yaml 
+helm install wpm isecl-helm/wpm --version $VERSION -f wpm/values.yaml -n isecl
+```
+
+Following are the steps need to be run for creating global admin user
+```shell script
+helm pull isecl-helm/global-admin-generator --version $VERSION && tar -xzf global-admin-generator-$VERSION.tgz global-admin-generator/values.yaml 
+helm install global-admin-generator isecl-helm/global-admin-generator --version $VERSION -f global-admin-generator/values.yaml -n isecl
+```
 
 The Intel SecL-DC services can individually be deployed using Helm, instead of automatically deploying a specific use case.
 
@@ -63,8 +113,7 @@ Below is a list of Helm charts used to run specific jobs needed during deploymen
 |isecl-helm/aasdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating aasdb certificates       |
 |isecl-helm/hvsdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating hvsdb certificates       |
 |isecl-helm/cleanup-secrets         |                    5.0.0         |  v5.0.0      |    A Helm chart for cleaning up secrets               |
-|isecl-helm/aas-manager             |                    5.0.0         |  v5.0.0      |    A Helm chart for bootstrapping default users an... |
-
+|isecl-helm/wpm                     |                    5.0.0         |  v5.0.0      |    A Helm chart for creating WPM secrets              |
 
 Below is a list of charts that needs to be deployed for Trusted Workload Placement
 
