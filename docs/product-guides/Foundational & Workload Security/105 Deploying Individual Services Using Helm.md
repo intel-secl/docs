@@ -81,6 +81,12 @@ helm pull isecl-helm/wpm --version $VERSION && tar -xzf wpm-$VERSION.tgz wpm/val
 helm install wpm isecl-helm/wpm --version $VERSION -f wpm/values.yaml -n isecl
 ```
 
+Following are the steps need to be run for creating global admin user
+```shell script
+helm pull isecl-helm/global-admin-generator --version $VERSION && tar -xzf global-admin-generator-$VERSION.tgz global-admin-generator/values.yaml 
+helm install global-admin-generator isecl-helm/global-admin-generator --version $VERSION -f global-admin-generator/values.yaml -n isecl
+```
+
 The Intel SecL-DC services can individually be deployed using Helm, instead of automatically deploying a specific use case.
 
 Below is a list of the Helm charts available on the Intel SecL Helm repository for deploying individual services (not entire use cases):
