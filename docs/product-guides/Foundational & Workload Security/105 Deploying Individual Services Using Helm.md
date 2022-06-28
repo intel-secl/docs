@@ -107,6 +107,7 @@ Below is a list of Helm charts used to run specific jobs needed during deploymen
 |isecl-helm/aasdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating aasdb certificates       |
 |isecl-helm/hvsdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating hvsdb certificates       |
 |isecl-helm/cleanup-secrets         |                    5.0.0         |  v5.0.0      |    A Helm chart for cleaning up secrets               |
+|isecl-helm/wpm                     |                    5.0.0         |  v5.0.0      |    A Helm chart for creating WPM secrets              |
 
 Below is a list of charts that needs to be deployed for Trusted Workload Placement
 
