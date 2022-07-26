@@ -57,6 +57,8 @@ Key Protection is implemented by the SKC Client -- a set of libraries - which mu
 
 Step 6 is optional (keys can be stored in KBS). Keys policies in step 2 are called Key Transfer Policies and are created by an Admin and assigned to Application keys.
 
-##  SKC Virtualization (Supported only on RHEL 8.2, not supported on Ubuntu 18.04/20.04)
+##  SKC Virtualization (Supported only on RHEL 8.2/8.4, not supported on Ubuntu 18.04/20.04)
 
-Virtualization enabled on SGX Host machines, uses SGX key features. With Virtualization being enabled on SGX host, SKC Library which uses Intel crypto tool kit to protect keys in SGX Enclave can be configured on Virtual Machines which are created on SGX Hosts. This enhancement further provides the privilege for a workload on a VM  allowing successful Secure Key transfer flow which meets the policy requirements. Hence virtualization on SGX Hosts supports key transfer flow for Workload on bare metal, Workload inside a VM, Workload in a container and Workload in a container inside a VM enabled on SGX Host.
+Virtualization enabled on SGX Host machines, uses SGX key features. With Virtualization being enabled on SGX host, SKC Library which uses Intel crypto tool kit to protect keys in SGX Enclave can be configured on Virtual Machines which are created on SGX Hosts. This enhancement further provides the privilege for a workload on a VM  allowing successful Secure Key transfer flow which meets the policy requirements. Hence virtualization on SGX Hosts supports key transfer flow for Workload on bare metal, Workload inside a VM enabled on SGX Host.
+
+Note: SGX Related EFI variables cannot be exposed from Host to VM. PCK ID Retrieval tool relies on SGX EFI variables to get Platform Manifest. Since on a SGX VM, SGX EFI Variables wont be exposed, FDA (Via PCKID tool) cannot generate Platform Manifest. Hence, FDA cannot be deployed inside a VM unless the platform is registered to PCS Via Direct Registration
