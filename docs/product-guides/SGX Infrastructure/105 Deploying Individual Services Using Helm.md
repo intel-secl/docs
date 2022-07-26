@@ -63,9 +63,9 @@ Below is a list of the Helm charts available on the SKC Helm repository for depl
 |isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
 |isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
 |isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
 |isecl-helm/fda                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Feature Discovery Agent   |
-|isecl-helm/kbs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC key broker service |
+|isecl-helm/kbs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Key Broker Service |
+|isecl-helm/aps                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Attestation Policy Service |
 |isecl-helm/qvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Quote Verification Service |
 |isecl-helm/tcs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC TEE Caching Service |
 
@@ -90,9 +90,9 @@ Below is a list of charts that needs to be deployed for TEE Attestation and Orch
 |isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
 |isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
 |isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
 |isecl-helm/fda                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Feature Discovery Agent   |
 |isecl-helm/kbs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC key broker service |
+|isecl-helm/aps                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Attestation Policy Service |
 |isecl-helm/qvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Quote Verification Service |
 |isecl-helm/tcs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC TEE Caching Service |
 
@@ -107,53 +107,7 @@ Below are the charts that needs to be deployed for TEE Orchestration
 |isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
 |isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
 |isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
 |isecl-helm/fda                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Feature Discovery Agent   |
+|isecl-helm/aps                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Attestation Policy Service |
 |isecl-helm/qvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Quote Verification Service |
 |isecl-helm/tcs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC TEE Caching Service |
-
-Intel SecL-DC can optionally utilize a NATS server to manage connectivity between the Host Verification Service and any number of deployed Trust Agent hosts.  This acts as an alternative to communication via REST APIs - in NATS mode, a connection is established with the NATS server, and messages are sent and received over that connection.  Using NATS mode requires configuration changes in the values.yaml files for the HVS and Trust Agent charts, as well as deployment of NATS itself:
-
-|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
-|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
-
-NATS deployments also require a setup job:
-
-|NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
-|-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/nats-init               |                    5.0.0         |  v5.0.0      |    A Helm chart for creating TLS certificates and ... |
-
-
-## Configuration Changes Needed for NATS Mode
-
-If NATS mode will be used, the NATS service answer file must also be downloaded and configured, and additional configuration elements must be added to the HVS and Trust Agent values.yaml files.
-
-Download and configure the NATS configuration file:
-
-```
-tar -xzf nats-$VERSION.tgz nats/values.yaml
-```
-
-In the hvs.yaml and trustagent.yaml files, configure the NATS block in the existing config element:
-
-```    
-    nats:
-      enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: nats://<user input>:30222   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
-      serviceMode: outbound # The model for TA (Allowed values: `outbound`) (**REQUIRED IF ENABLED**)
-```
-
-Note that the NATS server IP/hostname is typically the same as the Kubernetes control plane.
-
-The following example shows an installation for of NATS
-
-## NATS Deployment Instruction
-
-```
-helm pull isecl-helm/nats --version $VERSION && tar -xzf nats-$VERSION.tgz nats/values.yaml 
-helm install nats isecl-helm/nats --version $VERSION -f nats/values.yaml -n isecl
-```
-
-
-
