@@ -4,23 +4,22 @@
 
 Intel® Security Libraries is distributed as open source code and must be compiled into OCI images before installation.
 
-Instructions and sample scripts for building the Intel® SecL-DC components  as containerized images for Kubernetes deployments can be found in [Quick Start guide](https://github.com/intel-secl/docs/blob/v5.0/develop/quick-start-guides/SGX%20Infrastructure%20-%20Containerization.md#build)
-
 After the components have been built, the OCI images and pre-req scripts can be found in the `K8s` directory created by the build scripts.
 
 Generated components `OCI images`  under `<working directory>/k8s/container-images`:
 
-* Authentication Authorization Service: `aas-v4.1.0.tar`
-* Certificate Management Service: `cms-v4.1.0.tar`
-* Integration Hub: `ihub-v4.1.0.tar`
-* Key Broker Service: `kbs-v4.1.0.tar`
-* K8s Extensions Custom Controller: `isecl-k8s-controller-v4.1.0.tar`
-* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v4.1.0.tar`
-* SGX Caching Service: `scs-v4.1.0.tar`
-* SGX Quote Verification Service: `sqvs-v4.1.0.tar`
-* SGX Host Verification Service: `shvs-v4.1.0.tar`
-* SGX Agent: `sgx-agent-v4.1.0.tar`
-* SKC Library: `skc-lib-4.1.0.tar`
+* Authentication Authorization Service: `aas-v5.0.0.tar`
+* Certificate Management Service: `cms-v5.0.0.tar`
+* Integration Hub: `ihub-v5.0.0.tar`
+* Key Broker Service: `kbs-v5.0.0.tar`
+* K8s Extensions Custom Controller: `isecl-k8s-controller-v5.0.0.tar`
+* K8s Extensions Extended Scheduler: `isecl-k8s-scheduler-v5.0.0.tar`
+* TEE Caching Service: `tcs-v5.0.0.tar`
+* Policy Attestation Service: `aps-v5.0.0.tar`
+* Quote Verification Service: `qvs-v5.0.0.tar`
+* Feature Discovery Service: `fds-v5.0.0.tar`
+* Feature Discovery Agent: `fda-v5.0.0.tar`
+* SKC Library: `skc-lib-5.0.0.tar`
 
 Generated Components `K8s Manifests` directories under `<working directory>/k8s/manifests`:
 
@@ -31,12 +30,13 @@ Generated Components `K8s Manifests` directories under `<working directory>/k8s/
 * Authentication Authorization Service: `aas`
 * Integration Hub: `ihub`
 * Key Broker Service: `kbs`
-* SGX Caching Service: `scs`
-* SGX Host Verification Service: `shvs`
-* SGX Quote Verification Service: `sqvs`
+* Policy Attestation Service: `aps`
+* TEE Caching Service: `tcs`
+* Feature Discovery Service: `fds`
+* Quote Verification Service: `qvs`
 * K8s Extensions Custom Controller: `k8s-extensions-controller`
 * K8s Extensions Extended Scheduler: `k8s-extensions-scheduler`
-* SGX Agent: `sgx_agent`
+* Feature Discovery Agent: `fda`
 * SKC Library: `skc_library`
 
 Bootstrap scripts and answer file under `<working directory>/k8s/manifests`:
@@ -79,7 +79,7 @@ Bootstrap scripts and answer file under `<working directory>/k8s/manifests`:
 
 #### Kubernetes
 
-* Single-node: `microk8s` (1.21.3)
+* Single-node: `kubeadm` (1.21.3)
 * Multi-node: `kubeadm` (1.21.3)
 
 #### Container Runtime
@@ -89,7 +89,6 @@ Bootstrap scripts and answer file under `<working directory>/k8s/manifests`:
 
 #### Storage:
 
-* `hostPath` for Single Node `microk8s` for all services and agents
 * `NFS` for Multi Node `kubeadm` for all services, `hostPath ` for sgx_agent and skc_library
 
 ##  Recommended Service Layout
@@ -476,5 +475,5 @@ Pod should be in running state and launched on the host as per values in pod.yml
     docker exec -it <container_id> /bin/sh
 
     Download index.html
-    wget https://localhost:2443 --no-check-certificate
+    wget https://<control plane ip>:32443 --no-check-certificate
 ```
