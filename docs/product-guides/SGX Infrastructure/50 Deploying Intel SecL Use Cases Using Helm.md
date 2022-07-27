@@ -46,7 +46,7 @@ helm pull isecl-helm/TEE-Attestation --version $VERSION && tar -xzf TEE-Attestat
 helm install tee-attastation isecl-helm/tee-attestation --version $VERSION -f tee-attestation/values.yaml --create-namespace -n <namespace>
 ```
 
-Follow [Deploy SKC Library](./25%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
+Follow [Deploy SKC Library](./50%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
 
 
 ### TEE Attestation Orchestration
@@ -56,7 +56,7 @@ helm pull isecl-helm/TEE-Attestation-Orchestration --version $VERSION && tar -xz
 helm install tee-attestation-orchestration isecl-helm/TEE-Attestation-Orchestration --version $VERSION -f TEE-Attestation-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 
-Follow [Deploy SKC Library](./25%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
+Follow [Deploy SKC Library](./50%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
 
 ### TEE Orchestration
 
@@ -65,7 +65,7 @@ helm pull isecl-helm/TEE-Orchestration --version $VERSION && tar -xzf TEE-Orches
 helm install tee-orchestration isecl-helm/TEE-Orchestration --version $VERSION -f TEE-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 
-Follow [Deploy SKC Library](./25%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
+Follow [Deploy SKC Library](./50%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm.md#deploy-skc-library) to deploy SKC Library
 
 ### Deploy SKC Library
 
