@@ -28,6 +28,8 @@ intel:nats://<unique host identifier, configured at Trust Agent installation>
 
 The unique host identifier is a unique ID used by NATS to differentiate services when passing messages.  Any unique string is acceptable, but good examples can be the host's FQDN or hardware UUID.
 
+Note: Make sure no two hosts are configured with same host identifier.
+
 ## VMware ESXi
 
 ### Importing VMware TLS Certificates
