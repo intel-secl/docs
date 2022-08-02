@@ -58,6 +58,24 @@ On the NFS server, execute the provided setup-nfs.sh script to set up the needed
 ./setup-nfs.sh /mnt/nfs_share 1001 <ip or hostname of the control plane>
 ```
 
+All the pods running on nodes in cluster need access to NFS mount path via PVC e.g `/mnt/nfs_share`. 
+This requires user to add IPs/FQDN names to be added to /etc/exports file on system where NFS server is installed
+Add all the IPs or FQDN names of each of nodes in K8s cluster in /etc/exports file in system where NFS is server is installed and configured using above script.
+e.g For 3 node cluster with FQDN names control-plane.com(control plane), node1.com and node2.com(nodes)
+```shell script
+cat /etc/exports
+/mnt/nfs_share/isecl/        control-plane.com(rw,sync,no_all_squash,root_squash)
+/mnt/nfs_share/isecl/        node1.com(rw,sync,no_all_squash,root_squash)
+/mnt/nfs_share/isecl/        node2.com(rw,sync,no_all_squash,root_squash)
+```
+
+*Note:* Even if a new node is joined to the cluster, the IP/FQDN name should be added to /etc/exportfs file at system where NFS server is running
+
+After making the changes in `/etc/exports` file run the below command
+```shell script
+exportfs -arv
+``` 
+
 ---
 **NOTE**
 Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
