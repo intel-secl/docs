@@ -29,7 +29,20 @@ Red Hat Enterprise Linux 8.4
 
 * For building container images Refer here for [instructions](https://github.com/intel-secl/docs/blob/v4.2/develop/docs/quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build.md)
 
-* Setup NFS, Refer [instructions](../../docs/NFS-Setup.md) for setting up and configuring NFS Server
+* Setup NFS, Refer [instructions](https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts/blob/v5.0/develop/NFS-Setup.md) for setting up and configuring NFS Server
+
+### Installing isecl-helm charts
+
+* Add the isecl-helm charts in helm chart repository
+```
+helm repo add isecl-helm https://intel-secl.github.io/helm-charts
+helm repo update
+```
+
+* To find list of avaliable charts
+```shell script
+helm search repo
+```
 
 ### Support Details
 
@@ -40,19 +53,6 @@ Red Hat Enterprise Linux 8.4
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
 | Container Runtime | *docker*,*CRI-O*<br/> |
-
-### Installing isecl-helm charts
-
-* Add the isecl-helm charts in helm chart repository
-```shell script
-helm repo add isecl-helm https://intel-secl.github.io/helm-charts
-helm repo update
-```
-
-* To find list of avaliable charts
-```shell script
-helm search repo
-```
 
 ### Update `values.yaml` for Use Case chart deployments
 

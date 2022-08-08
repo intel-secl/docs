@@ -31,5 +31,5 @@ Changing group ownership and permissions of pkcs11 token
 Establish tls session with the nginx using the key transferred inside the enclave
 
 ```
-    wget https://localhost:2443 --no-check-certificate
+    wget https://<Control Plane IP>:32443 --no-check-certificate
 ```

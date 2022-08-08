@@ -79,8 +79,19 @@ systemctl restart docker
 ### Skopeo
 
 Installing skopeo in build environment
+
+#### RHEL 8.4
 ```
 dnf install -y skopeo
+```
+
+#### Ubuntu 20.04
+```
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo apt-key add -
+apt-get update
+apt-get -y upgrade
+apt-get -y install skopeo
 ```
 
 ## Sync the Repos
