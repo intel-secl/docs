@@ -3169,8 +3169,8 @@ paths:
       description: |
         A flavor is a set of measurements and metadata organized in a flexible format that allows for ease of further extension. The measurements included in the flavor pertain to various hardware, software and feature categories, and their respective metadata sections provide descriptive information.
 
-        The four current flavor categories:
-        PLATFORM, OS, ASSET_TAG, HOST_UNIQUE, SOFTWARE (See the product guide for a detailed explanation)
+        The six current flavor categories:
+        PLATFORM, OS, ASSET_TAG, HOST_UNIQUE, IMA, SOFTWARE (See the product guide for a detailed explanation)
 
         When a flavor is created, it is associated with a flavor group. This means that the measurements for that flavor type are deemed acceptable to obtain a trusted status. If a host, associated with the same flavor group, matches the measurements contained within that flavor, the host is trusted for that particular flavor category (dependent on the flavor group policy). Searches for Flavor records. The identifying parameter can be specified as query to search flavors which will return flavor collection as a result.
 
@@ -3290,7 +3290,7 @@ paths:
          | flavors                        | (Optional) A collection of flavors in the defined flavor format. No other parameters are needed in this case.
          | signed_flavors                 | (Optional) This is collection of signed flavors consisting of flavor and signature provided by user. |
          | flavorgroup_names              | (Optional) Flavor group names that the created flavor(s) will be associated with. If not provided, created flavor will be associated with automatic flavor group. |
-         | partial_flavor_types           | (Optional) List array input of flavor types to be imported from a host. Partial flavor type can be any of the following: PLATFORM, OS, ASSET_TAG, HOST_UNIQUE, SOFTWARE. Can be provided with the host connection string. See the product guide for more details on how flavor types are broken down for each host type. |
+         | partial_flavor_types           | (Optional) List array input of flavor types to be imported from a host. Partial flavor type can be any of the following: PLATFORM, OS, ASSET_TAG, HOST_UNIQUE, IMA, SOFTWARE. Can be provided with the host connection string. See the product guide for more details on how flavor types are broken down for each host type. |
       operationId: Create-Flavors
       parameters:
       - in: body
@@ -4268,6 +4268,17 @@ paths:
                               ]
                           }
                       },
+                      "ima_logs": {
+                        "pcr": {
+                          "index": 10,
+                          "bank": "SHA256"
+                        },
+                        "ima_measurements": [{
+                          "file": "boot_aggregate",
+                          "measurement": "b12a99e2b3557f095e5988da5dd814920d036007fdcd027380b173ab494e65ee"
+                        }],
+                        "ima_template": "ima-ng"
+                      },
                       "binding_key_certificate": "MIIFITCCA4mgAwIBAgIJAKrvQp6ScTi1MA0GCSqGSIb3DQEBDAUAMBsxGTAXBgNVBAMTEG10d2lsc29uLXBjYS1haWswHhcNMjAwNDE1MDgwMzE2WhcNMzAwNDEzMDgwMzE2WjAlMSMwIQYDVQQDDBpDTj1CaW5kaW5nX0tleV9DZXJ0aWZpY2F0ZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANJgmnV3e9VBFxZqKQP1FszztRQ0JXAlhE6SEa+1c8oTPbEG83s8nfprQwEaH89WBVm3QOe+Pl+ZS01E3jZ0asFHqkicnXh8nyWcpPY8JKQ8qRJzC68rvw2zgMo1QZKg65enTRIEABO8uFZKqye7xubJZOnanDPMbprer+Q+brdm+muOrHbROmY18utVnY3IciOPC2Hv+IC+4xzcli9PlkUxsUnmNf9pz85sLt2lft6gun4aGMh2ute8YTL6ZLNZ8nvZN8T8+7/IV3/Pklz4qtMyFxtpHIP2UUxlptk6uTvjsS4Nnwt5YdTuYm4yWzIFB7SApQsDbB4WtyPW9oRcRhkCAwEAAaOCAdwwggHYMA4GA1UdDwEB/wQEAwIFIDCBnQYHVQSBBQMCKQSBkf9UQ0eAFwAiAAs8+xFev3D2D4WG6PPhDWJey+Q/rVqgI3NYt79/YbizCwAEAP9VqgAAAAAANrGOAAAABgAAAAEBAAcAPgAMNgAAIgALta+AaKE5Tb3YIl7i/P+7tFLzXKZFlI+aWppdCEXJfw0AIgALScYOkvDeijOdoEy0phrYroOncXXSpNZ9M2JjdylBTlwwggEUBghVBIEFAwIpAQSCAQYAFAALAQBJQMBtwZmONe+QFGtDxzIrcHEg+NoQ8hQVpr+5Vt2knUAEon6gJgqz1gSWm0f0Q8TRzRVOutPxtNZMSvokbfHcdYyjmSwoIMATeK+YDieGuL+4w0ezg30lYjRukFOTxA2fw7arNkL7J/fiXGOAAUqDM+z7k4/y8bfRwBHZiN3uxbroR9SwiniPYmxUMLiIPLNMJVKdDMQLzA6z+PTSc8pxf1d78q7y/L+9OFfrThj+m6B4c5qWNHmZc37JG854QDP41FMJI9/Q1cQK6iZHapZPjTp9ikQuF+aegOxzVfcxeJI+wjkwqcGgeEfL+xFx2nhQ+1MSQrZ/uFiZhggdgqtQMA4GCFUEgQUDAikCBAIAADANBgkqhkiG9w0BAQwFAAOCAYEATBlbRClIKh5a7N0kcdEs94Z/5Vzrql8mizEe9/+xXd+Pp9ndyEGjrq3DSsMiOQyt0zQ39TGDzPOzuBQ5DG6A/w21MGVKGO1w15J7Wxzpez7Gd76HwXGHIiJnJZ5Llz9s7IWDqU5fIra/t4qWZzSxpZOVgpBe/9QzIVjgV44sXtjUahC7pnWusEPXa8kcLrdj+Y9EiMbuAldcDLmduRhDO/ex+StRs0b21BfF6sjCud5Md28r8W5/NEuXOqaKYWIFbGjD5qflCL2stEfbJFnIASiBS9dYYFAPj+fQWJzOTtxtk7lfAIz2PD3TJwHWD+HyMd5PsaHOnTw9GEKz3NDdmSc3juhnfi5RNIlFKAtYUjQ+HQjYvOhNOZTPB0S8U/91XV6ph0bTWdxJh6/KUt9jxnASapeVkoS18Q4K5sEmB/iHU0/HY56oDsrjRibX/sWfh9XG2eB3U8DlQkFtyVGvuuD3ym7cPirhVxTUiSOYa/Z6OJ04Gbaya4rWS7ZLBStD",
                       "measurement_xmls": [
                           "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Measurement xmlns=\"lib:wml:measurements:1.0\" Label=\"ISecL_Default_Workload_Flavor_v1.0\" Uuid=\"b68fd1b2-e34f-4637-b3de-f9da6b7f6511\" DigestAlg=\"SHA384\"><Dir Exclude=\"\" Include=\".*\" Path=\"/opt/workload-agent/bin\">e64e6d5afaad329d94d749e9b72c76e23fd3cb34655db10eadab4f858fb40b25ff08afa2aa6dbfbf081e11defdb58d5a</Dir><File Path=\"/opt/workload-agent/bin/wlagent\">ac8b967514f0a4c0ddcd87ee6cfdd03ffc5e5dd73598d40b8f6b6ef6dd606040a5fc31667908561093dd28317dfa1033</File><CumulativeHash>2ae673d241fed6e55d89e33a3ae8c6d127ed228e4afedfabfc2409c2d7bf51714d469786f948935c0b25c954904a2302</CumulativeHash></Measurement>",
@@ -4986,6 +4997,17 @@ paths:
                             }
                         ]
                     }
+                },
+                "ima_logs": {
+                  "pcr": {
+                    "index": 10,
+                    "bank": "SHA256"
+                  },
+                  "ima_measurements": [{
+                    "file": "boot_aggregate",
+                    "measurement": "b12a99e2b3557f095e5988da5dd814920d036007fdcd027380b173ab494e65ee"
+                  }],
+                  "ima_template": "ima-ng"
                 },
                 "binding_key_certificate": "MIIFHDCCA4SgAwIBAgIRA/K2fjaHwJVEX8DlX0VdW9EwDQYJKoZIhvcNAQEMBQAwIjEgMB4GA1UEAxMXSFZTIFByaXZhY3kgQ2VydGlmaWNhdGUwHhcNMjAwNzE5MTcxMjEzWhcNMzAwNzE5MTcxMjEzWjAiMSAwHgYDVQQDDBdCaW5kaW5nX0tleV9DZXJ0aWZpY2F0ZTCCASEwDQYJKoZIhvcNAQEBBQADggEOADCCAQkCggEBAJnSZHhEg4fqk3OU+H59y3DiWEg1hWySu/qgnpnUWZKrzWPLvyQdeBBRO6hIT43bdhXWhfiu1AOgduBOGcUmBqLM9RvX1+HhUWZ2FcfsH/prs6hxWRDa6BRvxPYmFZoietT2JtrBn8kq6Smeflo3VHIef52qFWLoGVrv+5V79yZmjMfcCq4HMvklR2ELiUVfDCfJdAnxp5tQak+NOfzQhiHbjPV/5SKFvS60e1qMX+7DaIMzeHuBZLKU4kytGFEHkcPkdwvALpQsNhnnc0zLFRyeAZVXcJYc4fE7MGkIm2yyGpW0izDDQnlCghKaLxsh/CoKzrB1+zyxDeGQDRfPbC0CAgEAo4IBzDCCAcgwDgYDVR0PAQH/BAQDAgWgMIGdBgdVBIEFAwIpBIGR/1RDR4AXACIACx6Zgv7MibJQ6gE53QmMHmHU9u5uKGObJwgIhFLqahZZAAQA/1WqAAAAANpTgn8AAAAJAAAAAQEABwAoAAgyAAAiAAvML2xwknp3hNsQ8Fa4xiVp+Gm/3FrOrl5nM927N2TimAAiAAs70Q4QKWR445dxMBYOHECnHeh+vsYYBOJKj9XhBfE8yDCCARQGCFUEgQUDAikBBIIBBgAUAAsBAGBXD+UihZDF3CgMRNtI03JPtsfQz8j4ErnyazO3qHSbHlIKwG2PG3lX8mZhzOSXN3TTa9nyqGd1KCdR5QPwW+AzzWRWKvq36X3bW1otxqI2VSbnkMBzEgt4jZStwPoPeztpyaityB/UZ4wmiGtLAvbnEEJBtpVa7Je6tlPOjQfP31izthGkJZfsC0s6U+FT5aPu6HVPQqmmgLJgreUStqidEAxJo16Skg5Ft3RoVcOYq6PIOb/6h74exbrhb6OhwwkbJA3ysaukYvTZid1zaHx+RhyZ5bElEISLi6ey1zVKZn+xOxwJ810ELo3MeolGDVGGIartkMboEJ2gQHwmBAwwDQYJKoZIhvcNAQEMBQADggGBAJ3hp8wW4cp9dwpnV8kEIbpOm48HvuFYy8j9LmcHGQZQcis2cAQnZycG00qmtCNPUqGhhk8+cFNoE4F67IdTKPDITsBdEwp0SEuYWqK0P4XkK1o+KfHWzyscJSErgX6nQMMvDwKOTqKmgRRRUj4povd+1Ov/LpH73Lh1gyJLtzADFBsF1t+gFk+l2jH8q/Pix10DS+VJtY6PLwGCJbuMmVzo8Qlh7SpJ+olB4T3jIyiMNB2RgJTNcUiWzAOtb35YVuXdpcr+9Yptaz/HEQTDW1HOfI7VwGGbfFdcGIK2ArvdprI2gyBZcGc9WVkOrciyXcrEP5La87AClWAM0Irv93oxSnAU6mmorsaWyooxf4dUbv3RXGTou8CENEFdg8g+REQ2wZEsYiBwzyFXZPEe0QbZbfVuveHhuYiJ2YW3EQ2SdRhI/4yprry/IdCB5SIkWzktrzMX4CnC4q72FXEMUsfFFNcreg2Tj1sH94uhOnhQubUtaaswCxFHpazbuS9V9Q==",
                 "measurement_xmls": [
@@ -5741,6 +5763,10 @@ paths:
                                                 "rules": [...]
                                         },
                                 },
+                                "IMA": {       "trust": true,
+                                                "rules": [...]
+                                        },
+                                },                                
                                 "SOFTWARE": {       "trust": true,
                                                 "rules": [...]
                                         },
@@ -5857,6 +5883,10 @@ paths:
                                                   "rules": [...]
                                         },
 
+                                  "IMA": {       "trust": true,
+                                                  "rules": [...]
+                                          },
+                                  },
                                   "PLATFORM": {       "trust": true,
                                                   "rules": [...]
                                           },
@@ -5948,6 +5978,12 @@ paths:
                   ...
                 ]
               },
+              "IMA": {
+                "trust": true,
+                "rules": [
+                  ...
+                ]
+              },              
               "PLATFORM": {
                 "trust": true,
                 "rules": [

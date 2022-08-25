@@ -748,7 +748,7 @@
       "x-go-name" : "Pcrs"
     }
   },
-  "description" : "{\n\"nonce\":\"ZGVhZGJlZWZkZWFkYmVlZmRlYWRiZWVmZGVhZGJlZWZkZWFkYmVlZiA=\",\n\"pcrs\": [0,1,2,3,18,19,22],\n\"pcrbanks\" : [\"SHA1\", \"SHA256\"]\n}",
+  "description" : "{\n\"nonce\":\"ZGVhZGJlZWZkZWFkYmVlZmRlYWRiZWVmZGVhZGJlZWZkZWFkYmVlZiA=\",\n\"pcrs\": [0,1,2,3,18,19,22],\n\"ima_measure_enabled\":true,\n\"pcrbanks\" : [\"SHA1\", \"SHA256\"]\n}",
   "x-go-package" : "intel/isecl/go-trust-agent/v3/resource"
 };
             defs.TpmQuoteResponse = {
@@ -771,6 +771,9 @@
     "EventLog" : {
       "type" : "string"
     },
+    "ImaLogs" : {
+      "type" : "string"
+    },
     "IsTagProvisioned" : {
       "type" : "boolean"
     },
@@ -791,7 +794,7 @@
       "$ref" : "#/components/schemas/Name"
     }
   },
-  "description" : "<tpm_quote_response>\n<timestamp>1569264156635</timestamp>\n<clientIp>fe80:0:0:0:a236:9fff:fef8:7229%enp134s0f1</clientIp>\n<errorCode>0</errorCode>\n<errorMessage>OK</errorMessage>\n<aik>MIIDSjCCAbKgAwIBAgIGAWz...</aik>\n<quote>AIv/VENHgBgAIgALUiWzd9...=</quote>\n<eventLog>PG1lYXN1cmVMb2c+PHR4dD48dHh0U3RhdH...=</eventLog>\n<tcbMeasurements>\n<tcbMeasurements>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>&lt;Measurement xmlns=\"lib:wml:measurements:1.0\" Label=\"ISecL_Default_Workload_Flavor_v2.0\" Uuid=\"b13b405b-97a7-4480-a2e7-eea01f9799ce\" DigestAlg=\"SHA384\">&lt;CumulativeHash>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&lt;/CumulativeHash>&lt;/Measurement></tcbMeasurements>\n<...>\n</tcbMeasurements>\n<selectedPcrBanks>\n<selectedPcrBanks>SHA1</selectedPcrBanks>\n<selectedPcrBanks>SHA256</selectedPcrBanks>\n</selectedPcrBanks>\n<isTagProvisioned>false</isTagProvisioned>\n</tpm_quote_response>",
+  "description" : "<tpm_quote_response>\n<timestamp>1569264156635</timestamp>\n<clientIp>fe80:0:0:0:a236:9fff:fef8:7229%enp134s0f1</clientIp>\n<errorCode>0</errorCode>\n<errorMessage>OK</errorMessage>\n<aik>MIIDSjCCAbKgAwIBAgIGAWz...</aik>\n<quote>AIv/VENHgBgAIgALUiWzd9...=</quote>\n<eventLog>PG1lYXN1cmVMb2c+PHR4dD48dHh0U3RhdH...=</eventLog>\n<imaLogs>PG1lYXN1cmVMb2cH...=</imaLogs>\n<tcbMeasurements>\n<tcbMeasurements>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>&lt;Measurement xmlns=\"lib:wml:measurements:1.0\" Label=\"ISecL_Default_Workload_Flavor_v2.0\" Uuid=\"b13b405b-97a7-4480-a2e7-eea01f9799ce\" DigestAlg=\"SHA384\">&lt;CumulativeHash>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&lt;/CumulativeHash>&lt;/Measurement></tcbMeasurements>\n<...>\n</tcbMeasurements>\n<selectedPcrBanks>\n<selectedPcrBanks>SHA1</selectedPcrBanks>\n<selectedPcrBanks>SHA256</selectedPcrBanks>\n</selectedPcrBanks>\n<isTagProvisioned>false</isTagProvisioned>\n</tpm_quote_response>",
   "x-go-package" : "intel/isecl/go-trust-agent/v3/resource"
 };
             defs.TpmQuoteResponse_SelectedPcrBanks = {
@@ -1387,7 +1390,8 @@ A valid bearer token should be provided to authorize this REST call.
     "pcrbanks": [
         "SHA1",
         "SHA256"
-    ]
+    ],
+    "ima_measure_enabled": true    
 }
 </br>Output: </br>&lt;tpm_quote_response&gt;
     &lt;timestamp&gt;1586875523&lt;/timestamp&gt;
@@ -1397,6 +1401,7 @@ A valid bearer token should be provided to authorize this REST call.
     &lt;aik&gt;LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURUVENDQWJXZ0F3SUJBZ0lHQVhGeTBZc2lNQTBHQ1NxR1NJYjNEUUVCtCg...&lt;/aik&gt;
     &lt;quote&gt;AIv/VENHgBgAIgALxjsihT/qad5fq9lEOf2C+h46n4k+72CF3V8NOHXRBF0AFOLEYYGbctEyN2JIIqmIO+MOjuofAAAAAAY1Y...&lt;/quote&gt;
     &lt;eventLog&gt;PG1lYXN1cmVMb2c+PHR4dD48dHh0U3RhdHVzPjA8L3R4dFN0YXR1cz48L3R4dD48L21lYXN1cmVMb2c+&lt;/eventLog&gt;
+    &lt;imaLogs&gt;AKVENHgBgAIgALxjsihT/qad5fq9lEOf2C+VzPjA8L3R4dFN0YXR1cz48L3R4d&lt;/imaLogs&gt;
     &lt;tcbMeasurements&gt;&lt;/tcbMeasurements&gt;
     &lt;selectedPcrBanks&gt;
         &lt;selectedPcrBanks&gt;SHA1&lt;/selectedPcrBanks&gt;
