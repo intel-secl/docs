@@ -1,56 +1,16 @@
 # Upgrades
 
+Upgrades for foundational security usecases is supported using helm upgrade mechanism. Upgrades are supported only for usecases
+which are deployed using helm.
+
 ???+ note 
-    Before performing any upgrade, Intel strongly recommends backing up the database for the HVS, WLS, and AAS.  See Postgres documentation for detailed options for backing up databases.  Below is a sample method for backing up an entire database server:
-
-```
-Backup to tar file:
-pg_dump --dbname <database_name> --username=<database username> -F -t > <database_backup_file>.tar
-Restore from tar file:
-pg_restore --dbname=<database_name> --username=<database username><database_backup_file>.tar
-```
-
-Some upgrades may involve changes to database content, and a backup will ensure that data is not lost in the case of an error during the upgrade process.
-
-## Backward Compatibility
-
-In general Intel SecL services are made to be backward-compatible within a given major release (for example, the 3.6 HVS should be compatible with the 3.5 Trust Agent) in an upgrade priority order (see below).  Major version upgrades may require coordinated upgrades across all services.
-
-## Upgrade Order
-
-Upgrades should be performed in the following order to prevent misconfiguration or any service unavailability:
-
-1) CMS, AAS
-
-2)  HVS
-
-3) WLS, IHUB
-
-4) KBS, Trust Agents, Workload Agents, WPM
-
-Upgrading in this order will make each service unavailable only for the duration of the upgrade for that service.  
-
+    Before performing any upgrade, Intel strongly recommends backing up the data mounted at NFS. 
+    
 ## Upgrade Process
 
-### Binary Installations
+Upgrade process is done using helm upgrade command.
 
-For services installed directly (not deployed as containers), the upgrade process simply requires executing the new-version installer on the same machine where the old-version is running.  The installer will re-use the same configuration elements detected in the existing version's config file.  No additional answer file is required unless configuration settings will change.
-
-
-### Container Deployments
-
-Container upgrades will be based on recreate strategy. All services except(KBS and HVS) can be upgraded just by updating
-the image name and tag to newer version in respective deployment.yml files.
-
-Config and database schema changes and data migration will be done through K8s jobs, during the upgrade job, the service
-should be down, otherwise may lead to inconsistent data or data corruption. For 4.0 there is change in database schema
-for HVS and k8s job manifest will be provided along with other manifests for deployment.
-
-Agent upgrade jobs, by default copy backup of configuration directories on all hosts at location /tmp/<agent_name>_backup,
-this location can be updated in respective upgrade jobs. There is also a rollback job for each agent, which restores the
-backed up configuration files back to original location.
-
-##### Build
+### Build
 
 Intel assumes all services for any use-case are up and running before proceeding with the upgrade.
 
@@ -64,271 +24,86 @@ skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<re
 
 ------
 
-##### Upgrade/Deploy
+#### Upgrade/Deploy
 
-##### Backup Services
-
-1. Take back up of data in NFS mount for all services from NFS server system \<NFS-Mount-Path>/isecl
-
-   ```shell
-   #Example
-   cp -r <nfs-location>/isecl <nfs-location>/isecl-<version>-backup
-   ```
-
-##### Rollback Services
-
-1. If upgrade is not successful, then update `deployment.yml` files with older images(v3.6) for 4.0 upgrade path and restore the backed up nfs data at same mount path
-2. Bring up individual components with `./isecl-bootstrap.sh up <service>`
-
-???+ note 
-    If in case service fails to start or gets crashed, then copy all the backed up data as per folder structure like how was it earlier. Bring up db instance pointing to backed up data and bring up component deployment by pointing to older version of container image.
-
-##### HVS Upgrade
-
-1. Update the image name with new image name/image tag in existing `deployment.yml`
-
-2. Copy `upgrade-job.yml` from builds `k8s/manifests/hvs/upgrade-job.yml` into control plane node `k8s/manifests/hvs/`
-
-```
-scp <build-vm>:<build-dir>/k8s/manifests/hvs/upgrade-job.yml <control-plane-vm>:<existing dir>/k8s/manifests/hvs/upgrade-job.yml
+##### Add helm repo
+```shell script
+helm repo add isecl-helm https://intel-secl.github.io/helm-charts
 ```
 
-3. Update `<image-name>` and `<image-tag>` and existing version of deployed hvs in  `<current deployed version>` in `k8s/manifests/hvs/upgrade-job.yml`
+##### To search for helm repo with versions
+```shell script
+helm search repo --versions
+```
+
+##### Download chart and values.yaml
+```shell script
+    helm pull isecl-helm/<chart-name> && tar -xzf <chart-name>-$VERSION.tgz <chart-name>/values.yaml 
+    e.g helm pull isecl-helm/Host-Attestation && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml  
+```
+
+##### Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version. 
+Charts with v5.0.0 has undergone many changes from that of v4.2.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v4.2.0 should be same for v5.0.0 as well. 
+v5.0.0 has postgres database version upgrade from 11.7(v4.2.0) to 14.2(v5.0.0), hence we need to set additional values such as image name for *dbVersionUpgradeImage*(image db-version-upgrade-v11-v14.tar built along with other services container image builds )  and set *dbVersionUpgrade* to true.
 
 ```yaml
-containers:
-  - name: hvs
-    image: '<image-name>:<image-tag>'
-    imagePullPolicy: Always
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-    env:
-      - name: CONFIG_DIR
-        value: /etc/hvs
-      - name: COMPONENT_VERSION
-        value: <current deployed version>      
+versionUpgrade: true
+currentVersion: "v4.2.0"
+dbVersionUpgrade: true
+image:
+  dbVersionUpgradeImage: <Registry>/db-version-upgrade:v11-v14
 ```
+ 
+Set the value for currentVersion under global section in values.yaml to the currently deployed version(if v4.2.0 is deployed currently then set the value as "v4.2.0")
+ 
+Set the value for versionUpgrade to true. 
 
-4. Run the upgrade job,
-
-```shell
-cd k8s/manifests
-kubectl delete deployment hvs-deployment -n isecl
-kubectl apply -f hvs/upgrade-job.yml
-```
-
-5. Check the status of hvs-upgrade job for completion.
-
-```shell
-kubectl get jobs -n isecl
-```
-
-and check for successful database and config upgrades in hvs-upgrade job pod logs
-
-```shell
-kubectl logs -n isecl hvs-upgrade-<podname>
-```
-
-Delete hvs-upgrade once upgrade is running.
-```shell
-kubectl delete jobs hvs-upgrade -n isecl
-```
-
-6. Redeploy the latest hvs
-
-```shell
-kubectl apply -f hvs/deployment.yml
-```
-
-???+ note 
-    If hvs-upgrade job is failed or upgraded service deployment went into `CrashLoopBackOff`, restore the service with instruction given in Rollback Services section
-
-**KBS Upgrade:**
-
-1. Update the image name with new image name/image tag in existing `deployment.yml`
-
-2. Copy `upgrade-job.yml` from builds `k8s/manifests/kbs/upgrade-job.yml` into control plane node k8s/manifests/kbs/
-
-```
-scp <build-vm>:<build-dir>/k8s/manifests/kbs/upgrade-job.yml <control-plane-vm>:<existing dir>/k8s/manifests/kbs/upgrade-job.yml
-```
-
-3. Add the following variables in `kbs/configMap.yml`
-
-```yaml
-KMIP_HOSTNAME: <kmip hostname>
-```
-
-Run the command
-
-```shell
-kubectl apply -f kbs/configMap.yml --namespace=isecl
-```
-
-4. (Optional) Add the following variables in `kbs/secrets.yml` if required
-   `KMIP_USERNAME` and `KMIP_PASSWORD`. Run the following commands
-
-```shell
-kubectl delete secret -n isecl kbs-secret
-kubectl create secret generic kbs-secret --from-file=kbs/secrets.txt --namespace=isecl
-```
-
-5. Update `<image-name>` and `<image-tag>` and existing version of deployed kbs in  `<current deployed version>` in `k8s/manifests/kbs/upgrade-job.yml`
-
-```yaml
-containers:
-  - name: kbs
-    image: '<image-name>:<image-tag>'
-    imagePullPolicy: Always
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-    env:
-      - name: CONFIG_DIR
-        value: /etc/kbs
-      - name: COMPONENT_VERSION
-        value: <current deployed version>      
-```
-
-6. Run the upgrade job,
-
-```shell
-cd k8s/manifests
-kubectl delete deployment -n isecl kbs-deployment
-kubectl apply -f kbs/upgrade-job.yml
-```
-
-7. Check the status of kbs-upgrade job for completion.
-
-```shell
-kubectl get jobs -n isecl
-kubectl logs -n isecl kbs-upgrade-<pod id>
-```
-
-Delete kbs-upgrade once upgrade is running.
-```shell
-kubectl delete jobs kbs-upgrade -n isecl
-```
-
-8. Update the image name in `kbs/deployment.yml` to newer version and deploy the latest kbs
-
-```shell
-kubectl apply -f kbs/deployment.yml
-or
-cd kbs && kubectl kustomize . | kubectl apply -f -
-```
-
-**Individual services upgrade**
-
-1. Update the image name in existing `deployment.yml` of respective service.
-
-2. Redeploy by running the below command, By doing `kubectl apply -f` on `deployment.yml` with change in image name will terminate service with older image version and bring up service with new image version
-
-```shell
-cd /k8s/manifests/<service-manifests-folder> &&  kubectl kustomize . | kubectl apply -f -
-e.g cd /k8s/manifests/cms && kubectl kustomize . | kubectl apply -f -
-```
-
-**TA\WLA Upgrade:**
-
-Copy following manifests and scripts from build vm to k8s control plane vm
-
-```shell
-scp <build-vm>:<build-dir>/k8s/manifests/<component>/<component>-upgrade.yml <control-plane-vm>:<existing dir>/k8s/manifests/<component>/
-scp <build-vm>:<build-dir>/k8s/manifests/<component>/rollback.yml <control-plane-vm>:<existing dir>/k8s/manifests/<component>/
-```
-
-Addional step for TA:
-```shell
-scp <build-vm>:<build-dir>/k8s/manifests/ta/daemonset.yml <control-plane-vm>:<existing dir>/k8s/manifests/ta/daemonset.yml
-scp <build-vm>:<build-dir>/k8s/manifests/ta/daemonset-suefi.yml <control-plane-vm>:<existing dir>/k8s/manifests/ta/daemonset-suefi.yml
+##### Upgrade the charts with the below commands
+```shell script
+   kubectl delete --all jobs -n <namespace> # Delete all the jobs, since jobs cannot be upgraded.
+   kubectl scale deploy --all --replicas=0 -n <namespace> # Scale down all services, so that upgrade happens smoothly without any inconsistencies
+   helm upgrade <release-name> isecl-helm/<chart-name> --version $VERSION -n <namespace> -f <chart-name>/values.yaml
+   e.g helm upgrade host-attestation isecl-helm/Host-Attestation --version $VERSION  -n isecl -f Host-Attestation/values.yaml
 ```
 
 
-Log in to the worker nodes with TXT+TPM2.0 enabled and perform the following steps:
-
-1. Update tboot to 1.10.1
-
-Log in to control plane node and perform following steps:
-
-* Update the new image name and tag in `daemonset.yml` and `daemonset-suefi.yml` files
-
-```yaml
-containers:
-  - image: <image-name>:<image-tag>
+For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s
+base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the *--config* option
+```shell script
+  containers:
+  - command:
+    - kube-scheduler
+    - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+    - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+    - --bind-address=127.0.0.1
+    - --kubeconfig=/etc/kubernetes/scheduler.conf
+    - --leader-elect=true
+      #- --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
 ```
 
-* Update `<image-name>` and `<image-tag>` and existing version of deployed component in `<component-exising-installed-version>` in `k8s/manifests/<component>/<component>-upgrade.yml`
+Uncomment the *--config* option once upgrade is complete and all service pods are successfully running and jobs are completed.
 
-```yaml
-containers:
-  - name: tagent
-    image: '<image-name>:<image-tag>'
-    imagePullPolicy: Always
-    command:
-      - /container_upgrade.sh
-    securityContext:
-      privileged: true
-    env:
-      - name: CONFIG_DIR
-        value: <component-config-dir>
-      - name: COMPONENT_VERSION
-        value: <component-exising-installed-version>
+### Rollback Services
+Rollback is supported using helm rollback mechanism. The data at NFS will be automatically backed up using upgrade jobs during upgrade process, 
+the backed up data will be stored in a versioned directory. The init containers at every pod will ensure that the versioned 
+data directory mounted at NFS pointing corresponding PV to correct version. 
+
+For rolling back to previous version, all jobs need to be deleted mandatorily since helm/k8s doesnt support rollback of jobs.
+```shell script
+kubectl delete jobs --all -n <namespace>
 ```
 
-* Upgrade job for TA\WLA will re provision all tasks. This might require new `BEARER_TOKEN` in existing ta-secret or wla-secret
-   (Optional). Update new value for TPM_OWNER_SECRET in `<component>/secret.txt`. Run the following commands
-```shell
- kubectl delete secret -n isecl <component>-secret
- #Post updation of BEARER_TOKEN & TPM_OWNER_SECRET in <component>/secrets.txt
- kubectl create secret generic <component>-secret --from-file=secrets.txt --namespace=isecl
+Search for last successfully deployed helm chart for immediate previous version and find out the revision number with below command
+```shell script
+helm history <release-name> -n <namespace>
+e.g helm history Host-Attestation -n isecl
 ```
 
-*  Perform upgrade and redeploy trustagent or workload agent daemonsets
-```shell
- cd k8s/manifests/
- kubectl apply -f <component>/<component>-upgrade.yml
-```
-* Wait for all <component>-upgrade daemonset come up in running state
+Rollback to previous revision
+```shell script
+ helm rollback <release-name> <last successfully deployed revision number> -n <namespace>
+ e.g helm rollback Host-Attestation 1 -n isecl
+ kubectl scale deploy --all --replicas=0 -n isecl # Scale down and scale up services for reflecting the persistent volume claim to get volumes mounted to previous release version.
+ kubectl scale deploy --all --replicas=1 -n isecl
 
-* Delete <component>-upgrade daemonset once all <component>-upgrade daemonsets are running.
-
-```shell
-kubectl delete daemonset -n isecl <component>-upgrade
-```
-
-* Bring up newer version of <component>-daemonsets
-
-```shell
-kubectl apply -f <component>/daemonset.yml
-```
-
-Additional step for TA:
-```shell
-kubectl apply -f ta/daemonset-suefi.yml
-```
-
-##### Backup and Rollback in TA and WLA
-
-The `<component>-upgrade.yml` is run once daemonset, while performing upgrade job, ta will copy the `/opt/trustagent` into backup directory `/tmp/trustagent_backup` on every host
-and wla upgrade will copy the '/etc/workload-agent' into backup directory `/tmp/wlagent_backup`
-Following steps will help us to achieve rollback
-
-1. Restore the backed up directories from `/tmp/trustagent_backup` into `/opt/trustagent` in TA and in WLA from `/tmp/wlagent_backup` into `/etc/workload-agent`
-```shell
-cd k8s/manifests/
-#For TA
-kubectl apply -f <componenet>/rollback.yml
-#For WLA
-kubectl apply -f <componenet>/<component>-rollback.yml
-```
-2. Update the image name to previous version in `<component>/daemonset.yml` and `<component>/daemonset-suefi.yml`(if upgrade path is 4.1 -> 5.0, then update image tag to 4.1)
-```shell
-kubectl apply -f <component>/daemonset.yml
-```
-
-Additional step for TA:
-```shell
-kubectl apply -f ta/daemonset-suefi.yml
 ```
