@@ -220,7 +220,7 @@ can be found on the Verification Service.
 Retrieve the HVS SAML certificate:
 
 ```curl
-GET https://<HVS IP or hostname>:<KVS port>/hvs/v2/ca-certificates?domain=saml
+GET https://<HVS IP or hostname>:<HVS port>/hvs/v2/ca-certificates?domain=saml
 accept: application/x-pem-file
 ```
 
@@ -228,7 +228,7 @@ Use the SAML certificate output in the following POST call to the Key
 Broker:
 
 ```
-POST https://<Key Broker IP address or hostname>:9443/kbs/v1/saml-certificates
+POST https://<Key Broker IP address or hostname>:<KBS port>/kbs/v1/saml-certificates
 Content-Type: application/x-pem-file
 -----BEGIN CERTIFICATE-----
 MIID9TCCAl2gAwIBAgIBCTANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL

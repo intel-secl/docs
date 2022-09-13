@@ -17,7 +17,7 @@ Platform security technologies like Intel® TXT, Intel® BootGuard, and UEFI Sec
 
 ## Workload Service
 
-The Workload Service acts as a management service for handling Workload Flavors (Flavors used for Virtual Machines and Containers). In the Intel® SecL-DC 1.6 release, the Workload Service uses Flavors to map decryption key IDs to image IDs. When a launch request for an encrypted workload image is intercepted by the Workload Agent, the Workload Service will handle mapping the image ID to the appropriate key ID and key request URL, and will initiate the key transfer request to the Key Broker.
+The Workload Service acts as a management service for handling container image decryption. From Intel® SecL-DC 4.0 release, the workload service will retrieve the current trust report for the host launching the image, and use that report to make a key retrieval request to the key transfer URL retrieved from the WLA request. The key transfer URL refers to the URL to the image owner’s Key Broker Service, along with the ID of the key needed.
 
 ## Trust Agent
 
@@ -27,19 +27,19 @@ The Trust Agent is supported for Windows* Server 2016 Datacenter and Red Hat Ent
 
 ## Workload Agent
 
-The Workload Agent is the component responsible for handling all of the functions needed for Workload Confidentiality for virtual machines and containers on a physical server. The Workload Agent uses libvirt hooks to identify VM lifecycle events (VM start, stop, hibernate, etc), and intercepts those events to perform needed functions like requesting decryption keys, creation and deletion of encrypted LUKS volumes, using the TPM to unseal decryption keys, etc. The WLA also performs analogous functionality for containers.
+The Workload Agent is the component responsible for handling all of the functions needed for Workload Confidentiality for containers on a physical server. When a compute host at the CSP attempts to launch an encrypted image, the crio runtime will detect the launch request and makes call to Workload Agent along with key url as a parameter for getting the key for image decryption, and further Workload Agent will issue a key transfer request to the Workload service along with Key URL and Hardware uuid of the host. The WLA also performs analogous functionality for containers.
 
 ## Integration Hub
 
-The Integration Hub acts as a middle-man between the Verification Service and one or more scheduler services (such as OpenStack* Nova), and "pushes" attestation information retrieved from the Verification Service to one or more scheduler services according to an assignment of hosts to specific tenants. In this way, Tenant A can receive attestation information for hosts that belong to Tenant A, but receive no information about hosts belonging to Tenant B.
+The Integration Hub acts as a middle-man between the Verification Service and cloud orchestrator such as k8s, and "pushes" attestation information retrieved from the Verification Service to k8s API server according to an assignment of hosts.
 
 The Integration Hub serves to disassociate the process of retrieving attestations from actual scheduler queries, so that scheduler services can adhere to best practices and retain better performance at scale. The Integration Hub will regularly query the Intel® SecL Verification Service for SAML attestations for each host. The Integration Hub maintains only the most recent currently valid attestation for each host, and will refresh attestations when they would expire. The Integration Hub will verify the signature of the SAML attestation for each host assigned to a tenant, then parse the attestation status and asset tag information, and then will securely push the parsed key/value pairs to the plugin endpoints enabled.
 
-The Integration Hub features a plugin design for adding new scheduler endpoint types. Currently the Integration Hub supports OpenStack Nova and Kubernetes endpoint plugins. Other integration plugins may be added.
+The Integration Hub features a plugin design for adding new scheduler endpoint types. Currently the Integration Hub supports Kubernetes endpoint plugins. Other integration plugins may be added.
 
 ## Workload Policy Manager
 
-The Workload Policy Manager is a Linux command line utility used by an image owner to encrypt container images and to create an Image Flavor used to provide the encryption key transfer URL during launch requests. The WPM utility will use an existing or request a new key from the Key Broker Service, use that key to encrypt the image, and output the Image Flavor in JSON format. The encrypted image can then be uploaded to the image store of choice (like OpenStack Glance), and the Image Flavor can be uploaded to the Workload Service. The ID of the image on the image storage system is then mapped to the Image Flavor in the WLS; when the image is used to launch a new instance, the WLS will find the Image Flavor associated with that image ID, and use the Image Flavor to determine the key transfer URL.
+The Workload Policy Manager is a Linux command line utility used by container build tools like skopeo/buildah during image encryption, wpm helps in providing the keys from KBS.
 
 ## Key Broker Service
 

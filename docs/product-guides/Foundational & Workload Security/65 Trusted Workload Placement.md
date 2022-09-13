@@ -51,12 +51,11 @@ Node will schedule those pods only on Worker Nodes that match the
 specified attributes.
 
 Two CRDs are required for integration with Intel® SecL – an extension
-for the Control Plane nodes, and a scheduler extension. A single installer will
-deploy both of these CRDs. The extensions are deployed as a Kubernetes
+for the Control Plane nodes, and a scheduler extension.The extensions are deployed as a Kubernetes
 deployment in the `isecl` namespace.
 
 ???+ note 
-    Please refer detail steps given for  `3.15 Installing the Intel® SecL Kubernetes Extensions and Integration Hub` section.
+    Please refer detail steps given for  `Deploying Individual Services Using Helm` section.
 
 
 #### Configuring Pods to Require Intel® SecL Attributes
@@ -124,24 +123,33 @@ launched on that worker.
 
 This setting is disabled by default. To enable this setting:
 
-1.  Edit the `isecl-controller.yaml` file under
-    `/opt/isecl-k8s-extensions/yamls/isecl-controller.yaml` 
+???+ note 
+    Please refer detail steps given in `Deploying Intel SecL Use Cases Using Helm` section.
+
+1. Pulling Trusted Workload Placement helm chart
+
+   ```
+   helm pull isecl-helm/Trusted-Workload-Placement --version $VERSION && tar -xzf Trusted-Workload-Placement-$VERSION.tgz Trusted-Workload-Placement/values.yaml
+   ```
+
+2. Edit the `values.yaml` file from helm chart for Trusted workload placement usecase.
     
-2. set the following options:
+3. set the following options under isecl-controller:
 
-   ```
-   # To taint nodes when a report indicates the host is Untrusted:
-   TAINT_UNTRUSTED_NODES=true
-   # To taint nodes when they are joined to the Kubernetes cluster until they are Trusted:
-   TAINT_REGISTERED_NODES=true
-   # To taint nodes when they are rebooted until they are Trusted:
-   TAINT_REBOOTED_NODES=true
-   ```
+  ```
+  nodeTainting:
+    # If set to true, taints the node which are joined to the k8s cluster.
+    taintRegisteredNodes: true
+    # If set to true, taints the node which are rebooted in the k8s cluster.
+    taintRebootedNodes: true 
+    # If set to true, taints the node which has trust tag set to false in node labels.
+    taintUntrustedNode: true
+  ```
 
-3. Run
+4. Install Trusted Workload Placement Usecase helm chart
 
    ```shell
-   kubectl apply -f /opt/isecl-k8s-extensions/yamls/isecl-controller.yaml
+   helm install trusted-workload-placement isecl-helm/Trusted-Workload-Placement --version $VERSION -f Trusted-Workload-Placement/values.yaml --create-namespace -n <namespace>
    ```
 
 If the TAINT_UNTRUSTED option is used, worker nodes that attest as untrusted will be `tainted` with the

@@ -8,9 +8,9 @@ Node components must be installed on each protected physical server. Typically t
 
 ### Platform Integrity
 
-The most basic use case enabled by Intel® SecL-DC, Platform Integrity requires only the Verification Service and, to protect Windows or Linux hosts, the Trust Agent. This also enables the Application Integrity use case by default for Linux systems.
+The most basic use case enabled by Intel® SecL-DC, Platform Integrity requires only the Verification Service and, to protect Windows or Linux hosts, the Trust Agent.
 
-The Integration Hub may be added to provide integration support for OpenStack or Kubernetes. The Hub is often installed on the same machine as the Verification Service, but optionally can be installed separately.
+The Integration Hub may be added to provide integration support for Kubernetes. The IHub is often installed on the same machine as the Verification Service, but optionally can be installed separately.
 
 ### Workload Confidentiality
 
@@ -24,7 +24,7 @@ Workload Confidentiality introduces a number of additional services and agents. 
 
 * Workload Service (WLS)
 
-* Integration Hub (HUB)
+* Integration Hub (IHUB)
 
 * Key Broker Service (KBS) with backend key management
 
@@ -66,7 +66,7 @@ Every service including databases will be deployed as separate K8s deployment wi
 
 ![Each pod consist of only one container with service](./images/daemonsets-ws.jpg)
 
-For stateful services which requires database like shvs, aas, scs, A separate database deployment will be created for each of such services. The data present on the database deployment will also made to persist on a NFS, through K8s persistent storage mechanism
+For stateful services which requires database like hvs, aas, A separate database deployment will be created for each of such services. The data present on the database deployment will also made to persist on a NFS, through K8s persistent storage mechanism
 
 ![database deployment](./images/hvs-db.jpg)
 

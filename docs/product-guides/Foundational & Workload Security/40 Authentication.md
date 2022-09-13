@@ -26,7 +26,7 @@ account the token was generated for.
 To request a new token from the AAS:
 
 ```
-POST https://<AAS IP or hostname>:8444/aas/v1/token
+POST https://<AAS IP or hostname>:30444/aas/v1/token
 
 {
     "username" : "<username>",
@@ -82,7 +82,7 @@ Usernames have the following requirements:
 ### Create User
 
 ```
-POST https://<IP or hostname of AAS>:8444/aas/v1/users
+POST https://<IP or hostname of AAS>:30444/aas/v1/users
 Authorization: Bearer <token>
 
 {
@@ -94,13 +94,13 @@ Authorization: Bearer <token>
 ### Search Users by Username
 
 ```json
-GET https://<IP or hostname of AAS>:8444/aas/v1/users?name=<value>
+GET https://<IP or hostname of AAS>:30444/aas/v1/users?name=<value>
 ```
 
 ### Change User Password
 
 ```json
-PATCH https://<IP or hostname of AAS>:8444/aas/v1/users/changepassword
+PATCH https://<IP or hostname of AAS>:30444/aas/v1/users/changepassword
 Authorization: Bearer <token>
 {
 	"username": "<username>",
@@ -113,7 +113,7 @@ Authorization: Bearer <token>
 ### Delete User
 
 ```json
-DELETE https://<IP or hostname of AAS>:8444/aas/v1/users/<User ID>
+DELETE https://<IP or hostname of AAS>:30444/aas/v1/users/<User ID>
 Authorization: Bearer <token>
 ```
 
@@ -136,7 +136,7 @@ applicable for that service in the AAS.
 ### Create Role
 
 ```
-POST https://<AAS IP or Hostname>:8444/aas/v1/roles
+POST https://<AAS IP or Hostname>:30444/aas/v1/roles
 Authorization: Bearer <token>
 
 {
@@ -171,7 +171,7 @@ the API resource and method definitions in the API documentation.
 ### Search Roles
 
 ```
-GET https://<AAS IP or Hostname>:8444/aas/v1/roles?<parameter>=<value>
+GET https://<AAS IP or Hostname>:30444/aas/v1/roles?<parameter>=<value>
 Authorization: Bearer <token>
 ```
 
@@ -189,14 +189,14 @@ filter=false
 ### Delete Role
 
 ```
-DELETE https://<AAS IP or Hostname>:8444/aas/v1/roles/<role ID>
+DELETE https://<AAS IP or Hostname>:30444/aas/v1/roles/<role ID>
 Authorization: Bearer <token>
 ```
 
 ### Assign Role to User
 
 ```
-POST https://<AAS IP or Hostname>:8444/aas/v1/users/<user ID>/roles
+POST https://<AAS IP or Hostname>:30444/aas/v1/users/<user ID>/roles
 Authorization: Bearer <token>
 
 {
@@ -207,14 +207,14 @@ Authorization: Bearer <token>
 ### List Roles Assigned to User
 
 ```
-GET https://<AAS IP or Hostname\>:8444/aas/v1/users/<user ID>/roles
+GET https://<AAS IP or Hostname\>:30444/aas/v1/users/<user ID>/roles
 Authorization: Bearer <token>
 ```
 
 ### Remove Role from User
 
 ```
-DELETE https://<AAS IP or Hostname>:8444/aas/v1/users/<userID>/roles/<role ID>
+DELETE https://<AAS IP or Hostname>:30444/aas/v1/users/<userID>/roles/<role ID>
 Authorization: Bearer <token>
 ```
 
@@ -225,10 +225,10 @@ CreateUsers script) and exist by default.
 
 | **Role Name**             | **Permissions**                                              | **Utility**                                                  |
 | ------------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| TA:Administrator          | TA:\*:\*                                                     | Used by the Verification Service to access Trust Agent APIs, including retrieval of TPM quotes, provisioning Asset Tags and SOFTWARE Flavors, etc. |
+| TA:Administrator          | TA:\*:\*                                                     | Used by the Verification Service to access Trust Agent APIs, including retrieval of TPM quotes, provisioning Asset Tags and IMA Flavor, etc. |
 | HVS:ReportSearcher        | HVS: \[reports:search:\*"]                                   | Used by the Integration Hub to retrieve attestation reports from the Verification Service |
 | KBS:Keymanager            | KBS: \["keys:create:\*", "keys:transfer:\*"\]                | Used by the WPM to create and retrieve symmetric encryption keys to encrypt workload images |
-| WLS:FlavorsImageRetrieval | WLS: image\_flavors:retrieve:\*                              | Used by the Workload Agent during Workload Confidentiality flows to retrieve the image Flavor |
+| WLS:KeysCreator           | WLS: \["keys:create:\*"                                      | Used by the Workload Agent during Container Confidentiality flows to retrieve the key. |
 | HVS: ReportCreator        | HVS: \["reports:create:\*"\]                                 | Used by the Workload Service to create new attestation reports on the Verification Service as part of Workload Confidentiality key retrievals. |
 | Administrator             | \*:\*:\*                                                     | Global administrator role used for the initial administrator account. This role has all permissions across all services, including permissions to create new roles and users. |
 | AAS: Administrator        | \*:\*:\*                                                     | Administrator role for the AAS only. Has all permissions for AAS resources, including the ability to create or delete users and roles. |
@@ -236,5 +236,5 @@ CreateUsers script) and exist by default.
 | AAS: UserManager          | AAS: \[users:create:\*, users:retrieve:\*, users:store:\*, users:search:\*, users:delete:\*\] | AAS role with all permissions for Users, but has no ability to create Roles or assign Roles to Users. |
 | AAS: UserRoleManager      | AAS: \[user\_roles:create:\*, user\_roles:retrieve:\*, user\_roles:search:\*, user\_roles:delete:\*, | AAS role with permissions to assign Roles to Users, but cannot create delete or modify Users or Roles. |
 | HVS: AttestationRegister  | HVS: \[host\_tls\_policies:create:\*, hosts:create:\*, hosts:store:\*, hosts:search:\*, host\_unique\_flavors:create:\*, flavors:search:\*, tpm\_passwords:retrieve:\*, tpm\_passwords:create:\*, host\_aiks:certify:\* | Role used for Trust Agent provisioning. Used to create the installation token provided during installation. |
-| HVS: Certifier            | HVS: host\_signing\_key\_certificates:create:\*              | Used for installation of the Workload Agent                  |
-
+| HVS: HostSigner           | HVS: host\_signing\_key\_certificates:create:\*              | Used for installation of the Workload Agent                  |
+| TA: CustomClaimCreator    | HVS: "host_aiks:certify:*","tpm_endorsements:create:*", "tpm_endorsements:search:*",AAS: "credential:create:*"  | Used for installation of the Trust Agent                  |

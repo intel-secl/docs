@@ -43,7 +43,7 @@ helm repo update
 The list of available charts on the added repo can be shown using the "search repo" command:
 
 ``` 
-helm search repo
+helm search repo --versions
 ```
 
 ## Persistent Storage
@@ -78,7 +78,7 @@ exportfs -arv
 
 ---
 **NOTE**
-Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
+Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) and Workload Agent (/etc/workload-agent and /var/log/workload-agent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
 ---
 
 ---
