@@ -10,7 +10,7 @@ Key points:
 
 \-   For UEFI mode systems, UEFI SecureBoot must be used
 
-\-   IMA (Integrity Measurement Architecture) needs to be provisioned in all platoforms which needs to be attested before the deployment
+\-   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
 ---
 **NOTE**
 Currently tboot and Secure Boot are not compatible. For UEFI platforms, Intel reccomends enabling TXT and enabling Secure Boot.  If Secure Boot will not be used, then Intel recommends enabling TXT and installing tboot.
