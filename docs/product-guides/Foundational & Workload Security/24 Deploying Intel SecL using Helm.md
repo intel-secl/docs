@@ -43,7 +43,7 @@ helm repo update
 The list of available charts on the added repo can be shown using the "search repo" command:
 
 ``` 
-helm search repo
+helm search repo --versions
 ```
 
 ## Persistent Storage
@@ -75,10 +75,53 @@ After making the changes in `/etc/exports` file run the below command
 ```shell script
 exportfs -arv
 ``` 
+## Default Service and Agent Mount Paths
+
+```yaml
+#Certificate-Management-Service
+Config: <NFS-vol-base-path>/isecl/cms/config
+Logs: <NFS-vol-base-path>/isecl/cms/logs
+
+#Authentication Authorization Service
+Config: <NFS-vol-base-path>/isecl/aas/config
+Logs: <NFS-vol-base-path>/isecl/aas/logs
+Pg-data: <NFS-vol-base-path>/isecl/aas/db
+
+#Host Attestation Service
+Config: <NFS-vol-base-path>/isecl/hvs/config
+Logs: <NFS-vol-base-path>/isecl/hvs/logs
+Pg-data: <NFS-vol-base-path>/usr/local/kube/data/hvs
+
+#Integration-Hub
+Config: <NFS-vol-base-path>/isecl/ihub/config
+Log: <NFS-vol-base-path>/isecl/ihub/logs
+
+#Workload Service
+Config: <NFS-vol-base-path>/isecl/wls/config
+Logs: <NFS-vol-base-path>/isecl/wls/log
+Pg-data: <NFS-vol-base-path>/usr/local/kube/data/wls
+
+#Key-Broker-Service
+Config: <NFS-vol-base-path>/isecl/kbs/config
+Log: <NFS-vol-base-path>/isecl/kbs/logs
+Opt: <NFS-vol-base-path>/isecl/kbs/kbs/opt
+
+#Trust Agent:
+Config: /etc/trustagent/v5.0.0/
+Logs:  /var/log/trustagent/
+tpmrm: /dev/tpmrm0
+txt-stat: /usr/sbin/txt-stat
+ta-hostname-path: /etc/hostname
+ta-hosts-path: /etc/hosts
+
+#Workload Agent:
+Config: /etc/workload-agent/v5.0.0/
+Logs: /var/log/workload-agent
+```
 
 ---
 **NOTE**
-Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
+Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) and Workload Agent (/etc/workload-agent and /var/log/workload-agent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.
 ---
 
 ---
@@ -96,3 +139,19 @@ The Trust Agent daemonset will continue to reattempt deployment on all worker no
 
 ---
 
+# Default Service Ports
+
+For both Single node and multi-node deployments following ports are used. All services exposing APIs will use the below ports
+
+```yaml
+CMS: 30445
+AAS: 30444
+HVS: 30443
+WLS: 30447
+IHUB: None
+KBS: 30448
+K8s-scheduler: 30888
+K8s-controller: None
+TA: 31443
+WLA: None
+```

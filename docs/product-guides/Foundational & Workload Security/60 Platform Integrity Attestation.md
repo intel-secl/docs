@@ -51,26 +51,6 @@ quotes from the Trust Agent to generate an attestation report.
 
 ### Trust Agent
 
-#### Registration via Trust Agent Command Line
-
-The Trust Agent can register the host with a Verification Service by
-running the following command:
-
-```shell
-tagent setup create-host
-```
-
-???+ note 
-    The following environment variables must be exported for this command:
-```shell
-HVS_URL=https://<hvs_IP/hostname>:8443/hvs/v2
-CURRENT_IP=<trustagent_IP>
-BEARER_TOKEN=<authentication token>
-```
-
-???+ note 
-    Because VMWare ESXi hosts do not use a Trust Agent, this method is not applicable for registration of ESXi hosts.
-
 ### Registration via Verification Service API
 
 Any Trust Agent or VMware ESXi host/cluster can be registered using a
@@ -84,7 +64,7 @@ Groups, and Flavor matching.
 #### Sample Call
 
 ```
-POST https://verification.service.com:8443/hvs/v2/hosts
+POST https://verification.service.com:30443/hvs/v2/hosts
 Authorization: Bearer <token>
 
 {
@@ -100,7 +80,7 @@ Requires the permission `hosts:create`
 #### Sample Call for ESXi Cluster Registration
 
 ```
-POST https://verification.service.com:8443/hvs/v2/hosts
+POST https://verification.service.com:30443/hvs/v2/hosts
 Authorization: Bearer <token>
 
 {
@@ -139,7 +119,7 @@ specified when creating a Flavor, it will be placed in the "**automatic**"
 Flavorgroup.
 
 Flavors are also divided into Flavor parts, which correspond to the
-`PLATFORM`, `OS`, `HOST_UNIQUE`, `SOFTWARE`, and `ASSET_TAG` measurements. These
+`PLATFORM`, `OS`, `HOST_UNIQUE`, `IMA`, and `ASSET_TAG` measurements. These
 can be created and maintained separately (so that users can manage
 acceptable OS and BIOS versions, rather than entire host
 configurations). By default, if not specified, the Verification Service
@@ -163,7 +143,7 @@ perhaps an OS kernel with a known security vulnerability.
 ### Importing a Flavor from a Sample Host
 
 ```
-POST https://verification.service.com:8443/hvs/v2/flavors
+POST https://verification.service.com:30443/hvs/v2/flavors
 Authorization: Bearer <token>
 
 {
@@ -181,7 +161,7 @@ Requires the permission `flavors:create`
 To import ONLY the HOST\_UNIQUE Flavor part from a host:
 
 ```
-POST https://verification.service.com:8443/hvs/v2/flavors
+POST https://verification.service.com:30443/hvs/v2/flavors
 Authorization: Bearer <token>
 
 {
@@ -201,7 +181,7 @@ specified, the Flavor will be placed in the `automatic` group. Note that
 the `label` is a required field and must be unique.
 
 ```
-POST https://verification.service.com:8443/hvs/v2/flavors
+POST https://verification.service.com:30443/hvs/v2/flavors
 Authorization: Bearer <token>
 
 {
@@ -272,7 +252,7 @@ will fail as the Flavor already exists.
 To import the `SOFTWARE` Flavor part from a host:
 
 ```
-POST https://verification.service.com:8443/hvs/v2/flavors
+POST https://verification.service.com:30443/hvs/v2/flavors
 Authorization: Bearer <token>
 
 {
@@ -308,7 +288,7 @@ for each host to be tagged, even if they will all be tagged with
 identical key/value pairs.
 
 ```
-POST https://verification.service.com:8443/hvs/v2/tag-certificates
+POST https://verification.service.com:30443/hvs/v2/tag-certificates
 Authorization: Bearer <token>
 
 {
@@ -339,7 +319,7 @@ request on the Verification Service that will in turn make a request to
 the Trust Agent on the host to be tagged.
 
 ```
-POST https://verification.service.com:8443/hvs/v2/rpc/deploy-tag-certificate
+POST https://verification.service.com:30443/hvs/v2/rpc/deploy-tag-certificate
 Authorization: Bearer <token>
 
 {
@@ -376,7 +356,7 @@ the TPM, due to the low size of the NVRAM.
     created, or by using a GET API request to retrieve the certificate:
 
     ```
-    GET https://verification.service.com:8443/hvs/v2/tag-certificates?subjectEqualTo=<HardwareUUID>
+    GET https://verification.service.com:30443/hvs/v2/tag-certificates?subjectEqualTo=<HardwareUUID>
     Authorization: Bearer <token>
     ```
 
@@ -467,7 +447,7 @@ Flavor must be created by importing it from the host after the Tag has
 been provisioned.
 
 ```
-POST https://verification.service.com:8443/hvs/v2/flavors
+POST https://verification.service.com:30443/hvs/v2/flavors
 Authorization: Bearer <token>
 
 {   
@@ -484,7 +464,7 @@ including Asset Tags as normal.
 ## Retrieving Current Attestation Reports
 
 ```
-GET https://verification.service.com:8443/hvs/v2/reports?latestPerHost=true
+GET https://verification.service.com:30443/hvs/v2/reports?latestPerHost=true
 Authorization: Bearer <token>
 ```
 
@@ -493,7 +473,7 @@ Authorization: Bearer <token>
 ## Retrieving Current Host State Information
 
 ```
-GET https://verification.service.com:8443/hvs/v2/host-status?latestPerHost=true
+GET https://verification.service.com:30443/hvs/v2/host-status?latestPerHost=true
 Authorization: Bearer <token>
 ```
 
@@ -510,7 +490,7 @@ Automatic Flavor matching makes this process relatively simple:
     version represented in your datacenter.
 
     ```
-    POST https://verification.service.com:8443/hvs/v2/flavors
+    POST https://verification.service.com:30443/hvs/v2/flavors
     Authorization: Bearer <token>
 
     {
@@ -530,7 +510,7 @@ Automatic Flavor matching makes this process relatively simple:
     hosts that missed the upgrade for remediation.
 
     ```
-    DELETE https://verification.service.com:8443/hvs/v2/flavors/<flavorId>
+    DELETE https://verification.service.com:30443/hvs/v2/flavors/<flavorId>
     Authorization: Bearer <token>
     ```
 
@@ -542,7 +522,7 @@ Hosts can be deleted at any time. Reports for that host will remain in
 the Verification Service database for audit purposes.
 
 ```
-DELETE https://verification.service.com:8443/hvs/v2/hosts/<hostId>
+DELETE https://verification.service.com:30443/hvs/v2/hosts/<hostId>
 Authorization: Bearer <token>
 ```
 
@@ -560,7 +540,7 @@ datacenter. By deleting the PLATFORM Flavor, hosts with the old BIOS
 version will attest as Untrusted, flagging them for easy remediation.
 
 ```
-DELETE https://verification.service.com:8443/hvs/v2/flavors/<flavorId>
+DELETE https://verification.service.com:30443/hvs/v2/flavors/<flavorId>
 ```
 
 
@@ -576,7 +556,7 @@ no longer use the Asset Tag for attestation (the Tag result will be
 disregarded and no tags will be exposed in the attestation Reports).
 
 ```
-DELETE https://verification.service.com:8443/hvs/v2/flavors/<assetTagflavorId>
+DELETE https://verification.service.com:30443/hvs/v2/flavors/<assetTagflavorId>
 Authorization: Bearer <token>
 ```
 
@@ -585,7 +565,7 @@ from the database, but will not actually affect attestation results (the
 authority for attestation results is the Flavor).
 
 ```
-DELETE https://verification.service.com:8443/hvs/v2/tag-certificates/<assetTagCertificateId>
+DELETE https://verification.service.com:30443/hvs/v2/tag-certificates/<assetTagCertificateId>
 Authorization: Bearer <token>
 ```
 
@@ -692,7 +672,7 @@ anywhere between 2-7 seconds to generate.
 ### Sample Call – Generating a New Attestation Report
 
 ```
-POST https://verification.service.com:8443/hvs/v2/reports
+POST https://verification.service.com:30443/hvs/v2/reports
 Authorization: Bearer <token>
 
 {
@@ -705,7 +685,7 @@ Requires the permission `reports:create`
 ### Sample Call – Retrieving an Existing Attestation Report
 
 ```
-GET https://verification.service.com:8443/hvs/v2/reports?hostName=HostName.server.com
+GET https://verification.service.com:30443/hvs/v2/reports?hostName=HostName.server.com
 Authorization: Bearer <token>
 ```
 

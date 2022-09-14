@@ -10,6 +10,7 @@ Key points:
 
 \-   For UEFI mode systems, UEFI SecureBoot must be used
 
+\-   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
 ---
 **NOTE**
 Currently tboot and Secure Boot are not compatible. For UEFI platforms, Intel reccomends enabling TXT and enabling Secure Boot.  If Secure Boot will not be used, then Intel recommends enabling TXT and installing tboot.
@@ -26,37 +27,6 @@ Use the chart below for a guide to acceptable configuration options. .
 # Tboot Installation
 
 Tboot is required to build a complete Chain of Trust for Intel® TXT systems that are not using UEFI Secure Boot. Tboot acts to initiate the Intel® TXT SINIT ACM (Authenticated Code Module), which populates several TPM measurements including measurement of the kernel, grub command line, and initrd. Without either tboot or UEFI Secure Boot, the Chain of Trust will be broken because the OS-related components will be neither measured nor signature-verified prior to execution. Because tboot acts to initiate the Intel® TXT SINIT ACM, tboot is only required for platforms using Intel® TXT, and is not required for platforms using another hardware Root of Trust technology like Intel® Boot Guard.
-
----
-**Note:**
-SGX Attestation fails when SGX is enabled on a host booted using tboot.
-
-Root Cause: tboot requires the "noefi" kernel parameter to be passed during boot, in order to not use unmeasured EFI runtime services. As a result, the kernel does not expose EFI variables to user-space. SGX Attestation requires these EFI variables to fetch Platform Manifest data.
-
-**Workaround:**
-
-The EFI variables required by SGX are only needed during the SGX provisioning/registration phase. Once this step is completed successfully, access to the EFI variables is no longer required. This means this issue can be worked around by installing the SGX agent without booting to tboot, then rebooting the system to tboot. SGX attestation will then work as expected while booted to tboot.
-
-- Enable SGX and TXT in the platform BIOS
-
-- Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)
-
-- Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)
-
-The SGX Agent installation fetches the SGX Platform Manifest data and caches it
-
-- Reboot the system into the tboot kernel mode.
-
-- Verify that TXT measured launch was successful:
-
-```
-​ txt-stat |grep "TXT measured launch"
-```
-
-The SGX and Platform Integrity Attestation use cases should now work as normal.
-
----
-
 
 Intel® SecL-DC requires tboot 1.10.1 or greater. This may be a later version of tboot than is available on public software repositories.
 
@@ -210,3 +180,142 @@ Intel(r) TXT Configuration Registers:
          **secrets flag set: TRUE**
 ***********************************************************
 ```
+
+# Integrity Measurement Architecture (IMA) Agent
+
+IMA is based on the Trusted Computing Group's open standards, including Trusted 
+Platform Module (TPM), Trusted Boot, Trusted Software Stack (TSS), Trusted 
+Network Connect (TNC), and Platform Trust Services (PTS).
+
+**Goals of the kernel integrity subsystem:**
+ * Detect if files have been accidentally or maliciously altered, both remotely 
+ and locally
+ * Appraise a file's measurement against a "good" value stored as an extended
+ attribute
+ * Enforce local file integrity
+
+This is complementary to Mandatory Access Control (MAC) protections provided by 
+LSM modules. Depending on specified LSM policies, IMA can attempt to protect 
+file integrity.
+
+**IMA Components:**
+ * **IMA-measurement** – Measures files before being opened or executed and 
+ extends to TPM PCR 10
+ * **IMA-appraisal** - Extends the "secure boot" concept of verifying a file's 
+ integrity, before transferring control or allowing the file to be accessed by 
+ the OS
+ * **IMA-audit** – Includes file hashes in the system audit logs, which can be 
+ used to augment existing system security analytics/forensics
+
+IMA maintains a runtime measurement list and if anchored in hardware 
+(e.g. TPM), maintains an aggregate integrity value over this list. The 
+measurement list cannot be compromised by any software attack, without being 
+detectable. If a malicious file is accessed, its measurement is committed to 
+the TPM before the file is accessed, and the malicious code cannot remove this 
+measurement. If the malicious software compromises the attestation software, it 
+cannot conceal its presence, because it cannot forge a signature on a fake 
+measurement list. IMA measurement and attestation do not attempt to protect a 
+system's integrity. The goal is to detect if such compromise has occurred, so 
+that it can be repaired in a timely manner.
+
+**IMA Measurement**
+
+LSM - Linux Security Modules maintain file metadata, which can be leveraged to limit the number of files measured. IMA-measurement using Custom IMA policy maintains a runtime measurement list and anchored in a 
+hardware Trusted Platform Module (TPM), an aggregate integrity value over this 
+list. The benefit of anchoring the aggregate integrity value in the TPM is that 
+the measurement list cannot be compromised by any software attack, without 
+being detectable. Hence, on a trusted boot system, IMA-measurement can be used 
+to attest to the system's runtime integrity.
+
+All measurements are recorded in a runtime measurement list located in 
+`securityfs`:
+
+    /sys/kernel/security/ima/ascii_runtime_measurements
+
+These measurements are also extended to the system TPM if present.
+
+IMA is controlled with several kernel command line parameters:
+
+    ima_policy = custom LSM(SELinux) object type
+        
+    ima_template = ima-ng
+        ima-ng - latest template format for measurement log (default since Linux 3.13)
+
+    ima_hash = sha256  
+        ['sha256' default since Linux 3.13]
+
+Custom IMA policy rules can be defined in /etc/ima/ima-policy. These custom 
+rules can leverage LSM labels to measure or appraise specific file sets or 
+categories. The custom policies can likewise be used to exclude these 
+categories or types from IMA measurement or appraisal. If the IMA policy 
+contains LSM labels, then the LSM policy must be loaded prior to the IMA 
+policy.
+
+#### ISecL IMA measurement components for the node are comprised of two stages:
+
+1. Provision  
+2. Collect and Report  
+
+#### Steps for IMA Provision
+
+1. Download IMA provision script from the below mention location.
+    https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent
+
+2. Prerequisite before provision.
+    * SELinux needs to be in permissive mode
+        
+        Update `/etc/selinux/config` file with `SELINUX=permissive`and reboot the system.
+        After reboot, verify using `sestatus` and check SELinux mode is `permissive`
+    
+    ---
+    **NOTE**
+     swap needs to be disabled if it was enabled `swapoff -a` and restart kubelet `systemctl restart kubelet`
+    ---
+
+    * User needs to install `selinux-policy-devel` package before running the script to apply custom policy.
+        ```
+        dnf install selinux-policy-devel
+        ```
+
+3. Enabling Custom Policy  
+    * Change the provision script mode to execution.
+        ```
+        chmod -x ima-provision.sh
+        ```
+
+    * sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]  
+    ---
+    **NOTE**
+     set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory  
+     File or folder path mentioned inside input file-list should be present in the system, then only custom policy will be applied.
+        e.g: `./ima-provision.sh set-custom-policy -i /tmp/ima.txt --hash sha256`
+        ```
+        cat /tmp/ima.txt
+        /etc/crio/crio.conf
+        ```
+    ---
+
+4. Reboot the host for the IMA provision changes to reflect.
+
+5. Verify default measurements captured under `/sys/kernel/security/ima/ascii_runtime_measurements`
+
+6. gen-measurements – This option will label the system and log measurements inside ascii_runtime_measurements
+
+    * ./ima-provision.sh gen-measurements  
+---
+**NOTE**
+* If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
+* To add new file or folder for generating measurement without reboot, run below command and execute `step 6`.
+    `chcon -R -t isecl_t < folder or file details >`
+---
+
+### Important Notes
+
+  * Only Custom IMA policy shall be supported.   
+  * To completely remove `isecl` selinux custom policy from the host:    
+	- Delete ima custom policy file:   `rm -rf /etc/ima/`  
+	- Remove isecl selinux policy:     `semodule -r isecl`(this will automatically remove and reboot the system)  
+  * Command to verify `isecl` selinux custom policy was removed:  `semodule -l | grep isecl`
+  * Command to update the kernel to remove ima arguments.
+    `grubby --update-kernel=/boot/vmlinuz-$(uname -r) --remove-args="ima_template=ima-ng ima_hash=sha256"`
+  * Reboot the system to update the kernel.

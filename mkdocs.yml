@@ -37,6 +37,7 @@ nav:
         -  Flavor Management: product-guides/Foundational & Workload Security/90 Flavor Management.md
         -  Scalability and Sizing: product-guides/Foundational & Workload Security/100 Scalability and Sizing.md
         -  Deploying Individual Services Using Helm: product-guides/Foundational & Workload Security/105 Deploying Individual Services Using Helm.md
+        -  Helm charts Cleanup: product-guides/Foundational & Workload Security/106 Helm charts Cleanup.md
         -  Intel Security Libraries Configuration Settings: 
             - Changing Configuration Settings: product-guides/Foundational & Workload Security/110.0 Changing Configuration Settings.md
             - Configuration Settings (Verification Services): product-guides/Foundational & Workload Security/110.3 HVS Setup Task and Configuration Settings.md
