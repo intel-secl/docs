@@ -10,12 +10,14 @@ Key points:
 
 \-   For UEFI mode systems, UEFI SecureBoot must be used
 
-\-   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
+\-   IMA(Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
+
 ---
 **NOTE**
 Currently tboot and Secure Boot are not compatible. For UEFI platforms, Intel reccomends enabling TXT and enabling Secure Boot.  If Secure Boot will not be used, then Intel recommends enabling TXT and installing tboot.
 
 These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.
+
 ---
 
 Use the chart below for a guide to acceptable configuration options. .
@@ -188,23 +190,23 @@ Platform Module (TPM), Trusted Boot, Trusted Software Stack (TSS), Trusted
 Network Connect (TNC), and Platform Trust Services (PTS).
 
 **Goals of the kernel integrity subsystem:**
- * Detect if files have been accidentally or maliciously altered, both remotely 
+ \* Detect if files have been accidentally or maliciously altered, both remotely 
  and locally
- * Appraise a file's measurement against a "good" value stored as an extended
+ \* Appraise a file's measurement against a "good" value stored as an extended
  attribute
- * Enforce local file integrity
+ \* Enforce local file integrity
 
 This is complementary to Mandatory Access Control (MAC) protections provided by 
 LSM modules. Depending on specified LSM policies, IMA can attempt to protect 
 file integrity.
 
 **IMA Components:**
- * **IMA-measurement** – Measures files before being opened or executed and 
+ \* **IMA-measurement** – Measures files before being opened or executed and 
  extends to TPM PCR 10
- * **IMA-appraisal** - Extends the "secure boot" concept of verifying a file's 
+ \* **IMA-appraisal** - Extends the "secure boot" concept of verifying a file's 
  integrity, before transferring control or allowing the file to be accessed by 
  the OS
- * **IMA-audit** – Includes file hashes in the system audit logs, which can be 
+ \* **IMA-audit** – Includes file hashes in the system audit logs, which can be 
  used to augment existing system security analytics/forensics
 
 IMA maintains a runtime measurement list and if anchored in hardware 
@@ -262,7 +264,7 @@ policy.
     https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent
 
 2. Prerequisite before provision.
-    * SELinux needs to be in permissive mode
+    \* SELinux needs to be in permissive mode
         
         Update `/etc/selinux/config` file with `SELINUX=permissive`and reboot the system.
         After reboot, verify using `sestatus` and check SELinux mode is `permissive`
@@ -272,18 +274,18 @@ policy.
      swap needs to be disabled if it was enabled `swapoff -a` and restart kubelet `systemctl restart kubelet`
     ---
 
-    * User needs to install `selinux-policy-devel` package before running the script to apply custom policy.
+    \* User needs to install `selinux-policy-devel` package before running the script to apply custom policy.
         ```
         dnf install selinux-policy-devel
         ```
 
 3. Enabling Custom Policy  
-    * Change the provision script mode to execution.
+    \* Change the provision script mode to execution.
         ```
         chmod -x ima-provision.sh
         ```
 
-    * sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]  
+    \* sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]  
     ---
     **NOTE**
      set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory  
@@ -301,11 +303,11 @@ policy.
 
 6. gen-measurements – This option will label the system and log measurements inside ascii_runtime_measurements
 
-    * ./ima-provision.sh gen-measurements  
+   \* ./ima-provision.sh gen-measurements  
 ---
 **NOTE**
-* If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
-* To add new file or folder for generating measurement without reboot, run below command and execute `step 6`.
+  * If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
+  * To add new file or folder for generating measurement without reboot, run below command and execute `step 6`.
     `chcon -R -t isecl_t < folder or file details >`
 ---
 

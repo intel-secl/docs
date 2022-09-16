@@ -30,6 +30,77 @@ Beginning in the 4.2 release, Intel SecL-DC is deployed using Helm charts onto a
     kubectl label nodes <node name> node.type=SUEFI-ENABLED
     ```
 
+### Setting up for Helm deployment
+
+Create a namespace or use the namespace used for helm deployment. 
+```kubectl create ns isecl```
+
+**NOTE**: ISecL Scheduler and Admission Controller secrets are required for Trusted Workload Placement and Workload Security releated usecases
+
+##### Create Secrets for ISecL Scheduler TLS Key-pair
+ISecl Scheduler runs as https service, therefore it needs TLS Keypair and tls certificate needs to be signed by K8s CA, inorder to have secure communication between K8s base scheduler and ISecl K8s Scheduler.
+The creation of TLS keypair is a manual step, which has to be done prior deplolying the helm for Trusted Workload Placement usecase. 
+Following are the steps involved in creating tls cert signed by K8s CA.
+```shell script
+mkdir -p /tmp/k8s-certs/tls-certs && cd /tmp/k8s-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext "subjectAltName = DNS:<Controlplane hostname>" -nodes -text -out server.csr -keyout server.key -sha384 -subj "/CN=ISecl Scheduler TLS Certificate"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: isecl-scheduler.isecl
+spec:
+  request: $(cat server.csr | base64 | tr -d '\n')
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+EOF
+
+kubectl certificate approve isecl-scheduler.isecl
+kubectl get csr isecl-scheduler.isecl -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
+```
+
+*Note*: CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command `kubectl delete csr isecl-scheduler.isecl`
+
+##### Create Secrets for Admission controller TLS Key-pair
+Create admission-controller-certs secrets for admission controller deployment
+```shell script
+mkdir -p /tmp/adm-certs/tls-certs && cd /tmp/adm-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext "subjectAltName = DNS:admission-controller.isecl.svc" -nodes -text -out server.csr -keyout server.key -sha384 -subj "/CN=system:node:<nodename>;/O=system:nodes"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admission-controller.isecl
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d '\n')
+  signerName: kubernetes.io/kubelet-serving
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+kubectl certificate approve admission-controller.isecl
+kubectl get csr admission-controller.isecl -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+kubectl create secret tls admission-controller-certs --cert=/tmp/adm-certs/tls-certs/server.crt --key=/tmp/adm-certs/tls-certs/server.key -n isecl
+
+```
+
+Generate CA Bundle
+```shell script
+kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
+```
+Add the output base64 encoded string to value in caBundle sub field of admission-controller in usecase/trusted-workload-placement/values.yml in case of usecase deployment chart.
+
+*Note*: CSR needs to be deleted if we want to regenerate admission-controller-certs secret with command `kubectl delete csr admission-controller.isecl` 
 
 ## Retrieving Helm charts
 

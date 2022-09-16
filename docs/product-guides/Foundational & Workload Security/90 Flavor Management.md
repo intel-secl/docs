@@ -1433,16 +1433,18 @@ IMA flavor will be generated with the ima measurements present in the host manif
 POST : https://{{hvs_ip}}:30443/hvs/v2/flavors
 
 Body
-
+```
 {
   "connection_string":  "https://<host-ip>:31443;",
   "partial_flavor_types": ["PLATFORM","OS","HOST_UNIQUE","IMA","SOFTWARE"],
   "flavorgroup_names": []
 }
+```
+
 IMA flavor will be created based on the IMA Flavor template. This flavor will be stored in a flavors DB like other existing flavors.
 
 # IMA Flavor template
-
+    ```
 	{  
 		"label": "ima",  
 		"condition" :[
@@ -1460,8 +1462,10 @@ IMA flavor will be created based on the IMA Flavor template. This flavor will be
 			}  
 		}  
 	}  
+    ```
 # Sample for IMA Flavor 
 
+```
 {  
     "flavor":{  
       "meta":{  
@@ -1491,13 +1495,14 @@ IMA flavor will be created based on the IMA Flavor template. This flavor will be
 		}]    
   	}  
 }    
+```
 
 As with other Flavor parts, hosts will be matched to Flavors in the same
 Flavorgroup that the host is added to, and will not be matched to
 Flavors in different Flavorgroups. Flavor matching will happen on the
 same events as for other Flavor parts.
 
-##### Ima-Integrity rule
+# Ima-Integrity rule
 
 Current IMA logs will be taken from the hostmanifest file and the replay will be performed for all the IMA logs against the pcr10 cumulative hash recieved from the host.
 
@@ -1507,8 +1512,9 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
 
 # Attestation report generation
 
-* If the ima eventlog equals rule is true for all the measurements, we will provide only one entry in the report like below,
+  * If the ima eventlog equals rule is true for all the measurements, we will provide only one entry in the report like below,
 
+    ```
     "IMA": {
     	"trust": true,
     	"rules": [{
@@ -1521,9 +1527,10 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
     		"flavor_id": "253e5fc3-11b0-4a38-a2a0-4a264aa40139",
     		"trusted": true
     	}]
-    }   
-* If ima eventlog equals rule fails for any of the ima measurements, we will log those entries under faults in the reports as below.
-
+    }  
+    ``` 
+  * If ima eventlog equals rule fails for any of the ima measurements, we will log those entries under faults in the reports as below.
+```
 "IMA": {
     "trust": false,
     "rules": [{
@@ -1543,8 +1550,10 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
 	    "trusted": false
     }]
 }
-* If Hostmanifest contains unexpected/additional IMA log entries when compare to flavor measurements, PcrEventLogContainsUnexpectedEntries fault will be raised.
+```
 
+  * If Hostmanifest contains unexpected/additional IMA log entries when compare to flavor measurements, PcrEventLogContainsUnexpectedEntries fault will be raised.
+```
 "IMA": {
     "trust": false,
     "rules": [{
@@ -1575,8 +1584,10 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
 	    "trusted": false
     }]
 }
-* If hostmanifest does not contain all the measurements from flavor, PcrEventLogMissingExpectedEntries fault will be raised in the report.
+```
+  * If hostmanifest does not contain all the measurements from flavor, PcrEventLogMissingExpectedEntries fault will be raised in the report.
 
+```
 "IMA": {
     "trust": false,
     "rules": [{
@@ -1611,9 +1622,11 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
 	    "trusted": false
     }]
 }
-  
+```
+
 # Sample for IMA measurement log integrity rule in report,
 
+```
 "IMA": {
     "trust": true,
     "rules": [{
@@ -1651,10 +1664,12 @@ IMA flavor will be compared against the host manifest data of ima-log. If it mat
 	    "trusted": true
     }]
 }
+```
 
 As part of tpm quote response, TA will send ima_log.
 
 To include the ima logs in the tpm quote response, the following cofiguration parameters will be added by hvs in the tpm-quote request body.
+
 ```    
 `ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.0.0/`. Only if it is true, 
 IMA logs will be sent by TA.

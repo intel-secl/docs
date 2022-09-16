@@ -111,8 +111,7 @@ paths:
             -----END CERTIFICATE REQUEST-------
           format: txt
           type: string
-      - description: Certificate type such as TLS, Flavor-Signing, JWT-Signing, Signing
-          and TLS-Client.
+      - description: Certificate type such as TLS, Flavor-Signing, JWT-Signing, Signing and TLS-Client.
         in: query
         name: certType
         required: true
@@ -121,8 +120,7 @@ paths:
       - application/x-pem-file
       responses:
         "200":
-          description: Successfully retrieved the certificate signed by CMS for provided
-            CSR.
+          description: Successfully retrieved the certificate signed by CMS for provided CSR.
           schema:
             example: |
               -----BEGIN CERTIFICATE------

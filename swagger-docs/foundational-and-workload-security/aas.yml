@@ -8,7 +8,7 @@ definitions:
         type: string
         x-go-name: ComponentType
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   CustomClaims:
     properties:
       claims:
@@ -24,14 +24,14 @@ definitions:
         type: integer
         x-go-name: ValiditySecs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   Parameters:
     properties:
       host-id:
         type: string
         x-go-name: TaHostId
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   PasswordChange:
     properties:
       new_password:
@@ -47,7 +47,7 @@ definitions:
         type: string
         x-go-name: UserName
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   PermissionInfo:
     properties:
       context:
@@ -62,7 +62,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleCreate:
     properties:
       context:
@@ -82,7 +82,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleCreateResponse:
     properties:
       name:
@@ -95,7 +95,7 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RoleIDs:
     properties:
       role_ids:
@@ -104,7 +104,7 @@ definitions:
         type: array
         x-go-name: RoleUUIDs
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   RolePermission:
     properties:
       permission_id:
@@ -114,7 +114,7 @@ definitions:
         type: string
         x-go-name: Rule
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   RoleTypeInfo:
     properties:
       context:
@@ -137,12 +137,12 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   RolesResponse:
     items:
       $ref: '#/definitions/RoleTypeInfo'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   UserCreate:
     properties:
       password:
@@ -152,7 +152,7 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserCreateResponse:
     properties:
       user_id:
@@ -162,7 +162,7 @@ definitions:
         type: string
         x-go-name: Name
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserCred:
     properties:
       password:
@@ -172,12 +172,12 @@ definitions:
         type: string
         x-go-name: UserName
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/pkg/model/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aas
   UserPermissions:
     items:
       $ref: '#/definitions/PermissionInfo'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   UserRoleResponse:
     properties:
       context:
@@ -195,17 +195,17 @@ definitions:
         type: string
         x-go-name: Service
     type: object
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   UserRolesResponse:
     items:
       $ref: '#/definitions/UserRoleResponse'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
   UsersResponse:
     items:
       $ref: '#/definitions/UserCreateResponse'
     type: array
-    x-go-package: github.com/intel-secl/intel-secl/v4/docs/shared/aas
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/authservice
 host: aas.com:8444
 info:
   description: |-
@@ -250,8 +250,7 @@ paths:
       - Credentials
       x-permissions: credential:create
       x-sample-call-endpoint: https://authservice.com:8444/aas/v1/credentials
-      x-sample-call-input: "{\n \t\"type\": \"TA\",\n \t\"parameters\": {\n     \t\"host-id\":
-        \"<TA FQDN>\"\n\t }\n}\n"
+      x-sample-call-input: "{\n \t\"type\": \"TA\",\n \t\"parameters\": {\n     \t\"host-id\": \"<TA FQDN>\"\n\t }\n}\n"
       x-sample-call-output: |
         -----BEGIN NATS USER JWT-----
         eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJleHAiOjE2MjIxMDk1NzEsImp0aSI6IlhIVEhDTFdDTE5YV01ER0tLTE5aSU9GQUdGQUlDTVhRNUgyN0ZUSUhHSVBPNVBUQUE2REEiLCJpYXQiOjE2MjE5MzY3NzEsImlzcyI6IkFBQTZPTU1HR0FNSFAzTlZVU0dBQkkyVVRBN1hIS0JHTEpOTk9KWERaQkk2NU5HVUpXNEFHSEZLIiwic3ViIjoiVUNUTVE1TUhBUE5KU1NQSlJFWk1ZV1dON09NRFpESEZPNlI0N1BXTUc2WlJRQlNSNUpKRk5UVjYiLCJuYXRzIjp7InB1YiI6eyJhbGxvdyI6WyJ0cnVzdC1hZ2VudC5cdTAwM2UiXX0sInN1YiI6eyJhbGxvdyI6WyJfSU5CT1guXHUwMDNlIl19LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.eHyGimM4sItxDcfqhEVzhCON8e0qasOT_QX1sxdM0mG9Is_TjK144Pz8U_Ut1jQ7czAi1gzAQZT-fBbyxhw_CA
@@ -427,8 +426,7 @@ paths:
         in: query
         name: name
         type: string
-      - description: Context string which contains information such as CN, SAN and
-          certType.
+      - description: Context string which contains information such as CN, SAN and certType.
         in: query
         name: context
         type: string
@@ -513,8 +511,7 @@ paths:
         type: string
       responses:
         "204":
-          description: Successfully deleted the role associated with the specified
-            role id.
+          description: Successfully deleted the role associated with the specified role id.
       security:
       - bearerAuth: []
       tags:
@@ -539,8 +536,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the role associated with the specified
-            role id.
+          description: Successfully retrieved the role associated with the specified role id.
           schema:
             $ref: '#/definitions/RoleCreateResponse'
       security:
@@ -723,8 +719,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the user details for the specified user
-            id.
+          description: Successfully retrieved the user details for the specified user id.
           schema:
             $ref: '#/definitions/UserCreateResponse'
       security:
@@ -832,8 +827,7 @@ paths:
         in: query
         name: name
         type: string
-      - description: Context string which contains informations such as CN, SAN and
-          certType.
+      - description: Context string which contains informations such as CN, SAN and certType.
         in: query
         name: context
         type: string
