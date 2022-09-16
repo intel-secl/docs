@@ -501,47 +501,9 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Hardware Security Technology Considerations
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         Hardware Security Technology Considerations
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#-ima-integrity-measurement-architecture-needs-to-be-provisioned-in-all-platforms-which-needs-to-be-attested-before-the-deployment" class="md-nav__link">
-    -   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#these-hardware-security-technology-requirements-apply-to-all-platforms-to-be-attested-in-a-kubernetes-environment-this-would-typically-include-all-worker-nodes" class="md-nav__link">
-    These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -1107,28 +1069,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#-ima-integrity-measurement-architecture-needs-to-be-provisioned-in-all-platforms-which-needs-to-be-attested-before-the-deployment" class="md-nav__link">
-    -   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#these-hardware-security-technology-requirements-apply-to-all-platforms-to-be-attested-in-a-kubernetes-environment-this-would-typically-include-all-worker-nodes" class="md-nav__link">
-    These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1150,10 +1090,12 @@
 <p>-   At least one "Static Root of Trust" mechanism must be used (TXT and/or BtG)</p>
 <p>-   For Legacy BIOS systems, tboot must be used (which requires TXT)</p>
 <p>-   For UEFI mode systems, UEFI SecureBoot must be used</p>
-<h2 id="-ima-integrity-measurement-architecture-needs-to-be-provisioned-in-all-platforms-which-needs-to-be-attested-before-the-deployment">-   IMA (Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment</h2>
+<p>-   IMA(Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment</p>
+<hr />
 <p><strong>NOTE</strong>
 Currently tboot and Secure Boot are not compatible. For UEFI platforms, Intel reccomends enabling TXT and enabling Secure Boot.  If Secure Boot will not be used, then Intel recommends enabling TXT and installing tboot.</p>
-<h2 id="these-hardware-security-technology-requirements-apply-to-all-platforms-to-be-attested-in-a-kubernetes-environment-this-would-typically-include-all-worker-nodes">These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.</h2>
+<p>These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.</p>
+<hr />
 <p>Use the chart below for a guide to acceptable configuration options. .</p>
 <p><img alt="hardware-considerations" src="../images/hardware_considerations.png" /></p>
 <h1 id="tboot-installation">Tboot Installation</h1>
@@ -1328,31 +1270,24 @@ policy.</p>
     <a href="https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent">https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent</a></p>
 </li>
 <li>
-<p>Prerequisite before provision.</p>
-<ul>
-<li>
-<p>SELinux needs to be in permissive mode</p>
-<p>Update <code>/etc/selinux/config</code> file with <code>SELINUX=permissive</code>and reboot the system.
-After reboot, verify using <code>sestatus</code> and check SELinux mode is <code>permissive</code></p>
-</li>
-</ul>
+<p>Prerequisite before provision.
+    * SELinux needs to be in permissive mode</p>
+<pre><code>Update `/etc/selinux/config` file with `SELINUX=permissive`and reboot the system.
+After reboot, verify using `sestatus` and check SELinux mode is `permissive`
+</code></pre>
 <hr />
 <p><strong>NOTE</strong>
  swap needs to be disabled if it was enabled <code>swapoff -a</code> and restart kubelet <code>systemctl restart kubelet</code></p>
 <hr />
-<ul>
-<li>User needs to install <code>selinux-policy-devel</code> package before running the script to apply custom policy.
+<p>* User needs to install <code>selinux-policy-devel</code> package before running the script to apply custom policy.
     <div class="highlight"><pre><span></span><code>dnf install selinux-policy-devel
-</code></pre></div></li>
-</ul>
+</code></pre></div></p>
 </li>
 <li>
-<p>Enabling Custom Policy  </p>
-<ul>
-<li>Change the provision script mode to execution.
-    <div class="highlight"><pre><span></span><code>chmod -x ima-provision.sh
-</code></pre></div></li>
-</ul>
+<p>Enabling Custom Policy<br />
+    * Change the provision script mode to execution.
+        <div class="highlight"><pre><span></span><code>chmod -x ima-provision.sh
+</code></pre></div></p>
 <h2 id="sh-ima-provisionsh-set-custom-policy-i-file-with-list-of-one-or-more-directory-or-file-path-hash-sha256">* sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]</h2>
 <p><strong>NOTE</strong>
  set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory<br />
@@ -1371,14 +1306,14 @@ After reboot, verify using <code>sestatus</code> and check SELinux mode is <code
 </li>
 <li>
 <p>gen-measurements – This option will label the system and log measurements inside ascii_runtime_measurements</p>
-<h2 id="ima-provisionsh-gen-measurements">* ./ima-provision.sh gen-measurements</h2>
-<p><strong>NOTE</strong>
-* If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
-* To add new file or folder for generating measurement without reboot, run below command and execute <code>step 6</code>.
-<code>chcon -R -t isecl_t &lt; folder or file details &gt;</code></p>
-<hr />
 </li>
 </ol>
+<h2 id="ima-provisionsh-gen-measurements">* ./ima-provision.sh gen-measurements</h2>
+<p><strong>NOTE</strong>
+  * If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
+  * To add new file or folder for generating measurement without reboot, run below command and execute <code>step 6</code>.
+    <code>chcon -R -t isecl_t &lt; folder or file details &gt;</code></p>
+<hr />
 <h3 id="important-notes">Important Notes</h3>
 <ul>
 <li>Only Custom IMA policy shall be supported.   </li>

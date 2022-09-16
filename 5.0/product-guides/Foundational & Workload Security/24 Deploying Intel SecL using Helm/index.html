@@ -594,26 +594,31 @@
     Prerequisites for Deployment
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieving-helm-charts" class="md-nav__link">
-    Retrieving Helm charts
+    <nav class="md-nav" aria-label="Prerequisites for Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-for-helm-deployment" class="md-nav__link">
+    Setting up for Helm deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up for Helm deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-isecl-scheduler-tls-key-pair" class="md-nav__link">
+    Create Secrets for ISecL Scheduler TLS Key-pair
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#persistent-storage" class="md-nav__link">
-    Persistent Storage
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#default-service-and-agent-mount-paths" class="md-nav__link">
-    Default Service and Agent Mount Paths
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1134,26 +1139,31 @@
     Prerequisites for Deployment
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieving-helm-charts" class="md-nav__link">
-    Retrieving Helm charts
+    <nav class="md-nav" aria-label="Prerequisites for Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-for-helm-deployment" class="md-nav__link">
+    Setting up for Helm deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting up for Helm deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-isecl-scheduler-tls-key-pair" class="md-nav__link">
+    Create Secrets for ISecL Scheduler TLS Key-pair
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#persistent-storage" class="md-nav__link">
-    Persistent Storage
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#default-service-and-agent-mount-paths" class="md-nav__link">
-    Default Service and Agent Mount Paths
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1211,22 +1221,87 @@ chmod 700 get_helm.sh
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="retrieving-helm-charts">Retrieving Helm charts</h2>
-<p>The Intel SecL-DC Helm charts are hosted in a github Helm repo:</p>
-<div class="highlight"><pre><span></span><code>helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
+<h3 id="setting-up-for-helm-deployment">Setting up for Helm deployment</h3>
+<p>Create a namespace or use the namespace used for helm deployment. 
+<code>kubectl create ns isecl</code></p>
+<p><strong>NOTE</strong>: ISecL Scheduler and Admission Controller secrets are required for Trusted Workload Placement and Workload Security releated usecases</p>
+<h5 id="create-secrets-for-isecl-scheduler-tls-key-pair">Create Secrets for ISecL Scheduler TLS Key-pair</h5>
+<p>ISecl Scheduler runs as https service, therefore it needs TLS Keypair and tls certificate needs to be signed by K8s CA, inorder to have secure communication between K8s base scheduler and ISecl K8s Scheduler.
+The creation of TLS keypair is a manual step, which has to be done prior deplolying the helm for Trusted Workload Placement usecase. 
+Following are the steps involved in creating tls cert signed by K8s CA.
+```shell script
+mkdir -p /tmp/k8s-certs/tls-certs &amp;&amp; cd /tmp/k8s-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext "subjectAltName = DNS:<Controlplane hostname>" -nodes -text -out server.csr -keyout server.key -sha384 -subj "/CN=ISecl Scheduler TLS Certificate"</p>
+<p>cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: isecl-scheduler.isecl
+spec:
+  request: $(cat server.csr | base64 | tr -d '\n')
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+EOF</p>
+<p>kubectl certificate approve isecl-scheduler.isecl
+kubectl get csr isecl-scheduler.isecl -o jsonpath='{.status.certificate}' \
+    | base64 --decode &gt; server.crt
+kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
+<div class="highlight"><pre><span></span><code>*Note*: CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command `kubectl delete csr isecl-scheduler.isecl`
+
+##### Create Secrets for Admission controller TLS Key-pair
+Create admission-controller-certs secrets for admission controller deployment
+```shell script
+mkdir -p /tmp/adm-certs/tls-certs &amp;&amp; cd /tmp/adm-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext &quot;subjectAltName = DNS:admission-controller.isecl.svc&quot; -nodes -text -out server.csr -keyout server.key -sha384 -subj &quot;/CN=system:node:&lt;nodename&gt;;/O=system:nodes&quot;
+
+cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admission-controller.isecl
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d &#39;\n&#39;)
+  signerName: kubernetes.io/kubelet-serving
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+kubectl certificate approve admission-controller.isecl
+kubectl get csr admission-controller.isecl -o jsonpath=&#39;{.status.certificate}&#39; \
+    | base64 --decode &gt; server.crt
+kubectl create secret tls admission-controller-certs --cert=/tmp/adm-certs/tls-certs/server.crt --key=/tmp/adm-certs/tls-certs/server.key -n isecl
+</code></pre></div></p>
+<p>Generate CA Bundle
+```shell script
+kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
+<div class="highlight"><pre><span></span><code>Add the output base64 encoded string to value in caBundle sub field of admission-controller in usecase/trusted-workload-placement/values.yml in case of usecase deployment chart.
+
+*Note*: CSR needs to be deleted if we want to regenerate admission-controller-certs secret with command `kubectl delete csr admission-controller.isecl` 
+
+## Retrieving Helm charts
+
+The Intel SecL-DC Helm charts are hosted in a github Helm repo:
+</code></pre></div>
+helm repo add isecl-helm <a href="https://intel-secl.github.io/helm-charts/">https://intel-secl.github.io/helm-charts/</a>
 helm repo update
+<div class="highlight"><pre><span></span><code>The list of available charts on the added repo can be shown using the &quot;search repo&quot; command:
 </code></pre></div>
-<p>The list of available charts on the added repo can be shown using the "search repo" command:</p>
-<div class="highlight"><pre><span></span><code>helm search repo --versions
+helm search repo --versions
+<div class="highlight"><pre><span></span><code>## Persistent Storage
+
+Several Intel SecL-DC services require persistent storage for databases, configuration settings, and logs.  By default the Helm deployments are configured to use NFS storage for these persistent volumes.
+
+On the NFS server, execute the provided setup-nfs.sh script to set up the needed persistent volume folder structure and share the mount points.
 </code></pre></div>
-<h2 id="persistent-storage">Persistent Storage</h2>
-<p>Several Intel SecL-DC services require persistent storage for databases, configuration settings, and logs.  By default the Helm deployments are configured to use NFS storage for these persistent volumes.</p>
-<p>On the NFS server, execute the provided setup-nfs.sh script to set up the needed persistent volume folder structure and share the mount points.</p>
-<div class="highlight"><pre><span></span><code> curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
+ curl -fsSL -o setup-nfs.sh <a href="https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh">https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh</a>
  chmod +x setup-nfs.sh
-./setup-nfs.sh /mnt/nfs_share 1001 &lt;ip or hostname of the control plane&gt;
-</code></pre></div>
-<p>All the pods running on nodes in cluster need access to NFS mount path via PVC e.g <code>/mnt/nfs_share</code>. 
+./setup-nfs.sh /mnt/nfs_share 1001 <ip or hostname of the control plane>
+<div class="highlight"><pre><span></span><code>All the pods running on nodes in cluster need access to NFS mount path via PVC e.g `/mnt/nfs_share`. 
 This requires user to add IPs/FQDN names to be added to /etc/exports file on system where NFS server is installed
 Add all the IPs or FQDN names of each of nodes in K8s cluster in /etc/exports file in system where NFS is server is installed and configured using above script.
 e.g For 3 node cluster with FQDN names control-plane.com(control plane), node1.com and node2.com(nodes)
@@ -1235,53 +1310,54 @@ cat /etc/exports
 /mnt/nfs_share/isecl/        control-plane.com(rw,sync,no_all_squash,root_squash)
 /mnt/nfs_share/isecl/        node1.com(rw,sync,no_all_squash,root_squash)
 /mnt/nfs_share/isecl/        node2.com(rw,sync,no_all_squash,root_squash)
-<div class="highlight"><pre><span></span><code>*Note:* Even if a new node is joined to the cluster, the IP/FQDN name should be added to /etc/exportfs file at system where NFS server is running
-
-After making the changes in `/etc/exports` file run the below command
+</code></pre></div></p>
+<p><em>Note:</em> Even if a new node is joined to the cluster, the IP/FQDN name should be added to /etc/exportfs file at system where NFS server is running</p>
+<p>After making the changes in <code>/etc/exports</code> file run the below command
 ```shell script
 exportfs -arv
+<div class="highlight"><pre><span></span><code>## Default Service and Agent Mount Paths
+
+```yaml
+#Certificate-Management-Service
+Config: &lt;NFS-vol-base-path&gt;/isecl/cms/config
+Logs: &lt;NFS-vol-base-path&gt;/isecl/cms/logs
+
+#Authentication Authorization Service
+Config: &lt;NFS-vol-base-path&gt;/isecl/aas/config
+Logs: &lt;NFS-vol-base-path&gt;/isecl/aas/logs
+Pg-data: &lt;NFS-vol-base-path&gt;/isecl/aas/db
+
+#Host Attestation Service
+Config: &lt;NFS-vol-base-path&gt;/isecl/hvs/config
+Logs: &lt;NFS-vol-base-path&gt;/isecl/hvs/logs
+Pg-data: &lt;NFS-vol-base-path&gt;/usr/local/kube/data/hvs
+
+#Integration-Hub
+Config: &lt;NFS-vol-base-path&gt;/isecl/ihub/config
+Log: &lt;NFS-vol-base-path&gt;/isecl/ihub/logs
+
+#Workload Service
+Config: &lt;NFS-vol-base-path&gt;/isecl/wls/config
+Logs: &lt;NFS-vol-base-path&gt;/isecl/wls/log
+Pg-data: &lt;NFS-vol-base-path&gt;/usr/local/kube/data/wls
+
+#Key-Broker-Service
+Config: &lt;NFS-vol-base-path&gt;/isecl/kbs/config
+Log: &lt;NFS-vol-base-path&gt;/isecl/kbs/logs
+Opt: &lt;NFS-vol-base-path&gt;/isecl/kbs/kbs/opt
+
+#Trust Agent:
+Config: /etc/trustagent/v5.0.0/
+Logs:  /var/log/trustagent/
+tpmrm: /dev/tpmrm0
+txt-stat: /usr/sbin/txt-stat
+ta-hostname-path: /etc/hostname
+ta-hosts-path: /etc/hosts
+
+#Workload Agent:
+Config: /etc/workload-agent/v5.0.0/
+Logs: /var/log/workload-agent
 </code></pre></div></p>
-<h2 id="default-service-and-agent-mount-paths">Default Service and Agent Mount Paths</h2>
-<div class="highlight"><pre><span></span><code><span class="c1">#Certificate-Management-Service</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/cms/config</span>
-<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/cms/logs</span>
-
-<span class="c1">#Authentication Authorization Service</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/config</span>
-<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/logs</span>
-<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/aas/db</span>
-
-<span class="c1">#Host Attestation Service</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/hvs/config</span>
-<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/hvs/logs</span>
-<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/usr/local/kube/data/hvs</span>
-
-<span class="c1">#Integration-Hub</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/ihub/config</span>
-<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/ihub/logs</span>
-
-<span class="c1">#Workload Service</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/wls/config</span>
-<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/wls/log</span>
-<span class="nt">Pg-data</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/usr/local/kube/data/wls</span>
-
-<span class="c1">#Key-Broker-Service</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/config</span>
-<span class="nt">Log</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/logs</span>
-<span class="nt">Opt</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/kbs/opt</span>
-
-<span class="c1">#Trust Agent:</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/trustagent/v5.0.0/</span>
-<span class="nt">Logs</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/var/log/trustagent/</span>
-<span class="nt">tpmrm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/dev/tpmrm0</span>
-<span class="nt">txt-stat</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/sbin/txt-stat</span>
-<span class="nt">ta-hostname-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hostname</span>
-<span class="nt">ta-hosts-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/hosts</span>
-
-<span class="c1">#Workload Agent:</span>
-<span class="nt">Config</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/etc/workload-agent/v5.0.0/</span>
-<span class="nt">Logs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/var/log/workload-agent</span>
-</code></pre></div>
 <hr />
 <p><strong>NOTE</strong>
 Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) and Workload Agent (/etc/workload-agent and /var/log/workload-agent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.</p>
