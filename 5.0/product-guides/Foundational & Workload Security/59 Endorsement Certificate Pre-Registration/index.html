@@ -666,9 +666,9 @@
       
         <li class="md-nav__item">
   <a href="#config-requireekcertforhostprovision-true-if-set-to-true-enable-endorsement-certificate-pre-registration-allowed-values-truefalse-verifyquoteforhostregistration-true-if-set-to-true-enforce-endorsement-certificate-pre-registration-allowed-values-truefalse" class="md-nav__link">
-      config:
-    requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+    config:
+  requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
 
   </a>
   
@@ -1125,9 +1125,9 @@
       
         <li class="md-nav__item">
   <a href="#config-requireekcertforhostprovision-true-if-set-to-true-enable-endorsement-certificate-pre-registration-allowed-values-truefalse-verifyquoteforhostregistration-true-if-set-to-true-enforce-endorsement-certificate-pre-registration-allowed-values-truefalse" class="md-nav__link">
-      config:
-    requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+    config:
+  requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
 
   </a>
   
@@ -1168,9 +1168,9 @@
 <p>Added in the 4.2 release, this feature adds an additional pre-registration step for Trust Agent hosts.  When this feature is enabled, Trust Agent provisioning and registration will be denied unless the Endorsement Certificate (EC) from the TPM of the Trust Agent host is known to the Verification Service.</p>
 <p>This feature is intended for deployments where physical control of compute resources is limited, as in some 5G wireless, Edge, or IoT device deployments.  By pre-registering the Endorsement Certificate of the TPM before shipping the equipment to its physical destination, the HVS can be restricted to allow provisioning and registration only with known TPMs.  This mitigates the possibility of a malicious host being registered from a remote location where physical security may be weaker.</p>
 <p>To enable this feature, set the following options to "true" in the Helm congifuration for the HVS (either the HVS individual service values.yaml, or the values.yaml for any use case deployment):</p>
-<h2 id="config-requireekcertforhostprovision-true-if-set-to-true-enable-endorsement-certificate-pre-registration-allowed-values-truefalse-verifyquoteforhostregistration-true-if-set-to-true-enforce-endorsement-certificate-pre-registration-allowed-values-truefalse"><div class="highlight"><pre><span></span><code>  config:
-    requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+<h2 id="config-requireekcertforhostprovision-true-if-set-to-true-enable-endorsement-certificate-pre-registration-allowed-values-truefalse-verifyquoteforhostregistration-true-if-set-to-true-enforce-endorsement-certificate-pre-registration-allowed-values-truefalse"><div class="highlight"><pre><span></span><code>config:
+  requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
 </code></pre></div></h2>
 <p><strong>NOTE</strong></p>
 <p>When this feature is enabled, Trust Agent provisioning will fail for any hosts whose TPM EC has not been pre-registered.  For the Trust Agent Kubernetes daemonset, this means the Trust Agent pods will fail to deploy.</p>

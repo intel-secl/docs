@@ -602,8 +602,7 @@
     Setting up for Helm deployment
   </a>
   
-    <nav class="md-nav" aria-label="Setting up for Helm deployment">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#create-secrets-for-isecl-scheduler-tls-key-pair" class="md-nav__link">
@@ -612,8 +611,17 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-admission-controller-tls-key-pair" class="md-nav__link">
+    Create Secrets for Admission controller TLS Key-pair
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-kbs-kmip-certificates" class="md-nav__link">
+    Create Secrets for KBS KMIP Certificates
+  </a>
   
 </li>
         
@@ -1147,8 +1155,7 @@
     Setting up for Helm deployment
   </a>
   
-    <nav class="md-nav" aria-label="Setting up for Helm deployment">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#create-secrets-for-isecl-scheduler-tls-key-pair" class="md-nav__link">
@@ -1157,8 +1164,17 @@
   
 </li>
         
-      </ul>
-    </nav>
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-admission-controller-tls-key-pair" class="md-nav__link">
+    Create Secrets for Admission controller TLS Key-pair
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-secrets-for-kbs-kmip-certificates" class="md-nav__link">
+    Create Secrets for KBS KMIP Certificates
+  </a>
   
 </li>
         
@@ -1222,10 +1238,82 @@ chmod 700 get_helm.sh
 </li>
 </ul>
 <h3 id="setting-up-for-helm-deployment">Setting up for Helm deployment</h3>
-<p>Create a namespace or use the namespace used for helm deployment. 
-<code>kubectl create ns isecl</code></p>
+<p>Create a namespace or use the namespace used for helm deployment. </p>
+<div class="highlight"><pre><span></span><code>kubectl create ns isecl
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>ISecL Scheduler and Admission Controller secrets are required for Trusted Workload Placement and Workload Security releated usecases</p>
+</details>
+<h3 id="create-secrets-for-isecl-scheduler-tls-key-pair">Create Secrets for ISecL Scheduler TLS Key-pair</h3>
+<p>ISecl Scheduler runs as https service, therefore it needs TLS Keypair and tls certificate needs to be signed by K8s CA, inorder to have secure communication between K8s base scheduler and ISecl K8s Scheduler.
+The creation of TLS keypair is a manual step, which has to be done prior deplolying the helm for Trusted Workload Placement usecase. 
+Following are the steps involved in creating tls cert signed by K8s CA.</p>
+<div class="highlight"><pre><span></span><code>mkdir -p /tmp/k8s-certs/tls-certs &amp;&amp; cd /tmp/k8s-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext &quot;subjectAltName = DNS:&lt;Controlplane hostname&gt;&quot; -nodes -text -out server.csr -keyout server.key -sha384 -subj &quot;/CN=ISecl Scheduler TLS Certificate&quot;
+
+cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: isecl-scheduler.isecl
+spec:
+  request: $(cat server.csr | base64 | tr -d &#39;\n&#39;)
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+EOF
+
+kubectl certificate approve isecl-scheduler.isecl
+kubectl get csr isecl-scheduler.isecl -o jsonpath=&#39;{.status.certificate}&#39; \
+  | base64 --decode &gt; server.crt
+kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command <code>kubectl delete csr isecl-scheduler.isecl</code></p>
+</details>
+<h3 id="create-secrets-for-admission-controller-tls-key-pair">Create Secrets for Admission controller TLS Key-pair</h3>
+<p>Create admission-controller-certs secrets for admission controller deployment</p>
+<div class="highlight"><pre><span></span><code>mkdir -p /tmp/adm-certs/tls-certs &amp;&amp; cd /tmp/adm-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext &quot;subjectAltName = DNS:admission-controller.isecl.svc&quot; -nodes -text -out server.csr -keyout server.key -sha384 -subj &quot;/CN=system:node:&lt;nodename&gt;;/O=system:nodes&quot;
+
+cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admission-controller.isecl
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d &#39;\n&#39;)
+  signerName: kubernetes.io/kubelet-serving
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+kubectl certificate approve admission-controller.isecl
+kubectl get csr admission-controller.isecl -o jsonpath=&#39;{.status.certificate}&#39; \
+    | base64 --decode &gt; server.crt
+kubectl create secret tls admission-controller-certs --cert=/tmp/adm-certs/tls-certs/server.crt --key=/tmp/adm-certs/tls-certs/server.key -n isecl
+</code></pre></div>
+<p>Generate CA Bundle
+  <div class="highlight"><pre><span></span><code>kubectl config view --raw --minify --flatten -o jsonpath=&#39;{.clusters[].cluster.certificate-authority-data}&#39;
+</code></pre></div></p>
+<p>Add the output base64 encoded string to value in caBundle sub field of admission-controller in usecase/trusted-workload-placement/values.yml in case of usecase deployment chart.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>CSR needs to be deleted if we want to regenerate admission-controller-certs secret with command <code>kubectl delete csr admission-controller.isecl</code> </p>
+</details>
+<h3 id="create-secrets-for-kbs-kmip-certificates">Create Secrets for KBS KMIP Certificates</h3>
+<p>Copy KMIP Client Certificate, Client Key and Root Certificate from KMIP Server to Node where KMIP secrets needs to be generated.</p>
+<h1 id="kubectl-create-secret-generic-kbs-kmip-certs-n-isecl-from-fileclient_certificatepemkmip-client-certificate-path-from-fileclient_keypemkmip-client-key-path-from-fileroot_certificatepemkmip-root-certificate-path"><div class="highlight"><pre><span></span><code>kubectl create secret generic kbs-kmip-certs -n isecl --from-file=client_certificate.pem=&lt;KMIP Client Certificate Path&gt; --from-file=client_key.pem=&lt;KMIP Client Key Path&gt; --from-file=root_certificate.pem=&lt;KMIP Root Certificate Path&gt;
+</code></pre></div></h1>
+<p><code>kubectl create ns isecl</code></p>
 <p><strong>NOTE</strong>: ISecL Scheduler and Admission Controller secrets are required for Trusted Workload Placement and Workload Security releated usecases</p>
-<h5 id="create-secrets-for-isecl-scheduler-tls-key-pair">Create Secrets for ISecL Scheduler TLS Key-pair</h5>
+<h5 id="create-secrets-for-isecl-scheduler-tls-key-pair_1">Create Secrets for ISecL Scheduler TLS Key-pair</h5>
 <p>ISecl Scheduler runs as https service, therefore it needs TLS Keypair and tls certificate needs to be signed by K8s CA, inorder to have secure communication between K8s base scheduler and ISecl K8s Scheduler.
 The creation of TLS keypair is a manual step, which has to be done prior deplolying the helm for Trusted Workload Placement usecase. 
 Following are the steps involved in creating tls cert signed by K8s CA.
@@ -1286,36 +1374,50 @@ kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.c
 ## Retrieving Helm charts
 
 The Intel SecL-DC Helm charts are hosted in a github Helm repo:
-</code></pre></div>
-helm repo add isecl-helm <a href="https://intel-secl.github.io/helm-charts/">https://intel-secl.github.io/helm-charts/</a>
-helm repo update
-<div class="highlight"><pre><span></span><code>The list of available charts on the added repo can be shown using the &quot;search repo&quot; command:
-</code></pre></div>
-helm search repo --versions
-<div class="highlight"><pre><span></span><code>## Persistent Storage
+
+  ```
+  helm repo add isecl-helm https://intel-secl.github.io/helm-charts/
+  helm repo update
+  ```
+
+The list of available charts on the added repo can be shown using the &quot;search repo&quot; command:
+
+  ``` 
+  helm search repo --versions
+  ```
+
+## Persistent Storage
 
 Several Intel SecL-DC services require persistent storage for databases, configuration settings, and logs.  By default the Helm deployments are configured to use NFS storage for these persistent volumes.
 
 On the NFS server, execute the provided setup-nfs.sh script to set up the needed persistent volume folder structure and share the mount points.
-</code></pre></div>
- curl -fsSL -o setup-nfs.sh <a href="https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh">https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh</a>
- chmod +x setup-nfs.sh
-./setup-nfs.sh /mnt/nfs_share 1001 <ip or hostname of the control plane>
-<div class="highlight"><pre><span></span><code>All the pods running on nodes in cluster need access to NFS mount path via PVC e.g `/mnt/nfs_share`. 
+
+  ```
+  curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
+  chmod +x setup-nfs.sh
+  ./setup-nfs.sh /mnt/nfs_share 1001 &lt;ip or hostname of the control plane&gt;
+  ```
+
+All the pods running on nodes in cluster need access to NFS mount path via PVC e.g `/mnt/nfs_share`. 
 This requires user to add IPs/FQDN names to be added to /etc/exports file on system where NFS server is installed
 Add all the IPs or FQDN names of each of nodes in K8s cluster in /etc/exports file in system where NFS is server is installed and configured using above script.
 e.g For 3 node cluster with FQDN names control-plane.com(control plane), node1.com and node2.com(nodes)
-```shell script
-cat /etc/exports
-/mnt/nfs_share/isecl/        control-plane.com(rw,sync,no_all_squash,root_squash)
-/mnt/nfs_share/isecl/        node1.com(rw,sync,no_all_squash,root_squash)
-/mnt/nfs_share/isecl/        node2.com(rw,sync,no_all_squash,root_squash)
-</code></pre></div></p>
-<p><em>Note:</em> Even if a new node is joined to the cluster, the IP/FQDN name should be added to /etc/exportfs file at system where NFS server is running</p>
-<p>After making the changes in <code>/etc/exports</code> file run the below command
-```shell script
-exportfs -arv
-<div class="highlight"><pre><span></span><code>## Default Service and Agent Mount Paths
+  ```
+  cat /etc/exports
+  /mnt/nfs_share/isecl/        control-plane.com(rw,sync,no_all_squash,root_squash)
+  /mnt/nfs_share/isecl/        node1.com(rw,sync,no_all_squash,root_squash)
+  /mnt/nfs_share/isecl/        node2.com(rw,sync,no_all_squash,root_squash)
+  ```
+
+???+ note 
+    Even if a new node is joined to the cluster, the IP/FQDN name should be added to /etc/exportfs file at system where NFS server is running
+
+After making the changes in `/etc/exports` file run the below command
+  ```
+  exportfs -arv
+  ``` 
+
+## Default Service and Agent Mount Paths
 
 ```yaml
 #Certificate-Management-Service
@@ -1358,13 +1460,14 @@ ta-hosts-path: /etc/hosts
 Config: /etc/workload-agent/v5.0.0/
 Logs: /var/log/workload-agent
 </code></pre></div></p>
-<hr />
-<p><strong>NOTE</strong>
-Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) and Workload Agent (/etc/workload-agent and /var/log/workload-agent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.</p>
-<hr />
-<hr />
-<p><strong>NOTE</strong>
-If the Endorsement Certificate (EC) Pre-Registration feature is enabled for the HVS:</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Persistent storage will not be deleted if the Helm deployment is uninstalled.  Be sure to delete the created folders on the NFS server (/mnt/nfs_share/ by default) as well as the local storage used by the Trust Agent (/etc/trustagent and /var/log/trustagent on each worker node) and Workload Agent (/etc/workload-agent and /var/log/workload-agent on each worker node) if a "fresh" installation is needed.  Rerun the setup-nfs.sh script after deleting the shared folders to recreate the empty folder structure.</p>
+</details>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>If the Endorsement Certificate (EC) Pre-Registration feature is enabled for the HVS:</p>
+</details>
 <div class="highlight"><pre><span></span><code>  requireEKCertForHostProvision: true # If set to true, worker node EK certificate should be registered in HVS DB, for AIK provisioning step of TA. (Allowed values: `true`\`false`)
   verifyQuoteForHostRegistration: true # If set to true, when the worker node is being registered to HVS, quote verification will be done. Default value is false. (Allowed values: `true`\`false`)
 </code></pre></div>

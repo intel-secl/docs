@@ -768,14 +768,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#kubectl-delete-pod-n-namespace-hvspodname" class="md-nav__link">
-    kubectl delete pod -n &lt;namespace&gt; &lt;hvspodname&gt;
-
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1175,14 +1167,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#kubectl-delete-pod-n-namespace-hvspodname" class="md-nav__link">
-    kubectl delete pod -n &lt;namespace&gt; &lt;hvspodname&gt;
-
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1225,14 +1209,17 @@ rotation. Default value is <code>10</code></p>
 <p><strong>max-row-count</strong> – defines the maximum number of
 rows in the audit log table before a rotation will occur. Default is
 <code>10,000</code></p>
-<hr />
-<p><strong>NOTE</strong>
-* Rotation settings can be updated in the <code>config.yaml</code> file located in the nfs server path <code>&lt;nfs_path mentioned in values.yaml&gt;/isecl/hvs/config/</code></p>
-<ul>
-<li>After updation is completed, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.</li>
-</ul>
-<h2 id="kubectl-delete-pod-n-namespace-hvspodname"><div class="highlight"><pre><span></span><code>kubectl delete pod -n &lt;namespace&gt; &lt;hvspodname&gt;
-</code></pre></div></h2>
+<details class="note" open="open">
+<summary>Note</summary>
+<pre><code>- Rotation settings can be updated in the `config.yaml` file located in the nfs server path `&lt;nfs_path mentioned in values.yaml&gt;/isecl/hvs/config/`
+
+- After updation is completed, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.
+
+    ```
+    kubectl delete pod -n &lt;namespace&gt; &lt;hvspodname&gt;
+    ```
+</code></pre>
+</details>
 
               
             </article>

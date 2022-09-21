@@ -1017,8 +1017,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#to-search-for-helm-repo-with-versions" class="md-nav__link">
+    To search for helm repo with versions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#download-chart-and-valuesyaml" class="md-nav__link">
     Download chart and values.yaml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-valuesyaml-the-values-given-in-valuesyaml-should-be-same-as-that-of-given-for-currently-deployed-version" class="md-nav__link">
+    Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version.
   </a>
   
 </li>
@@ -1198,8 +1212,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#to-search-for-helm-repo-with-versions" class="md-nav__link">
+    To search for helm repo with versions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#download-chart-and-valuesyaml" class="md-nav__link">
     Download chart and values.yaml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-valuesyaml-the-values-given-in-valuesyaml-should-be-same-as-that-of-given-for-currently-deployed-version" class="md-nav__link">
+    Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version.
   </a>
   
 </li>
@@ -1263,44 +1291,40 @@ which are deployed using helm.</p>
 <p>Intel assumes all services for any use-case are up and running before proceeding with the upgrade.</p>
 <p>Push all the newer version of container images to registry. All oci images will be in k8s/container-images.</p>
 <p>e.g</p>
-<div class="highlight"><pre><span></span><code>skopeo copy oci-archive:&lt;oci-image-tar-name&gt; docker://&lt;registry-ip/hostname&gt;:&lt;registry-port&gt;/&lt;image-name&gt;:&lt;image-tag&gt; --dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+<div class="highlight"><pre><span></span><code>skopeo copy oci-archive:&lt;oci-image-tar-name&gt; docker://&lt;registry-ip/hostname&gt;:&lt;registry-port&gt;/&lt;image-name&gt;:&lt;image-tag&gt; --dest-tls-verify=false
 </code></pre></div>
 <hr />
 <h4 id="upgradedeploy">Upgrade/Deploy</h4>
 <h5 id="add-helm-repo">Add helm repo</h5>
-<p>```shell script
-helm repo add isecl-helm <a href="https://intel-secl.github.io/helm-charts">https://intel-secl.github.io/helm-charts</a>
-<div class="highlight"><pre><span></span><code>##### To search for helm repo with versions
-```shell script
-helm search repo --versions
-</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>helm repo add isecl-helm https://intel-secl.github.io/helm-charts
+</code></pre></div>
+<h5 id="to-search-for-helm-repo-with-versions">To search for helm repo with versions</h5>
+<div class="highlight"><pre><span></span><code>helm search repo --versions
+</code></pre></div>
 <h5 id="download-chart-and-valuesyaml">Download chart and values.yaml</h5>
-<p>```shell script
-    helm pull isecl-helm/<chart-name> &amp;&amp; tar -xzf <chart-name>-$VERSION.tgz <chart-name>/values.yaml 
-    e.g helm pull isecl-helm/Host-Attestation &amp;&amp; tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml<br />
-<div class="highlight"><pre><span></span><code>##### Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version. 
-Charts with v5.0.0 has undergone many changes from that of v4.2.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v4.2.0 should be same for v5.0.0 as well. 
-v5.0.0 has postgres database version upgrade from 11.7(v4.2.0) to 14.2(v5.0.0), hence we need to set additional values such as image name for *dbVersionUpgradeImage*(image db-version-upgrade-v11-v14.tar built along with other services container image builds )  and set *dbVersionUpgrade* to true.
-
-```yaml
-versionUpgrade: true
-currentVersion: &quot;v4.2.0&quot;
-dbVersionUpgrade: true
-image:
-  dbVersionUpgradeImage: &lt;Registry&gt;/db-version-upgrade:v11-v14
-</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>helm pull isecl-helm/&lt;chart-name&gt; &amp;&amp; tar -xzf &lt;chart-name&gt;-$VERSION.tgz &lt;chart-name&gt;/values.yaml 
+e.g helm pull isecl-helm/Host-Attestation &amp;&amp; tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml  
+</code></pre></div>
+<h5 id="update-the-valuesyaml-the-values-given-in-valuesyaml-should-be-same-as-that-of-given-for-currently-deployed-version">Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version.</h5>
+<p>Charts with v5.0.0 has undergone many changes from that of v4.2.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v4.2.0 should be same for v5.0.0 as well. 
+v5.0.0 has postgres database version upgrade from 11.7(v4.2.0) to 14.2(v5.0.0), hence we need to set additional values such as image name for <em>dbVersionUpgradeImage</em>(image db-version-upgrade-v11-v14.tar built along with other services container image builds )  and set <em>dbVersionUpgrade</em> to true.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">versionUpgrade</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">currentVersion</span><span class="p">:</span> <span class="s">&quot;v4.2.0&quot;</span>
+<span class="nt">dbVersionUpgrade</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">image</span><span class="p">:</span>
+  <span class="nt">dbVersionUpgradeImage</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;Registry&gt;/db-version-upgrade:v11-v14</span>
+</code></pre></div>
 <p>Set the value for currentVersion under global section in values.yaml to the currently deployed version(if v4.2.0 is deployed currently then set the value as "v4.2.0")</p>
 <p>Set the value for versionUpgrade to true. </p>
 <h5 id="upgrade-the-charts-with-the-below-commands">Upgrade the charts with the below commands</h5>
-<p>```shell script
-   kubectl delete --all jobs -n <namespace> # Delete all the jobs, since jobs cannot be upgraded.
-   kubectl scale deploy --all --replicas=0 -n <namespace> # Scale down all services, so that upgrade happens smoothly without any inconsistencies
-   helm upgrade <release-name> isecl-helm/<chart-name> --version $VERSION -n <namespace> -f <chart-name>/values.yaml
+<div class="highlight"><pre><span></span><code>   kubectl delete --all jobs -n &lt;namespace&gt; # Delete all the jobs, since jobs cannot be upgraded.
+   kubectl scale deploy --all --replicas=0 -n &lt;namespace&gt; # Scale down all services, so that upgrade happens smoothly without any inconsistencies
+   helm upgrade &lt;release-name&gt; isecl-helm/&lt;chart-name&gt; --version $VERSION -n &lt;namespace&gt; -f &lt;chart-name&gt;/values.yaml
    e.g helm upgrade host-attestation isecl-helm/Host-Attestation --version $VERSION  -n isecl -f Host-Attestation/values.yaml
-<div class="highlight"><pre><span></span><code>For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s
-base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the *--config* option
-```shell script
-  containers:
+</code></pre></div>
+<p>For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s
+base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the <em>--config</em> option
+<div class="highlight"><pre><span></span><code>  containers:
   - command:
     - kube-scheduler
     - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
@@ -1316,20 +1340,18 @@ base scheduler. This can be done by configuring in manifest of kube-scheduler as
 the backed up data will be stored in a versioned directory. The init containers at every pod will ensure that the versioned 
 data directory mounted at NFS pointing corresponding PV to correct version. </p>
 <p>For rolling back to previous version, all jobs need to be deleted mandatorily since helm/k8s doesnt support rollback of jobs.
-```shell script
-kubectl delete jobs --all -n <namespace>
-<div class="highlight"><pre><span></span><code>Search for last successfully deployed helm chart for immediate previous version and find out the revision number with below command
-```shell script
-helm history &lt;release-name&gt; -n &lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl delete jobs --all -n &lt;namespace&gt;
+</code></pre></div></p>
+<p>Search for last successfully deployed helm chart for immediate previous version and find out the revision number with below command
+<div class="highlight"><pre><span></span><code>helm history &lt;release-name&gt; -n &lt;namespace&gt;
 e.g helm history Host-Attestation -n isecl
 </code></pre></div></p>
 <p>Rollback to previous revision
-```shell script
- helm rollback <release-name> <last successfully deployed revision number> -n <namespace>
+<div class="highlight"><pre><span></span><code> helm rollback &lt;release-name&gt; &lt;last successfully deployed revision number&gt; -n &lt;namespace&gt;
  e.g helm rollback Host-Attestation 1 -n isecl
  kubectl scale deploy --all --replicas=0 -n isecl # Scale down and scale up services for reflecting the persistent volume claim to get volumes mounted to previous release version.
- kubectl scale deploy --all --replicas=1 -n isecl</p>
-<p>```</p>
+ kubectl scale deploy --all --replicas=1 -n isecl
+</code></pre></div></p>
 
               
             </article>

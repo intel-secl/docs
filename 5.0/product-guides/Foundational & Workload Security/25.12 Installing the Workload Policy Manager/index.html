@@ -1242,7 +1242,7 @@
 <p>Create the <code>wpm.env</code> answer file:</p>
 </li>
 </ul>
-<p><div class="highlight"><pre><span></span><code><span class="nv">KBS_BASE_URL</span><span class="o">=</span>https://&lt;IP address or hostname of the KBS&gt;:&lt;KBS port&gt;/kbs/v1/
+<div class="highlight"><pre><span></span><code><span class="nv">KBS_BASE_URL</span><span class="o">=</span>https://&lt;IP address or hostname of the KBS&gt;:&lt;KBS port&gt;/kbs/v1/
 <span class="nv">WPM_SERVICE_USERNAME</span><span class="o">=</span>&lt;WPM_Service username mentioned <span class="k">in</span> values.yaml&gt;
 <span class="nv">WPM_SERVICE_PASSWORD</span><span class="o">=</span>&lt;WPM Service password mentioned <span class="k">in</span> values.yaml&gt;
 <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;Sha384 <span class="nb">hash</span> of the CMS TLS certificate&gt;
@@ -1250,18 +1250,16 @@
 <span class="nv">AAS_API_URL</span><span class="o">=</span>https://&lt;Hostname or IP address of the AAS&gt;:&lt;AAS port&gt;/aas/v1
 <span class="nv">WPM_WITH_CONTAINER_SECURITY_CRIO</span><span class="o">=</span>yes
 </code></pre></div>
-* Steps to get sha384 hash of cms tls certificate</p>
-<pre><code>```shell
-kubectl exec -it &lt;cms_pod_name&gt; -n &lt;namespace&gt; -- cms tlscertsha384
-```
-</code></pre>
 <ul>
-<li>
-<p>Execute the WPM installer:</p>
+<li>Steps to get sha384 hash of cms tls certificate</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl <span class="nb">exec</span> -it &lt;cms_pod_name&gt; -n &lt;namespace&gt; -- cms tlscertsha384
+</code></pre></div>
+<ul>
+<li>Execute the WPM installer:</li>
+</ul>
 <div class="highlight"><pre><span></span><code>./wpm-v5.0.0.bin
 </code></pre></div>
-</li>
-</ul>
 
               
             </article>

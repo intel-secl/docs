@@ -1717,7 +1717,7 @@
 
 
 <h1 id="flavor-management">Flavor Management</h1>
-<p>=================</p>
+<p>===================</p>
 <h2 id="flavor-format-definitions">Flavor Format Definitions</h2>
 <hr />
 <p>A Flavor is a standardized set of expectations that determines what
@@ -2998,57 +2998,57 @@ Authorization: Bearer &lt;token&gt;
 </code></pre></div></p>
 <p>IMA flavor will be created based on the IMA Flavor template. This flavor will be stored in a flavors DB like other existing flavors.</p>
 <h1 id="ima-flavor-template">IMA Flavor template</h1>
+<div class="highlight"><pre><span></span><code>  {  
+      &quot;label&quot;: &quot;ima&quot;,  
+      &quot;condition&quot; :[
+          &quot;//host_info/os_name//*[text()=&#39;RedHatEnterprise&#39;] or //host_info/os_name//*[text()=&#39;Centos&#39;] or //host_info/os_name//*[text()=&#39;Ubuntu&#39;]&quot;
+      ], 
+      &quot;flavor_parts&quot;: {  
+          &quot;IMA&quot;: {  
+              &quot;pcr_rules&quot;: [{  
+                  &quot;pcr&quot;: {  
+                      &quot;index&quot;: 10,  
+                      &quot;bank&quot;: [&quot;SHA384&quot;, &quot;SHA256&quot;, &quot;SHA1&quot;]  
+                  },  
+                  &quot;pcr_matches&quot;: true  
+              }]  
+          }  
+      }  
+  }  
+</code></pre></div>
+<h1 id="sample-for-ima-flavor">Sample for IMA Flavor</h1>
 <pre><code>```
 {  
-    "label": "ima",  
-    "condition" :[
-        "//host_info/os_name//*[text()='RedHatEnterprise'] or //host_info/os_name//*[text()='Centos'] or //host_info/os_name//*[text()='Ubuntu']"
-    ], 
-    "flavor_parts": {  
-        "IMA": {  
-            "pcr_rules": [{  
-                "pcr": {  
-                    "index": 10,  
-                    "bank": ["SHA384", "SHA256", "SHA1"]  
-                },  
-                "pcr_matches": true  
-            }]  
-        }  
-    }  
+"flavor":{  
+    "meta":{  
+    "id":"2c3bcb9d-b140-4732-8a12-0af281246fe8",  
+    "description":{  
+        "digest_algorithm":"SHA256",  
+        "flavor_part":"IMA",  
+        "label":"ima"  
+    },  
+    "vendor":"INTEL"  
+    },    
+    "pcrs": [{    
+                "pcr": {
+        "index": 10,
+        "bank":"SHA256"
+                }, 
+    "measurement": "3f95ecbb0bb8e66e54d3f9e4dbae8fe57fed96f0",
+    "pcr_matches":true
+        }],  
+    "ima_measurements":[{  
+        "file":"/root/test",  
+        "measurement":"12aacb9f9da0518937f3da6c0526b381787faa60a65b319208391f303b5fe7b7a"  
+    },  
+    {  
+        "file":"/usr/share/vim/vim80/ftplugin/yamlfile.vim",  
+        "measurement":"a0ca2d70982bf2db5a71a59ca7afd90aed7041ae703e2e711847c98aff0ac800"  
+    }]    
 }  
+}    
 ```
 </code></pre>
-<h1 id="sample-for-ima-flavor">Sample for IMA Flavor</h1>
-<div class="highlight"><pre><span></span><code>{  
-    &quot;flavor&quot;:{  
-      &quot;meta&quot;:{  
-        &quot;id&quot;:&quot;2c3bcb9d-b140-4732-8a12-0af281246fe8&quot;,  
-        &quot;description&quot;:{  
-          &quot;digest_algorithm&quot;:&quot;SHA256&quot;,  
-          &quot;flavor_part&quot;:&quot;IMA&quot;,  
-          &quot;label&quot;:&quot;ima&quot;  
-        },  
-        &quot;vendor&quot;:&quot;INTEL&quot;  
-      },    
-      &quot;pcrs&quot;: [{    
-                    &quot;pcr&quot;: {
-            &quot;index&quot;: 10,
-            &quot;bank&quot;:&quot;SHA256&quot;
-                    }, 
-        &quot;measurement&quot;: &quot;3f95ecbb0bb8e66e54d3f9e4dbae8fe57fed96f0&quot;,
-        &quot;pcr_matches&quot;:true
-            }],  
-      &quot;ima_measurements&quot;:[{  
-            &quot;file&quot;:&quot;/root/test&quot;,  
-            &quot;measurement&quot;:&quot;12aacb9f9da0518937f3da6c0526b381787faa60a65b319208391f303b5fe7b7a&quot;  
-        },  
-        {  
-            &quot;file&quot;:&quot;/usr/share/vim/vim80/ftplugin/yamlfile.vim&quot;,  
-            &quot;measurement&quot;:&quot;a0ca2d70982bf2db5a71a59ca7afd90aed7041ae703e2e711847c98aff0ac800&quot;  
-        }]    
-    }  
-}    
-</code></pre></div>
 <p>As with other Flavor parts, hosts will be matched to Flavors in the same
 Flavorgroup that the host is added to, and will not be matched to
 Flavors in different Flavorgroups. Flavor matching will happen on the
@@ -3060,8 +3060,8 @@ same events as for other Flavor parts.</p>
 <h1 id="attestation-report-generation">Attestation report generation</h1>
 <ul>
 <li>
-<p>If the ima eventlog equals rule is true for all the measurements, we will provide only one entry in the report like below,</p>
-<p><div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
+<p>If the ima eventlog equals rule is true for all the measurements, we will provide only one entry in the report like below,
+    <div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
     &quot;trust&quot;: true,
     &quot;rules&quot;: [{
         &quot;rule&quot;: {
@@ -3074,9 +3074,11 @@ same events as for other Flavor parts.</p>
         &quot;trusted&quot;: true
     }]
 }  
-</code></pre></div>
-  * If ima eventlog equals rule fails for any of the ima measurements, we will log those entries under faults in the reports as below.
-<div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
+</code></pre></div></p>
+</li>
+<li>
+<p>If ima eventlog equals rule fails for any of the ima measurements, we will log those entries under faults in the reports as below.
+    <div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
     &quot;trust&quot;: false,
     &quot;rules&quot;: [{
         &quot;rule&quot;: {
@@ -3099,7 +3101,7 @@ same events as for other Flavor parts.</p>
 </li>
 <li>
 <p>If Hostmanifest contains unexpected/additional IMA log entries when compare to flavor measurements, PcrEventLogContainsUnexpectedEntries fault will be raised.
-<div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
+    <div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
     &quot;trust&quot;: false,
     &quot;rules&quot;: [{
         &quot;rule&quot;: {
@@ -3131,8 +3133,8 @@ same events as for other Flavor parts.</p>
 }
 </code></pre></div></p>
 </li>
-<li>If hostmanifest does not contain all the measurements from flavor, PcrEventLogMissingExpectedEntries fault will be raised in the report.</li>
-</ul>
+<li>
+<p>If hostmanifest does not contain all the measurements from flavor, PcrEventLogMissingExpectedEntries fault will be raised in the report.</p>
 <div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
     &quot;trust&quot;: false,
     &quot;rules&quot;: [{
@@ -3168,50 +3170,57 @@ same events as for other Flavor parts.</p>
     }]
 }
 </code></pre></div>
+</li>
+</ul>
 <h1 id="sample-for-ima-measurement-log-integrity-rule-in-report">Sample for IMA measurement log integrity rule in report,</h1>
-<div class="highlight"><pre><span></span><code>&quot;IMA&quot;: {
-    &quot;trust&quot;: true,
-    &quot;rules&quot;: [{
-        &quot;rule&quot;: {
-            &quot;rule_name&quot;: &quot;rule.ImaMeasurementLogIntegrity&quot;,
-            &quot;markers&quot;: [
-                &quot;IMA&quot;
-            ],
-            &quot;expected_pcr&quot;: {
-                &quot;pcr&quot;: {
-                    &quot;index&quot;: 10,
-                    &quot;bank&quot;: &quot;SHA256&quot;
-                },
-                &quot;measurement&quot;: &quot;b6e1251e1d16de3269667f4e84bf84a0a0c84f4f8a183e13ac5ba1c441bbfd3c&quot;,
-                &quot;pcr_matches&quot;: true
+<pre><code>```
+"IMA": {
+"trust": true,
+"rules": [{
+    "rule": {
+        "rule_name": "rule.ImaMeasurementLogIntegrity",
+        "markers": [
+            "IMA"
+        ],
+        "expected_pcr": {
+            "pcr": {
+                "index": 10,
+                "bank": "SHA256"
             },
-            &quot;expected_imavalues&quot;: {
-                &quot;ima_measurements&quot;: [
-                    {
-                        &quot;file&quot;: &quot;boot_aggregate&quot;,
-                        &quot;measurement&quot;: &quot;cacb533ca55a87d4e0c5954608102091ab42b99ae8fbbdbba7c93efad5e6a174&quot;
-                    },
-                    {
-                        &quot;file&quot;: &quot;/root/ima-cont-test/check1.txt&quot;,
-                        &quot;measurement&quot;: &quot;b351e6014c0713eda511289d7af11a3c49f7162b471fb93adca869f37d6d4d15&quot;
-                    },
-                    {
-                        &quot;file&quot;: &quot;/root/ima-cont-test/check2.txt&quot;,
-                        &quot;measurement&quot;: &quot;fc1ebc0a83cdea7e2e63063c81f935319207194b4425d3a88fd1f9c8de1184b7&quot;
-                    }
-                ]
-            }
+            "measurement": "b6e1251e1d16de3269667f4e84bf84a0a0c84f4f8a183e13ac5ba1c441bbfd3c",
+            "pcr_matches": true
         },
-        &quot;flavor_id&quot;: &quot;12835fc3-11b0-4a38-a2a0-4a264aa40139&quot;,
-        &quot;trusted&quot;: true
-    }]
+        "expected_imavalues": {
+            "ima_measurements": [
+                {
+                    "file": "boot_aggregate",
+                    "measurement": "cacb533ca55a87d4e0c5954608102091ab42b99ae8fbbdbba7c93efad5e6a174"
+                },
+                {
+                    "file": "/root/ima-cont-test/check1.txt",
+                    "measurement": "b351e6014c0713eda511289d7af11a3c49f7162b471fb93adca869f37d6d4d15"
+                },
+                {
+                    "file": "/root/ima-cont-test/check2.txt",
+                    "measurement": "fc1ebc0a83cdea7e2e63063c81f935319207194b4425d3a88fd1f9c8de1184b7"
+                }
+            ]
+        }
+    },
+    "flavor_id": "12835fc3-11b0-4a38-a2a0-4a264aa40139",
+    "trusted": true
+}]
 }
-</code></pre></div>
+```
+</code></pre>
 <p>As part of tpm quote response, TA will send ima_log.</p>
 <p>To include the ima logs in the tpm quote response, the following cofiguration parameters will be added by hvs in the tpm-quote request body.</p>
-<h2 id="ima_measure_enabled-it-can-be-true-or-false-under-ta-configyaml-located-in-etctrustagentv500-only-if-it-is-true-ima-logs-will-be-sent-by-ta"><div class="highlight"><pre><span></span><code>`ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.0.0/`. Only if it is true, 
+<pre><code>```    
+`ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.0.0/`. Only if it is true, 
 IMA logs will be sent by TA.
-</code></pre></div></h2>
+```
+</code></pre>
+<hr />
 <p><strong>NOTE</strong>: 
 IMA logs will be sent only when the ima enable option is set in the tpm quote request body and the same configuration is enabled in the TA as well.</p>
 <hr />

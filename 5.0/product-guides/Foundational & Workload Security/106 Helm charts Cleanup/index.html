@@ -1086,19 +1086,20 @@
 
 <h1 id="steps-for-helm-chart-cleanup">Steps for Helm chart Cleanup</h1>
 <p>To uninstall a chart
-```shell script
-helm uninstall <release-name> -n <namespace>
-<div class="highlight"><pre><span></span><code>To list all the helm chart deployments 
-```shell script
-helm list -A
+<div class="highlight"><pre><span></span><code>helm uninstall &lt;release-name&gt; -n &lt;namespace&gt;
 </code></pre></div></p>
-<p>Cleanup steps that needs to be done for a fresh deployment
-* Uninstall all the chart deployments.
-* Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)
-* Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment <code>kubectl delete ns &lt;namespace&gt;</code>. </p>
+<p>To list all the helm chart deployments 
+<div class="highlight"><pre><span></span><code>helm list -A
+</code></pre></div></p>
+<h1 id="cleanup-steps-that-needs-to-be-done-for-a-fresh-deployment">Cleanup steps that needs to be done for a fresh deployment</h1>
+<ul>
+<li>Uninstall all the chart deployments.</li>
+<li>Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)</li>
+<li>Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment <code>kubectl delete ns &lt;namespace&gt;</code>. </li>
+</ul>
 <p><strong>Note</strong>: 
 <div class="highlight"><pre><span></span><code>Before redeploying any of the chart please check the pv and pvc of corresponding deployments are removed. Suppose if you want to redeploy aas, make sure that aas-logs-pv, aas-logs-pvc, aas-config-pv, aas-config-pvc, aas-db-pv, aas-db-pvc, aas-base-pvc are removed successfully.
-Command: ```kubectl get pvc -n &lt;namespace&gt;``` &amp;&amp; ```kubectl get pv -n &lt;namespace&gt;``` 
+Command: `kubectl get pvc -n &lt;namespace&gt;` &amp;&amp; `kubectl get pv -n &lt;namespace&gt;`
 </code></pre></div></p>
 
               
