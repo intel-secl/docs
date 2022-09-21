@@ -18,7 +18,7 @@ Push all the newer version of container images to registry. All oci images will 
 
 e.g
 
-```shell
+```
 skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<registry-port>/<image-name>:<image-tag> --dest-tls-verify=false
 ```
 
@@ -27,20 +27,20 @@ skopeo copy oci-archive:<oci-image-tar-name> docker://<registry-ip/hostname>:<re
 #### Upgrade/Deploy
 
 ##### Add helm repo
-```shell script
+```
 helm repo add isecl-helm https://intel-secl.github.io/helm-charts
 ```
 
 ##### To search for helm repo with versions
-```shell script
+```
 helm search repo --versions
 ```
 
 ##### Download chart and values.yaml
-```shell script
-    helm pull isecl-helm/<chart-name> && tar -xzf <chart-name>-$VERSION.tgz <chart-name>/values.yaml 
-    e.g helm pull isecl-helm/Host-Attestation && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml  
-```
+  ```
+  helm pull isecl-helm/<chart-name> && tar -xzf <chart-name>-$VERSION.tgz <chart-name>/values.yaml 
+  e.g helm pull isecl-helm/Host-Attestation && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml  
+  ```
 
 ##### Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version. 
 Charts with v5.0.0 has undergone many changes from that of v4.2.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v4.2.0 should be same for v5.0.0 as well. 
@@ -59,7 +59,8 @@ Set the value for currentVersion under global section in values.yaml to the curr
 Set the value for versionUpgrade to true. 
 
 ##### Upgrade the charts with the below commands
-```shell script
+
+```
    kubectl delete --all jobs -n <namespace> # Delete all the jobs, since jobs cannot be upgraded.
    kubectl scale deploy --all --replicas=0 -n <namespace> # Scale down all services, so that upgrade happens smoothly without any inconsistencies
    helm upgrade <release-name> isecl-helm/<chart-name> --version $VERSION -n <namespace> -f <chart-name>/values.yaml
@@ -69,7 +70,7 @@ Set the value for versionUpgrade to true.
 
 For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s
 base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the *--config* option
-```shell script
+```
   containers:
   - command:
     - kube-scheduler
@@ -89,18 +90,18 @@ the backed up data will be stored in a versioned directory. The init containers 
 data directory mounted at NFS pointing corresponding PV to correct version. 
 
 For rolling back to previous version, all jobs need to be deleted mandatorily since helm/k8s doesnt support rollback of jobs.
-```shell script
+```
 kubectl delete jobs --all -n <namespace>
 ```
 
 Search for last successfully deployed helm chart for immediate previous version and find out the revision number with below command
-```shell script
+```
 helm history <release-name> -n <namespace>
 e.g helm history Host-Attestation -n isecl
 ```
 
 Rollback to previous revision
-```shell script
+```
  helm rollback <release-name> <last successfully deployed revision number> -n <namespace>
  e.g helm rollback Host-Attestation 1 -n isecl
  kubectl scale deploy --all --replicas=0 -n isecl # Scale down and scale up services for reflecting the persistent volume claim to get volumes mounted to previous release version.
