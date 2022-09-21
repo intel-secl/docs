@@ -13,7 +13,8 @@ Set deployment version
 export VERSION=v5.0.0
 ```
 Following are the steps need to be run for deploying individual charts for host attestation usecase
-```shell script
+
+```
 helm pull isecl-helm/cleanup-secrets --version $VERSION && tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
 helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
 
@@ -37,7 +38,8 @@ helm install trustagent isecl-helm/trustagent --version $VERSION -f trustagent/v
 ```
 
 Following are the steps need to be run for deploying individual charts for workload security usecase
-```shell script
+
+```
 helm pull isecl-helm/cleanup-secrets --version $VERSION && tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
 helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
 
@@ -82,7 +84,8 @@ helm install wpm isecl-helm/wpm --version $VERSION -f wpm/values.yaml -n isecl
 ```
 
 Following are the steps need to be run for creating global admin user
-```shell script
+
+```
 helm pull isecl-helm/global-admin-generator --version $VERSION && tar -xzf global-admin-generator-$VERSION.tgz global-admin-generator/values.yaml 
 helm install global-admin-generator isecl-helm/global-admin-generator --version $VERSION -f global-admin-generator/values.yaml -n isecl
 ```
@@ -179,18 +182,18 @@ If NATS mode will be used, the NATS service answer file must also be downloaded 
 
 Download and configure the NATS configuration file:
 
-```
-tar -xzf nats-$VERSION.tgz nats/values.yaml
-```
+  ```
+  tar -xzf nats-$VERSION.tgz nats/values.yaml
+  ```
 
 In the hvs.yaml and trustagent.yaml files, configure the NATS block in the existing config element:
 
-```    
+  ```    
     nats:
       enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
       servers: nats://<user input>:30222   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
       serviceMode: outbound # The model for TA (Allowed values: `outbound`) (**REQUIRED IF ENABLED**)
-```
+  ```
 
 Note that the NATS server IP/hostname is typically the same as the Kubernetes control plane.
 
@@ -198,10 +201,10 @@ The following example shows an installation for of NATS
 
 ## NATS Deployment Instruction
 
-```
-helm pull isecl-helm/nats && tar -xzf nats-$VERSION.tgz nats/values.yaml 
-helm install nats isecl-helm/nats -f nats/values.yaml -n isecl
-```
+  ```
+  helm pull isecl-helm/nats && tar -xzf nats-$VERSION.tgz nats/values.yaml 
+  helm install nats isecl-helm/nats -f nats/values.yaml -n isecl
+  ```
 
 
 

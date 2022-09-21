@@ -36,13 +36,11 @@ rotation. Default value is `10`
 rows in the audit log table before a rotation will occur. Default is
 `10,000`
 
----
-**NOTE**
-* Rotation settings can be updated in the `config.yaml` file located in the nfs server path `<nfs_path mentioned in values.yaml>/isecl/hvs/config/`
+???+ note 
+        - Rotation settings can be updated in the `config.yaml` file located in the nfs server path `<nfs_path mentioned in values.yaml>/isecl/hvs/config/`
 
-* After updation is completed, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.
+        - After updation is completed, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.
 
-```bash
-kubectl delete pod -n <namespace> <hvspodname>
-```
----
+            ```
+            kubectl delete pod -n <namespace> <hvspodname>
+            ```

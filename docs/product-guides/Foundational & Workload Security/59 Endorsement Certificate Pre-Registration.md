@@ -7,9 +7,9 @@ This feature is intended for deployments where physical control of compute resou
 To enable this feature, set the following options to "true" in the Helm congifuration for the HVS (either the HVS individual service values.yaml, or the values.yaml for any use case deployment):
 
 ```
-  config:
-    requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+config:
+  requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
 ```
 ---
 **NOTE**

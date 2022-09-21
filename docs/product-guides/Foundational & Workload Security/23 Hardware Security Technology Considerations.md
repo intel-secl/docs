@@ -264,15 +264,13 @@ policy.
     https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent
 
 2. Prerequisite before provision.
-    \* SELinux needs to be in permissive mode
+    \- SELinux needs to be in permissive mode
         
         Update `/etc/selinux/config` file with `SELINUX=permissive`and reboot the system.
         After reboot, verify using `sestatus` and check SELinux mode is `permissive`
     
-    ---
-    **NOTE**
-     swap needs to be disabled if it was enabled `swapoff -a` and restart kubelet `systemctl restart kubelet`
-    ---
+    ???+ note 
+            swap needs to be disabled if it was enabled `swapoff -a` and restart kubelet `systemctl restart kubelet`
 
     \* User needs to install `selinux-policy-devel` package before running the script to apply custom policy.
         ```
@@ -280,22 +278,21 @@ policy.
         ```
 
 3. Enabling Custom Policy  
-    \* Change the provision script mode to execution.
+    \- Change the provision script mode to execution.
         ```
         chmod -x ima-provision.sh
         ```
 
-    \* sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]  
-    ---
-    **NOTE**
-     set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory  
-     File or folder path mentioned inside input file-list should be present in the system, then only custom policy will be applied.
-        e.g: `./ima-provision.sh set-custom-policy -i /tmp/ima.txt --hash sha256`
-        ```
-        cat /tmp/ima.txt
-        /etc/crio/crio.conf
-        ```
-    ---
+    \- ```sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]  ```  
+
+    ???+ note 
+            set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory  
+            File or folder path mentioned inside input file-list should be present in the system, then only custom policy will be applied.
+                e.g: `./ima-provision.sh set-custom-policy -i /tmp/ima.txt --hash sha256`
+                ```
+                cat /tmp/ima.txt
+                /etc/crio/crio.conf
+                ```
 
 4. Reboot the host for the IMA provision changes to reflect.
 
@@ -303,13 +300,10 @@ policy.
 
 6. gen-measurements – This option will label the system and log measurements inside ascii_runtime_measurements
 
-   \* ./ima-provision.sh gen-measurements  
----
-**NOTE**
-  * If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
-  * To add new file or folder for generating measurement without reboot, run below command and execute `step 6`.
+???+ note 
+  \- If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
+  \- To add new file or folder for generating measurement without reboot, run below command and execute `step 6`.
     `chcon -R -t isecl_t < folder or file details >`
----
 
 ### Important Notes
 
