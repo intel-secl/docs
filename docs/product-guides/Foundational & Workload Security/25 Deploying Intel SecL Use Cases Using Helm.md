@@ -75,8 +75,8 @@ The below allow to get started with workflows within Intel® SecL-DC for Foundat
 
 | Use case               | Sub-Usecase                                   | API Collection     |
 | ---------------------- | --------------------------------------------- | ------------------ |
-| Foundational Security  | Host Attestation(RHEL & VMWARE)                              | ✔️                  |
-|                        | Data Fencing  with Asset Tags(RHEL & VMWARE)                 | ✔️                  |
+| Foundational Security  | Host Attestation(RHEL)                              | ✔️                  |
+|                        | Data Fencing  with Asset Tags(RHEL)                 | ✔️                  |
 |                        | Trusted Workload Placement (Containers)  | ✔️ |
 | Workload Security | Container Confidentiality with CRIO Runtime | ✔️                 
 
