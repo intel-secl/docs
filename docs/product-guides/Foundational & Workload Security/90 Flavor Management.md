@@ -73,7 +73,7 @@ The HVS will prefer the SHA384 PCR bank when creating flavors and performing att
 
 The TPM vendor and version, platform OEM, and BIOS version and configuration each impact which PCR banks can potentially be enabled.  Some manufacturers will allow users to configure which banks are enabled/disabled in the BIOS.  Other manufacturers will enable only one PCR bank, and others will be permanently disabled.
 
-Flavors will only utilize a single PCR bank, and when importing from a sample host the HVS will always prefer the strongest algorithm supported by the enabled TPM PCR banks.  In the above example, a flavor imported from that host would use the SHA384 bank for all hash values.  This means that all hosts that will be attested using this flavor must also have SHA284 banks enabled in their TPMs.
+Flavors will only utilize a single PCR bank, and when importing from a sample host the HVS will always prefer the strongest algorithm supported by the enabled TPM PCR banks.  In the above example, a flavor imported from that host would use the SHA384 bank for all hash values.  This means that all hosts that will be attested using this flavor must also have SHA384 banks enabled in their TPMs.
 
 Typically, among otherwise-identical servers this will not be an issue.  However, in a mixed environment it can be possible to have an OS flavor, for example, that needs to apply for some hosts that have SHA384 banks enabled, and other servers that only have SHA256 enabled and do not support SHA384.
 
@@ -1425,6 +1425,12 @@ Response:
 }
 ```
 
+---
+**NOTE**: 
+By default only `automatic` flavor groups will be created and availabe as Default flavor group. Custom flavor groups required for user specific needs to be created by user before adding that particular flavor group for Host registration and Flavor creation.
+---
+
+
 ## IMA Flavor
 
 IMA flavor will be generated with the ima measurements present in the host manifest and this flavor can be created multiple times based on the request. IMA flavor will be associated with the host based on ALL_OF match type policy. This will be supported by the existing API call itself.
@@ -1440,7 +1446,7 @@ Body
 }
 ```
 
-IMA flavor will be created based on the IMA Flavor template. This flavor will be stored in a flavors DB like other existing flavors.
+IMA flavor will be created on default flavor group `automatic` based on the IMA Flavor template. This flavor will be stored in a flavors DB like other existing flavors.
 
 # IMA Flavor template
   ```
