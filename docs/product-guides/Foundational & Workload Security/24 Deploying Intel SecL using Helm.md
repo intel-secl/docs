@@ -4,7 +4,7 @@ Beginning in the 4.2 release, Intel SecL-DC is deployed using Helm charts onto a
 
 ## Prerequisites for Deployment
 
-- A Kubernetes cluster (version 1.22.2 or higher) must be available.  Hosts to be attested should be worker nodes in the Kubernetes cluster.  Ensure that kubectl is configured to work from the system where you will execute the deployment.  For default installations, a multi-node cluster (at least one controller node and at least one worker node) is recommended.  A single-node installation (all Kubernetes services and all workloads running on a single node, as in microk8s) will require manual adjustments to node labels and pod tolerations.  Worker nodes to be attested must meet the hardware security technology requirements for the use cases to be enabled.
+- A Kubernetes cluster (version 1.23.1 or higher) must be available.  Hosts to be attested should be worker nodes in the Kubernetes cluster.  Ensure that kubectl is configured to work from the system where you will execute the deployment.  For default installations, a multi-node cluster (at least one controller node and at least one worker node) is recommended.  A single-node installation (all Kubernetes services and all workloads running on a single node, as in microk8s) will require manual adjustments to node labels and pod tolerations.  Worker nodes to be attested must meet the hardware security technology requirements for the use cases to be enabled.
 
 - Helm 3 must be installed on the system from which the deployment will be launched. 
   

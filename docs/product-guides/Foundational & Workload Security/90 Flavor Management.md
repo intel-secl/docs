@@ -1685,3 +1685,48 @@ To include the ima logs in the tpm quote response, the following cofiguration pa
 **NOTE**: 
 IMA logs will be sent only when the ima enable option is set in the tpm quote request body and the same configuration is enabled in the TA as well.
 ---
+
+## HVS Pagination
+-------------------------
+
+#   API Consumption
+
+*   API consumers will be required to paginate through HVS data (ex. reports) if the amount of data in the database exceeds the limit or default limit (otherwise all records will be returned in a single query).
+*   When starting pagination, API consumers will not provide a cursor value to their request (i.e. so that the first page is returned).
+*   On subsequent page requests, API consumers will get the next page by providing the cursor returned in the previous call.
+*   API consumers will terminate the collection of pages arbitrarily or when the cursor is less than zero (i.e. -1 will be returned by the controller to signal EOF).
+
+#   Database changes
+
+    Each of HVS' object tables will be update to include the “row_id” column (autoincrementing number id) which will be used as the pagination key.
+
+    The following requirements/recommendations apply to all impacted database tables/queries.
+
+    *   All impacted database tables must be updated to have auto-increment id field with unique and not null constraint applied.
+    *   All impacted database queries must be updated to include limit construct. They should also be able to filter records based on provided "afterId" value.
+
+#   API Changes
+
+*   All the impacted end-points will support two additional query parameters, "limit" for specifying number of records to return, and "afterId" for specifying auto-increment id from which to return records.
+*   If no "limit" parameter is passed, default limit will be used. And if no "afterId" parameter is passed, records from beginning will be returned.
+*   All the impacted response models will support two additional json attributes, "next" link for fetching next page, and "prev" link for fetching previous page.
+*   First page won't have "prev" link. And last page won't have "next" link.
+
+---
+**NOTE**: 
+The default limit value is `1000` and default afterId value is `0`
+---
+
+# Impacted APIs
+
+ The following "GET" (search) APIs are updated to handle pagination
+
+| API	                            | Description                                                     |
+|-----------------------------------|-----------------------------------------------------------------|
+| GET /hosts                        | Get all the hosts registered on HVS                             |
+| GET /reports 	                    | Get the latest report for all the hosts registered on HVS       |
+| GET /host-status                  | Get the latest host-status for all the hosts registered on HVS  |
+| GET /flavors                      | Get all the flavors created on HVS                              | 
+| GET /flavorgroups                 | Get all the flavorgroups created on HVS                         |
+| GET /exsi-cluster                 | Get all the exsi-clusters along with hostnames registered on HVS|
+| GET /tpm-endorsements	            | Get all the active tpm-endorsement certificates uploaded to HVS |
