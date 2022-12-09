@@ -60,6 +60,23 @@ helm pull isecl-helm/Workload-Security --version $VERSION && tar -xzf Workload-S
 helm install workload-security isecl-helm/Workload-Security --version $VERSION -f Workload-Security/values.yaml --create-namespace -n <namespace>
 ```
 
+### Admission Controller
+when a new worker node is joined/rebooted in the cluster, below steps can be done, to taint such nodes, by labelling it as untrusted, intiatially. Tainiting, doesn't allow scheduling of any pods on that worker node.
+
+IHUB pulls the data from HVS, and pushes to ISECL Controller, based on the report status of the node, if the worker node is trusted, then that node will be untainted.
+
+Node Joining or Node Rebooted When the worker node is being joined/rebooted in the k8s cluster, Untrusted:True NoExecute and NoSchedule taint would be added to the worker Node
+
+To the K8s cluster, when a new worker node is being joined, such worker Nodes are tainted Set taintRebootedNodes to "true" in values.yml during helm deployment.
+
+In the K8s cluster, if any of the worker node is Rebooted, such worker Nodes are tainted Set taintRegisteredNodes to "true" in values.yml during helm deployment.
+
+???+ note By default, taintRebootedNodes and taintRegisteredNodes, will be false.
+
+???+ note In no_proxy, add .svc,.svc.cluster.local, and then do kubeadm init
+
+Upload image to registry The admission controller tar file that is present in k8s image folder should be uploaded to registry and update the image name in values.yml file during helm deployment.
+
 # Usecase Workflows API Collections
 
 The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections) repository

@@ -34,8 +34,8 @@ Asset Tag values.
 
 -   Kubernetes Control Plane Node must be installed and running
 
--   The supported Kubernetes versions are `1.21.4`, `1.22.2` and the
-    integration is validated with `1.21.4`, `1.22.2`
+-   The supported Kubernetes versions are `1.21.4`, `1.22.2`, `1.23.1` and the
+    integration is validated with `1.21.4`, `1.22.2`, `1.23.1`
 
 -   Kubernetes Worker Nodes must be configured as physical hosts and
     attached to the Control Plane Node
