@@ -1344,18 +1344,21 @@ ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
 </code></pre></div>
 <h3 id="repo-tool">Repo Tool</h3>
-<div class="highlight"><pre><span></span><code>tmpdir=$(mktemp -d)
-git clone https://gerrit.googlesource.com/git-repo $tmpdir
-install -m 755 $tmpdir/repo /usr/local/bin
-rm -rf $tmpdir
+<div class="highlight"><pre><span></span><code>mkdir -p ~/.bin
+PATH=&quot;${HOME}/.bin:${PATH}&quot;
+curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/.bin/repo
+chmod a+rx ~/.bin/repo
+repo init
+#Verify repo install
+repo --version
 </code></pre></div>
 <h3 id="golang">Golang</h3>
-<div class="highlight"><pre><span></span><code>wget https://dl.google.com/go/go1.16.7.linux-amd64.tar.gz
-tar -xzf go1.16.7.linux-amd64.tar.gz
+<div class="highlight"><pre><span></span><code>wget https://dl.google.com/go/go1.18.8.linux-amd64.tar.gz
+tar -xzf go1.18.8.linux-amd64.tar.gz
 sudo mv go /usr/local
 export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
-rm -rf go1.16.7.linux-amd64.tar.gz
+rm -rf go1.18.8.linux-amd64.tar.gz
 </code></pre></div>
 <h3 id="docker">Docker</h3>
 <h4 id="rhel">RHEL</h4>
@@ -1368,10 +1371,27 @@ systemctl enable docker
 systemctl start docker
 </code></pre></div>
 <h4 id="ubuntu">Ubuntu</h4>
-<div class="highlight"><pre><span></span><code>apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
+<div class="highlight"><pre><span></span><code>#Set up repository
+apt-get update
+apt-get -y install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-systemctl enable docker
-systemctl start docker
+#Adding Docker&#39;s official GPG key
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+#Install Docker Engine
+apt-get update
+apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
+
+#Verify docker service status
+systemctl status docker
 </code></pre></div>
 <hr />
 <p><strong>NOTE</strong></p>

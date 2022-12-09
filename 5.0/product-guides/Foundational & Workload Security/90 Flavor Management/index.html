@@ -3232,6 +3232,74 @@ IMA logs will be sent by TA.
 <p><strong>NOTE</strong>: 
 IMA logs will be sent only when the ima enable option is set in the tpm quote request body and the same configuration is enabled in the TA as well.</p>
 <hr />
+<h2 id="hvs-pagination">HVS Pagination</h2>
+<hr />
+<h1 id="api-consumption">API Consumption</h1>
+<ul>
+<li>API consumers will be required to paginate through HVS data (ex. reports) if the amount of data in the database exceeds the limit or default limit (otherwise all records will be returned in a single query).</li>
+<li>When starting pagination, API consumers will not provide a cursor value to their request (i.e. so that the first page is returned).</li>
+<li>On subsequent page requests, API consumers will get the next page by providing the cursor returned in the previous call.</li>
+<li>API consumers will terminate the collection of pages arbitrarily or when the cursor is less than zero (i.e. -1 will be returned by the controller to signal EOF).</li>
+</ul>
+<h1 id="database-changes">Database changes</h1>
+<pre><code>Each of HVS' object tables will be update to include the “row_id” column (autoincrementing number id) which will be used as the pagination key.
+
+The following requirements/recommendations apply to all impacted database tables/queries.
+
+*   All impacted database tables must be updated to have auto-increment id field with unique and not null constraint applied.
+*   All impacted database queries must be updated to include limit construct. They should also be able to filter records based on provided "afterId" value.
+</code></pre>
+<h1 id="api-changes">API Changes</h1>
+<ul>
+<li>All the impacted end-points will support two additional query parameters, "limit" for specifying number of records to return, and "afterId" for specifying auto-increment id from which to return records.</li>
+<li>If no "limit" parameter is passed, default limit will be used. And if no "afterId" parameter is passed, records from beginning will be returned.</li>
+<li>All the impacted response models will support two additional json attributes, "next" link for fetching next page, and "prev" link for fetching previous page.</li>
+<li>First page won't have "prev" link. And last page won't have "next" link.</li>
+</ul>
+<hr />
+<p><strong>NOTE</strong>: 
+The default limit value is <code>1000</code> and default afterId value is <code>0</code></p>
+<hr />
+<h1 id="impacted-apis">Impacted APIs</h1>
+<p>The following "GET" (search) APIs are updated to handle pagination</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /hosts</td>
+<td>Get all the hosts registered on HVS</td>
+</tr>
+<tr>
+<td>GET /reports</td>
+<td>Get the latest report for all the hosts registered on HVS</td>
+</tr>
+<tr>
+<td>GET /host-status</td>
+<td>Get the latest host-status for all the hosts registered on HVS</td>
+</tr>
+<tr>
+<td>GET /flavors</td>
+<td>Get all the flavors created on HVS</td>
+</tr>
+<tr>
+<td>GET /flavorgroups</td>
+<td>Get all the flavorgroups created on HVS</td>
+</tr>
+<tr>
+<td>GET /exsi-cluster</td>
+<td>Get all the exsi-clusters along with hostnames registered on HVS</td>
+</tr>
+<tr>
+<td>GET /tpm-endorsements</td>
+<td>Get all the active tpm-endorsement certificates uploaded to HVS</td>
+</tr>
+</tbody>
+</table>
 
 
 
