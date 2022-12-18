@@ -8,39 +8,9 @@
   - [Architecture](#architecture)
   - [Use Cases](#use-cases)
     - [Foundational Security & Launch Time Protection](#foundational-security--launch-time-protection)
+    - [SGX Infrastructure and Orchestration](#sgx-infrastructure-and-orchestration)
   - [License](#license)
   - [Contributing](#contributing)
-  - [Legalities](#legalities)
-
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Architecture](#architecture)
-  - [Use Cases](#use-cases)
-
-    - [Foundational Security & Launch Time Protection](#foundational-security--launch-time-protection)
-
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Legalities](#legalities)
-
-  - [Table of Contents](#table-of-contents)
-
-  - [Overview](#overview)
-  - [Architecture](#architecture)
-  - [Use Cases](#use-cases)
-
-    - [Foundational Security & Launch Time Protection](#foundational-security--launch-time-protection)
-  
-  - [License](#license)
-
-  - [Contributing](#contributing)
-  - [Legalities](#legalities)
-
-    - [Foundational Security & Launch Time Protection](#foundational-security--launch-time-protection)
-  - [License](#license)
-
-  - [Contributing](#contributing)
-  - [Known Issues](#known-issues)
   - [Legalities](#legalities)
 
 ## Overview
@@ -69,6 +39,19 @@ Foundational and Workload Security refers to a collection of software security s
 
 [Foundational & Workload Security Swagger Documents](https://github.com/intel-secl/docs/tree/v5.0/develop/swagger-docs/foundational-and-workload-security)
 
+### SGX Infrastructure and Orchestration
+
+The SGX Attestation infrastructure and Secure Key Caching (SKC) are part of the Intel Security Libraries for datacenter (ISecL-DC). The SGX Attestation infrastructure provides an end to end support for registering SGX hosts and provisioning them with SGX material (PCK certificates) and SGX collateral (security patches information - TCB Information - and Certificate Revocation Lists - CRLs).
+
+The SGX Attestation infrastructure also provides support for generating SGX quotes for SGX enclaves hosted by workloads and verifying them by a remote attesting application. The remote attesting application can also use the SGX Attestation infrastructure to enforce enclave policies (like requiring a specific enclave signer). Optionally, the SGX Attestation Infrastructure allows to integrate with Cloud Orchestrators like Openstack and Kubernetes.
+
+SKC leverages the SGX Attestation Infrastructure to support the Secure Key Caching (SKC) use case.SKC provides the key protection at rest and in-use use case using the Intel Software Guard Extensions technology (SGX). SGX implements the Trusted Execution Environment (TEE) paradigm.
+
+Using the SKC Client -- a set of libraries -- applications can retrieve keys from the ISecL-DC Key Broker Service (KBS) and load them to an SGX-protected memory (called SGX enclave) in the application memory space. KBS performs the SGX enclave attestation to ensure that the application will store the keys in a genuine SGX enclave. Application keys are wrapped with an enclave public key by KBS prior to transferring to the application enclave. Consequently, application keys are protected from infrastructure admins, malicious applications and compromised HW/BIOS/OS/VMM. SKC does not require the refactoring of the application because it supports a standard PKCS\#11 interface.
+
+[SGX Infrastructure and Orchestration Product Guide](https://intel-secl.github.io/docs/5.0/)
+
+[SGX Infrastructure and Orchestration Swagger Documents](https://github.com/intel-secl/docs/tree/v5.0/develop/swagger-docs/sgx-infrastructure-and-orchestration)
 
 ## License
 

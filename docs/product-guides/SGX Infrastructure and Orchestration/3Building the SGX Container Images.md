@@ -1,0 +1,195 @@
+# Building the SGX Container Images
+
+The SGX container images must be built from source and uploaded to a container registry.  Currently these images are not made available on any public container registry.
+
+## Build Server Prerequisites
+The SGX container images must be built on either a Red Hat Enterprise Linux 8.4 or Ubuntu 20.04 system.
+  * Note : SKC library can only be built on Ubuntu 20.04.
+
+### Development Tools and Utilities
+
+#### RedHat Enterprise Linux 8.4
+
+```
+Following RHEL 8 repositories should be available under /etc/yum.repos.d)
+    BaseOS
+    AppStream
+    CodeReady
+
+dnf install -y git wget tar python3 gcc gcc-c++ zip make yum-utils openssl-devel
+dnf install -y https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/m/makeself-2.4.2-1.el8.noarch.rpm
+ln -s /usr/bin/python3 /usr/bin/python
+ln -s /usr/bin/pip3 /usr/bin/pip
+```
+
+#### Ubuntu-20.04
+
+```
+apt update
+apt remove -y gcc gcc-7
+apt install -y python3-problem-report git wget tar python3 gcc-8 make makeself openssl libssl-dev libgpg-error-dev
+cp /usr/bin/gcc-8 /usr/bin/gcc
+ln -s /usr/bin/python3 /usr/bin/python
+ln -s /usr/bin/pip3 /usr/bin/pip
+```
+
+### Repo Tool
+
+```
+mkdir -p ~/.bin
+PATH="${HOME}/.bin:${PATH}"
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+chmod a+rx ~/.bin/repo
+repo init
+#Verify repo install
+repo --version
+```
+
+### Golang
+
+```
+wget https://dl.google.com/go/go1.18.8.linux-amd64.tar.gz
+tar -xzf go1.18.8.linux-amd64.tar.gz
+sudo mv go /usr/local
+export GOROOT=/usr/local/go
+export PATH=$GOROOT/bin:$PATH
+rm -rf go1.18.8.linux-amd64.tar.gz
+```
+
+## Skopeo
+
+#### RHEL
+
+```
+dnf install -y skopeo
+```
+
+#### Ubuntu
+```
+apt install -y skopeo
+```
+
+### Docker
+
+#### RHEL
+
+```
+dnf module enable -y container-tools
+dnf install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf install -y docker-ce-20.10.8 docker-ce-cli-20.10.8
+
+systemctl enable docker
+systemctl start docker
+```
+
+#### Ubuntu
+
+```
+#Set up repository
+apt-get update
+apt-get -y install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+#Adding Docker's official GPG key
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+#Install Docker Engine
+apt-get update
+apt-get -y install docker-ce=5:20.10.8~3-0~ubuntu-focal docker-ce-cli=5:20.10.8~3-0~ubuntu-focal containerd.io
+
+#Verify docker service status
+systemctl status docker
+```
+
+---
+**NOTE**
+
+Apply the following step only if you require a proxy:
+
+```
+mkdir -p /etc/systemd/system/docker.service.d
+touch /etc/systemd/system/docker.service.d/proxy.conf
+```
+
+Add the below lines in /etc/systemd/system/docker.service.d/proxy.conf:
+
+```
+[Service]
+Environment="HTTP_PROXY=<http_proxy>"
+Environment="HTTPS_PROXY=<https_proxy>"
+Environment="NO_PROXY=<no_proxy>"
+```
+
+Restart Docker:
+
+```
+systemctl daemon-reload
+systemctl restart docker
+```
+
+---
+
+## Sync the Repos
+
+There is a manifest which will build *all* SGX components.
+
+Sync the Repo:
+
+```
+mkdir -p ~/sgx/build && cd ~/sgx/build
+repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.0.0
+repo sync
+```
+
+## Building the Container Images based on Use case
+  * Note : SKC library can only be built on Ubuntu 20.04.
+
+### To build all SGX images
+```
+make k8s
+```
+
+### To build SGX-Infrastructure use case container images
+```
+make sgx_infrastructure
+```
+
+### To build SGX-Orchestration use case container images
+```
+make sgx_orchestration
+```
+
+The resulting container images will be placed in the following folder:
+
+```
+~/sgx/build/k8s/
+```
+
+## Uploading the Container Images to a Registry
+
+Once built, the images must be uploaded to a container registry using the appropriate version tags.  
+
+| Intel SecL-DC Release Version | Required Container Version Tag |
+| ----------------------------- | ------------------------------ |
+|         5.0.0                 |         v5.0.0                 |
+
+The specific command to upload the images to the registry may differ based on the registry used.  The sample below assumes a Docker registry.
+
+```
+skopeo copy oci-archive:<oci-image-tar-name> docker://registry.server.com:<registry-port>/<image-name>:<image-tag>
+```
+
+---
+**NOTE**
+The container names used when uploading the images must match the container names specified in values.yaml when deploying with Helm.
+
+---
+

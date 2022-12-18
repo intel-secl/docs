@@ -1,0 +1,1695 @@
+basePath: /kbs/v1
+definitions:
+  AttestationType:
+    type: string
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/aps
+  Certificate:
+    description: Certificate stores the decoded certificate values
+    properties:
+      certificate:
+        format: base64
+        type: string
+        x-go-name: Certificate
+      digest:
+        type: string
+        x-go-name: Digest
+      id:
+        format: uuid
+        type: string
+        x-go-name: ID
+      issuer:
+        type: string
+        x-go-name: Issuer
+      not_after:
+        format: date-time
+        type: string
+        x-go-name: NotAfter
+      not_before:
+        format: date-time
+        type: string
+        x-go-name: NotBefore
+      revoked:
+        type: boolean
+        x-go-name: Revoked
+      subject:
+        type: string
+        x-go-name: Subject
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  Certificates:
+    items:
+      $ref: '#/definitions/Certificate'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/kbs
+  KeyInformation:
+    properties:
+      algorithm:
+        type: string
+        x-go-name: Algorithm
+      curve_type:
+        type: string
+        x-go-name: CurveType
+      id:
+        format: uuid
+        type: string
+        x-go-name: ID
+      key_length:
+        format: int64
+        type: integer
+        x-go-name: KeyLength
+      key_string:
+        type: string
+        x-go-name: KeyString
+      kmip_key_id:
+        type: string
+        x-go-name: KmipKeyID
+    title: KeyInformation - Contains required key related attributes for key create
+      or register request.
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  KeyRequest:
+    properties:
+      key_information:
+        $ref: '#/definitions/KeyInformation'
+      label:
+        type: string
+        x-go-name: Label
+      transfer_policy_id:
+        format: uuid
+        type: string
+        x-go-name: TransferPolicyID
+      usage:
+        type: string
+        x-go-name: Usage
+    title: KeyRequest - All required attributes for key create or register request.
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  KeyResponse:
+    properties:
+      created_at:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      key_information:
+        $ref: '#/definitions/KeyInformation'
+      label:
+        type: string
+        x-go-name: Label
+      transfer_link:
+        type: string
+        x-go-name: TransferLink
+      transfer_policy_id:
+        format: uuid
+        type: string
+        x-go-name: TransferPolicyID
+      usage:
+        type: string
+        x-go-name: Usage
+    title: KeyResponse - key attributes from key create or register response.
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  KeyResponses:
+    items:
+      $ref: '#/definitions/KeyResponse'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/kbs
+  KeyTransferPolicies:
+    items:
+      $ref: '#/definitions/KeyTransferPolicy'
+    type: array
+    x-go-package: github.com/intel-secl/intel-secl/v5/docs/shared/kbs
+  KeyTransferPolicy:
+    properties:
+      attestation_type:
+        items:
+          $ref: '#/definitions/AttestationType'
+        type: array
+        x-go-name: AttestationType
+      cert_issuer:
+        items:
+          type: string
+        type: array
+        x-go-name: IssuerName
+      created_at:
+        format: date-time
+        type: string
+        x-go-name: CreatedAt
+      id:
+        format: uuid
+        type: string
+        x-go-name: ID
+      sgx:
+        $ref: '#/definitions/SgxPolicy'
+      tdx:
+        $ref: '#/definitions/TdxPolicy'
+      updated_at:
+        format: date-time
+        type: string
+        x-go-name: UpdatedAt
+    title: KeyTransferPolicy - used in key transfer policy create request and response.
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  KeyTransferResponse:
+    properties:
+      wrapped_key:
+        type: string
+        x-go-name: WrappedKey
+      wrapped_swk:
+        type: string
+        x-go-name: WrappedSWK
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  SgxAttributes:
+    properties:
+      client_permissions:
+        items:
+          type: string
+        type: array
+        x-go-name: ClientPermissions
+      enforce_tcb_upto_date:
+        type: boolean
+        x-go-name: EnforceTCBUptoDate
+      isvprodid:
+        items:
+          format: uint16
+          type: integer
+        type: array
+        x-go-name: IsvProductId
+      isvsvn:
+        format: uint16
+        type: integer
+        x-go-name: IsvSvn
+      mrenclave:
+        items:
+          type: string
+        type: array
+        x-go-name: MrEnclave
+      mrsigner:
+        items:
+          type: string
+        type: array
+        x-go-name: MrSigner
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  SgxPolicy:
+    properties:
+      attributes:
+        $ref: '#/definitions/SgxAttributes'
+      policy_ids:
+        format: uuid
+        type: string
+        x-go-name: PolicyIds
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  TdxAttributes:
+    properties:
+      enforce_tcb_upto_date:
+        type: boolean
+        x-go-name: EnforceTCBUptoDate
+      mrseam:
+        items:
+          type: string
+        type: array
+        x-go-name: MrSeam
+      mrsignerseam:
+        items:
+          type: string
+        type: array
+        x-go-name: MrSignerSeam
+      mrtd:
+        items:
+          type: string
+        type: array
+        x-go-name: MRTD
+      rtmr0:
+        type: string
+        x-go-name: RTMR0
+      rtmr1:
+        type: string
+        x-go-name: RTMR1
+      rtmr2:
+        type: string
+        x-go-name: RTMR2
+      rtmr3:
+        type: string
+        x-go-name: RTMR3
+      seamsvn:
+        format: uint8
+        type: integer
+        x-go-name: SeamSvn
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  TdxPolicy:
+    properties:
+      attributes:
+        $ref: '#/definitions/TdxAttributes'
+      policy_ids:
+        format: uuid
+        type: string
+        x-go-name: PolicyIds
+    type: object
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/kbs
+  UUID:
+    description: |-
+      A UUID is a 128 bit (16 byte) Universal Unique IDentifier as defined in RFC
+      4122.
+    items:
+      format: uint8
+      type: integer
+    type: array
+    x-go-package: github.com/google/uuid
+host: kbs.com:9443
+info:
+  description: |-
+    The Key Broker Service (KBS) is a component of Intel® Security Libraries (ISecL).
+    It interfaces with a backend key management system to create, delete and retrieve
+    keys, while providing a user defined policy for key retrieval based on Intel® hardware
+    root of trust.
+    During installation, a backend key server (KMIP, Barbican, etc.) can be associated with
+    this service. If no backend key server is associated with this service, all generated keys are
+    stored as files on the local disk.
+  license:
+    name: 'Copyright (C) 2020 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: Key Broker Service
+  version: 1.0.0
+paths:
+  /key-transfer-policies:
+    get:
+      description: |
+        Searches for key transfer policies.
+        Returns - The collection of serialized KeyTransferPolicy Go struct objects.
+      operationId: SearchKeyTransferPolicies
+      parameters:
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the key transfer policies.
+          schema:
+            $ref: '#/definitions/KeyTransferPolicies'
+        "400":
+          description: Invalid values for request params
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - KeyTransferPolicies
+      x-permissions: keys-transfer-policies:search
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/key-transfer-policies
+      x-sample-call-output: |-
+        [
+          {
+            "id": "d0c3f191-80f9-408f-a690-0dde00ba65ac",
+            "created_at": "2021-08-20T06:30:35.085644391Z",
+            "attestation_type": [
+                "SGX"
+            ],
+            "sgx": {
+              "attributes": {
+                  "mrsigner": [
+                      "cd171c56941c6ce49690b455f691d9c8a04c2e43e0a4d30f752fa5285c7ee57f"
+                  ],
+                  "isvprodid": [
+                      12
+                  ],
+                  "mrenclave": [
+                      "01c60b9617b2f96e53cb75ef01e0dccea3afc7b7992697eabb8f714b2ccd1953"
+                  ],
+                  "isvsvn": 1,
+                  "client_permissions": [
+                      "nginx",
+                      "USA"
+                  ],
+                  "enforce_tcb_upto_date": false
+              },
+              "policy_ids": [
+                  "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                  "9846bf40-e380-4842-ae15-1b60996d1190"
+              ]
+            }
+          },
+          {
+            "id": "cf9adfcf-4bfa-4653-b9b8-2b94beca768f",
+            "created_at": "2021-08-20T05:51:39.588320016Z",
+            "attestation_type": [
+                "TDX"
+            ],
+            "tdx": {
+              "attributes": {
+                  "mrsignerseam": [
+                      "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                  ],
+                  "mrseam": [
+                      "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                  ],
+                  "seamsvn": 0,
+                  "mrtd": [
+                      "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                  ],
+                  "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                  "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                  "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                  "enforce_tcb_upto_date": false
+              },
+              "policy_ids": [
+                  "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                  "9846bf40-e380-4842-ae15-1b60996d1190"
+              ]
+            }
+          }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates a key transfer policy. Transfer-Policy with only one attestation-type i.e; SGX or TDX could be created at a time. Key transfer policy can be created
+        either by providing only list of policy-ids or only TDX/SGX attributes or both policy-ids and attributes.
+
+        The serialized KeyTransferPolicy Go struct object represents the content of the request body.
+
+         | Attribute                                    | Description |
+         |----------------------------------------------|-------------|
+         | attestation_type                             | Array of Attestation Type identifiers that client must support to get the key. Expect client to advertise these with the key request e.g. "SGX", "TDX" (note that if key server needs to restrict technologies, then it should list only the ones that can receive the key). |
+         | mrsigner                                     | Array of measurements of SGX enclave’s code signing certificate. This is mandatory. The same issuer must be added as a trusted certificate in key server configuration settings. |
+         | isvprodid                                    | Array of (16-bit value) (ISVPRODID). This is mandatory. This is like a qualifier for the issuer so same issuer (code signing) key can sign separate products. |
+         | mrenclave                                    | Array of enclave measurements that are allowed to retrieve the key (MRENCLAVE). Expect client to have one of these measurements in the SGX quote (this supports use case of providing key only to an SGX enclave that will enforce the key usage policy locally). |
+         | isvsvn                                       | Minimum security version number required for Enclave. |
+         | client_permissions                           | Array of permission to expect in client api key. Expect client api key to have all of these names. |
+         | mrsignerseam                                 | Array of measurements of seam module issuer. This is mandatory. |
+         | mrseam                                       | Array of measurements of seam module. This is mandatory. |
+         | mrtd                                         | Array of TD measurements. |
+         | rtmr0                                        | Measurement extended to RTMR0. |
+         | rtmr1                                        | Measurement extended to RTMR1. |
+         | rtmr2                                        | Measurement extended to RTMR2. |
+         | rtmr3                                        | Measurement extended to RTMR3. |
+         | seamsvn                                      | Minimum security version number of seam module. |
+         | enforce_tcb_upto_date                        | Boolean value to enforce Up-To-Date TCB. |
+         | policy_ids                                   | Array of TD/Enclave Attestation Policy Ids. |
+      operationId: CreateKeyTransferPolicy
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/KeyTransferPolicy'
+      - description: Content-Type header
+        enum:
+        - application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created the key transfer policy.
+          schema:
+            $ref: '#/definitions/KeyTransferPolicy'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - KeyTransferPolicies
+      x-permissions: keys-transfer-policies:create
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/key-transfer-policies
+      x-sgx-sample-call-input: |
+        {
+          "attestation_type": ["SGX"],
+          "sgx": {
+              "attributes": {
+                  "mrsigner": ["cd171c56941c6ce49690b455f691d9c8a04c2e43e0a4d30f752fa5285c7ee57f"],
+                  "isvprodid": [12],
+                  "mrenclave": ["01c60b9617b2f96e53cb75ef01e0dccea3afc7b7992697eabb8f714b2ccd1953"],
+                  "isvsvn": 1,
+                  "client_permissions":["nginx","USA"],
+                  "enforce_tcb_upto_date": false
+              },
+              "policy_ids": ["37965f5f-ccaf-4cdc-a356-a8ed5268a5bf", "9846bf40-e380-4842-ae15-1b60996d1190"]
+          }
+        }
+      x-sgx-sample-call-output: |
+        {
+          "id": "d0c3f191-80f9-408f-a690-0dde00ba65ac",
+          "created_at": "2021-08-20T06:30:35.085644391Z",
+          "attestation_type": [
+              "SGX"
+          ],
+          "sgx": {
+            "attributes": {
+                "mrsigner": [
+                    "cd171c56941c6ce49690b455f691d9c8a04c2e43e0a4d30f752fa5285c7ee57f"
+                ],
+                "isvprodid": [
+                    12
+                ],
+                "mrenclave": [
+                    "01c60b9617b2f96e53cb75ef01e0dccea3afc7b7992697eabb8f714b2ccd1953"
+                ],
+                "isvsvn": 1,
+                "client_permissions": [
+                    "nginx",
+                    "USA"
+                ],
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+      x-tdx-sample-call-input: |
+        {
+          "attestation_type": [
+              "TDX"
+          ],
+          "tdx": {
+            "attributes": {
+                "mrsignerseam": [
+                    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "mrseam": [
+                    "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                ],
+                "mrtd": [
+                    "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                ],
+                "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "seamsvn": 0,
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf", "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+      x-tdx-sample-call-output: |-
+        {
+          "id": "cf9adfcf-4bfa-4653-b9b8-2b94beca768f",
+          "created_at": "2021-08-20T05:51:39.588320016Z",
+          "attestation_type": [
+              "TDX"
+          ],
+          "tdx": {
+            "attributes": {
+                "mrsignerseam": [
+                    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "mrseam": [
+                    "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                ],
+                "seamsvn": 0,
+                "mrtd": [
+                    "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                ],
+                "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+  /key-transfer-policies/{id}:
+    delete:
+      description: |
+        Deletes a key transfer policy.
+      operationId: DeleteKeyTransferPolicy
+      parameters:
+      - description: Unique ID of the key transfer policy.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the key transfer policy.
+        "404":
+          description: KeyTransferPolicy record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - KeyTransferPolicies
+      x-permissions: keys-transfer-policies:delete
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/key-transfer-policies/75d34bf4-80fb-4ca5-8602-a8d82e56b30d
+    get:
+      description: |
+        Retrieves a key transfer policy.
+        Returns - The serialized KeyTransferPolicy Go struct object that was retrieved.
+      operationId: RetrieveKeyTransferPolicy
+      parameters:
+      - description: Unique ID of the key transfer policy.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the key transfer policy.
+          schema:
+            $ref: '#/definitions/KeyTransferPolicy'
+        "404":
+          description: KeyTransferPolicy record not found
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - KeyTransferPolicies
+      x-permissions: keys-transfer-policies:retrieve
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/key-transfer-policies/75d34bf4-80fb-4ca5-8602-a8d82e56b30d
+      x-sample-call-output: |-
+        {
+          "id": "75d34bf4-80fb-4ca5-8602-a8d82e56b30d",
+          "created_at": "2021-08-20T05:51:39.588320016Z",
+          "attestation_type": [
+              "TDX"
+          ],
+          "tdx": {
+            "attributes": {
+                "mrsignerseam": [
+                    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "mrseam": [
+                    "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                ],
+                "seamsvn": 0,
+                "mrtd": [
+                    "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                ],
+                "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+    put:
+      consumes:
+      - application/json
+      description: |
+        Update a key transfer policy. Transfer-Policy with only one attestation-type i.e; SGX or TDX can be Updated at a time.
+
+        The serialized KeyTransferPolicy Go struct object represents the content of the request body.
+
+         | Attribute                                    | Description |
+         |----------------------------------------------|-------------|
+         | attestation_type                             | Array of Attestation Type identifiers that client must support to get the key. Expect client to advertise these with the key request e.g. "SGX", "TDX" (note that if key server needs to restrict technologies, then it should list only the ones that can receive the key). |
+         | mrsigner                                     | Array of measurements of SGX enclave’s code signing certificate. This is mandatory. The same issuer must be added as a trusted certificate in key server configuration settings. |
+         | isvprodid                                    | Array of (16-bit value) (ISVPRODID). This is mandatory. This is like a qualifier for the issuer so same issuer (code signing) key can sign separate products. |
+         | mrenclave                                    | Array of enclave measurements that are allowed to retrieve the key (MRENCLAVE). Expect client to have one of these measurements in the SGX quote (this supports use case of providing key only to an SGX enclave that will enforce the key usage policy locally). |
+         | isvsvn                                       | Minimum security version number required for Enclave. |
+         | client_permissions                           | Array of permission to expect in client api key. Expect client api key to have all of these names. |
+         | mrsignerseam                                 | Array of measurements of seam module issuer. This is mandatory. |
+         | mrseam                                       | Array of measurements of seam module. This is mandatory. |
+         | mrtd                                         | Array of TD measurements. |
+         | rtmr0                                        | Measurement extended to RTMR0. |
+         | rtmr1                                        | Measurement extended to RTMR1. |
+         | rtmr2                                        | Measurement extended to RTMR2. |
+         | rtmr3                                        | Measurement extended to RTMR3. |
+         | seamsvn                                      | Minimum security version number of seam module. |
+         | enforce_tcb_upto_date                        | Boolean value to enforce Up-To-Date TCB. |
+         | policy_ids                                   | Array of TD/Enclave Attestation Policy Ids. |
+      operationId: UpdateKeyTransferPolicy
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/KeyTransferPolicy'
+      - description: Unique ID of the key transfer policy.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Content-Type header
+        enum:
+        - application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully updated the key transfer policy.
+          schema:
+            $ref: '#/definitions/KeyTransferPolicy'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - KeyTransferPolicies
+      x-permissions: keys-transfer-policies:update
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/key-transfer-policies/d0c3f191-80f9-408f-a690-0dde00ba65ac
+      x-sgx-sample-call-input: |
+        {
+          "attestation_type": ["SGX"],
+          "sgx": {
+              "attributes": {
+                  "mrsigner": ["cd171c56941c6ce49690b455f691d9c8a04c2e43e0a4d30f752fa5285c7ee57f"],
+                  "isvprodid": [12],
+                  "mrenclave": ["01c60b9617b2f96e53cb75ef01e0dccea3afc7b7992697eabb8f714b2ccd1953"],
+                  "isvsvn": 1,
+                  "client_permissions":["nginx","USA"],
+                  "enforce_tcb_upto_date": false
+              },
+              "policy_ids": ["37965f5f-ccaf-4cdc-a356-a8ed5268a5bf", "9846bf40-e380-4842-ae15-1b60996d1190"]
+          }
+        }
+      x-sgx-sample-call-output: |
+        {
+          "id": "d0c3f191-80f9-408f-a690-0dde00ba65ac",
+          "created_at": "2021-08-20T06:30:35.085644391Z",
+          "updated_at": "2021-09-20T06:30:35.085644391Z"
+          "attestation_type": [
+              "SGX"
+          ],
+          "sgx": {
+            "attributes": {
+                "mrsigner": [
+                    "cd171c56941c6ce49690b455f691d9c8a04c2e43e0a4d30f752fa5285c7ee57f"
+                ],
+                "isvprodid": [
+                    12
+                ],
+                "mrenclave": [
+                    "01c60b9617b2f96e53cb75ef01e0dccea3afc7b7992697eabb8f714b2ccd1953"
+                ],
+                "isvsvn": 1,
+                "client_permissions": [
+                    "nginx",
+                    "USA"
+                ],
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+      x-tdx-sample-call-input: |
+        {
+          "attestation_type": [
+              "TDX"
+          ],
+          "tdx": {
+            "attributes": {
+                "mrsignerseam": [
+                    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "mrseam": [
+                    "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                ],
+                "mrtd": [
+                    "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                ],
+                "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "seamsvn": 0,
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf", "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+      x-tdx-sample-call-output: |-
+        {
+          "id": "d0c3f191-80f9-408f-a690-0dde00ba65ac",
+          "created_at": "2021-08-20T05:51:39.588320016Z",
+          "updated_at": "2021-09-20T06:30:35.085644391Z",
+          "attestation_type": [
+              "TDX"
+          ],
+          "tdx": {
+            "attributes": {
+                "mrsignerseam": [
+                    "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "mrseam": [
+                    "0f3b72d0f9606086d6a7800e7d50b82fa6cb5ec64c7210353a0696c1eef343679bf5b9e8ec0bf58ab3fce10f2c166ebe"
+                ],
+                "seamsvn": 0,
+                "mrtd": [
+                    "cf656414fc0f49b23e2ae64b6f23b82901e2206aab36b671e360ebd414899dab51bbb60134bbe6ad8dcc70b995d9dc50"
+                ],
+                "rtmr0": "b90abd43736381b12fc9b038924c73e31c8371674905e7fcb7941d69fe59d30eda3adb9e41b878151e756fb05ad13d14",
+                "rtmr1": "a53c98b16f0de470338e7f072d9c5fcef6171327ec6c78b842e637251b1de6e37354c47fb68de27ef14bb67caf288d9b",
+                "rtmr2": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "rtmr3": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "enforce_tcb_upto_date": false
+            },
+            "policy_ids": [
+                "37965f5f-ccaf-4cdc-a356-a8ed5268a5bf",
+                "9846bf40-e380-4842-ae15-1b60996d1190"
+            ]
+          }
+        }
+  /keys:
+    get:
+      description: |
+        Searches for keys.
+        Returns - The collection of serialized KeyResponse Go struct objects.
+      operationId: SearchKey
+      parameters:
+      - description: Key algorithm.
+        enum:
+        - AES
+        - RSA
+        - EC
+        - aes
+        - rsa
+        - ec
+        in: query
+        name: algorithm
+        type: string
+      - description: Key length.
+        enum:
+        - 128
+        - 192
+        - 256
+        - 2048
+        - 3072
+        - 4096
+        - 7680
+        in: query
+        name: keyLength
+        type: integer
+      - description: Elliptic Curve name.
+        enum:
+        - secp256r1
+        - secp384r1
+        - secp521r1
+        - prime256v1
+        in: query
+        name: curveType
+        type: string
+      - description: Unique identifier of transfer policy.
+        format: uuid
+        in: query
+        name: transferPolicyId
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the keys.
+          schema:
+            $ref: '#/definitions/KeyResponses'
+        "400":
+          description: Invalid values for request params
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-permissions: keys:search
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys
+      x-sample-call-output: |-
+        [
+            {
+                "key_information": {
+                    "id": "fc0cc779-22b6-4741-b0d9-e2e69635ad1e",
+                    "algorithm": "AES",
+                    "key_length": 256
+                },
+                "transfer_policy_id": "3ce27bbd-3c5f-4b15-8c0a-44310f0f83d9",
+                "transfer_link": "https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e/transfer",
+                "created_at": "2020-09-23T11:16:26.738467277Z"
+            }
+        ]
+    post:
+      consumes:
+      - application/json
+      description: |
+        Creates or Registers a key.
+
+        The serialized KeyRequest Go struct object represents the content of the request body.
+
+         | Attribute          | Description |
+         |--------------------|-------------|
+         | key_information    | A json object having all the required information about a key. |
+         | transfer_policy_id | Unique identifier of the transfer policy to apply to this key. |
+         | label              | String to attach optionally a text description to the key, e.g. "US Nginx key". |
+         | usage              | String to attach optionally a usage criteria for the key, e.g. "Country:US,State:CA". |
+
+        The serialized KeyInformation Go struct object represents the content of the key_information field.
+
+         | Attribute   | Description |
+         |-------------|-------------|
+         | algorithm   | Encryption algorithm used to create or register key. Supported algorithms are AES, RSA and EC. |
+         | key_length  | Key length used to create key. Supported key lengths are 128,192,256 bits for AES and 2048,3072,4096,7680 bits for RSA. |
+         | curve_type  | Elliptic curve used to create key. Supported curves are secp256r1, secp384r1 and secp521r1. |
+         | key_string  | Base64 encoded private key to be registered. Supported only if key is created locally. |
+         | kmip_key_id | Unique KMIP identifier of key to be registered. Supported only if key is created on KMIP server. |
+      operationId: CreateKey
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/KeyRequest'
+      - description: Content-Type header
+        enum:
+        - application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created or registered the key.
+          schema:
+            $ref: '#/definitions/KeyResponse'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-permissions: keys:create,keys:register
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys
+      x-sample-call-input: |
+        {
+            "key_information": {
+                "algorithm": "AES",
+                "key_length": 256
+            }
+        }
+      x-sample-call-output: |-
+        {
+            "key_information": {
+                "id": "fc0cc779-22b6-4741-b0d9-e2e69635ad1e",
+                "algorithm": "AES",
+                "key_length": 256
+            },
+            "transfer_policy_id": "3ce27bbd-3c5f-4b15-8c0a-44310f0f83d9",
+            "transfer_link": "https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e/transfer",
+            "created_at": "2020-09-23T11:16:26.738467277Z"
+        }
+  /keys/{id}:
+    delete:
+      description: |
+        Deletes a key.
+      operationId: DeleteKey
+      parameters:
+      - description: Unique ID of the key.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the key.
+        "404":
+          description: Key record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-permissions: keys:delete
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e
+    get:
+      description: |
+        Retrieves a key.
+        Returns - The serialized KeyResponse Go struct object that was retrieved.
+      operationId: RetrieveKey
+      parameters:
+      - description: Unique ID of the key.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the key.
+          schema:
+            $ref: '#/definitions/KeyResponse'
+        "404":
+          description: Key record not found
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-permissions: keys:retrieve
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e
+      x-sample-call-output: |-
+        {
+            "key_information": {
+                "id": "fc0cc779-22b6-4741-b0d9-e2e69635ad1e",
+                "algorithm": "AES",
+                "key_length": 256
+            },
+            "transfer_policy_id": "3ce27bbd-3c5f-4b15-8c0a-44310f0f83d9",
+            "transfer_link": "https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e/transfer",
+            "created_at": "2020-09-23T11:16:26.738467277Z"
+        }
+    post:
+      consumes:
+      - text/plain
+      description: |
+        Transfers a key.
+        Returns - The serialized KeyTransferResponse Go struct object that was retrieved.
+      operationId: TransferKey
+      parameters:
+      - description: Unique ID of the key.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Content-Type header
+        enum:
+        - text/plain
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully transferred the key.
+          schema:
+            $ref: '#/definitions/KeyTransferResponse'
+        "404":
+          description: Key record not found
+        "415":
+          description: Invalid Content-Type/Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-permissions: keys:transfer
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e
+      x-sample-call-input: |
+        -----BEGIN PUBLIC KEY-----
+        MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAwMKVKgQq1oef5rWfIPBp
+        nP5wuwB1FX30h51OJbPhqneSMZYEFmxgX2CYsMgNWyZe3jgsIAkKQcgIKJjPVaQG
+        YPVfCcNJgX6FV51ob1ViQJgsPwkDaoZHAARawlKfWt3VvWp71AxOPqBh+Hk6abag
+        ouGQoMEuZA1lTxyM7U8kt/nJEOotW74FEjp4b6g31TRHYyptw4BVY45mjlqgNv+Z
+        s5RDc2xweWB+wJ2XM1TJtYnanmW0cb6YN6W1FaOeiqnKzxNaRG4AsX5FcKzZ3n4m
+        Y/Fi6QZ7TgVbCknRC9Ni8JU8o5hihYszjMNuDLp9IHZDhl9sjpH3LkvfYesU6O7p
+        vvtn3IsFg7zBUs9yLQO1PMGChnobtDIbp4RfpVWwHB4zFYv0II6XVgmCcze8Ks40
+        wSN0XysccIs0C2USdLvIqO85HXRfbmKhncCxHIPBzKZgbX5xbW6YawH1OmhgIw+o
+        9wZnxYW3O42sBLOr3DDworCA5u+BUpWjWdzyZTycs28jAgMBAAE=
+        -----END PUBLIC KEY-----
+      x-sample-call-output: |-
+        {
+            "id": "fc0cc779-22b6-4741-b0d9-e2e69635ad1e",
+            "payload": "F+nUVyejh2Cp0wkLFvqNkhBydtnKY8v5eJ5zbl9gHoPbqvjwuSafx4LwnHOT6DJDqa8LO5ufVyLqqXVfyAdf88s1VnKLCE0Udbn8Zjnq4CHnR2KqDPWTauYLnuYJH2lVGf4Ke4mTcvOfBO9YRTop0WzfTBSuEFKrAsE67ERogtCvD7hf5LhJ2sxv0ej48uZ5KLHRVAzbWMttRZXbL10xTC+dZM9SIAWg2s0aq7Mb49h2rcaI307e3GQgsXhbopwSTC7L7Sy1RYUf4XvHl+/XMmVmvKWjOFIfOXTg8cA+COTBjzOQXVJiXF/xv5/idny0sOeyebFfnxfj7ZXJhqT8pYtiyRm0kzU35jtFTpJR8+aMkOjI/4KdbM6zoY+7JiRD2A0VNEAvQzEoKnY2H9/fIRlkYLtjCI/n5CSPg5Ap0wghqZAmmCeaOH48D0NgjpVQPhc/OQHq/k0HRUXvmUgQe/D4T3WIUdJCctSBGsjIn3WrusH+cb5eaof5Aqq7NT4W"
+        }
+  /keys/{id}/dhsm2-transfer:
+    get:
+      description: |
+        Transfers a key to the SKC-Library. TLS-Mutual authentication happens between KBS and SKC-Library, hence skc-client certificate and root-ca certificate needs to be provided in the request.
+
+        Returns - The serialized KeyTransferResponse Go struct object that was retrieved.
+      operationId: SKCTransferKey
+      parameters:
+      - description: Unique ID of the key.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: SKC Challenge Type
+        enum:
+        - SGX
+        in: header
+        name: Accept-Challenge
+        required: true
+        type: string
+      - description: Mapping of challenge-type and session-id. KBS returns base64-encoded
+          session-id in the form of challenge. Provide decoded session-id value in
+          header, e.g. SGX:19c3f009-39c9-4734-a535-edb42c76dfa8.
+        in: header
+        name: Session-Id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully transferred the key.
+          headers:
+            Session-Id:
+              description: Mapping of challenge-type and session-id.
+              type: string
+          schema:
+            $ref: '#/definitions/KeyTransferResponse'
+        "400":
+          description: Invalid transfer request
+        "401":
+          description: Unauthorized request
+        "404":
+          description: Key record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - Keys
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/keys/fc0cc779-22b6-4741-b0d9-e2e69635ad1e/dhsm2-transfer
+      x-sample-call-output: |-
+        {
+            "data": {
+                    "id": "a8db4abf-f404-44d3-91c4-0842b90527f3",
+                    "payload": "DAAAABAAAADSBAAA/yMWqZhF/VrrVD5fqQLpYh55sqze8U7KkAaC4zwxwOptlC6smFqwr6mq3k18ItpIz8II9KsBmIVRwO5C2X1Ay4XTdLRDNmR8u2ftCnqkOekHAcs/Fa+XlhLbGHl3vzqle/x+AAeJWk1CtTs2J5+293mLhTCqRi4HOfCo4YpBQCL+ga7yJpZGTwk4yvznF9XV+LG9S6Pgi5hdmF44TZ2hLrQ4rY/D147j6szWu0MmeF+dkV7gDNqghfw1yRUGQtE0COT1G8oWmrwfCssD5gPJIVA+LzYh1crQAhzMyySVKDDvevRxFE5sjss3mZF8oM54fPDmv2Jg4He2AdeFMlo3gxeSrWgZNv5b5F0AJy/O8Whjw8SKeVDNMn+1bfx0APKdmbsIHCHsIuZoHHmIDtrjAyYqVNEe55hRvrTJAPyqDrqOnthahksqsE++k9L9/X4SH8pYR8XL3zFZQoSgNMl5w5AuvcItNqTXtQeLBiw5IYl5DbYJyMhI9cZE2CetYwfEBOt23R3cM+gZ/IdS1hEtQUB5AlHkEf+8w48FGylQXdf6yYkpB8BA1Ue/X/CxkcFK3M696B0vQSx6gK6NXnHL/OjaxSRxNqG0RYMJ4iG8DmMvciSW9M7IkJgxxtAKFuvj1PEG66mp0bCndlGmge4/pDXTE/Bm/fMNGIJPfiKL83zRi1887tTUfY73G6fwlicwVzyPA/05x+rMtpAnLZ2oVf6qCshWUFxyvR+5bVVZDzHiurJoSibHAwAYqYdsZBBeTlqbuLejwbs8VwfNLoCJQvauy7R6GKwW5ninBv8VhGFHm+6xMO5ISdgGj3RXNXlZLXYBxqXO4uvGuahyeMrQ+0c1TOALiWiG70qwCsrZWfPd0yb0kJ7oA5PgucL36fdKQvSifDHW6CAqeH0DK5LQKdWi4NOjKv2LfBSYc5vsQcD95sxpfktObtMFZelTJDG4EgVTIXLaulBVQNMwUyOZUFSTjdfZz9nVHOKn5sKHqif5R8pPgEcbm5jEO/jcA2FRoSfE95nyGmLD1+0fljXiZ3K4/0fMENBEo3biRaBxCMaW/5KikbyuU95ORj4nJZx5c7saUddfeOXe5cEnHtiZUcjcR2HNTamYiKKbnzAyNamIhsWCumapkzxEHzH2Zp4g+TL3+vdw5tqpRA/aS9NEvcBSlWmkN0XC+ExIwx+xREklUogZ8m5hN2hHdDdP0dFd2WVMuOjEcffxZ1zF/jIsl0pR0YtbzqS3/D1RZdVWgmaGINRFH/FEYYpzWqtJZp4/xyxaTxELl+iuWrbVKsbGinaz6GXsfv4aBCoAIfLNSq+8++jyenGP2OyLONRgzLLrgFMCv3Y88QDOCuBqhDe3eV7Sxw0Uap/dUQSm0tn0GP1Ix1ABhTpQLkgViGXQkJn3ivhjSpoXI9dkcFABOOu9nMHVICrF4OEcpIPOvqHcWiGnrwzmngT4goHDora7/Kj2lvM5PNTV2TBLxSGUZJJ+gMNbWIfsGt1E8bcM3AzyVmSw2AueHk66PbEUPRLxGC7et5ejYBk5WPHQi30d5HSzTqLYOzPwims1vYd2hl4Kbl8QlUcUbLpmTycy+Gh2ZIo4B1QS/bHg4VtnNDZ27q44ju+oYuu+hERBOX0ROb6u0yjp57xiMHIF6X6g+KEnmQ==",
+                    "algorithm": "RSA",
+                    "key_length": 3072,
+                    "created_at": "2020-10-19T12:13:58.771771748Z",
+                    "policy": {
+                            "link": {
+                                    "key-transfer": {
+                                            "href": "https://kbshostname:9443/v1/key-transfer-policies/f9af754c-3bab-4577-a98a-76acf401dc6c",
+                                            "method": "get"
+                                    }
+                            }
+                    }
+            },
+            "operation": "transfer key",
+            "status": "success"
+        }
+  /saml-certificates:
+    get:
+      description: |
+        Searches for saml certificates.
+        Returns - The collection of serialized Certificate Go struct objects.
+      operationId: SearchSamlCertificates
+      parameters:
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the saml certificates.
+          schema:
+            $ref: '#/definitions/Certificates'
+        "400":
+          description: Invalid values for request params
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - SamlCertificates
+      x-permissions: saml-certificates:search
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/saml-certificates
+      x-sample-call-output: |-
+        [
+            {
+                "id": "9ea0c8b5-590f-481d-a5de-46edfbfbf8cc",
+                "certificate": "MIIDIjCCAgqgAwIBAgIIBrxF7PYTjakwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxHDAa
+                                BgNVBAoTE1RydXN0ZWQgRGF0YSBDZW50ZXIxEjAQBgNVBAsTCU10IFdpbHNvbjEQMA4GA1UEAxMH
+                                Q049dGVzdDAeFw0xODEyMjcwMzI3MzZaFw0xODEyMjcwNDI3MzZaMFExCzAJBgNVBAYTAlVTMRww
+                                GgYDVQQKExNUcnVzdGVkIERhdGEgQ2VudGVyMRIwEAYDVQQLEwlNdCBXaWxzb24xEDAOBgNVBAMT
+                                B0NOPXRlc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCohoz8Ptxnfqv+iZMApxGz
+                                ra5viot1dbYLL+OVY5/1+S1yEFXNUPmELO6gGhmRPO9LQgCgIRiSDSWTjiOXcoVppEQfgCQupSpr
+                                eHeXyc37Ee5dAk7rwansVjAFJtnrPzOeuVpRAxvI6FWd6qTKRhItaaGITx8n9MJXdL5Gd3qPeBXP
+                                Uj/U2aS9ViBajDPVxcAEeyWZsjxw+FdEtylCLR/nRYB70xafWuU7/iZWe5uPqbkldOD6xMK2hYhC
+                                wit5y6F79uDB+2OULOA5cnQPh+enWbqNiVCiW1sV+fZWcjo24q9duG6Kv7B0UawtF2TYoXKJkzwr
+                                pYRTVBpnZoH9jrzvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADEC64z3kyfOMMOkAO3OcQqjhwmH
+                                6UMslSjakNi2SmXMWeF/JUJmasawaKy0eQ9iZrgDIPw4ndvd0CaY3bf9e0eIijoYsrD2/oOw4f9U
+                                BZsbKE44s9QX7Byi5D1xtCxuKdRWFK+487GHuNAYpR/7Cgff2DVDro1q2WZLwgJs9X0TMqXzSJV3
+                                //HsWVIKRzXR14dJqrXO8JbQzWy5z+j5bHnSsTL2WmJY+a5xPdlPitbkKQDlPeHWKMA3IwsjHtNM
+                                v39A87oxcrc7rx6CycfSFDidz8a5OVH5Hkm4XquX6K2LDLcbesAkdId9Yge92zO0cHTZI2rD/ztF
+                                Yz78/Zo9py8=",
+                "subject": "mtwilson-saml",
+                "issuer": "CMS Signing CA",
+                "not_before": "2020-07-20T13:55:00Z",
+                "not_after": "2021-07-20T13:55:00Z",
+                "revoked": false
+            }
+        ]
+    post:
+      consumes:
+      - application/x-pem-file
+      description: |
+        </b>Imports a saml certificate.</b>
+        <pre>
+        This method registers a SAML public key certificate to this service. During the SAML transfer
+        key API call, a SAML report containing the same SAML certificate is provided and the
+        certificate is compared and verified against the SAML certificates registered with this service.
+        The certificate object model includes an ID, base64 encoded certificate and a revoked status.
+        </pre>
+      operationId: ImportSamlCertificate
+      parameters:
+      - description: Content-Type header
+        enum:
+        - application/x-pem-file
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully imported the saml certificate.
+          schema:
+            $ref: '#/definitions/Certificate'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - SamlCertificates
+      x-permissions: saml-certificates:create
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/saml-certificates
+      x-sample-call-input: |
+        -----BEGIN CERTIFICATE-----
+        MIIDIjCCAgqgAwIBAgIIBrxF7PYTjakwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxHDAa
+        BgNVBAoTE1RydXN0ZWQgRGF0YSBDZW50ZXIxEjAQBgNVBAsTCU10IFdpbHNvbjEQMA4GA1UEAxMH
+        Q049dGVzdDAeFw0xODEyMjcwMzI3MzZaFw0xODEyMjcwNDI3MzZaMFExCzAJBgNVBAYTAlVTMRww
+        GgYDVQQKExNUcnVzdGVkIERhdGEgQ2VudGVyMRIwEAYDVQQLEwlNdCBXaWxzb24xEDAOBgNVBAMT
+        B0NOPXRlc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCohoz8Ptxnfqv+iZMApxGz
+        ra5viot1dbYLL+OVY5/1+S1yEFXNUPmELO6gGhmRPO9LQgCgIRiSDSWTjiOXcoVppEQfgCQupSpr
+        eHeXyc37Ee5dAk7rwansVjAFJtnrPzOeuVpRAxvI6FWd6qTKRhItaaGITx8n9MJXdL5Gd3qPeBXP
+        Uj/U2aS9ViBajDPVxcAEeyWZsjxw+FdEtylCLR/nRYB70xafWuU7/iZWe5uPqbkldOD6xMK2hYhC
+        wit5y6F79uDB+2OULOA5cnQPh+enWbqNiVCiW1sV+fZWcjo24q9duG6Kv7B0UawtF2TYoXKJkzwr
+        pYRTVBpnZoH9jrzvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADEC64z3kyfOMMOkAO3OcQqjhwmH
+        6UMslSjakNi2SmXMWeF/JUJmasawaKy0eQ9iZrgDIPw4ndvd0CaY3bf9e0eIijoYsrD2/oOw4f9U
+        BZsbKE44s9QX7Byi5D1xtCxuKdRWFK+487GHuNAYpR/7Cgff2DVDro1q2WZLwgJs9X0TMqXzSJV3
+        //HsWVIKRzXR14dJqrXO8JbQzWy5z+j5bHnSsTL2WmJY+a5xPdlPitbkKQDlPeHWKMA3IwsjHtNM
+        v39A87oxcrc7rx6CycfSFDidz8a5OVH5Hkm4XquX6K2LDLcbesAkdId9Yge92zO0cHTZI2rD/ztF
+        Yz78/Zo9py8=
+        -----END CERTIFICATE-----
+      x-sample-call-output: |-
+        {
+            "id": "9ea0c8b5-590f-481d-a5de-46edfbfbf8cc",
+            "certificate": "MIIDIjCCAgqgAwIBAgIIBrxF7PYTjakwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxHDAa
+                            BgNVBAoTE1RydXN0ZWQgRGF0YSBDZW50ZXIxEjAQBgNVBAsTCU10IFdpbHNvbjEQMA4GA1UEAxMH
+                            Q049dGVzdDAeFw0xODEyMjcwMzI3MzZaFw0xODEyMjcwNDI3MzZaMFExCzAJBgNVBAYTAlVTMRww
+                            GgYDVQQKExNUcnVzdGVkIERhdGEgQ2VudGVyMRIwEAYDVQQLEwlNdCBXaWxzb24xEDAOBgNVBAMT
+                            B0NOPXRlc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCohoz8Ptxnfqv+iZMApxGz
+                            ra5viot1dbYLL+OVY5/1+S1yEFXNUPmELO6gGhmRPO9LQgCgIRiSDSWTjiOXcoVppEQfgCQupSpr
+                            eHeXyc37Ee5dAk7rwansVjAFJtnrPzOeuVpRAxvI6FWd6qTKRhItaaGITx8n9MJXdL5Gd3qPeBXP
+                            Uj/U2aS9ViBajDPVxcAEeyWZsjxw+FdEtylCLR/nRYB70xafWuU7/iZWe5uPqbkldOD6xMK2hYhC
+                            wit5y6F79uDB+2OULOA5cnQPh+enWbqNiVCiW1sV+fZWcjo24q9duG6Kv7B0UawtF2TYoXKJkzwr
+                            pYRTVBpnZoH9jrzvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADEC64z3kyfOMMOkAO3OcQqjhwmH
+                            6UMslSjakNi2SmXMWeF/JUJmasawaKy0eQ9iZrgDIPw4ndvd0CaY3bf9e0eIijoYsrD2/oOw4f9U
+                            BZsbKE44s9QX7Byi5D1xtCxuKdRWFK+487GHuNAYpR/7Cgff2DVDro1q2WZLwgJs9X0TMqXzSJV3
+                            //HsWVIKRzXR14dJqrXO8JbQzWy5z+j5bHnSsTL2WmJY+a5xPdlPitbkKQDlPeHWKMA3IwsjHtNM
+                            v39A87oxcrc7rx6CycfSFDidz8a5OVH5Hkm4XquX6K2LDLcbesAkdId9Yge92zO0cHTZI2rD/ztF
+                            Yz78/Zo9py8=",
+            "subject": "mtwilson-saml",
+            "issuer": "CMS Signing CA",
+            "not_before": "2020-07-20T13:55:00Z",
+            "not_after": "2021-07-20T13:55:00Z",
+            "revoked": false
+        }
+  /saml-certificates/{id}:
+    delete:
+      description: |
+        Deletes a saml certificate.
+      operationId: DeleteSamlCertificate
+      parameters:
+      - description: Unique ID of the saml certificate.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the saml certificate.
+        "404":
+          description: Certificate record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - SamlCertificates
+      x-permissions: saml-certificates:delete
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/saml-certificates/9ea0c8b5-590f-481d-a5de-46edfbfbf8cc
+    get:
+      description: |
+        Retrieves a saml certificate.
+        Returns - The serialized Certificate Go struct object that was retrieved.
+      operationId: RetrieveSamlCertificate
+      parameters:
+      - description: Unique ID of the saml certificate.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the saml certificate.
+          schema:
+            $ref: '#/definitions/Certificate'
+        "404":
+          description: Certificate record not found
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - SamlCertificates
+      x-permissions: saml-certificates:retrieve
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/saml-certificates/9ea0c8b5-590f-481d-a5de-46edfbfbf8cc
+      x-sample-call-output: |-
+        {
+            "id": "9ea0c8b5-590f-481d-a5de-46edfbfbf8cc",
+            "certificate": "MIIDIjCCAgqgAwIBAgIIBrxF7PYTjakwDQYJKoZIhvcNAQELBQAwUTELMAkGA1UEBhMCVVMxHDAa
+                            BgNVBAoTE1RydXN0ZWQgRGF0YSBDZW50ZXIxEjAQBgNVBAsTCU10IFdpbHNvbjEQMA4GA1UEAxMH
+                            Q049dGVzdDAeFw0xODEyMjcwMzI3MzZaFw0xODEyMjcwNDI3MzZaMFExCzAJBgNVBAYTAlVTMRww
+                            GgYDVQQKExNUcnVzdGVkIERhdGEgQ2VudGVyMRIwEAYDVQQLEwlNdCBXaWxzb24xEDAOBgNVBAMT
+                            B0NOPXRlc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCohoz8Ptxnfqv+iZMApxGz
+                            ra5viot1dbYLL+OVY5/1+S1yEFXNUPmELO6gGhmRPO9LQgCgIRiSDSWTjiOXcoVppEQfgCQupSpr
+                            eHeXyc37Ee5dAk7rwansVjAFJtnrPzOeuVpRAxvI6FWd6qTKRhItaaGITx8n9MJXdL5Gd3qPeBXP
+                            Uj/U2aS9ViBajDPVxcAEeyWZsjxw+FdEtylCLR/nRYB70xafWuU7/iZWe5uPqbkldOD6xMK2hYhC
+                            wit5y6F79uDB+2OULOA5cnQPh+enWbqNiVCiW1sV+fZWcjo24q9duG6Kv7B0UawtF2TYoXKJkzwr
+                            pYRTVBpnZoH9jrzvAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADEC64z3kyfOMMOkAO3OcQqjhwmH
+                            6UMslSjakNi2SmXMWeF/JUJmasawaKy0eQ9iZrgDIPw4ndvd0CaY3bf9e0eIijoYsrD2/oOw4f9U
+                            BZsbKE44s9QX7Byi5D1xtCxuKdRWFK+487GHuNAYpR/7Cgff2DVDro1q2WZLwgJs9X0TMqXzSJV3
+                            //HsWVIKRzXR14dJqrXO8JbQzWy5z+j5bHnSsTL2WmJY+a5xPdlPitbkKQDlPeHWKMA3IwsjHtNM
+                            v39A87oxcrc7rx6CycfSFDidz8a5OVH5Hkm4XquX6K2LDLcbesAkdId9Yge92zO0cHTZI2rD/ztF
+                            Yz78/Zo9py8=",
+            "subject": "mtwilson-saml",
+            "issuer": "CMS Signing CA",
+            "not_before": "2020-07-20T13:55:00Z",
+            "not_after": "2021-07-20T13:55:00Z",
+            "revoked": false
+        }
+  /tpm-identity-certificates:
+    get:
+      description: |
+        Searches for privacy-ca certificates.
+        Returns - The collection of serialized Certificate Go struct objects.
+      operationId: SearchTpmIdentityCertificates
+      parameters:
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the tpm-identity certificates.
+          schema:
+            $ref: '#/definitions/Certificates'
+        "400":
+          description: Invalid values for request params
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - TpmIdentityCertificates
+      x-permissions: tpm-identity-certificates:search
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/tpm-identity-certificates
+      x-sample-call-output: |-
+        [
+            {
+                "id": "cd4f4fc4-73d4-42ac-a0d2-0fe896ec694c",
+                "certificate": "MIIDMjCCAhqgAwIBAgIGAWfO03T4MA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMTEG10d2lsc29u
+                                LXBjYS1haWswHhcNMTgxMjIxMDMzMzQzWhcNMjgxMjIwMDMzMzQzWjAbMRkwFwYDVQQDExBtdHdp
+                                bHNvbi1wY2EtYWlrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh1ci0WLpy+8hZeMt
+                                Gt6pH1tQYKS4IsKthZYcoJAoPKk3OZZr0egw12eOEJY2zV6l5OXq98NQ3GevvuDy/9GVcNjhIO/h
+                                Yn0LkedL3QF34TZrpVFb5seap+ppcgHUflVVqmcKMl8LpwlXxxkN0ABasajjKmBAQ6CUgL6KXVCE
+                                xUxyDOo46iz9muoJo3sZ71YXHLRUyPp4t1YBx8xwOA2hKE+uB1hhcABNTLu0CTdt5Wbh+Xe+MQhg
+                                HIhmJaTeBq5HGQa7iTfAmdWwwGW9OOHHXP33ppahQ5KaZ6301hz50Xtdobvlvwo0xGO3UJSL9zAB
+                                GV+Y27j1FRtD0rYPZEFTAwIDAQABo3wwejAdBgNVHQ4EFgQUL9YUt/Yv5BXKsYiJJK7CzXdEuZsw
+                                DwYDVR0TAQH/BAUwAwEB/zBIBgNVHSMEQTA/gBQv1hS39i/kFcqxiIkkrsLNd0S5m6EfpB0wGzEZ
+                                MBcGA1UEAxMQbXR3aWxzb24tcGNhLWFpa4IGAWfO03T4MA0GCSqGSIb3DQEBCwUAA4IBAQAUdD1c
+                                3KHGI7KLZ2YZ//PliNSzNyuM6BCRN7ZCmlwDhwbPKkxVEeuPEQ+rT3eVE87Tvzx/Bwk18kI8ErB+
+                                6oQRO6KiZFnGOedHzaKT8GgQjmRSdszj2lRq6+1UCXIxeT8HVUAFUVgOa4bMndRZmlkwuhoSblsf
+                                kEDAojfh8EJa1/i52tkJR+uIy/7/D3wY2UEzYxoNquuDKlPWDbp2G48MOMMdhRk3HfDDna66mm3/
+                                DLhcRFbzNUIhWvn5Kp5sGGiN/VgQCHdDFvnZH/k0W1a/SO5gGTL/ttVjWFjEdDaKs34EPA4ySlW4
+                                t4WHBaD1mPVF39J7Y6QBlbvGo6JLKVFO",
+                "subject": "HVS Privacy CA",
+                "issuer": "HVS Privacy CA",
+                "not_before": "2020-07-20T18:39:10Z",
+                "not_after": "2021-07-20T18:39:10Z",
+                "revoked": false
+            }
+        ]
+    post:
+      consumes:
+      - application/x-pem-file
+      description: |
+        </b>Imports a privacy-ca certificate.</b>
+        <pre>
+        This method registers a HVS privacy-ca public key certificate to the service. During the
+        SAML transfer key API call, a SAML report containing a host TPM AIK certificate is provided.
+        It is verified that a HVS privacy-ca certificate registered with this service has signed this
+        AIK. The binding key certificate is retrieved from the SAML report and it verifies that a
+        HVS privacy-ca certificate has signed this cert as well. The certificate object model includes
+        an ID, base64 encoded certificate and a revoked status.
+        </pre>
+      operationId: ImportTpmIdentityCertificate
+      parameters:
+      - description: Content-Type header
+        enum:
+        - application/x-pem-file
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully imported the tpm-identity certificate.
+          schema:
+            $ref: '#/definitions/Certificate'
+        "400":
+          description: Invalid request body provided
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - TpmIdentityCertificates
+      x-permissions: tpm-identity-certificates:create
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/tpm-identity-certificates
+      x-sample-call-input: |
+        -----BEGIN CERTIFICATE-----
+        MIIDMjCCAhqgAwIBAgIGAWfO03T4MA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMTEG10d2lsc29u
+        LXBjYS1haWswHhcNMTgxMjIxMDMzMzQzWhcNMjgxMjIwMDMzMzQzWjAbMRkwFwYDVQQDExBtdHdp
+        bHNvbi1wY2EtYWlrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh1ci0WLpy+8hZeMt
+        Gt6pH1tQYKS4IsKthZYcoJAoPKk3OZZr0egw12eOEJY2zV6l5OXq98NQ3GevvuDy/9GVcNjhIO/h
+        Yn0LkedL3QF34TZrpVFb5seap+ppcgHUflVVqmcKMl8LpwlXxxkN0ABasajjKmBAQ6CUgL6KXVCE
+        xUxyDOo46iz9muoJo3sZ71YXHLRUyPp4t1YBx8xwOA2hKE+uB1hhcABNTLu0CTdt5Wbh+Xe+MQhg
+        HIhmJaTeBq5HGQa7iTfAmdWwwGW9OOHHXP33ppahQ5KaZ6301hz50Xtdobvlvwo0xGO3UJSL9zAB
+        GV+Y27j1FRtD0rYPZEFTAwIDAQABo3wwejAdBgNVHQ4EFgQUL9YUt/Yv5BXKsYiJJK7CzXdEuZsw
+        DwYDVR0TAQH/BAUwAwEB/zBIBgNVHSMEQTA/gBQv1hS39i/kFcqxiIkkrsLNd0S5m6EfpB0wGzEZ
+        MBcGA1UEAxMQbXR3aWxzb24tcGNhLWFpa4IGAWfO03T4MA0GCSqGSIb3DQEBCwUAA4IBAQAUdD1c
+        3KHGI7KLZ2YZ//PliNSzNyuM6BCRN7ZCmlwDhwbPKkxVEeuPEQ+rT3eVE87Tvzx/Bwk18kI8ErB+
+        6oQRO6KiZFnGOedHzaKT8GgQjmRSdszj2lRq6+1UCXIxeT8HVUAFUVgOa4bMndRZmlkwuhoSblsf
+        kEDAojfh8EJa1/i52tkJR+uIy/7/D3wY2UEzYxoNquuDKlPWDbp2G48MOMMdhRk3HfDDna66mm3/
+        DLhcRFbzNUIhWvn5Kp5sGGiN/VgQCHdDFvnZH/k0W1a/SO5gGTL/ttVjWFjEdDaKs34EPA4ySlW4
+        t4WHBaD1mPVF39J7Y6QBlbvGo6JLKVFO
+        -----END CERTIFICATE-----
+      x-sample-call-output: |-
+        {
+            "id": "cd4f4fc4-73d4-42ac-a0d2-0fe896ec694c",
+            "certificate": "MIIDMjCCAhqgAwIBAgIGAWfO03T4MA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMTEG10d2lsc29u
+                            LXBjYS1haWswHhcNMTgxMjIxMDMzMzQzWhcNMjgxMjIwMDMzMzQzWjAbMRkwFwYDVQQDExBtdHdp
+                            bHNvbi1wY2EtYWlrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh1ci0WLpy+8hZeMt
+                            Gt6pH1tQYKS4IsKthZYcoJAoPKk3OZZr0egw12eOEJY2zV6l5OXq98NQ3GevvuDy/9GVcNjhIO/h
+                            Yn0LkedL3QF34TZrpVFb5seap+ppcgHUflVVqmcKMl8LpwlXxxkN0ABasajjKmBAQ6CUgL6KXVCE
+                            xUxyDOo46iz9muoJo3sZ71YXHLRUyPp4t1YBx8xwOA2hKE+uB1hhcABNTLu0CTdt5Wbh+Xe+MQhg
+                            HIhmJaTeBq5HGQa7iTfAmdWwwGW9OOHHXP33ppahQ5KaZ6301hz50Xtdobvlvwo0xGO3UJSL9zAB
+                            GV+Y27j1FRtD0rYPZEFTAwIDAQABo3wwejAdBgNVHQ4EFgQUL9YUt/Yv5BXKsYiJJK7CzXdEuZsw
+                            DwYDVR0TAQH/BAUwAwEB/zBIBgNVHSMEQTA/gBQv1hS39i/kFcqxiIkkrsLNd0S5m6EfpB0wGzEZ
+                            MBcGA1UEAxMQbXR3aWxzb24tcGNhLWFpa4IGAWfO03T4MA0GCSqGSIb3DQEBCwUAA4IBAQAUdD1c
+                            3KHGI7KLZ2YZ//PliNSzNyuM6BCRN7ZCmlwDhwbPKkxVEeuPEQ+rT3eVE87Tvzx/Bwk18kI8ErB+
+                            6oQRO6KiZFnGOedHzaKT8GgQjmRSdszj2lRq6+1UCXIxeT8HVUAFUVgOa4bMndRZmlkwuhoSblsf
+                            kEDAojfh8EJa1/i52tkJR+uIy/7/D3wY2UEzYxoNquuDKlPWDbp2G48MOMMdhRk3HfDDna66mm3/
+                            DLhcRFbzNUIhWvn5Kp5sGGiN/VgQCHdDFvnZH/k0W1a/SO5gGTL/ttVjWFjEdDaKs34EPA4ySlW4
+                            t4WHBaD1mPVF39J7Y6QBlbvGo6JLKVFO",
+            "subject": "HVS Privacy CA",
+            "issuer": "HVS Privacy CA",
+            "not_before": "2020-07-20T18:39:10Z",
+            "not_after": "2021-07-20T18:39:10Z",
+            "revoked": false
+        }
+  /tpm-identity-certificates/{id}:
+    delete:
+      description: |
+        Deletes a privacy-ca certificate.
+      operationId: DeleteTpmIdentityCertificate
+      parameters:
+      - description: Unique ID of the tpm-identity certificate.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Successfully deleted the tpm-identity certificate.
+        "404":
+          description: Certificate record not found
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - TpmIdentityCertificates
+      x-permissions: tpm-identity-certificates:delete
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/tpm-identity-certificates/cd4f4fc4-73d4-42ac-a0d2-0fe896ec694c
+    get:
+      description: |
+        Retrieves a privacy-ca certificate.
+        Returns - The serialized Certificate Go struct object that was retrieved.
+      operationId: RetrieveTpmIdentityCertificate
+      parameters:
+      - description: Unique ID of the tpm-identity certificate.
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Accept header
+        enum:
+        - application/json
+        in: header
+        name: Accept
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved the tpm-identity certificate.
+          schema:
+            $ref: '#/definitions/Certificate'
+        "404":
+          description: Certificate record not found
+        "415":
+          description: Invalid Accept Header in Request
+        "500":
+          description: Internal server error
+      security:
+      - bearerAuth: []
+      tags:
+      - TpmIdentityCertificates
+      x-permissions: tpm-identity-certificates:retrieve
+      x-sample-call-endpoint: https://kbs.com:9443/kbs/v1/tpm-identity-certificates/cd4f4fc4-73d4-42ac-a0d2-0fe896ec694c
+      x-sample-call-output: |-
+        {
+            "id": "cd4f4fc4-73d4-42ac-a0d2-0fe896ec694c",
+            "certificate": "MIIDMjCCAhqgAwIBAgIGAWfO03T4MA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMTEG10d2lsc29u
+                            LXBjYS1haWswHhcNMTgxMjIxMDMzMzQzWhcNMjgxMjIwMDMzMzQzWjAbMRkwFwYDVQQDExBtdHdp
+                            bHNvbi1wY2EtYWlrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh1ci0WLpy+8hZeMt
+                            Gt6pH1tQYKS4IsKthZYcoJAoPKk3OZZr0egw12eOEJY2zV6l5OXq98NQ3GevvuDy/9GVcNjhIO/h
+                            Yn0LkedL3QF34TZrpVFb5seap+ppcgHUflVVqmcKMl8LpwlXxxkN0ABasajjKmBAQ6CUgL6KXVCE
+                            xUxyDOo46iz9muoJo3sZ71YXHLRUyPp4t1YBx8xwOA2hKE+uB1hhcABNTLu0CTdt5Wbh+Xe+MQhg
+                            HIhmJaTeBq5HGQa7iTfAmdWwwGW9OOHHXP33ppahQ5KaZ6301hz50Xtdobvlvwo0xGO3UJSL9zAB
+                            GV+Y27j1FRtD0rYPZEFTAwIDAQABo3wwejAdBgNVHQ4EFgQUL9YUt/Yv5BXKsYiJJK7CzXdEuZsw
+                            DwYDVR0TAQH/BAUwAwEB/zBIBgNVHSMEQTA/gBQv1hS39i/kFcqxiIkkrsLNd0S5m6EfpB0wGzEZ
+                            MBcGA1UEAxMQbXR3aWxzb24tcGNhLWFpa4IGAWfO03T4MA0GCSqGSIb3DQEBCwUAA4IBAQAUdD1c
+                            3KHGI7KLZ2YZ//PliNSzNyuM6BCRN7ZCmlwDhwbPKkxVEeuPEQ+rT3eVE87Tvzx/Bwk18kI8ErB+
+                            6oQRO6KiZFnGOedHzaKT8GgQjmRSdszj2lRq6+1UCXIxeT8HVUAFUVgOa4bMndRZmlkwuhoSblsf
+                            kEDAojfh8EJa1/i52tkJR+uIy/7/D3wY2UEzYxoNquuDKlPWDbp2G48MOMMdhRk3HfDDna66mm3/
+                            DLhcRFbzNUIhWvn5Kp5sGGiN/VgQCHdDFvnZH/k0W1a/SO5gGTL/ttVjWFjEdDaKs34EPA4ySlW4
+                            t4WHBaD1mPVF39J7Y6QBlbvGo6JLKVFO",
+            "subject": "HVS Privacy CA",
+            "issuer": "HVS Privacy CA",
+            "not_before": "2020-07-20T18:39:10Z",
+            "not_after": "2021-07-20T18:39:10Z",
+            "revoked": false
+        }
+  /version:
+    get:
+      description: |
+        GetVersion is used to get the version of the application.
+        Returns - The version of the application.
+      operationId: GetVersion
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Successfully retrieved the version.
+      tags:
+      - Version
+      x-sample-call-endpoint: https://kbs.com:8443/kbs/v1/version
+      x-sample-call-output: |-
+        Service Name: Key Broker Service
+        Version: v3.4.0-0f0162ea
+        Build Date: 2021-03-08T12:17:18+0000
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
