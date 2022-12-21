@@ -43,20 +43,20 @@ helm search repo --versions
   ```
 
 ##### Update the values.yaml, the values given in values.yaml should be same as that of given for currently deployed version. 
-Charts with v5.0.0 has undergone many changes from that of v4.2.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v4.2.0 should be same for v5.0.0 as well. 
-v5.0.0 has postgres database version upgrade from 11.7(v4.2.0) to 14.2(v5.0.0), hence we need to set additional values such as image name for *dbVersionUpgradeImage*(image db-version-upgrade-v11-v14.tar built along with other services container image builds )  and set *dbVersionUpgrade* to true.
+Charts with v5.1.0 has undergone changes from that of v5.0.0 and has changes in values.yaml file. The description provided in comments would help user to understand for setting appropriate values, the credentials for services given for v5.0.0 should be same for v5.1.0 as well. 
 
 ```yaml
 versionUpgrade: true
-currentVersion: "v4.2.0"
-dbVersionUpgrade: true
+currentVersion: "v5.0.0"
+dbVersionUpgrade: false
 image:
   dbVersionUpgradeImage: <Registry>/db-version-upgrade:v11-v14
 ```
  
-Set the value for currentVersion under global section in values.yaml to the currently deployed version(if v4.2.0 is deployed currently then set the value as "v4.2.0")
+Set the value for currentVersion under global section in values.yaml to the currently deployed version(if v5.0.0 is deployed currently then set the value as "v5.0.0")
  
 Set the value for versionUpgrade to true. 
+Set the value for dbVersionUpgrade to false, as there is no change in db image version.
 
 ##### Upgrade the charts with the below commands
 

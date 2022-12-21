@@ -22,7 +22,7 @@ Pull the Helm charts from the Helm repository and then deploy.
 
 Set the release version
 ```
-export VERSION=v5.0.0
+export VERSION=v5.1.0
 ```
 
 ### Host-Attestation:
@@ -79,14 +79,14 @@ Upload image to registry The admission controller tar file that is present in k8
 
 # Usecase Workflows API Collections
 
-The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections) repository
+The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v5.1/develop/tools/api-collections) repository
 
 ## Pre-requisites
 
 * Postman client should be [downloaded](https://www.postman.com/downloads/) on supported platforms or on the web to get started with the usecase collections.
 
 ???+ note 
-    The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v5.0/develop/tools/api-collections)
+    The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v5.1/develop/tools/api-collections)
 
 ## Use Case Collections
 

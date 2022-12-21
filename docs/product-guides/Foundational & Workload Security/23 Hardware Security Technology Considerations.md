@@ -261,7 +261,7 @@ policy.
 #### Steps for IMA Provision
 
 1. Download IMA provision script from the below mention location.
-    https://github.com/intel-secl/utils/tree/v5.0/develop/tools/ima-agent
+    https://github.com/intel-secl/utils/tree/v5.1/develop/tools/ima-agent
 
 2. Prerequisite before provision.
     \- SELinux needs to be in permissive mode

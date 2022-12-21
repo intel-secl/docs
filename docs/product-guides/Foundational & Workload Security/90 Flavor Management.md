@@ -1677,7 +1677,7 @@ As part of tpm quote response, TA will send ima_log.
 To include the ima logs in the tpm quote response, the following cofiguration parameters will be added by hvs in the tpm-quote request body.
 
     ```    
-    `ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.0.0/`. Only if it is true, 
+    `ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.1.0/`. Only if it is true, 
     IMA logs will be sent by TA.
     ```
 

@@ -1,6 +1,22 @@
 Intel Security Libraries for Data Center
 =========================================
 
+# ***Intel(R) SecL-DC version 5.1 GA***
+
+Foundational Security/Workload Security Use Cases:
+
+- HVS pagination supported is enabled.
+- Upgrades are supported for all use case from v5.0.0 usecase charts.
+
+| Usecases                                          | Current Version | Version Upgradable |
+| ------------------------------------------------- | :-------------: | :----------------: |
+| Host-Attestation                                  | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement                        | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Cloud-Service-Provider | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Control-Plane          | v5.0.0          |  v5.1.0            |
+| Workload Confidentiality                          | v5.0.0          |  v5.1.0            |
+
+
 # ***Intel(R) SecL-DC version 5.0 BETA***
 
 Foundational Security/Workload Security Use Cases:
@@ -13,10 +29,10 @@ Foundational Security/Workload Security Use Cases:
 
 | Usecases                                          | Current Version | Version Upgradable |
 | ------------------------------------------------- | :-------------: | :----------------: |
-| Host-Attestation                                  | v4.2.0          |  v5.0.0            |
-| Trusted-Workload-Placement                        | v4.2.0          |  v5.0.0            |
-| Trusted-Workload-Placement-Cloud-Service-Provider | v4.2.0          |  v5.0.0            |
-| Trusted-Workload-Placement-Control-Plane          | v4.2.0          |  v5.0.0            |
+| Host-Attestation                                  | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement                        | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Cloud-Service-Provider | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Control-Plane          | v5.0.0          |  v5.1.0            |
 
 SKC/SGX Attestation Use Cases:
 

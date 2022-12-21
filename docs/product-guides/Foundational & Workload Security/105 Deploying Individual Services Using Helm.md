@@ -10,7 +10,7 @@ When deploying individual services, all of the values.yaml files must be configu
 
 Set deployment version
 ```
-export VERSION=v5.0.0
+export VERSION=v5.1.0
 ```
 Following are the steps need to be run for deploying individual charts for host attestation usecase
 
@@ -96,85 +96,85 @@ Below is a list of the Helm charts available on the Intel SecL Helm repository f
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/aas                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Authentica... |
-|isecl-helm/admission-controller    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Admision C... |
-|isecl-helm/cms                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Certificat... |
-|isecl-helm/hvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
-|isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
-|isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
-|isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
-|isecl-helm/trustagent              |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
-|isecl-helm/kbs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC key broker service |
-|isecl-helm/wls                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Workload Service |
-|isecl-helm/wla                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Workload Agent |
+|isecl-helm/aas                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/admission-controller    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Admision C... |
+|isecl-helm/cms                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Certificat... |
+|isecl-helm/hvs                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/ihub                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+|isecl-helm/isecl-controller        |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/nats                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing NATS server            |
+|isecl-helm/trustagent              |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
+|isecl-helm/kbs                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC key broker service |
+|isecl-helm/wls                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Workload Service |
+|isecl-helm/wla                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Workload Agent |
 
 Below is a list of Helm charts used to run specific jobs needed during deployment:
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/aasdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating aasdb certificates       |
-|isecl-helm/hvsdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating hvsdb certificates       |
-|isecl-helm/cleanup-secrets         |                    5.0.0         |  v5.0.0      |    A Helm chart for cleaning up secrets               |
-|isecl-helm/wpm                     |                    5.0.0         |  v5.0.0      |    A Helm chart for creating WPM secrets              |
+|isecl-helm/aasdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for creating aasdb certificates       |
+|isecl-helm/hvsdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for creating hvsdb certificates       |
+|isecl-helm/cleanup-secrets         |                    5.1.0         |  v5.1.0      |    A Helm chart for cleaning up secrets               |
+|isecl-helm/wpm                     |                    5.1.0         |  v5.1.0      |    A Helm chart for creating WPM secrets              |
 
 Below is a list of charts that needs to be deployed for Trusted Workload Placement
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/aas                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Authentica... |
-|isecl-helm/aasdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating aasdb certificates       |
-|isecl-helm/cms                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Certificat... |
-|isecl-helm/hvsdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for creating hvsdb certificates      |
-|isecl-helm/hvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
-|isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
-|isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
-|isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
-|isecl-helm/trustagent              |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
+|isecl-helm/aas                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/aasdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for creating aasdb certificates       |
+|isecl-helm/cms                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Certificat... |
+|isecl-helm/hvsdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for creating hvsdb certificates      |
+|isecl-helm/hvs                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/ihub                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+|isecl-helm/isecl-controller        |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/nats                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing NATS server            |
+|isecl-helm/trustagent              |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
 
 
 Below are the charts that needs to be deployed for Trusted Cloud Service Provider
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
-|isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
-|isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/trustagent              |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
-|isecl-helm/admission-controller    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Admision C... |
+|isecl-helm/ihub                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+|isecl-helm/isecl-controller        |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/trustagent              |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Trust Agent   |
+|isecl-helm/admission-controller    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Admision C... |
 
 Below are the charts that needs to be deployed for TWP Control Plane
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/aas                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Authentica... |
-|isecl-helm/aasdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Authentica... |
-|isecl-helm/cms                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Certificat... |
-|isecl-helm/hvsdb-cert-generator    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
-|isecl-helm/hvs                     |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            | 
+|isecl-helm/aas                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/aasdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Authentica... |
+|isecl-helm/cms                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Certificat... |
+|isecl-helm/hvsdb-cert-generator    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/hvs                     |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Host Verif... |
+|isecl-helm/nats                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing NATS server            | 
 
 Intel SecL-DC can optionally utilize a NATS server to manage connectivity between the Host Verification Service and any number of deployed Trust Agent hosts.  This acts as an alternative to communication via REST APIs - in NATS mode, a connection is established with the NATS server, and messages are sent and received over that connection.  Using NATS mode requires configuration changes in the values.yaml files for the HVS and Trust Agent charts, as well as deployment of NATS itself:
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/nats                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing NATS server            |
+|isecl-helm/nats                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing NATS server            |
 
 NATS deployments also require a setup job:
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/nats-init               |                    5.0.0         |  v5.0.0      |    A Helm chart for creating TLS certificates and ... |
+|isecl-helm/nats-init               |                    5.1.0         |  v5.1.0      |    A Helm chart for creating TLS certificates and ... |
 
 Intel SecL-DC can optionally integrate with Kubernetes to control the placement of workloads based on the attestation status of worker nodes.  Trusted Workload Placement requires the following additional services:
 
 |NAME                               |                   CHART VERSION  | APP VERSION  |   DESCRIPTION                                         |
 |-----------------------------------|----------------------------------|--------------|-------------------------------------------------------|
-|isecl-helm/admission-controller    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Admision C... |
-|isecl-helm/isecl-controller        |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
-|isecl-helm/isecl-scheduler         |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Extended S... |
-|isecl-helm/ihub                    |                    5.0.0         |  v5.0.0      |    A Helm chart for Installing ISecL-DC Integratio... |
+|isecl-helm/admission-controller    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Admision C... |
+|isecl-helm/isecl-controller        |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Custom Con... |
+|isecl-helm/isecl-scheduler         |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Extended S... |
+|isecl-helm/ihub                    |                    5.1.0         |  v5.1.0      |    A Helm chart for Installing ISecL-DC Integratio... |
 
 ## Configuration Changes Needed for NATS Mode
 

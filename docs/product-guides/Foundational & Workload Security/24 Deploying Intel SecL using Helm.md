@@ -201,7 +201,7 @@ Log: <NFS-vol-base-path>/isecl/kbs/logs
 Opt: <NFS-vol-base-path>/isecl/kbs/kbs/opt
 
 #Trust Agent:
-Config: /etc/trustagent/v5.0.0/
+Config: /etc/trustagent/v5.1.0/
 Logs:  /var/log/trustagent/
 tpmrm: /dev/tpmrm0
 txt-stat: /usr/sbin/txt-stat
@@ -209,7 +209,7 @@ ta-hostname-path: /etc/hostname
 ta-hosts-path: /etc/hosts
 
 #Workload Agent:
-Config: /etc/workload-agent/v5.0.0/
+Config: /etc/workload-agent/v5.1.0/
 Logs: /var/log/workload-agent
 ```
 
