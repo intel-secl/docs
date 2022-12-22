@@ -145,7 +145,7 @@ Sync the Repo:
 
 ```
 mkdir -p ~/sgx/build && cd ~/sgx/build
-repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.0.0
+repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.1.0
 repo sync
 ```
 
@@ -179,7 +179,7 @@ Once built, the images must be uploaded to a container registry using the approp
 
 | Intel SecL-DC Release Version | Required Container Version Tag |
 | ----------------------------- | ------------------------------ |
-|         5.0.0                 |         v5.0.0                 |
+|         5.1.0                 |         v5.1.0                 |
 
 The specific command to upload the images to the registry may differ based on the registry used.  The sample below assumes a Docker registry.
 

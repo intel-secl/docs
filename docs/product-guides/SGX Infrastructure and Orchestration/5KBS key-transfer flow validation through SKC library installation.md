@@ -6,7 +6,7 @@ Below steps to be followed post successful deployment with Single-Node/Multi-Nod
 
 * From cluster node, Clone the repos by using
 ```
-   repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.0.0
+   repo init -u https://github.com/intel-secl/build-manifest.git -m manifest/skc.xml -b refs/tags/v5.1.0
    repo sync
 ```  
 

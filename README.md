@@ -49,9 +49,9 @@ SKC leverages the SGX Attestation Infrastructure to support the Secure Key Cachi
 
 Using the SKC Client -- a set of libraries -- applications can retrieve keys from the ISecL-DC Key Broker Service (KBS) and load them to an SGX-protected memory (called SGX enclave) in the application memory space. KBS performs the SGX enclave attestation to ensure that the application will store the keys in a genuine SGX enclave. Application keys are wrapped with an enclave public key by KBS prior to transferring to the application enclave. Consequently, application keys are protected from infrastructure admins, malicious applications and compromised HW/BIOS/OS/VMM. SKC does not require the refactoring of the application because it supports a standard PKCS\#11 interface.
 
-[SGX Infrastructure and Orchestration Product Guide](https://intel-secl.github.io/docs/5.0/)
+[SGX Infrastructure and Orchestration Product Guide](https://intel-secl.github.io/docs/5.1/)
 
-[SGX Infrastructure and Orchestration Swagger Documents](https://github.com/intel-secl/docs/tree/v5.0/develop/swagger-docs/sgx-infrastructure-and-orchestration)
+[SGX Infrastructure and Orchestration Swagger Documents](https://github.com/intel-secl/docs/tree/v5.1/develop/swagger-docs/sgx-infrastructure-and-orchestration)
 
 ## License
 
