@@ -3,80 +3,37 @@
 ## Host Verification Service Certificates and Keys
 
 The Host Verification Service has several unique certificates not
-present on other services.
+present on other services.The HVS certificates can be found under 
+`<nfs_path mentioned in values.yaml>/isecl/hvs` path.
+---
+**Note**
+Please refer detail steps on running setup task and updating specific service on `Changing Configuration Settings` section.
+To know about supported HVS setup task and configurations refer `HVS Setup Task and Configuration Settings` section.
+To know about supported Trust Agent setup task and configurations refer `Trust Agent Setup Task and Configuration Settings` section.
+---
 
 ### SAML
 
-The SAML Certificate a is used to sign SAML attestation reports, and is
+The SAML Certificate is used to sign SAML attestation reports, and is
 itself signed by the Root Certificate. This certificate is unique to the
 Verification Service.
 
-`/opt/hvs/configuration/saml.crt`
+`<nfs_path mentioned in values.yaml>/isecl/hvs/config/certs/trustedca/saml-cert.pem`
 
-`/opt/hvs/configuration/saml.crt.pem`
-
-`/opt/hvs/configuration/SAML.jks`
-
-The SAML Certificate can be replaced with a user-specified keypair and
-certificate chain using the following command:
-
-hvs replace-saml-key-pair --private-key=new.key.pem
---cert-chain=new.cert-chain.pem
-
-This will:
-
--   Replace key pair in `/opt/hvs/configuration/SAML.jks`, alias
-    samlkey1
-
--   Update `/opt/hvs/configuration/saml.crt` with saml DER public key
-    cert
-
--   Update `/opt/hvs/configuration/saml.crt.pem` with saml PEM public
-    key cert
-
--   Update configuration properties:
-
-```shell
-saml.key.password to null
-saml.certificate.dn
-saml.issuer
-```
-When the SAML certificate is replaced, all hosts will immediately be
+When the SAML certificate is regenerated, all hosts will immediately be
 added to a queue to generate a new attestation report, since the old
-signing certificate is no longer valid. No service restart is necessary.
+signing certificate is no longer valid.
 
 If the Integration Hub is being used, the new SAML certificate will need
-to be imported to the Hub.
+to be imported to the IHub.
 
 ### Asset Tag
 
 The Asset tag Certificate is used to sign all Asset Tag Certificates.
 This certificate is unique to the Verification Service.
 
-`/opt/hvs/configuration/tag-cacerts.pem`
+`<nfs_path mentioned in values.yaml>/isecl/hvs/config/certs/trustedca/tag-ca-cert.pem`
 
-The Asset Tag Certificate can be replaced with a user-specified keypair
-and certificate chain using the following command:
-
-`hvs replace-tag-key-pair --private-key=new.key.pem
---cert-chain=new.cert-chain.pem`
-
-This will:
-
--   Replace key pair in database table mw\_file (cakey is private and
-    public key pem formatted, cacerts is cert chain)
-
--   Update `/opt/hvs/configuration/tag-cacerts.pem with cert chain`
-
--   Update configuration properties:
-
-```shell
-tag.issuer.dn
-```
-No service restart is needed. However, all existing Asset Tags will be
-considered invalid, and will need to be recreated. It is recommended to
-delete any existing Asset Tag certificates and Flavors, and then
-recreate and deploy new Tags.
 
 ### Privacy CA
 
@@ -89,74 +46,14 @@ The Privacy CA certificate is used by Trust Agent nodes during Trust
 Agent provisioning; if the Privacy CA certificate is changed, all Trust
 Agent nodes will need to be re-provisioned.
 
-`/opt/hvs/configuration/PrivacyCA.p12`
-
-`/opt/hvs/configuration/PrivacyCA.pem`
-
-The Privacy CA Certificate can be replaced with a user-specified keypair
-and certificate chain using the following command:
-
-`hvs replace-pca-key-pair --private-key=new.key.pem
---cert-chain=new.cert-chain.pem`
-
-This will:
-
--   Replace key pair in `/opt/hvs/configuration/PrivacyCA.p12`, alias
-    1
-
--   Update `/opt/hvs/configuration/PrivacyCA.pem` with cert
-
--   Update configuration properties:
-
-```shell
-hvs.privacyca.aik.issuer
-hvs.privacyca.aik.validity.days
-```
-After the Privacy CA certificate is replaced, all Trust Agent hosts will
-need to be re-provisioned with a new AIK:
-
-`tagent setup download-mtwilson-privacy-ca-certificate --force`
-
-`tagent setup request-aik-certificate --force`
-
-`tagent restart`
+`<nfs_path mentioned in values.yaml>/isecl/hvs/config/certs/trustedca/privacy-ca/privacy-ca-cert.pem`
 
 ### Endorsement CA
 
 The Endorsement CA is a self-signed certificate used during Trust Agent
 provisioning.
 
-`/opt/hvs/configuration/EndorsementCA.p12`
-
-`/opt/hvs/configuration/EndorsementCA.pem`
-
-The Endorsement CA Certificate can be replaced with a user-specified
-keypair and certificate chain using the following command:
-
-`hvs replace-eca-key-pair --private-key=new.key.pem
---cert-chain=new.cert-chain.pem`
-
-This will:
-
--   Replace key pair in `/opt/hvs/configuration/EndorsementCA.p12`,
-    alias 1
-
--   Update `/opt/hvs/configuration/EndorsementCA.pem` with accepted
-    ECs
-
--   Update configuration properties:
-
-```{=html}
-hvs.privacyca.ek.issuer
-hvs.privacyca.ek.validity.days
-```
-After the Endorsement CA certificate is replaced, all Trust Agent hosts
-will need to be re-provisioned with a new Endorsement Certificate:
-
-`tagent setup request-endorsement-certificate --force`
-
-`tagent restart`
-
+`<nfs_path mentioned in values.yaml>/isecl/hvs/config/certs/endorsement/EndorsementCA.pem`
 
 
 ## TLS Certificates
@@ -164,27 +61,12 @@ will need to be re-provisioned with a new Endorsement Certificate:
 
 TLS certificates for each service are issued by the Certificate
 Management Service during installation. If the CMS root certificate is
-changed, or to regenerate the TLS certificate for a given service, use
-the following commands (note: environment variables will need to be set;
-typically these are the same variables set in the service installation
-.env file):
+changed, or to regenerate the TLS certificate for a given service:
 
--   `<servicename> download_ca_cert`
--   Download CMS root CA certificate
+* To download CMS root CA certificate execute setup task `download-ca-cert`
+* To Generate Key pair and CSR, gets it signed from CMS execute setup task `download-cert-tls`
 
--   Environment variable CMS\_BASE\_URL=\<url\> for CMS API url
-
--   `<servicename> download_cert TLS`
--   Generates Key pair and CSR, gets it signed from CMS
-
--   Environment variable CMS\_BASE\_URL=\<url\> for CMS API url
-
--   Environment variable BEARER\_TOKEN=\<token\> for authenticating
-        with CMS
-
--   Environment variable KEY\_PATH=\<key\_path\> to override default
-        specified in config
-
--   Environment variable CERT\_PATH=\<cert\_path\> to override
-        default specified in config
-
+---
+**Note**
+Refer `Changing Configuration Settings` section to run required setup tasks.
+---

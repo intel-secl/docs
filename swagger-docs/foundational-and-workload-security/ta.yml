@@ -29,17 +29,14 @@ definitions:
           type: integer
         type: array
         x-go-name: Tag
-    title: json request format sent from HVS...
+    title: json request format sent from VS...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v4/resource
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/ta
   TpmQuoteRequest:
-    description: |-
-      {
-      "nonce":"ZGVhZGJlZWZkZWFkYmVlZmRlYWRiZWVmZGVhZGJlZWZkZWFkYmVlZiA=",
-      "pcrs": [0,1,2,3,18,19,22],
-      "pcrbanks" : ["SHA1", "SHA256"]
-      }
     properties:
+      ima_measure_enabled:
+        type: boolean
+        x-go-name: ImaMeasureEnabled
       nonce:
         items:
           format: uint8
@@ -57,14 +54,12 @@ definitions:
           type: integer
         type: array
         x-go-name: Pcrs
-    title: HVS will provide json like...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v4/resource
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/ta
   TpmQuoteResponse:
     description: |-
       <tpm_quote_response>
       <timestamp>1569264156635</timestamp>
-      <clientIp>fe80:0:0:0:a236:9fff:fef8:7229%enp134s0f1</clientIp>
       <errorCode>0</errorCode>
       <errorMessage>OK</errorMessage>
       <aik>MIIDSjCCAbKgAwIBAgIGAWz...</aik>
@@ -91,6 +86,8 @@ definitions:
       ErrorMessage:
         type: string
       EventLog:
+        type: string
+      ImaLogs:
         type: string
       IsTagProvisioned:
         type: boolean
@@ -119,9 +116,8 @@ definitions:
         type: integer
       XMLName:
         $ref: '#/definitions/Name'
-    title: HVS expects...
     type: object
-    x-go-package: intel/isecl/go-trust-agent/v4/resource
+    x-go-package: github.com/intel-secl/intel-secl/v5/pkg/model/ta
 host: trustagent.server.com:1443
 info:
   description: |-
@@ -147,8 +143,7 @@ paths:
       - application/octet-stream
       responses:
         "200":
-          description: Successfully retrieved the Attestation Identity Key for the
-            host.
+          description: Successfully retrieved the Attestation Identity Key for the host.
           schema:
             type: string
       security:
@@ -228,8 +223,7 @@ paths:
           type: string
       responses:
         "200":
-          description: Successfully deployed the provided application manifest to
-            host.
+          description: Successfully deployed the provided application manifest to host.
       security:
       - bearerAuth: []
       tags:
@@ -254,8 +248,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successfully retrieved the host specific information from the
-            host.
+          description: Successfully retrieved the host specific information from the host.
           schema:
             type: string
       security:
@@ -371,8 +364,7 @@ paths:
           $ref: '#/definitions/TagWriteRequest'
       responses:
         "200":
-          description: Successfully wrote sha256 value of the asset tag certificate
-            on to a TPM's NVRAM.
+          description: Successfully wrote sha256 value of the asset tag certificate on to a TPM's NVRAM.
       security:
       - bearerAuth: []
       tags:
@@ -425,6 +417,7 @@ paths:
             "nonce": "tHgfRQED1+pYgEZpq3dZC9ONmBCZKdx10LErTZs1k/k=",
             "pcrs": [
                 0,
+                10,
                 17,
                 18,
                 19
@@ -432,7 +425,8 @@ paths:
             "pcrbanks": [
                 "SHA1",
                 "SHA256"
-            ]
+            ],
+            "ima_measure_enabled": true
         }
       x-sample-call-output: |
         &lt;tpm_quote_response&gt;
@@ -443,6 +437,7 @@ paths:
             &lt;aik&gt;LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURUVENDQWJXZ0F3SUJBZ0lHQVhGeTBZc2lNQTBHQ1NxR1NJYjNEUUVCtCg...&lt;/aik&gt;
             &lt;quote&gt;AIv/VENHgBgAIgALxjsihT/qad5fq9lEOf2C+h46n4k+72CF3V8NOHXRBF0AFOLEYYGbctEyN2JIIqmIO+MOjuofAAAAAAY1Y...&lt;/quote&gt;
             &lt;eventLog&gt;PG1lYXN1cmVMb2c+PHR4dD48dHh0U3RhdHVzPjA8L3R4dFN0YXR1cz48L3R4dD48L21lYXN1cmVMb2c+&lt;/eventLog&gt;
+            &lt;imaLogs&gt;AKVENHgBgAIgALxjsihT/qad5fq9lEOf2C+VzPjA8L3R4dFN0YXR1cz48L3R4dD48L21lYXN1cmVMb2c+&lt;/imaLogs&gt;
             &lt;tcbMeasurements&gt;&lt;/tcbMeasurements&gt;
             &lt;selectedPcrBanks&gt;
                 &lt;selectedPcrBanks&gt;SHA1&lt;/selectedPcrBanks&gt;

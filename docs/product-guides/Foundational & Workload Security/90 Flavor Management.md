@@ -1,5 +1,5 @@
 # Flavor Management
-=================
+===================
 
 ## Flavor Format Definitions
 -------------------------
@@ -73,7 +73,7 @@ The HVS will prefer the SHA384 PCR bank when creating flavors and performing att
 
 The TPM vendor and version, platform OEM, and BIOS version and configuration each impact which PCR banks can potentially be enabled.  Some manufacturers will allow users to configure which banks are enabled/disabled in the BIOS.  Other manufacturers will enable only one PCR bank, and others will be permanently disabled.
 
-Flavors will only utilize a single PCR bank, and when importing from a sample host the HVS will always prefer the strongest algorithm supported by the enabled TPM PCR banks.  In the above example, a flavor imported from that host would use the SHA384 bank for all hash values.  This means that all hosts that will be attested using this flavor must also have SHA284 banks enabled in their TPMs.
+Flavors will only utilize a single PCR bank, and when importing from a sample host the HVS will always prefer the strongest algorithm supported by the enabled TPM PCR banks.  In the above example, a flavor imported from that host would use the SHA384 bank for all hash values.  This means that all hosts that will be attested using this flavor must also have SHA384 banks enabled in their TPMs.
 
 Typically, among otherwise-identical servers this will not be an issue.  However, in a mixed environment it can be possible to have an OS flavor, for example, that needs to apply for some hosts that have SHA384 banks enabled, and other servers that only have SHA256 enabled and do not support SHA384.
 
@@ -947,7 +947,7 @@ This will apply for RedHat hosts with TPM2.0 and tboot enabled.  If a Flavor is 
 ```json
                "host_info": {
                     "os_name": "RedHatEnterprise",
-                    "os_version": "8.3",
+                    "os_version": "8.4",
                     "os_type": "linux",
                     "bios_version": "SE11111.111.11.11.1111.11111111111",
                     "vmm_name": "",
@@ -1238,7 +1238,7 @@ Flavor Group.
         "latest",
         "required_if_defined"
     },
-    "SOFTWARE": {
+    "IMA": {
         "all_of",
         "required_if_defined"
     }
@@ -1277,7 +1277,7 @@ Matching:
         "latest",
         "required_if_defined"
     },
-    "SOFTWARE": {
+    "IMA": {
         "all_of",
         "required_if_defined"
     }
@@ -1425,196 +1425,308 @@ Response:
 }
 ```
 
+---
+**NOTE**: 
+By default only `automatic` flavor groups will be created and availabe as Default flavor group. Custom flavor groups required for user specific needs to be created by user before adding that particular flavor group for Host registration and Flavor creation.
+---
 
 
+## IMA Flavor
 
+IMA flavor will be generated with the ima measurements present in the host manifest and this flavor can be created multiple times based on the request. IMA flavor will be associated with the host based on ALL_OF match type policy. This will be supported by the existing API call itself.
 
-## SOFTWARE Flavor Management
+POST : https://{{hvs_ip}}:30443/hvs/v2/flavors
 
-### What is a SOFTWARE Flavor?
-
-A `SOFTWARE` Flavor part defines the measurements expected for a specific
-application, or a specific set of files and folders on the physical
-host. `SOFTWARE` Flavors can be used to attest the boot-time integrity of
-any static files or folders on a physical server.
-
-A single server can have multiple SOFTWARE Flavors associated. Intel®
-SecL-DC provides a `default` SOFTWARE Flavor that is deployed to each
-Trust Agent server during the provisioning step. This default Flavor
-includes the static files and folders of the Trust Agent itself, so that
-the Trust Agent is measured during the server boot process, and its
-integrity is included in the attestation of the other server
-measurements.
-
-Using `SOFTWARE` Flavors consists of two parts – creating the actual
-`SOFTWARE` Flavor, and deploying the `SOFTWARE` Flavor manifest to the host.
-
-### Creating a SOFTWARE Flavor part
-
-Creating a new `SOFTWARE` Flavor requires creating a manifest of the files
-and folders that need to be measured.
-
-There are three different types of entries for the manifest:
-`Directories`, `Symlinks`and `Files`.
-
-#### Directories
-
-A Directory defines measurement rules for measuring a directory.
-Effectively this involves listing the contents of the directory and
-hashing the results; in this way, a Directory measurement can verify
-that no files have been added or removed from the directory specified,
-but will not measure the integrity of individual files (ie, files can
-change within the directory, but cannot be renamed, added, or removed).
-
-Directory entries can use regular expressions to define explicit Include
-and Exclude filters. For example, `Exclude=\*.log` would exclude all
-files ending with .log from the measurement, meaning files with the .log
-extension can be added or removed from the directory.
-
-```xml
-<Dir Type="dir" Include=".*" Exclude="" Path="/opt/trustagent/hypertext/WEB-INF">
+Body
 ```
-
-#### Symlinks
-
-A Symlink entry defines a symbolic link that will be measured. The
-actual symbolic link is hashed, not the file or folder the symlink
-points to. In this way, the measurement will detect the symbolic link
-being modified to point to a different location, but the actual file or
-folder pointed to can have its contents change.
-
-```xml
-<Symlink Path="/opt/trustagent/bin/tpm_nvinfo">
-```
-
-#### Files
-
-Individual files can be explicitly specified for measurement as well.
-Each file listed will be hashed and extended separately. This means that
-if any file explicitly listed this way changes its contents or is
-deleted or moved, the measurement will change, and the host will become
-Untrusted.
-
-```xml
-<File Path="/opt/trustagent/bin/module_analysis_da.sh">
-```
-
-### Sample SOFTWARE Flavor Creation Call
-
-Creating a new `SOFTWARE` Flavor requires specifying a sample host where
-the application, files or folders that will be measured are currently
-present. The measurements specified in the manifest will be captures
-when this call is executed, and the Verification Service will
-communicate with the Trust Agent and create a `SOFTWARE` Flavor based on
-the file measurements.
-
-The Connection String must point to the sample Trust Agent host. The
-Label defines the name of the new Flavor (ideally this should be the
-name of the application being measured for easier management).
-
-```
-POST https://<Verification Service IP or Hostname>:8443/hvs/v2/flavor-from-app-manifest
-Authorization: Bearer <token>
-
-<ManifestRequest xmlns="lib:wml:manifests-req:1.0">
-    <connectionString>intel:https://trustagent.server.com:1443;u=trustagentUsername;p=trustagentPassword</connectionString>
-    <Manifest xmlns="lib:wml:manifests:1.0" DigestAlg="SHA384" Label="Tomcat" Uuid="">+
-        <Dir Type="dir" Include=".*" Exclude="" Path="/opt/trustagent/hypertext/WEB-INF" />
-        <Symlink Path="/opt/trustagent/bin/tpm_nvinfo" />
-        <File Path="/opt/trustagent/bin/module_analysis_da.sh" />
-    </Manifest>
-</ManifestRequest>
-```
-
-### Deploying a SOFTWARE Flavor Manifest to a Host
-
-Once the SOFTWARE Flavor has been created, it can be deployed to any
-number of Trust Agent servers. This requires the Flavor ID (returned
-from Flavor creation) and the Host ID (returned from host registration).
-The Verification Service will send a request to the appropriate Trust
-Agent and create the manifest.
-
-???+ note 
-    After the SOFTWARE Flavor manifest is deployed to a host, the host **must** be rebooted. This will allow the measurements specified in the Flavor to be taken and extended to the TPM. Until the host is rebooted, the host will now appear Untrusted, as it now requires measurements from a SOFTWARE Flavor that have not yet been extended to the TPM.
-
-```
-POST https://<Verification Service IP or Hostname>:8443/hvs/v2/rpc/deploy-software-manifest
-Authorization: Bearer <token>
-
-{  
-   "flavor_id":"a6544ff4-6dc7-4c74-82be-578592e7e3ba",  
-   "host_id":"a6544ff4-6dc7-4c74-82be-578592e7e3ba"
+{
+  "connection_string":  "https://<host-ip>:31443;",
+  "partial_flavor_types": ["PLATFORM","OS","HOST_UNIQUE","IMA","SOFTWARE"],
+  "flavorgroup_names": []
 }
 ```
 
-### SOFTWARE Flavor Matching
+IMA flavor will be created on default flavor group `automatic` based on the IMA Flavor template. This flavor will be stored in a flavors DB like other existing flavors.
 
-The default Flavor Match Policy for SOFTWARE Flavor parts is
-`ALL_OF`,`REQUIRED_IF_DEFINED`. This means that all Software Flavors
-defined in a Flavorgroup must match to all hosts in that Flavorgroup. If
-no SOFTWARE Flavors are in the Flavorgroup, then hosts can still be
-considered Trusted.
+# IMA Flavor template
+  ```
+	{  
+		"label": "ima",  
+		"condition" :[
+			"//host_info/os_name//*[text()='RedHatEnterprise'] or //host_info/os_name//*[text()='Centos'] or //host_info/os_name//*[text()='Ubuntu']"
+		], 
+		"flavor_parts": {  
+			"IMA": {  
+				"pcr_rules": [{  
+					"pcr": {  
+						"index": 10,  
+						"bank": ["SHA384", "SHA256", "SHA1"]  
+					},  
+					"pcr_matches": true  
+				}]  
+			}  
+		}  
+	}  
+  ```
+    
+# Sample for IMA Flavor 
 
-Because the default uses the `ALL_OF` Policy, it’s recommended to use
-Flavorgroups dedicated to specific software loadouts. For example, if a
-number of hosts will act as virtualization hosts and will have `SOFTWARE`
-Flavors for the hypervisor and VM management applications, those hosts
-should be placed in their own Flavorgroup as they will all run similar
-or identical application loadouts. If another group of servers in the
-datacenter will act as container hosts, these hosts might need `SOFTWARE` Flavors that include attestation of container runtimes and management
-applications, and will have a very different application loadout from
-the VM-based hosts. These should be placed in their own Flavorgroup, so
-that the VM hosts are attested using the hypervisor-related `SOFTWARE` Flavors, and the container hosts are attested using the
-container-related `SOFTWARE` Flavors.
+    ```
+    {  
+    "flavor":{  
+        "meta":{  
+        "id":"2c3bcb9d-b140-4732-8a12-0af281246fe8",  
+        "description":{  
+            "digest_algorithm":"SHA256",  
+            "flavor_part":"IMA",  
+            "label":"ima"  
+        },  
+        "vendor":"INTEL"  
+        },    
+        "pcrs": [{    
+                    "pcr": {
+            "index": 10,
+            "bank":"SHA256"
+                    }, 
+        "measurement": "3f95ecbb0bb8e66e54d3f9e4dbae8fe57fed96f0",
+        "pcr_matches":true
+            }],  
+        "ima_measurements":[{  
+            "file":"/root/test",  
+            "measurement":"12aacb9f9da0518937f3da6c0526b381787faa60a65b319208391f303b5fe7b7a"  
+        },  
+        {  
+            "file":"/usr/share/vim/vim80/ftplugin/yamlfile.vim",  
+            "measurement":"a0ca2d70982bf2db5a71a59ca7afd90aed7041ae703e2e711847c98aff0ac800"  
+        }]    
+    }  
+    }    
+    ```
 
 As with other Flavor parts, hosts will be matched to Flavors in the same
 Flavorgroup that the host is added to, and will not be matched to
 Flavors in different Flavorgroups. Flavor matching will happen on the
 same events as for other Flavor parts.
 
-### Kernel Upgrades
+# Ima-Integrity rule
 
-Because the Application Integrity functionality involves adding a
-measurement agent (`tbootXM`) to `initrd`, an additional process must be
-followed when updating the OS kernel to ensure the new initrd also
-contains the measurement agent. This is not required if Application
-Integrity will not be used.
+Current IMA logs will be taken from the hostmanifest file and the replay will be performed for all the IMA logs against the pcr10 cumulative hash recieved from the host.
 
-1.  Update grub to have the boot menu-entry created for the new kernel
-    version in grub.cfg (`grub2-mkconfig -o \<path to grub file\>`)
+# ImaEventLogEquals rule
 
-2.  Reboot the host and boot into new kernel menu-entry.
+IMA flavor will be compared against the host manifest data of ima-log. If it matches, then it will store ima-trust status as true.
 
-3.  Generate a new initrd with tbootXM.
-    (`/opt/tbootxm/bin/generate\_initrd.sh`)
+# Attestation report generation
 
-4.  Copy the generated initrd to the boot drectory. (`cp
-    /var/tbootxm/\<generated initrd file name\> /boot/`)
+  - If the ima eventlog equals rule is true for all the measurements, we will provide only one entry in the report like below,
+    ```
+    "IMA": {
+    	"trust": true,
+    	"rules": [{
+    		"rule": {
+    			"rule_name": "rule.ImaEventLogEquals",
+    			"markers": [
+    				"IMA"
+    			]
+    		},
+    		"flavor_id": "253e5fc3-11b0-4a38-a2a0-4a264aa40139",
+    		"trusted": true
+    	}]
+    }  
+    ``` 
+    
+  - If ima eventlog equals rule fails for any of the ima measurements, we will log those entries under faults in the reports as below.
+    ```
+    "IMA": {
+        "trust": false,
+        "rules": [{
+            "rule": {
+                "rule_name": "rule.ImaEventLogEquals",
+                "markers": [
+                    "IMA"
+                ]
+            },
+            "flavor_id": "253e5fc3-11b0-4a38-a2a0-4a264aa40139",
+            "faults": [{
+                "fault_name": "fault.PcrValueMismatch",
+                "description": "Host IMA log /usr/lib/systemd/libsystemd-shared-239.so with value 122e981e1d16de3269667f4e84bf8532462214f4f8a183e1c441bbfd3caecd10 does not match expected value 762e981e1d16de3269667f4e84bf84a0a0c84f4f8a183e13ac5ba1c441bbfd3c",
+                "pcr_index": "10",
+                "pcr_bank": "SHA256",
+            }],
+            "trusted": false
+        }]
+    }
+    ```
 
-5.  Update the `TCB protection` menu-entry with the new kernel version.
+  - If Hostmanifest contains unexpected/additional IMA log entries when compare to flavor measurements, PcrEventLogContainsUnexpectedEntries fault will be raised.
+    ```
+    "IMA": {
+        "trust": false,
+        "rules": [{
+            "rule": {
+                "rule_name": "rule.ImaEventLogEquals",
+                "markers": [
+                    "IMA"
+                ]
+            },
+            "flavor_id": "253e5fc3-11b0-4a38-a2a0-4a264aa40139",
+            "faults": [{
+                "fault_name": "fault.PcrEventLogContainsUnexpectedEntries",
+                "description": "Module manifest for PCR 10 of SHA256 value contains 1 unexpected entries",
+                "unexpected_ima_entries": {
+                    "pcr": {
+                        "index": 10,
+                        "bank": "SHA256"
+                    },
+                    "ima_measurements": [
+                        {
+                            "file": "/root/ima-cont-test/check1.txt",
+                            "measurement": "73b5b283c458f698b3eafc6afbb01149dec48c541896bce2a74d79a0881d7864"
+                        }
+                    ],
+                    "ima_template": "ima-ng"
+                }
+            }],
+            "trusted": false
+        }]
+    }
+    ```
+  - If hostmanifest does not contain all the measurements from flavor, PcrEventLogMissingExpectedEntries fault will be raised in the report.
 
-    1.  Source `rustagent.env`, or
+    ```
+    "IMA": {
+        "trust": false,
+        "rules": [{
+            "rule": {
+                "rule_name": "rule.ImaEventLogEquals",
+                "markers": [
+                    "IMA"
+                ]
+            },
+            "flavor_id": "253e5fc3-11b0-4a38-a2a0-4a264aa40139",
+            "faults": [{
+                "fault_name": "fault.PcrEventLogMissingExpectedEntries",
+                "description": "Module manifest for PCR 10 of SHA256 value missing 2 expected entries",
+                "unexpected_ima_entries": {
+                    "pcr": {
+                        "index": 10,
+                        "bank": "SHA256"
+                    },
+                    "ima_measurements": [
+                        {
+                            "file": "/root/itest.txt",
+                            "measurement": "73b5b283c458f698b3eafc6afbb01149dec48c541896bce2a74d79a0881d7864"
+                        },
+                        {
+                            "file": "/root/icheck.txt",
+                            "measurement": "fbf99c21c97b5134c22430e6bdd5f35a44e6d3a14855f13a8fdcce84eb52994a"
+                        }
+                    ],
+                    "ima_template": "ima-ng"
+                }
+            }],
+            "trusted": false
+        }]
+    }
+    ```
 
-        ```json
-        export GRUB_FILE=/boot/efi/EFI/redhat/grub.cfg
-        ```
+# Sample for IMA measurement log integrity rule in report,
 
-    2.  Run the configure\_host script:
+    ```
+    "IMA": {
+    "trust": true,
+    "rules": [{
+        "rule": {
+            "rule_name": "rule.ImaMeasurementLogIntegrity",
+            "markers": [
+                "IMA"
+            ],
+            "expected_pcr": {
+                "pcr": {
+                    "index": 10,
+                    "bank": "SHA256"
+                },
+                "measurement": "b6e1251e1d16de3269667f4e84bf84a0a0c84f4f8a183e13ac5ba1c441bbfd3c",
+                "pcr_matches": true
+            },
+            "expected_imavalues": {
+                "ima_measurements": [
+                    {
+                        "file": "boot_aggregate",
+                        "measurement": "cacb533ca55a87d4e0c5954608102091ab42b99ae8fbbdbba7c93efad5e6a174"
+                    },
+                    {
+                        "file": "/root/ima-cont-test/check1.txt",
+                        "measurement": "b351e6014c0713eda511289d7af11a3c49f7162b471fb93adca869f37d6d4d15"
+                    },
+                    {
+                        "file": "/root/ima-cont-test/check2.txt",
+                        "measurement": "fc1ebc0a83cdea7e2e63063c81f935319207194b4425d3a88fd1f9c8de1184b7"
+                    }
+                ]
+            }
+        },
+        "flavor_id": "12835fc3-11b0-4a38-a2a0-4a264aa40139",
+        "trusted": true
+    }]
+    }
+    ```
 
-        ```shell
-        cd /opt/tbootxm/bin  
-        ./configure_host.sh
-        ```
+As part of tpm quote response, TA will send ima_log.
 
-6. Update the default boot menu-entry to have new kernel version. (edit
-   `/etc/default/grub`)
+To include the ima logs in the tpm quote response, the following cofiguration parameters will be added by hvs in the tpm-quote request body.
 
-7. Update the grub to reflect the updates. (`grub2-mkconfig -o \<path to
-   grub file\>`)
+    ```    
+    `ima_measure_enabled` - it can be true or false under TA `config.yaml` located in `/etc/trustagent/v5.1.0/`. Only if it is true, 
+    IMA logs will be sent by TA.
+    ```
 
-8. Reboot the host and boot into TCB protection menu-entry.
+---
+**NOTE**: 
+IMA logs will be sent only when the ima enable option is set in the tpm quote request body and the same configuration is enabled in the TA as well.
+---
 
-After updating the system with the new `initrd`, the Software Flavor
-should attest as Trusted. Note that changing `grub` and `initrd` does result
-in a new `OS` Flavor measurements, so an updated `OS` Flavor should be
-imported after updating the kernel and regenerating `initrd`.
+## HVS Pagination
+-------------------------
+
+#   API Consumption
+
+*   API consumers will be required to paginate through HVS data (ex. reports) if the amount of data in the database exceeds the limit or default limit (otherwise all records will be returned in a single query).
+*   When starting pagination, API consumers will not provide a cursor value to their request (i.e. so that the first page is returned).
+*   On subsequent page requests, API consumers will get the next page by providing the cursor returned in the previous call.
+*   API consumers will terminate the collection of pages arbitrarily or when the cursor is less than zero (i.e. -1 will be returned by the controller to signal EOF).
+
+#   Database changes
+
+    Each of HVS' object tables will be update to include the “row_id” column (autoincrementing number id) which will be used as the pagination key.
+
+    The following requirements/recommendations apply to all impacted database tables/queries.
+
+    *   All impacted database tables must be updated to have auto-increment id field with unique and not null constraint applied.
+    *   All impacted database queries must be updated to include limit construct. They should also be able to filter records based on provided "afterId" value.
+
+#   API Changes
+
+*   All the impacted end-points will support two additional query parameters, "limit" for specifying number of records to return, and "afterId" for specifying auto-increment id from which to return records.
+*   If no "limit" parameter is passed, default limit will be used. And if no "afterId" parameter is passed, records from beginning will be returned.
+*   All the impacted response models will support two additional json attributes, "next" link for fetching next page, and "prev" link for fetching previous page.
+*   First page won't have "prev" link. And last page won't have "next" link.
+
+---
+**NOTE**: 
+The default limit value is `1000` and default afterId value is `0`
+---
+
+# Impacted APIs
+
+ The following "GET" (search) APIs are updated to handle pagination
+
+| API	                            | Description                                                     |
+|-----------------------------------|-----------------------------------------------------------------|
+| GET /hosts                        | Get all the hosts registered on HVS                             |
+| GET /reports 	                    | Get the latest report for all the hosts registered on HVS       |
+| GET /host-status                  | Get the latest host-status for all the hosts registered on HVS  |
+| GET /flavors                      | Get all the flavors created on HVS                              | 
+| GET /flavorgroups                 | Get all the flavorgroups created on HVS                         |
+| GET /exsi-cluster                 | Get all the exsi-clusters along with hostnames registered on HVS|
+| GET /tpm-endorsements	            | Get all the active tpm-endorsement certificates uploaded to HVS |

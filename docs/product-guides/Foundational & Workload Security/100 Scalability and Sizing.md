@@ -28,22 +28,19 @@ the audit log table after one million records, and will retain up to ten
 total rotations. These settings are user-configurable if a longer
 retention period is needed.
 
-**mtwilson.audit.log.num.rotations** - defines the maximum number of
+**number-rotated** - defines the maximum number of
 rotations before the oldest rotation is deleted to make space for a new
-rotation.
+rotation. Default value is `10`
 
-**mtwilson.audit.log.max.row.count** – defines the maximum number of
-rows in the audit log table before a rotation will occur.
+**max-row-count** – defines the maximum number of
+rows in the audit log table before a rotation will occur. Default is
+`10,000`
 
+???+ note 
+        - Rotation settings can be updated in the `config.yaml` file located in the nfs server path `<nfs_path mentioned in values.yaml>/isecl/hvs/config/`
 
+        - After updation is completed, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.
 
-## Log Rotation
-------------
-
-The Intel® SecL services (the Verification Service, Trust Agent, and
-Integration Hub) use Logrotate to rotate logs automatically during a
-daily cron job.
-
-By default, logs are rotated once per month or when they exceed 1 GB in
-size, whichever comes first, and 12 total rotations will be retained.
-
+            ```
+            kubectl delete pod -n <namespace> <hvspodname>
+            ```

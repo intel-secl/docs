@@ -18,7 +18,7 @@ connection strings connecting to Trust Agent resources.
 
 By default, the Trust Agent uses "HTTP" mode, which uses the following connection string:
 
-`intel:https://<HostNameOrIp>:1443`
+`intel:https://<HostNameOrIp>:31443`
 
 The Trust Agent can also be used in NATS mode, which uses a slightly different connection string:
 
@@ -27,6 +27,8 @@ intel:nats://<unique host identifier, configured at Trust Agent installation>
 ```
 
 The unique host identifier is a unique ID used by NATS to differentiate services when passing messages.  Any unique string is acceptable, but good examples can be the host's FQDN or hardware UUID.
+
+Note: Make sure no two hosts are configured with same host identifier.
 
 ## VMware ESXi
 
@@ -53,7 +55,7 @@ Before connecting to vCenter to register hosts or clusters, the vCenter TLS cert
 * Upload the certificates to the HVS
 
    ```http
-   POST https://%3CIP%3E:8443/hvs/v2/ca-certificates
+   POST https://%3CIP%3E:30443/hvs/v2/ca-certificates
 
    {
        "name": "<cert name>",
@@ -67,11 +69,12 @@ Before connecting to vCenter to register hosts or clusters, the vCenter TLS cert
 
 
 
-* After upload is successful, restart the HVS
+* After upload is successful, restart the service by deleting the pod.  The Kubernetes deployment will automatically launch a new pod, which will reflect the updated settings.
 
-   ```shell
-   hvs restart
-   ```
+```bash
+kubectl delete pod -n <namespace> <hvspodname>
+```
+
 
 ### Registering a VMware ESXi Host
 

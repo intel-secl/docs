@@ -4,189 +4,118 @@ Intel SecL-DC provides combined Helm charts to deploy an entire use case using a
 
 Available use case deployments include:
 
-- Host Attestation (This enables Platform Integrity ASttestation)
+- Host Attestation (This enables Platform Integrity Attestation)
 - Trusted Workload Placement (This deploys the Host Attestation use case and adds integration with Kubernetes to place worklaods on trusted workers)
   - The Trusted Workload Placement deployment can optionally be divided into separate deployments for the Cloud Service Provider and the Control Plane
     - The Control Plane deployment includes the CMS, AAS, HVS, and optionally supports NATS
     - The Cloud Service Provider deployment includes the Trust Agent, Integration Hub, Admission-Controller, Intel SecL Controller, and Intel SecL Scheduler
+- Workload Security (this deploys Host Attestation and Trusted Workload Placement, and adds components to enable Workload Confidentiality)
 
-Additional use case deployments may be made available in future releases.
 
 ## Deployment Steps
 
-Download the values.yaml deployment answer file for the desired usecase:
-
----
-**NOTE***
-Only download the values.yaml file for the specific deployment needed.  For example, the host-attestation values.yaml is all that is required to deploy the host-attestation use case.
----
-
-```
-curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/host-attestation/values.yaml
-curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/trusted-workload-placement/values.yaml
-curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-control-plane/values.yaml
-curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-cloud-service-provider/values.yaml
-```
-
-Configure the values.yaml answer file.  Each values.yaml file will contain "<user input>" prompts and a comment describing the information required.  Below is a sample of the Trusted Workload Placement values.yaml:
-
-```
----
-# The below section can be used to override additional values defined under each of the dependent charts
-cms:
-  image:
-    name: <user input> # Certificate Management Service image name (**REQUIRED**)
-
-aas:
-  image:
-    name: <user input> # Authentication & Authorization Service image name (**REQUIRED**)
-  secret:
-    dbUsername:  <user input> # DB Username for AAS DB
-    dbPassword:  <user input> # DB Password for AAS DB
-
-aas-manager:
-  image:
-    name: <user input> # Authentication & Authorization Manager image name (**REQUIRED**)
-  secret:
-    superAdminUsername: <user input> # Username for the service installation user (**REQUIRED**)
-    superAdminPassword: <user input> # Password for the service installation user (**REQUIRED**)
-    globalAdminUsername: <user input> # Username for the Administrator user (**REQUIRED**)
-    globalAdminPassword: <user input> # Password for the Administrator user (**REQUIRED**)
-
-hvs:
-  image:
-    name: <user input> # Host Verification Service image name<br> (**REQUIRED**)
-  config:
-    requireEKCertForHostProvision: false # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: false # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-  secret:
-    dbUsername:  # Database Username for HVS DB
-    dbPassword:  # Database Password for HVS DB
-
-trustagent:
-  image:
-    name: <user input> # Trust Agent image name<br> (**REQUIRED**)
-
-  nodeLabel:
-    txt: TXT-ENABLED # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
-    suefi: "SUEFI-ENABLED" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
-
-  config:
-    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned, recommended to leave blank for a null secret unless the TPM is already owned with a different secret
-
-  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
-  aliases:
-    hostAliases:
-      - ip: ""
-        hostnames:
-          - ""
-          - ""
-
-nats:
-  clientPort: 30222
-
-nats-init:
-  image:
-    name: <user input> # The image name of nats-init container, required for NATS only
-
-isecl-controller:
-  image:
-    name: <user input> # ISecL Controller Service image name (**REQUIRED**)
-  nodeTainting:
-    taintRegisteredNodes: false # If set to true, taints worker nodes when joined to the cluster until they are attested as Trusted. (Allowed values: `true`\`false`)
-    taintRebootedNodes: false # If set to true, taints worker nodes when rebooted until they are attested as Trusted. (Allowed values: `true`\`false`)
-    taintUntrustedNode: false # If set to true, taints worker nodes when their trust status is false. (Allowed values: `true`\`false`)
-
-ihub:
-  image:
-    name: <user input> # Integration Hub Service image name (**REQUIRED**)
-  k8sApiServerPort: 6443
-
-isecl-scheduler:
-  image:
-    name: <user input> # ISecL Scheduler image name (**REQUIRED**)
-
-admission-controller:
-  caBundle: <user input> #CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
-
-global:
-  controlPlaneHostname: <user input> # K8s control plane IP/Hostname (**REQUIRED**)
-  controlPlaneLabel: node-role.kubernetes.io/master #K8s control plane label (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
-
-  image:
-    pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
-    initName: <user input> # The image name of init container
-
-  config:
-    dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
-    nats:
-      enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: nats://<user input>:30222   # NATS Server IP/Hostname (**REQUIRED IF ENABLED**)
-      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
-
-  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname or control-plane-IP>:30443/hvs/v2
-  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname or control-plane-IP>:30445/cms/v1
-  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname or control-plane-IP>:30444/aas/v1
-
-  storage:
-    nfs:
-      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share  # The path for storing persistent data on NFS
-
-  service:
-    cms: 30445 # The service port for Certificate Management Service
-    aas: 30444 # The service port for Authentication Authorization Service
-    hvs: 30443 # The service port for SGX Host Verification Service
-    ta: 31443 # The service port for Trust Agent
-
-  ingress:
-    enable: false # Accept true or false to notify ingress rules are enable or disabled
-
-  aas:
-    secret:
-      adminUsername:  # Admin Username for AAS
-      adminPassword:  # Admin Password for AAS
-
-  hvs:
-    secret:
-      serviceUsername:  # Admin Username for HVS
-      servicePassword:  # Admin Password for HVS
-
-  ihub:
-    secret:
-      serviceUsername:  # Admin Username for IHub
-      servicePassword:  # Admin Password for IHub
-```
+Configure the values.yaml answer file.  Each values.yaml file will contain "<user input>" prompts and a comment describing the information required.
 
 ## Use Case charts Deployment
 
-Pull the Helm charts from the Helm repository and then deploy.  
+Pull the Helm charts from the Helm repository and then deploy.
+
+Set the release version
+```
+export VERSION=v5.1.0
+```
 
 ### Host-Attestation:
 
 ```
-helm pull isecl-helm/Host-Attestation
-helm install host-attastation isecl-helm/Host-Attestation -f values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Host-Attestation --version $VERSION && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml
+helm install host-attastation isecl-helm/Host-Attestation --version $VERSION -f Host-Attestation/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement
 
 ```
-helm pull isecl-helm/Trusted-Workload-Placement
-helm install host-attastation isecl-helm/Trusted-Workload-Placement -f values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement --version $VERSION && tar -xzf Trusted-Workload-Placement-$VERSION.tgz Trusted-Workload-Placement/values.yaml
+helm install trusted-workload-placement isecl-helm/Trusted-Workload-Placement --version $VERSION -f Trusted-Workload-Placement/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement - Cloud Service Provider Components Only
 
 ```
-helm pull isecl-helm/twp-cloud-service-provider
-helm install host-attastation isecl-helm/twp-cloud-service-provider -f values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --version $VERSION && tar -xzf Trusted-Workload-Placement-Cloud-Service-Provider-$VERSION.tgz Trusted-Workload-Placement-Cloud-Service-Provider/values.yaml
+helm install twp-cloud-service-provider isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --version $VERSION -f Trusted-Workload-Placement-Cloud-Service-Provider/values.yaml --create-namespace -n <namespace>
 ```
 
 ### Trusted Workload Placement - Control Plane Components Only
 
 ```
-helm pull isecl-helm/twp-control-plane
-helm install host-attastation isecl-helm/twp-control-plane -f values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Trusted-Workload-Placement-Control-Plane --version $VERSION && tar -xzf Trusted-Workload-Placement-Control-Plane-$VERSION.tgz Trusted-Workload-Placement-Control-Plane/values.yaml
+helm install twp-control-plane isecl-helm/Twp-Control-Plane --version $VERSION -f Twp-Control-Plane/values.yaml --create-namespace -n <namespace>
 ```
+
+### Workload Security 
+
+```
+helm pull isecl-helm/Workload-Security --version $VERSION && tar -xzf Workload-Security-$VERSION.tgz Workload-Security/values.yaml
+helm install workload-security isecl-helm/Workload-Security --version $VERSION -f Workload-Security/values.yaml --create-namespace -n <namespace>
+```
+
+### Admission Controller
+when a new worker node is joined/rebooted in the cluster, below steps can be done, to taint such nodes, by labelling it as untrusted, intiatially. Tainiting, doesn't allow scheduling of any pods on that worker node.
+
+IHUB pulls the data from HVS, and pushes to ISECL Controller, based on the report status of the node, if the worker node is trusted, then that node will be untainted.
+
+Node Joining or Node Rebooted When the worker node is being joined/rebooted in the k8s cluster, Untrusted:True NoExecute and NoSchedule taint would be added to the worker Node
+
+To the K8s cluster, when a new worker node is being joined, such worker Nodes are tainted Set taintRebootedNodes to "true" in values.yml during helm deployment.
+
+In the K8s cluster, if any of the worker node is Rebooted, such worker Nodes are tainted Set taintRegisteredNodes to "true" in values.yml during helm deployment.
+
+???+ note By default, taintRebootedNodes and taintRegisteredNodes, will be false.
+
+???+ note In no_proxy, add .svc,.svc.cluster.local, and then do kubeadm init
+
+Upload image to registry The admission controller tar file that is present in k8s image folder should be uploaded to registry and update the image name in values.yml file during helm deployment.
+
+# Usecase Workflows API Collections
+
+The below allow to get started with workflows within Intel® SecL-DC for Foundational and Workload Security Usecases. More details available in [API Collections](https://github.com/intel-secl/utils/tree/v5.1/develop/tools/api-collections) repository
+
+## Pre-requisites
+
+* Postman client should be [downloaded](https://www.postman.com/downloads/) on supported platforms or on the web to get started with the usecase collections.
+
+???+ note 
+    The Postman API Network will always have the latest released version of the API Collections. For all releases, refer the github repository for [API Collections](https://github.com/intel-secl/utils/tree/v5.1/develop/tools/api-collections)
+
+## Use Case Collections
+
+| Use case               | Sub-Usecase                                   | API Collection     |
+| ---------------------- | --------------------------------------------- | ------------------ |
+| Foundational Security  | Host Attestation(RHEL)                              | ✔️                  |
+|                        | Data Fencing  with Asset Tags(RHEL)                 | ✔️                  |
+|                        | Trusted Workload Placement (Containers)  | ✔️ |
+| Workload Security | Container Confidentiality with CRIO Runtime | ✔️                 
+
+## Downloading API Collections
+
+* Postman API Network for latest released: https://explore.postman.com/intelsecldc
+
+  or 
+
+* Github repo for all releases
+
+  ```shell
+  #Clone the github repo for api-collections
+  git clone https://github.com/intel-secl/utils.git
+  
+  #Switch to specific release-version of choice
+  cd utils/
+  git checkout <release-version of choice>
+  
+  #Import Collections from
+  cd tools/api-collections
+  ```
+
+???+ note 
+    The postman-collections are also available when cloning the repos via build manifest under `utils/tools/api-collections`

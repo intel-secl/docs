@@ -1,6 +1,43 @@
 Intel Security Libraries for Data Center
 =========================================
 
+# ***Intel(R) SecL-DC version 5.1 GA***
+
+Foundational Security/Workload Security Use Cases:
+
+- HVS pagination supported is enabled.
+- Upgrades are supported for all use case from v5.0.0 usecase charts.
+
+| Usecases                                          | Current Version | Version Upgradable |
+| ------------------------------------------------- | :-------------: | :----------------: |
+| Host-Attestation                                  | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement                        | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Cloud-Service-Provider | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Control-Plane          | v5.0.0          |  v5.1.0            |
+| Workload Confidentiality                          | v5.0.0          |  v5.1.0            |
+
+
+# ***Intel(R) SecL-DC version 5.0 BETA***
+
+Foundational Security/Workload Security Use Cases:
+
+- All bare-metal binary installation deployments have been deprecated.
+- The Workload Confidentiality use case is now supported again for container workloads only
+- Intel SecL now supports IMA for boot-time and run-time integrity attestation of system files and folders
+- Intel SecL now supports Endorsement Certificate (EC) Pre-Registration.  This feature allows a hardware owner to pre-register TPM ECs for any devices that will later be registered to the HVS for attestation.  This feature is intended for Edge and IoT devices that may be provisioned centrally and then installed in remote locations, and is intended to prevent unauthorized devices from being registered.
+- Upgrades are supported only from v4.2-Beta usecase charts. Workload Confidentiality use case is not supported for upgrade.
+
+| Usecases                                          | Current Version | Version Upgradable |
+| ------------------------------------------------- | :-------------: | :----------------: |
+| Host-Attestation                                  | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement                        | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Cloud-Service-Provider | v5.0.0          |  v5.1.0            |
+| Trusted-Workload-Placement-Control-Plane          | v5.0.0          |  v5.1.0            |
+
+SKC/SGX Attestation Use Cases:
+
+- All SGX/SKC use cases are unsupported.
+
 # ***Intel(R) SecL-DC version 4.2 BETA***
 
 Foundational Security/Workload Security Use Cases:

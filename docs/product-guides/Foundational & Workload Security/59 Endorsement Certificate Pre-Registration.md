@@ -7,9 +7,9 @@ This feature is intended for deployments where physical control of compute resou
 To enable this feature, set the following options to "true" in the Helm congifuration for the HVS (either the HVS individual service values.yaml, or the values.yaml for any use case deployment):
 
 ```
-  config:
-    requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+config:
+  requireEKCertForHostProvision: true # If set to true enable Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: true # If set to true enforce Endorsement Certificate Pre-registration (Allowed values: `true`\`false`)
 ```
 ---
 **NOTE**
@@ -32,7 +32,7 @@ The example below will retrieve the TPM Endorsement Certificate in base64 encodi
 
 ```
 yum install tpm2-tools
-tpm2_nvread -P hex:<owner secret> -x 0x1c00002 -a 0x40000001 -f ekcert.der or tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
+tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
 openssl x509 -inform der -in ekcert.der | base64 | tr -d " \t\n\r"
 ```
 
