@@ -1433,7 +1433,7 @@ By default only `automatic` flavor groups will be created and availabe as Defaul
 
 ## IMA Flavor
 
-IMA flavor will be generated with the ima measurements present in the host manifest and this flavor can be created multiple times based on the request. IMA flavor will be associated with the host based on ALL_OF match type policy. This will be supported by the existing API call itself.
+IMA flavor will be generated with the ima measurements present in the host manifest and this flavor can be created only once based on the request. IMA flavor will be associated with the host based on ALL_OF match type policy. This will be supported by the existing API call itself.
 
 POST : https://{{hvs_ip}}:30443/hvs/v2/flavors
 
