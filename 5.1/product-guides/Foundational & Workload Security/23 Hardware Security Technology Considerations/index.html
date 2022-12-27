@@ -1,0 +1,1423 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../images/isecl-logo.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.3">
+    
+    
+      
+        <title>Hardware Security Technology Considerations - Intel® SecL-DC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7a952b86.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Helvetica";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hardware-security-technology-considerations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Intel® SecL-DC" class="md-header__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intel® SecL-DC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardware Security Technology Considerations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Intel%20Disclaimer/" class="md-tabs__link md-tabs__link--active">
+        Product Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-tabs__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Intel® SecL-DC" class="md-nav__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    Intel® SecL-DC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Product Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Product Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Product Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Intel%20Disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02%20Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-nav__link">
+        Intel® Security Libraries Components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Hardware Security Technology Considerations
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23.9%20Building%20the%20Intel%20SecL-DC%20Container%20Images/" class="md-nav__link">
+        Building the Intel SecL-DC Container Images
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_6" type="checkbox" id="__nav_2_1_6" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_6">
+          Deploying Intel SecL-DC Using Helm
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deploying Intel SecL-DC Using Helm" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deploying Intel SecL-DC Using Helm
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24%20Deploying%20Intel%20SecL%20using%20Helm/" class="md-nav__link">
+        Deploying Intel SecL-DC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm/" class="md-nav__link">
+        Deploying Intel SecL Use Cases Using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-nav__link">
+        Installing the Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40%20Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50%20Connection%20Strings/" class="md-nav__link">
+        Connection Strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../59%20Endorsement%20Certificate%20Pre-Registration/" class="md-nav__link">
+        Endorsement Certificate Pre-Registration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../60%20Platform%20Integrity%20Attestation/" class="md-nav__link">
+        Platform Integrity Attestation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65%20Trusted%20Workload%20Placement/" class="md-nav__link">
+        Trusted Workload Placement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70%20Workload%20Confidentiality/" class="md-nav__link">
+        Workload Confidentiality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90%20Flavor%20Management/" class="md-nav__link">
+        Flavor Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../100%20Scalability%20and%20Sizing/" class="md-nav__link">
+        Scalability and Sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../105%20Deploying%20Individual%20Services%20Using%20Helm/" class="md-nav__link">
+        Deploying Individual Services Using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../106%20Helm%20charts%20Cleanup/" class="md-nav__link">
+        Steps for Helm chart Cleanup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_17" type="checkbox" id="__nav_2_1_17" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_17">
+          Intel Security Libraries Configuration Settings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Configuration Settings" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_17">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Configuration Settings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.0%20Changing%20Configuration%20Settings/" class="md-nav__link">
+        Changing Configuration Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.3%20HVS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.6%20Trust%20Agent%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Trust Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.9%20Integration%20Hub%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.1%20CMS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.2%20AAS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.4%20WLS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.5%20KBS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.7%20Workload%20Agent%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110.8%20WPM%20Setup%20Task%20and%20%20Configuration%20Settings/" class="md-nav__link">
+        Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../120%20Certificate%20and%20Key%20Management/" class="md-nav__link">
+        Certificate and Key Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../130%20Upgrades/" class="md-nav__link">
+        Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../999%20Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Release Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Release Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-nav__link">
+        Intel Security Libraries for Data Center
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/intel-secl/intel-secl/edit/master/docs/product-guides/Foundational & Workload Security/23 Hardware Security Technology Considerations.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="hardware-security-technology-considerations">Hardware Security Technology Considerations</h1>
+<p>Intel® SecL-DC supports and uses a variety of Intel security features, but there are some key requirements to consider before beginning an installation. Most important among these is the Root of Trust configuration. This involves deciding what combination of TXT, Boot Guard, tboot, and UEFI Secure Boot to enable on platforms that will be attested using Intel® SecL.</p>
+<p>Key points:</p>
+<p>-   At least one "Static Root of Trust" mechanism must be used (TXT and/or BtG)</p>
+<p>-   For Legacy BIOS systems, tboot must be used (which requires TXT)</p>
+<p>-   For UEFI mode systems, UEFI SecureBoot must be used</p>
+<p>-   IMA(Integrity Measurement Architecture) needs to be provisioned in all platforms which needs to be attested before the deployment</p>
+<hr />
+<p><strong>NOTE</strong>
+Currently tboot and Secure Boot are not compatible. For UEFI platforms, Intel reccomends enabling TXT and enabling Secure Boot.  If Secure Boot will not be used, then Intel recommends enabling TXT and installing tboot.</p>
+<p>These hardware security technology requirements apply to all platforms to be attested.  In a Kubernetes environment, this would typically include all worker nodes.</p>
+<hr />
+<p>Use the chart below for a guide to acceptable configuration options. .</p>
+<p><img alt="hardware-considerations" src="../images/hardware_considerations.png" /></p>
+<h1 id="tboot-installation">Tboot Installation</h1>
+<p>Tboot is required to build a complete Chain of Trust for Intel® TXT systems that are not using UEFI Secure Boot. Tboot acts to initiate the Intel® TXT SINIT ACM (Authenticated Code Module), which populates several TPM measurements including measurement of the kernel, grub command line, and initrd. Without either tboot or UEFI Secure Boot, the Chain of Trust will be broken because the OS-related components will be neither measured nor signature-verified prior to execution. Because tboot acts to initiate the Intel® TXT SINIT ACM, tboot is only required for platforms using Intel® TXT, and is not required for platforms using another hardware Root of Trust technology like Intel® Boot Guard.</p>
+<p>Intel® SecL-DC requires tboot 1.10.1 or greater. This may be a later version of tboot than is available on public software repositories.</p>
+<p>The most current version of tboot can be found here:</p>
+<p><a href="https://sourceforge.net/projects/tboot/files/tboot/">https://sourceforge.net/projects/tboot/files/tboot/</a></p>
+<p>Tboot requires configuration of the grub boot loader after installation. To install and configure tboot:</p>
+<h2 id="install-tboot">Install tboot</h2>
+<p>If the package manager does not support a late enough version of tboot, it will need to be compiled from source and installed manually. Instructions can be found here:</p>
+<p><a href="https://sourceforge.net/p/tboot/wiki/Home/">https://sourceforge.net/p/tboot/wiki/Home/</a></p>
+<hr />
+<p><strong>NOTE</strong>
+Check if kernal packages are excluded in <code>/etc/yum.conf</code>,then comment (or remove the 'kernel*' part) : <code>#exclude=kernel*</code></p>
+<hr />
+<div class="highlight"><pre><span></span><code>yum install -y mercurial zlib-devel openssl-devel gcc
+wget https://sourceforge.net/projects/tboot/files/tboot/tboot-1.10.5.tar.gz
+tar -zxf tboot-1.10.5.tar.gz
+cd tboot-1.10.5/
+make
+make install
+</code></pre></div>
+<hr />
+<p><strong>NOTE</strong>
+The step "copy platform SINIT to /boot" should not be required, as datacenter platforms include the SINIT in the system BIOS package.</p>
+<hr />
+<h2 id="ensure-that-multiboot2mod-and-relocatormod-are-available-for-grub2">Ensure that multiboot2.mod and relocator.mod are available for grub2</h2>
+<p>This step may not be necessary for all OS versions. For instance, this step is not applicable for tboot installation on Ubuntu 18.04. In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).</p>
+<p>These files must be present in this directory:</p>
+<div class="highlight"><pre><span></span><code>/boot/efi/EFI/redhat/x86_64-efi/multiboot2.mod
+/boot/efi/EFI/redhat/x86_64-efi/relocator.mod
+</code></pre></div>
+<p>If the files are not present in this directory, they can be moved from their installation location:</p>
+<div class="highlight"><pre><span></span><code>mkdir -p /boot/efi/EFI/redhat/x86_64-efi/
+cp /usr/lib/grub/x86_64-efi/multiboot2.mod /boot/efi/EFI/redhat/x86_64-efi/
+cp /usr/lib/grub/x86_64-efi/relocator.mod /boot/efi/EFI/redhat/x86_64-efi/
+</code></pre></div>
+<p>If the files are not present in their installation location <code>/usr/lib/grub/x86_64-efi/</code>, then follow below steps:</p>
+<div class="highlight"><pre><span></span><code>yum install -y grub2-efi-x64-modules
+</code></pre></div>
+<p>Make a backup of your current grub.cfg file</p>
+<p>The below examples assume a RedHat OS that has been installed on a platform using UEFI boot mode. The grub path will be slightly different for platforms using a non-RedHat OS.</p>
+<div class="highlight"><pre><span></span><code>cp /boot/efi/EFI/redhat/grub.cfg /boot/efi/EFI/redhat/grub.cfg.bak
+</code></pre></div>
+<p>Generate a new grub.cfg with the tboot boot option</p>
+<p>For RHEL:</p>
+<div class="highlight"><pre><span></span><code>grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+</code></pre></div>
+<p>For Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>grub2-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div>
+<h2 id="ensure-that-the-grub_default-value-is-set-to-the-tboot-option">Ensure that the GRUB_DEFAULT value is set to the tboot option.</h2>
+<p>Update /etc/default/grub and set the GRUB_DEFAULT value to 'tboot-1.10.5'</p>
+<div class="highlight"><pre><span></span><code>GRUB_DEFAULT=&#39;tboot-1.10.5&#39;
+</code></pre></div>
+<h2 id="regenerate-grubcfg">Regenerate grub.cfg:</h2>
+<p>For RHEL:</p>
+<div class="highlight"><pre><span></span><code>grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+</code></pre></div>
+<p>For Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>grub2-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div>
+<p>Reboot the system.  Because measurement happens at system boot, a reboot is needed to boot to the tboot boot option and populate measurements in the TPM.</p>
+<h2 id="verify-a-successful-trusted-boot-with-tboot">Verify a successful trusted boot with tboot</h2>
+<p>Tboot provides the txt-stat command to show the tboot log. The first part of the output of this command can be used to verify a successful trusted launch. In the output below, note the “TXT measured launch” and “secrets flag set” at the bottom. Both of these should show "TRUE" if the tboot measured launch was successful. If either of these show "FALSE" the measured launch has failed. This usually simply indicates that the tboot boot option was not selected during boot.</p>
+<div class="highlight"><pre><span></span><code>txt-stat
+</code></pre></div>
+<p>If the measured launch was successful, proceed to install the Trust Agent.</p>
+<div class="highlight"><pre><span></span><code>Intel(r) TXT Configuration Registers:
+        STS: 0x0001c091
+            senter_done: TRUE
+            sexit_done: FALSE
+            mem_config_lock: FALSE
+            private_open: TRUE
+            locality_1_open: TRUE
+            locality_2_open: TRUE
+        ESTS: 0x00
+            txt_reset: FALSE
+        E2STS: 0x0000000000000006
+            secrets: TRUE
+        ERRORCODE: 0x00000000
+        DIDVID: 0x00000001b0078086
+            vendor_id: 0x8086
+            device_id: 0xb007
+            revision_id: 0x1
+        FSBIF: 0xffffffffffffffff
+        QPIIF: 0x000000009d003000
+        SINIT.BASE: 0x6fec0000
+        SINIT.SIZE: 262144B (0x40000)
+        HEAP.BASE: 0x6ff00000
+        HEAP.SIZE: 1048576B (0x100000)
+        DPR: 0x0000000070000051
+            lock: TRUE
+            top: 0x70000000
+            size: 5MB (5242880B)
+        PUBLIC.KEY:
+            9c 78 f0 d8 53 de 85 4a 2f 47 76 1c 72 b8 6a 11
+            16 4a 66 a9 84 c1 aa d7 92 e3 14 4f b7 1c 2d 11
+
+***********************************************************
+         **TXT measured launch: TRUE**
+         **secrets flag set: TRUE**
+***********************************************************
+</code></pre></div>
+<h1 id="integrity-measurement-architecture-ima-agent">Integrity Measurement Architecture (IMA) Agent</h1>
+<p>IMA is based on the Trusted Computing Group's open standards, including Trusted 
+Platform Module (TPM), Trusted Boot, Trusted Software Stack (TSS), Trusted 
+Network Connect (TNC), and Platform Trust Services (PTS).</p>
+<p><strong>Goals of the kernel integrity subsystem:</strong>
+ * Detect if files have been accidentally or maliciously altered, both remotely 
+ and locally
+ * Appraise a file's measurement against a "good" value stored as an extended
+ attribute
+ * Enforce local file integrity</p>
+<p>This is complementary to Mandatory Access Control (MAC) protections provided by 
+LSM modules. Depending on specified LSM policies, IMA can attempt to protect 
+file integrity.</p>
+<p><strong>IMA Components:</strong>
+ * <strong>IMA-measurement</strong> – Measures files before being opened or executed and 
+ extends to TPM PCR 10
+ * <strong>IMA-appraisal</strong> - Extends the "secure boot" concept of verifying a file's 
+ integrity, before transferring control or allowing the file to be accessed by 
+ the OS
+ * <strong>IMA-audit</strong> – Includes file hashes in the system audit logs, which can be 
+ used to augment existing system security analytics/forensics</p>
+<p>IMA maintains a runtime measurement list and if anchored in hardware 
+(e.g. TPM), maintains an aggregate integrity value over this list. The 
+measurement list cannot be compromised by any software attack, without being 
+detectable. If a malicious file is accessed, its measurement is committed to 
+the TPM before the file is accessed, and the malicious code cannot remove this 
+measurement. If the malicious software compromises the attestation software, it 
+cannot conceal its presence, because it cannot forge a signature on a fake 
+measurement list. IMA measurement and attestation do not attempt to protect a 
+system's integrity. The goal is to detect if such compromise has occurred, so 
+that it can be repaired in a timely manner.</p>
+<p><strong>IMA Measurement</strong></p>
+<p>LSM - Linux Security Modules maintain file metadata, which can be leveraged to limit the number of files measured. IMA-measurement using Custom IMA policy maintains a runtime measurement list and anchored in a 
+hardware Trusted Platform Module (TPM), an aggregate integrity value over this 
+list. The benefit of anchoring the aggregate integrity value in the TPM is that 
+the measurement list cannot be compromised by any software attack, without 
+being detectable. Hence, on a trusted boot system, IMA-measurement can be used 
+to attest to the system's runtime integrity.</p>
+<p>All measurements are recorded in a runtime measurement list located in 
+<code>securityfs</code>:</p>
+<pre><code>/sys/kernel/security/ima/ascii_runtime_measurements
+</code></pre>
+<p>These measurements are also extended to the system TPM if present.</p>
+<p>IMA is controlled with several kernel command line parameters:</p>
+<pre><code>ima_policy = custom LSM(SELinux) object type
+
+ima_template = ima-ng
+    ima-ng - latest template format for measurement log (default since Linux 3.13)
+
+ima_hash = sha256  
+    ['sha256' default since Linux 3.13]
+</code></pre>
+<p>Custom IMA policy rules can be defined in /etc/ima/ima-policy. These custom 
+rules can leverage LSM labels to measure or appraise specific file sets or 
+categories. The custom policies can likewise be used to exclude these 
+categories or types from IMA measurement or appraisal. If the IMA policy 
+contains LSM labels, then the LSM policy must be loaded prior to the IMA 
+policy.</p>
+<h4 id="isecl-ima-measurement-components-for-the-node-are-comprised-of-two-stages">ISecL IMA measurement components for the node are comprised of two stages:</h4>
+<ol>
+<li>Provision  </li>
+<li>Collect and Report  </li>
+</ol>
+<h4 id="steps-for-ima-provision">Steps for IMA Provision</h4>
+<ol>
+<li>
+<p>Download IMA provision script from the below mention location.
+    <a href="https://github.com/intel-secl/utils/tree/v5.1/develop/tools/ima-agent">https://github.com/intel-secl/utils/tree/v5.1/develop/tools/ima-agent</a></p>
+</li>
+<li>
+<p>Prerequisite before provision.
+    - SELinux needs to be in permissive mode</p>
+<pre><code>Update `/etc/selinux/config` file with `SELINUX=permissive`and reboot the system.
+After reboot, verify using `sestatus` and check SELinux mode is `permissive`
+</code></pre>
+<details class="note" open="open">
+<summary>Note</summary>
+<pre><code>swap needs to be disabled if it was enabled `swapoff -a` and restart kubelet `systemctl restart kubelet`
+</code></pre>
+</details>
+<p>* User needs to install <code>selinux-policy-devel</code> package before running the script to apply custom policy.
+    <div class="highlight"><pre><span></span><code>dnf install selinux-policy-devel
+</code></pre></div></p>
+</li>
+<li>
+<p>Enabling Custom Policy<br />
+    - Change the provision script mode to execution.
+        <div class="highlight"><pre><span></span><code>chmod -x ima-provision.sh
+</code></pre></div></p>
+<p>- <code>sh ima-provision.sh set-custom-policy -i [File with list of one or more Directory or File path] --hash [sha256]</code>  </p>
+<details class="note" open="open">
+<summary>Note</summary>
+<pre><code>set-custom-policy - This option will create the SElinux custom object type and assign to the specific directory  
+File or folder path mentioned inside input file-list should be present in the system, then only custom policy will be applied.
+    e.g: `./ima-provision.sh set-custom-policy -i /tmp/ima.txt --hash sha256`
+    ```
+    cat /tmp/ima.txt
+    /etc/crio/crio.conf
+    ```
+</code></pre>
+</details>
+</li>
+<li>
+<p>Reboot the host for the IMA provision changes to reflect.</p>
+</li>
+<li>
+<p>Verify default measurements captured under <code>/sys/kernel/security/ima/ascii_runtime_measurements</code></p>
+</li>
+<li>
+<p>gen-measurements – This option will label the system and log measurements inside ascii_runtime_measurements</p>
+</li>
+</ol>
+<details class="note" open="open">
+<summary>Note</summary>
+</details>
+<p>- If a folder path is mentioned inside the file list, then it will apply custom policy for all the files inside that folder.
+  - To add new file or folder for generating measurement without reboot, run below command and execute <code>step 6</code>.
+    <code>chcon -R -t isecl_t &lt; folder or file details &gt;</code></p>
+<h3 id="important-notes">Important Notes</h3>
+<ul>
+<li>Only Custom IMA policy shall be supported.   </li>
+<li>To completely remove <code>isecl</code> selinux custom policy from the host:    <ul>
+<li>Delete ima custom policy file:   <code>rm -rf /etc/ima/</code>  </li>
+<li>Remove isecl selinux policy:     <code>semodule -r isecl</code>(this will automatically remove and reboot the system)  </li>
+</ul>
+</li>
+<li>Command to verify <code>isecl</code> selinux custom policy was removed:  <code>semodule -l | grep isecl</code></li>
+<li>Command to update the kernel to remove ima arguments.
+    <code>grubby --update-kernel=/boot/vmlinuz-$(uname -r) --remove-args="ima_template=ima-ng ima_hash=sha256"</code></li>
+<li>Reboot the system to update the kernel.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Intel® Security Libraries Components" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Intel® Security Libraries Components
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../23.9%20Building%20the%20Intel%20SecL-DC%20Container%20Images/" class="md-footer__link md-footer__link--next" aria-label="Next: Building the Intel SecL-DC Container Images" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Building the Intel SecL-DC Container Images
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.indexes", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.37e9125f.min.js"></script>
+      
+    
+  </body>
+</html>

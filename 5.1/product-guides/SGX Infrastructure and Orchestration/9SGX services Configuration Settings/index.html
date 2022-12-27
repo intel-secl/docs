@@ -1,0 +1,3789 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../images/isecl-logo.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.3">
+    
+    
+      
+        <title>Intel Security Libraries Configuration Settings - Intel® SecL-DC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7a952b86.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Helvetica";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#intel-security-libraries-configuration-settings" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Intel® SecL-DC" class="md-header__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intel® SecL-DC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Intel Security Libraries Configuration Settings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Intel%20Disclaimer/" class="md-tabs__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-tabs__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Intel® SecL-DC" class="md-nav__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    Intel® SecL-DC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Product Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Product Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Product Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Intel%20Disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/02%20Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-nav__link">
+        Intel® Security Libraries Components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/23%20Hardware%20Security%20Technology%20Considerations/" class="md-nav__link">
+        Hardware Security Technology Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/23.9%20Building%20the%20Intel%20SecL-DC%20Container%20Images/" class="md-nav__link">
+        Building the Intel SecL-DC Container Images
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_6" type="checkbox" id="__nav_2_1_6" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_6">
+          Deploying Intel SecL-DC Using Helm
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deploying Intel SecL-DC Using Helm" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deploying Intel SecL-DC Using Helm
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/24%20Deploying%20Intel%20SecL%20using%20Helm/" class="md-nav__link">
+        Deploying Intel SecL-DC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/25%20Deploying%20Intel%20SecL%20Use%20Cases%20Using%20Helm/" class="md-nav__link">
+        Deploying Intel SecL Use Cases Using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-nav__link">
+        Installing the Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/40%20Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/50%20Connection%20Strings/" class="md-nav__link">
+        Connection Strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/59%20Endorsement%20Certificate%20Pre-Registration/" class="md-nav__link">
+        Endorsement Certificate Pre-Registration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/60%20Platform%20Integrity%20Attestation/" class="md-nav__link">
+        Platform Integrity Attestation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/65%20Trusted%20Workload%20Placement/" class="md-nav__link">
+        Trusted Workload Placement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/70%20Workload%20Confidentiality/" class="md-nav__link">
+        Workload Confidentiality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/90%20Flavor%20Management/" class="md-nav__link">
+        Flavor Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/100%20Scalability%20and%20Sizing/" class="md-nav__link">
+        Scalability and Sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/105%20Deploying%20Individual%20Services%20Using%20Helm/" class="md-nav__link">
+        Deploying Individual Services Using Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/106%20Helm%20charts%20Cleanup/" class="md-nav__link">
+        Steps for Helm chart Cleanup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1_17" type="checkbox" id="__nav_2_1_17" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_17">
+          Intel Security Libraries Configuration Settings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Configuration Settings" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_1_17">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Configuration Settings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.0%20Changing%20Configuration%20Settings/" class="md-nav__link">
+        Changing Configuration Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.3%20HVS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.6%20Trust%20Agent%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Trust Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.9%20Integration%20Hub%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.1%20CMS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.2%20AAS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.4%20WLS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.5%20KBS%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.7%20Workload%20Agent%20Setup%20Task%20and%20Configuration%20Settings/" class="md-nav__link">
+        Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/110.8%20WPM%20Setup%20Task%20and%20%20Configuration%20Settings/" class="md-nav__link">
+        Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/120%20Certificate%20and%20Key%20Management/" class="md-nav__link">
+        Certificate and Key Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/130%20Upgrades/" class="md-nav__link">
+        Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Foundational%20%26%20Workload%20Security/999%20Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Release Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Release Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-nav__link">
+        Intel Security Libraries for Data Center
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sgx-host-verification-service" class="md-nav__link">
+    SGX Host Verification Service
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX Host Verification Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-options" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-options" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands" class="md-nav__link">
+    Available Commands
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#help" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-sgx-host-verification-service" class="md-nav__link">
+    Setup tasks and its Configuration Options for SGX Host Verification Service
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-layout" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sgx-agent" class="md-nav__link">
+    SGX Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_1" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_1" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_1" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_1" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_1" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_1" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_1" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_1" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_1" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_1" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_1" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-sgx-agent" class="md-nav__link">
+    Setup Tasks and its Configuration Options for SGX Agent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_1" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux" class="md-nav__link">
+    Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bin_1" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_1" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-hub" class="md-nav__link">
+    Integration Hub
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_2" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_2" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_2" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_2" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_2" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_2" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_2" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_2" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_2" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_2" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_2" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-integration-hub" class="md-nav__link">
+    Setup Tasks and its Configuration Options for Integration Hub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_2" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_2" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_2" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_2" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificate-management-service" class="md-nav__link">
+    Certificate Management Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Certificate Management Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_3" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_3" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_3" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_3" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_3" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_3" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_3" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_3" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_3" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_3" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlscertsha384" class="md-nav__link">
+    Tlscertsha384
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_3" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup [task]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cms-setup-server-port" class="md-nav__link">
+    cms setup server [--port=]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cms-setup-root_ca-force" class="md-nav__link">
+    cms setup root_ca [--force]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cms-setup-tls-force-host_names" class="md-nav__link">
+    cms setup tls [--force] [--host_names=]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cms-setup-cms-auth-token-force" class="md-nav__link">
+    cms setup cms-auth-token [--force]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-certificate-management-service" class="md-nav__link">
+    Setup Tasks and its Configuration Options for Certificate Management Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_3" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_3" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_3" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_3" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cacerts" class="md-nav__link">
+    Cacerts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-and-authorization-service" class="md-nav__link">
+    Authentication and Authorization Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication and Authorization Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_4" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_4" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_4" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_4" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_4" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_4" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_4" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_4" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_4" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_4" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_4" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup [task]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authservice-setup-all" class="md-nav__link">
+    authservice setup all
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authservice-setup-database-force-arguments" class="md-nav__link">
+    authservice setup database [-force] [-arguments=]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authservice-setup-server-port" class="md-nav__link">
+    authservice setup server [--port=]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authservice-setup-admin-user-pass" class="md-nav__link">
+    authservice setup admin [--user=] [-pass=]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authservice-setup-jwt" class="md-nav__link">
+    authservice setup jwt
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-authentication-and-authorization-service" class="md-nav__link">
+    Setup Tasks and its Configuration Options for Authentication and Authorization Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_4" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_4" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_4" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_4" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbscripts" class="md-nav__link">
+    Dbscripts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-broker-service" class="md-nav__link">
+    Key Broker Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Broker Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_5" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_5" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_5" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_5" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_5" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_5" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_5" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_5" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_5" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_5" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_5" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-key-broker-service" class="md-nav__link">
+    Setup Tasks and its Configuration Options for Key Broker Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_5" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_5" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_5" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_5" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sgx-caching-service" class="md-nav__link">
+    SGX Caching Service
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX Caching Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_6" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_6" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_6" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_6" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_6" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_6" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_6" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_6" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_6" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_6" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_6" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-sgx-caching-service" class="md-nav__link">
+    Setup Tasks and its Configuration Options for SGX Caching Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_6" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_6" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_6" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_6" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sgx-quote-verification-service" class="md-nav__link">
+    SGX Quote Verification Service
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX Quote Verification Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation-answer-file-options_7" class="md-nav__link">
+    Installation Answer File Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options_7" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-options_7" class="md-nav__link">
+    Command-Line Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Command-Line Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-commands_7" class="md-nav__link">
+    Available Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help_7" class="md-nav__link">
+    Help
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_7" class="md-nav__link">
+    Start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stop_7" class="md-nav__link">
+    Stop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_7" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall_7" class="md-nav__link">
+    Uninstall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_7" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-task_7" class="md-nav__link">
+    Setup [task]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-tasks-and-its-configuration-options-for-sgx-quote-verification-service" class="md-nav__link">
+    Setup Tasks and its Configuration Options for SGX Quote Verification Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-layout_7" class="md-nav__link">
+    Directory Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Directory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bin_7" class="md-nav__link">
+    Bin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_7" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs_7" class="md-nav__link">
+    Logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/intel-secl/intel-secl/edit/master/docs/product-guides/SGX Infrastructure and Orchestration/9SGX services Configuration Settings.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="intel-security-libraries-configuration-settings">Intel Security Libraries Configuration Settings</h1>
+<p><strong><em>NOTE:</em></strong> 
+    All the answer file options would remain common for containerized K8s deployments with the except of URLS where Kubernetes DNS would be used. The respective <code>configMap.yml</code> for each service and agent would carry the defaults for the same when built under <code>&lt;working directory&gt;/k8s/manifests/&lt;service/agent/db names&gt;</code></p>
+<h2 id="sgx-host-verification-service">SGX Host Verification Service</h2>
+<h3 id="installation-answer-file-options">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; IP address or hostname for CMS &gt;:8445/cms/v1/</td>
+<td>Base URL of the CMS</td>
+</tr>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; IP address or hostname for AAS &gt;:8444/aas/v1</td>
+<td>Base URL of the AAS</td>
+</tr>
+<tr>
+<td>SCS_BASE_URL</td>
+<td>https://&lt; IP or hostname of SCS &gt;:9000/scs/sgx/</td>
+<td>Base URL of SCS</td>
+</tr>
+<tr>
+<td>SHVS_DB_PORT</td>
+<td>5432</td>
+<td>Defines the port number for communication with the database server. By default, with a local database server installation, this port will be set to 5432.</td>
+</tr>
+<tr>
+<td>SHVS_DB_NAME</td>
+<td>pgshvsdb</td>
+<td>Defines the schema name of the database. If a remote database connection will be used, this schema must be created in the remote database before installing the SGX Host Verification Service</td>
+</tr>
+<tr>
+<td>SHVS_DB_USERNAME</td>
+<td>aasdbuser</td>
+<td>Username for accessing the database. If a remote database connection will be used, this user/password must be created and granted all permissions for the database schema before installing the SGX Host Verification Service.</td>
+</tr>
+<tr>
+<td>SHVS_DB_PASSWORD</td>
+<td>aasdbpassword</td>
+<td>Password for accessing the database. If a remote database connection will be used, this user/password must be created and granted all permissions for the database schema before installing the SGX Host Verification Service.</td>
+</tr>
+<tr>
+<td>SHVS_DB_HOSTNAME</td>
+<td>localhost</td>
+<td>Defines the database server IP address or hostname. This should be the loopback address for local database server installations but should be the IP address or hostname of the database server if a remote database will be used.</td>
+</tr>
+<tr>
+<td>SAN_LIST</td>
+<td>127.0.0.1,localhost</td>
+<td>Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service</td>
+</tr>
+<tr>
+<td>SHVS_ADMIN_USERNAME</td>
+<td>shvsuser@shvs</td>
+<td>Username for a new user to be created during installation.</td>
+</tr>
+<tr>
+<td>SHVS_ADMIN_PASSWORD</td>
+<td>shvspassword</td>
+<td>Password for the user to be created during installation.</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest&gt;</td>
+<td>SHA384 hash of the CMS TLS certificate</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Installation token from AAS</td>
+</tr>
+<tr>
+<td>SHVS_PORT</td>
+<td>13000</td>
+<td>SGX Host Verification Service HTTP Port</td>
+</tr>
+<tr>
+<td>SHVS_SCHEDULER_TIMER</td>
+<td>10</td>
+<td>SHVS Scheduler timeout</td>
+</tr>
+<tr>
+<td>SHVS_HOST_PLATFORM_EXPIRY_TIME</td>
+<td>240</td>
+<td>SHVS Host Info Expiry time</td>
+</tr>
+<tr>
+<td>SHVS_AUTO_REFRESH_TIMER</td>
+<td>120</td>
+<td>SHVS Auto-refresh timeout</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration-options">Configuration Options</h2>
+<p>The SGX Host Verification Service configuration is in path /etc/shvs/config.yml.</p>
+<h2 id="command-line-options">Command-Line Options</h2>
+<p>The SGX Host Verification Service supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:
+<div class="highlight"><pre><span></span><code>shvs \&lt;command\&gt;
+</code></pre></div></p>
+<h3 id="available-commands">Available Commands</h3>
+<h4 id="help">Help</h4>
+<p><div class="highlight"><pre><span></span><code>shvs help
+</code></pre></div>
+Displays the list of available CLI commands.</p>
+<h4 id="start">Start</h4>
+<p><div class="highlight"><pre><span></span><code>shvs start
+</code></pre></div>
+Starts the SGX Host Verification service</p>
+<h4 id="stop">Stop</h4>
+<p><div class="highlight"><pre><span></span><code>shvs stop
+</code></pre></div>
+Stops the SGX Host Verification service</p>
+<h4 id="status">Status</h4>
+<p><div class="highlight"><pre><span></span><code>shvs status
+</code></pre></div>
+Reports whether the service is currently running.</p>
+<h4 id="uninstall">Uninstall</h4>
+<p><div class="highlight"><pre><span></span><code>shvs uninstall \[\--purge\]
+</code></pre></div>
+Removes the service. Use --purge option to remove configuration directory(/etc/shvs/)</p>
+<h4 id="version">Version</h4>
+<div class="highlight"><pre><span></span><code>shvs version
+</code></pre></div>
+<p>Shows the version of the service.</p>
+<h4 id="setup-task">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>shvs setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-sgx-host-verification-service">Setup tasks and its Configuration Options for SGX Host Verification Service</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+    all                       Runs all setup tasks
+                              Required env variables:
+                                  - get required env variables from all the setup tasks
+                              Optional env variables:
+                                  - get optional env variables from all the setup tasks
+
+    shvs setup database
+        - Available arguments are:
+            SHVS_DB_HOSTNAME
+            SHVS_DB_PORT
+            SHVS_DB_USERNAME
+            SHVS_DB_PASSWORD
+            SHVS_DB_NAME
+            SHVS_DB_SSLMODE &lt;disable<span class="p">|</span>allow<span class="p">|</span>prefer<span class="p">|</span>require<span class="p">|</span>verify-ca<span class="p">|</span>verify-full&gt;
+            SHVS_DB_SSLCERT path to where the certificate file of database. Only applicable
+                         <span class="k">for</span> db-sslmode<span class="o">=</span>&lt;verify-ca<span class="p">|</span>verify-full. If left empty, the cert
+                         will be copied to /etc/shvs/shvs-dbcert.pem
+                         alternatively, <span class="nb">set</span> environment variable
+            - SHVS_DB_SSLCERTSRC &lt;path to where the database ssl/tls certificate file&gt;
+                         mandatory <span class="k">if</span> db-sslcert does not already exist
+                         alternatively, <span class="nb">set</span> environment variable
+
+    update_service_config    Updates Service Configuration
+                             Required env variables:
+                                 - SHVS_PORT                                         : SGX Host Verification Service port
+                                 - SHVS_SERVER_READ_TIMEOUT                          : SGX Host Verification Service Read Timeout
+                                 - SHVS_SERVER_READ_HEADER_TIMEOUT                   : SGX Host Verification Service Read Header Timeout Duration
+                                 - SHVS_SERVER_WRITE_TIMEOUT                         : SGX Host Verification Service Request Write Timeout Duration
+                                 - SHVS_SERVER_IDLE_TIMEOUT                          : SGX Host Verification Service Request Idle Timeout
+                                 - SHVS_SERVER_MAX_HEADER_BYTES                      : SGX Host Verification Service Max Length Of Request Header Bytes
+                                 - SHVS_LOG_LEVEL                                    : SGX Host Verification Service Log Level
+                                 - SHVS_LOG_MAX_LENGTH                               : SGX Host Verification Service Log maximum length
+                                 - SHVS_ENABLE_CONSOLE_LOG                           : SGX Host Verification Service Enable standard output
+                                 - SHVS_ADMIN_USERNAME                               : SHVS Service Username
+                                 - SHVS_ADMIN_PASSWORD                               : SHVS Service Password
+                                 - SHVS_SCHEDULER_TIMER                              : SHVS Scheduler Timeout Seconds
+                                 - SHVS_AUTO_REFRESH_TIMER                           : SHVS autoRefresh Timeout Seconds
+                                 - SHVS_HOST_PLATFORM_EXPIRY_TIME                    : SHVS Host Platform Expiry Time <span class="k">in</span> seconds
+                                 - SCS_BASE_URL                                      : SGX Caching Service URL
+                                 - AAS_API_URL                                       : AAS API URL
+
+    download_ca_cert         Download CMS root CA certificate
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;                                : <span class="k">for</span> CMS API url
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;    : to ensure that SHVS is talking to the right CMS instance
+
+    download_cert TLS        Generates Key pair and CSR, gets it signed from CMS
+                             Required env variable <span class="k">if</span> <span class="nv">SHVS_NOSETUP</span><span class="o">=</span><span class="nb">true</span> or variable not <span class="nb">set</span> <span class="k">in</span> config.yml:
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;      : to ensure that SHVS is talking to the right CMS instance
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;               : <span class="k">for</span> CMS API url
+                                 - <span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;token&gt;             : <span class="k">for</span> authenticating with CMS
+                                 - <span class="nv">SAN_LIST</span><span class="o">=</span>&lt;san&gt;                   : list of hosts which needs access to service
+                             Optional env variables specific to setup task are:
+                                 - <span class="nv">KEY_PATH</span><span class="o">=</span>&lt;key_path&gt;              : Path of file where TLS key needs to be stored
+                                 - <span class="nv">CERT_PATH</span><span class="o">=</span>&lt;cert_path&gt;            : Path of file/directory where TLS certificate needs to be stored
+</code></pre></div>
+<h2 id="directory-layout">Directory Layout</h2>
+<p>The SGX Host Verification Service installs by default to /opt/shvs with the following folders.</p>
+<h3 id="bin">Bin</h3>
+<p>This folder contains executable scripts.</p>
+<h3 id="configuration">Configuration</h3>
+<p>This folder /etc/shvs contains certificates, keys, and configuration files.</p>
+<h3 id="logs">Logs</h3>
+<p>This folder contains log files: /var/log/shvs/</p>
+<h2 id="sgx-agent">SGX Agent</h2>
+<h3 id="installation-answer-file-options_1">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCS_BASE_URL</td>
+<td>https://&lt; AAS IP or Hostname&gt;:9000/scs/sgx/</td>
+<td>The url used during setup to request information from SCS.</td>
+</tr>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; CMS IP or hostname&gt;:8445/cms/v1/</td>
+<td>API URL for Certificate Management Service (CMS).</td>
+</tr>
+<tr>
+<td>SHVS_BASE_URL</td>
+<td>https://&lt; SHVS IP or hostname&gt;:13000/sgx-hvs/v2/</td>
+<td>The url used during setup to request information from SHVS.</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Long Lived JWT from AAS that contains "install" permissions needed to access ISecL services during provisioning and registration</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest&gt;</td>
+<td>SHA384 Hash for verifying the CMS TLS certificate.</td>
+</tr>
+<tr>
+<td>SHVS_UPDATE_INTERVAL</td>
+<td>120</td>
+<td>Interval for SHVS updates in minutes. Values should be in the range of 1 minutes to 120 minutues.</td>
+</tr>
+<tr>
+<td>SGX_AGENT_NOSETUP</td>
+<td>false</td>
+<td>Skips setup during installation if set to true</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_1">Configuration Options</h3>
+<p>The SGX Agent configuration is in path /etc/sgx_agent/config.yml.</p>
+<h3 id="command-line-options_1">Command-Line Options</h3>
+<p>The SGX Agent supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>sgx_agent \&lt;command></p>
+<h4 id="available-commands_1">Available Commands</h4>
+<h4 id="help_1">Help</h4>
+<p>Show the help message.</p>
+<h4 id="start_1">Start</h4>
+<p>sgx_agent start</p>
+<p>Start the SGX Agent service.</p>
+<h4 id="stop_1">Stop</h4>
+<p>sgx_agent stop</p>
+<p>Stop the SGX Agent service.</p>
+<h4 id="status_1">Status</h4>
+<p>sgx_agent status</p>
+<p>Get the status of the SGX Agent Service.</p>
+<h4 id="uninstall_1">Uninstall</h4>
+<p>sgx_agent uninstall --purge</p>
+<p>Removes the service. Use --purge option to remove configuration directory(/etc/sgx_agent/)</p>
+<h4 id="version_1">Version</h4>
+<p>sgx_agent version</p>
+<p>Reports the version of the service.</p>
+<h4 id="setup-task_1">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>sgx_agent setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-sgx-agent">Setup Tasks and its Configuration Options for SGX Agent</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+    all                       Runs all setup tasks
+                              Required env variables:
+                                  - get required env variables from all the setup tasks
+                              Optional env variables:
+                                  - get optional env variables from all the setup tasks
+
+    update_service_config    Updates Service Configuration
+                             Required env variables:
+                                 - SCS_BASE_URL                                     : SCS Base URL
+                                 - SGX_AGENT_LOGLEVEL                               : SGX_AGENT Log Level
+                                 - SGX_AGENT_LOG_MAX_LENGTH                         : SGX Agent Log maximum length
+                                 - SGX_AGENT_ENABLE_CONSOLE_LOG                     : SGX Agent Enable standard output
+                                 - SHVS_UPDATE_INTERVAL                             : SHVS update interval <span class="k">in</span> minutes
+                                 - WAIT_TIME                                        : Time between each retries to PCS
+                                 - RETRY_COUNT                                      : Push Data Retry Count to SCS
+                                 - SHVS_BASE_URL                                    : HVS Base URL
+                                 - BEARER_TOKEN                                     : BEARER TOKEN
+
+    download_ca_cert         Download CMS root CA certificate
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;                                : <span class="k">for</span> CMS API url
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;    : to ensure that SGX-Agent is talking to the right CMS instance
+</code></pre></div>
+<h3 id="directory-layout_1">Directory Layout</h3>
+<h4 id="linux">Linux</h4>
+<p>The Linux SGX Agent installs by default to /opt/sgx_agent, with the following subfolders:</p>
+<h4 id="bin_1">Bin</h4>
+<p>Contains executables and scripts.</p>
+<h4 id="configuration_1">Configuration</h4>
+<p>Contains the config.yml configuration file.</p>
+<h4 id="logs_1">Logs</h4>
+<p>This folder contains log files: /var/log/sgx_agent</p>
+<h2 id="integration-hub">Integration Hub</h2>
+<h3 id="installation-answer-file-options_2">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; Authentication and Authorization Service IP or  Hostname&gt;:8444/aas/v1</td>
+<td>Base URL for the AAS</td>
+</tr>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; Certificate Management Service IP or Hostname&gt;:8445/cms/v1</td>
+<td>Base URL for the CMS</td>
+</tr>
+<tr>
+<td>SHVS_BASE_URL</td>
+<td>https://&lt; SGX Host Verification Service IP or hostname&gt;:13000/sgx-hvs/v2/</td>
+<td>Base URL  of SHVS</td>
+</tr>
+<tr>
+<td>IHUB_SERVICE_USERNAME</td>
+<td>ihubuser@ihub</td>
+<td>Database username</td>
+</tr>
+<tr>
+<td>IHUB_SERVICE_PASSWORD</td>
+<td>ihubpassword</td>
+<td>Database password</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest&gt;</td>
+<td>SHA384 digest of the CMS TLS certificate</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Installation token</td>
+</tr>
+<tr>
+<td>TENANT</td>
+<td>KUBERNETES</td>
+<td>Tenant Orchaestrator</td>
+</tr>
+<tr>
+<td>KUBERNETES_URL</td>
+<td>https://&lt; Kubernetes Master Node IP or  Hostname&gt; :6443</td>
+<td>Kubernetes Master node URL</td>
+</tr>
+<tr>
+<td>KUBERNETES_CRD</td>
+<td>custom-isecl-sgx</td>
+<td>CRD Name to be used</td>
+</tr>
+<tr>
+<td>TLS_SAN_LIST</td>
+<td>127.0.0.1, localhost</td>
+<td>Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service.</td>
+</tr>
+<tr>
+<td>KUBERNETES_TOKEN</td>
+<td></td>
+<td>Token from Kubernetes Master Node</td>
+</tr>
+<tr>
+<td>KUBERNETES_CERT_FILE</td>
+<td>/root/apiserver.crt</td>
+<td>Kubernetes server certificate path</td>
+</tr>
+<tr>
+<td>POLL_INTERVAL_MINUTES</td>
+<td>2</td>
+<td>IHUB Polling Interval in Minutes</td>
+</tr>
+<tr>
+<td>INSTANCE_NAME</td>
+<td>ihub</td>
+<td>IHUB default instance name</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_2">Configuration Options</h3>
+<p>The Integration Hub configuration can be found in /etc/ihub/config.yml.</p>
+<h3 id="command-line-options_2">Command-Line Options</h3>
+<p>The Integrtion HUB supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>ihub <command></p>
+<h4 id="available-commands_2">Available Commands</h4>
+<h4 id="help_2">Help</h4>
+<p>ihub help</p>
+<p>Displays the list of available CLI commands</p>
+<h4 id="start_2">Start</h4>
+<p>ihub start</p>
+<p>Start the service</p>
+<h4 id="stop_2">Stop</h4>
+<p>ihub stop</p>
+<p>stops the service</p>
+<h4 id="status_2">Status</h4>
+<p>ihub status</p>
+<p>Reports whether the service is currently running.</p>
+<h4 id="uninstall_2">Uninstall</h4>
+<p>ihub uninstall [--purge] [--exec]</p>
+<p>Removes the service. Use --purge option to remove configuration directory(/etc/ihub/). Use --exec option to remove ihub instance specific directories</p>
+<h4 id="version_2">Version</h4>
+<p>ihub version</p>
+<p>Reports the version of the service.</p>
+<h4 id="setup-task_2">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>ihub setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-integration-hub">Setup Tasks and its Configuration Options for Integration Hub</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+        all                                 Runs all setup tasks
+        download-ca-cert                    Download CMS root CA certificate
+        download-cert-tls                   Download CA certificate from CMS <span class="k">for</span> tls
+        attestation-service-connection      Establish Attestation service connection
+        tenant-service-connection           Establish Tenant service connection
+        create-signing-key                  Create signing key <span class="k">for</span> IHUB
+        update-service-config               Sets or Updates the Service configuration
+
+Following environment variables are required <span class="k">for</span> <span class="s2">&quot;download-ca-cert&quot;</span>
+    CMS_BASE_URL                CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    CMS_TLS_CERT_SHA384         SHA384 <span class="nb">hash</span> value of CMS TLS certificate
+
+Following environment variables are required <span class="k">in</span> <span class="s2">&quot;download-cert-tls&quot;</span>
+    CMS_BASE_URL        CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    BEARER_TOKEN        Bearer token <span class="k">for</span> accessing CMS api
+Following environment variables are optionally used <span class="k">in</span> download-cert-tls
+    TLS_CERT_FILE       The file to which certificate is saved
+    TLS_KEY_FILE        The file to which private key is saved
+    TLS_COMMON_NAME     The common name of signed certificate
+
+    TLS_SAN_LIST        Comma separated list of hostnames to add to Certificate, including IP addresses and DNS names
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;attestation-service-connection&#39;</span> setup:
+    SHVS_BASE_URL       Base URL <span class="k">for</span> the SGX Host Verification Service
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;tenant-service-connection&#39;</span> setup:
+    TENANT      Type of Tenant Service <span class="o">(</span>OpenStack or Kubernetes<span class="o">)</span>
+Following environment variables are required <span class="k">for</span> Kubernetes tenant:
+    KUBERNETES_TOKEN            Token <span class="k">for</span> Kubernetes deployment
+    KUBERNETES_CERT_FILE        Certificate path <span class="k">for</span> Kubernetes deployment
+    KUBERNETES_URL              URL <span class="k">for</span> Kubernetes deployment
+    KUBERNETES_CRD              CRD Name <span class="k">for</span> Kubernetes deployment
+Following environment variables are required <span class="k">for</span> OpenStack tenant:
+    OPENSTACK_PLACEMENT_URL     Placement API endpoint <span class="k">for</span> OpenStack deployment
+    OPENSTACK_USERNAME          UserName <span class="k">for</span> OpenStack deployment
+    OPENSTACK_PASSWORD          Password <span class="k">for</span> OpenStack deployment
+    OPENSTACK_AUTH_URL          Keystone API endpoint <span class="k">for</span> OpenStack deployment
+
+Following environment variables are required <span class="k">for</span> update-service-config setup:
+    LOG_LEVEL           Log level
+    LOG_MAX_LENGTH      Max length of log statement
+    LOG_ENABLE_STDOUT   Enable console log
+    AAS_BASE_URL        AAS Base URL
+    SERVICE_USERNAME    The service username as configured <span class="k">in</span> AAS
+    SERVICE_PASSWORD    The service password as configured <span class="k">in</span> AAS
+</code></pre></div>
+<h3 id="directory-layout_2">Directory Layout</h3>
+<p>The Integration HUB installs by default to /opt/ihub with the following folders.</p>
+<h4 id="bin_2">Bin</h4>
+<p>This folder contains executable scripts.</p>
+<h4 id="configuration_2">Configuration</h4>
+<p>This folder /etc/ihub/ contains certificates, keys, and configuration files.</p>
+<h4 id="logs_2">Logs</h4>
+<p>This folder contains log files: /var/log/ihub/</p>
+<h2 id="certificate-management-service">Certificate Management Service</h2>
+<h3 id="installation-answer-file-options_3">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_PORT</td>
+<td>8445</td>
+<td>Default Port where Certificate Management Service Runs</td>
+</tr>
+<tr>
+<td>CMS_NOSETUP</td>
+<td>false</td>
+<td>Determines whether “setup” will be executed after installation. Typically this is set to “false” to install and perform setup in one action. The “true” option is intended for building the service as a container, where the installation would be part of the image build, and setup would be performed when the container starts for the first time to generate any persistent data.</td>
+</tr>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; AAS Hostname or IP address&gt;:8444/aas/v1</td>
+<td>URL to connect to the AAS, used during setup for authentication.</td>
+</tr>
+<tr>
+<td>AAS_TLS_SAN</td>
+<td>&lt; Comma-separated list of IPs/hostnames for the AAS&gt;</td>
+<td>SAN list populated in special JWT token; this token is used by AAS to get TLS certificate signed from CMS. SAN list in this token and CSR generated by AAS must match.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_3">Configuration Options</h3>
+<p>The CMS configuration can be found in /etc/cms/config.yml.</p>
+<h3 id="command-line-options_3">Command-Line Options</h3>
+<p>The Certificate Management Service supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>cms <command></p>
+<h4 id="available-commands_3">Available Commands</h4>
+<h4 id="help_3">Help</h4>
+<p>cms help</p>
+<p>Displays the list of available CLI commands.</p>
+<h4 id="start_3">Start</h4>
+<p>cms start</p>
+<p>Starts the services.</p>
+<h4 id="stop_3">Stop</h4>
+<p>cms stop</p>
+<p>Stops the service.</p>
+<h4 id="status_3">Status</h4>
+<p>cms status</p>
+<p>Reports whether the service is currently running.</p>
+<h4 id="uninstall_3">Uninstall</h4>
+<p>cms uninstall [--purge]</p>
+<p>Uninstalls the service, including the deletion of all files and folders.</p>
+<h4 id="version_3">Version</h4>
+<p>cms version</p>
+<p>Reports the version of the service.</p>
+<h4 id="tlscertsha384">Tlscertsha384</h4>
+<p>cms tlscertsha384</p>
+<p>Shows the SHA384 digest of the TLS certificate.</p>
+<h4 id="setup-task_3">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>cms setup [task]</p>
+<p>Available Tasks for setup:</p>
+<h5 id="cms-setup-server-port">cms setup server [--port=<port>]</h5>
+<ul>
+<li>
+<p>Setup http server on <port></p>
+</li>
+<li>
+<p>Environment variable CMS_PORT=<port> can be set alternatively</p>
+</li>
+</ul>
+<h5 id="cms-setup-root_ca-force">cms setup root_ca [--force]</h5>
+<ul>
+<li>
+<p>Create its own self signed Root CA keypair in /etc/cms for quality of life</p>
+</li>
+<li>
+<p>Option [--force] overwrites any existing files, and always generate new Root CA keypair</p>
+</li>
+</ul>
+<h5 id="cms-setup-tls-force-host_names">cms setup tls [--force] [--host_names=<host_names>]</h5>
+<ul>
+<li>
+<p>Create its own root_ca signed TLS keypair in /etc/cms for quality of life</p>
+</li>
+<li>
+<p>Option [--force] overwrites any existing files, and always generate root_ca signed TLS keypair</p>
+</li>
+<li>
+<p>Argument <host_names> is a list of host names used by local machine, seperated by comma</p>
+</li>
+<li>
+<p>Environment variable CMS_HOST_NAMES=<host_names> can be set alternatively</p>
+</li>
+</ul>
+<h5 id="cms-setup-cms-auth-token-force">cms setup cms-auth-token [--force]</h5>
+<ul>
+<li>
+<p>Create its own self signed JWT keypair in /etc/cms/jwt for quality of life</p>
+</li>
+<li>
+<p>Option [--force] overwrites any existing files, and always generate new</p>
+</li>
+</ul>
+<p>JWT keypair and token</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-certificate-management-service">Setup Tasks and its Configuration Options for Certificate Management Service</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+    all                       Runs all setup tasks
+    root-ca                   Creates a self signed Root CA key pair <span class="k">in</span> /etc/cms/root-ca/ <span class="k">for</span> quality of life
+    intermediate-ca           Creates a Root CA signed intermediate CA key pair<span class="o">(</span>signing, tls-server and tls-client<span class="o">)</span> <span class="k">in</span> /etc/cms/intermediate-ca/ <span class="k">for</span> quality of life
+    tls                       Creates an intermediate-ca signed TLS key pair <span class="k">in</span> /etc/cms <span class="k">for</span> quality of life
+    cms-auth-token            Create its own self signed JWT key pair <span class="k">in</span> /etc/cms/jwt <span class="k">for</span> quality of life
+    update-service-config     Sets or Updates the Service configuration
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;tls&#39;</span> setup:
+    SAN_LIST    TLS SAN list
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;authToken&#39;</span> setup:
+    AAS_JWT_CN          Common Name <span class="k">for</span> JWT Signing Certificate used <span class="k">in</span> Authentication and Authorization Service
+    AAS_TLS_CN          Common Name <span class="k">for</span> TLS Signing Certificate used <span class="k">in</span>  Authentication and Authorization Service
+    AAS_TLS_SAN         TLS SAN list <span class="k">for</span> Authentication and Authorization Service
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;update-service-config&#39;</span> setup:
+    AAS_BASE_URL                AAS Base URL
+    SERVER_PORT                 The Port on which Server Listens to
+    SERVER_READ_TIMEOUT         Request Read Timeout Duration <span class="k">in</span> Seconds
+    SERVER_READ_HEADER_TIMEOUT  Request Read Header Timeout Duration <span class="k">in</span> Seconds
+    SERVER_IDLE_TIMEOUT         Request Idle Timeout <span class="k">in</span> Seconds
+    LOG_LEVEL                   Log level
+    LOG_MAX_LENGTH              Max length of log statement
+    SERVER_WRITE_TIMEOUT        Request Write Timeout Duration <span class="k">in</span> Seconds
+    SERVER_MAX_HEADER_BYTES     Max Length Of Request Header <span class="k">in</span> Bytes
+    LOG_ENABLE_STDOUT           Enable console log
+    TOKEN_DURATION_MINS         Validity of token duration
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;root-ca&#39;</span> setup:
+    CMS_CA_PROVINCE             CA Certificate Province
+    CMS_CA_COUNTRY              CA Certificate Country
+    CMS_CA_CERT_VALIDITY        CA Certificate Validity
+    CMS_CA_ORGANIZATION         CA Certificate Organization
+    CMS_CA_LOCALITY             CA Certificate Locality
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;intermediate-ca&#39;</span> setup:
+    CMS_CA_PROVINCE             CA Certificate Province
+    CMS_CA_COUNTRY              CA Certificate Country
+    CMS_CA_CERT_VALIDITY        CA Certificate Validity
+    CMS_CA_ORGANIZATION         CA Certificate Organization
+    CMS_CA_LOCALITY             CA Certificate Locality
+</code></pre></div>
+<h3 id="directory-layout_3">Directory Layout</h3>
+<p>The Certificate Management Service installs by default to /opt/cms with the following folders.</p>
+<h4 id="bin_3">Bin</h4>
+<p>This folder contains executable scripts.</p>
+<h4 id="configuration_3">Configuration</h4>
+<p>This folder /etc/cms contains certificates, keys, and configuration files.</p>
+<h4 id="logs_3">Logs</h4>
+<p>This folder contains log files: /var/log/cms/</p>
+<h4 id="cacerts">Cacerts</h4>
+<p>This folder contains the CMS root CA certificate.</p>
+<h2 id="authentication-and-authorization-service">Authentication and Authorization Service</h2>
+<h3 id="installation-answer-file-options_4">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; cms IP or hostname&gt;/cms/v1/</td>
+<td>Provides the URL for the CMS.</td>
+</tr>
+<tr>
+<td>AAS_NOSETUP</td>
+<td>false</td>
+<td>Determines whether “setup” will be executed after installation. Typically this is set to “false” to install and perform setup in one action. The “true” option is intended for building the service as a container, where the installation would be part of the image build, and setup would be performed when the container starts for the first time to generate any persistent data.</td>
+</tr>
+<tr>
+<td>AAS_DB_HOSTNAME</td>
+<td>localhost</td>
+<td>Hostname or IP address of the AAS database</td>
+</tr>
+<tr>
+<td>AAS_DB_PORT</td>
+<td>5432</td>
+<td>Database port number</td>
+</tr>
+<tr>
+<td>AAS_DB_NAME</td>
+<td>pgdb</td>
+<td>Database name</td>
+</tr>
+<tr>
+<td>AAS_DB_USERNAME</td>
+<td>aasdbuser</td>
+<td>Database username</td>
+</tr>
+<tr>
+<td>AAS_DB_PASSWORD</td>
+<td>aasdbpassd</td>
+<td>Database password</td>
+</tr>
+<tr>
+<td>AAS_DB_SSLMODE</td>
+<td>verify-full</td>
+<td></td>
+</tr>
+<tr>
+<td>AAS_DB_SSLCERTSRC</td>
+<td>/usr/local/pgsql/data/server.crt</td>
+<td>Required if the “AAS_DB_SSLMODE” is set to “verify-ca.” Defines the location of the database SSL certificate.</td>
+</tr>
+<tr>
+<td>AAS_DB_SSLCERT</td>
+<td>&lt; path_to_cert_file_on_system &gt;</td>
+<td>The AAS_DB_SSLCERTSRC variable defines the  source location of the database SSL certificate; this variable determines the  local location. If the former option  is used without specifying this option, the service will copy the SSL  certificate to the default configuration directory.</td>
+</tr>
+<tr>
+<td>AAS_ADMIN_USERNAME</td>
+<td>admin@aas</td>
+<td>Defines a new AAS administrative user. This user will be able to create new users, new roles, and new role-user mappings. This user will have the AAS:Administrator role.</td>
+</tr>
+<tr>
+<td>AAS_ADMIN_PASSWORD</td>
+<td>aasAdminPass</td>
+<td>Password for the new AAS admin user</td>
+</tr>
+<tr>
+<td>AAS_JWT_CERT_SUBJECT</td>
+<td>"AAS JWT Signing Certificate"</td>
+<td>Defines the subject of the JWT signing certificate.</td>
+</tr>
+<tr>
+<td>AAS_JWT_TOKEN_DURATION</td>
+<td>5</td>
+<td>Defines the amount of time in minutes that an issued token will be valid.</td>
+</tr>
+<tr>
+<td>SAN_LIST</td>
+<td>127.0.0.1,localhost</td>
+<td>Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service.</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Installation Token from AAS.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_4">Configuration Options</h3>
+<p>The AAS configuration can be found in /etc/authservice/config.yml.</p>
+<h3 id="command-line-options_4">Command-Line Options</h3>
+<p>The AAS supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>authservice \&lt;command></p>
+<h4 id="available-commands_4">Available Commands</h4>
+<h4 id="help_4">Help</h4>
+<p>authservice help</p>
+<p>Displays the list of available CLI commands.</p>
+<h4 id="start_4">Start</h4>
+<p>authservice start</p>
+<p>Starts the service.</p>
+<h4 id="stop_4">Stop</h4>
+<p>authservice stop</p>
+<p>Stops the service.</p>
+<h4 id="status_4">Status</h4>
+<p>authservice status</p>
+<p>Displays the current status of the service.</p>
+<h4 id="uninstall_4">Uninstall</h4>
+<p>authservice uninstall [--purge]</p>
+<p>Removes the service. Use the "--purge" flag to also delete all data.</p>
+<h4 id="version_4">Version</h4>
+<p>authservice version</p>
+<p>Shows the version of the service.</p>
+<h4 id="setup-task_4">Setup [task]</h4>
+<p>Executes a specific setup task. Can be used to change the current configuration.</p>
+<p>Syntax:</p>
+<p>authservice setup [task]</p>
+<p>Available Tasks for setup:</p>
+<h5 id="authservice-setup-all">authservice setup all</h5>
+<p>Runs all setup tasks</p>
+<h5 id="authservice-setup-database-force-arguments">authservice setup database [-force] [-arguments=<argument_value>]</h5>
+<ul>
+<li>
+<p>Available arguments are:</p>
+</li>
+<li>
+<p>db-host alternatively, set environment variable AAS_DB_HOSTNAME</p>
+</li>
+<li>
+<p>db-port alternatively, set environment variable AAS_DB_PORT</p>
+</li>
+<li>
+<p>db-user alternatively, set environment variable AAS_DB_USERNAME</p>
+</li>
+<li>
+<p>db-pass alternatively, set environment variable AAS_DB_PASSWORD</p>
+</li>
+<li>
+<p>db-name alternatively, set environment variable AAS_DB_NAME</p>
+</li>
+<li>
+<p>db-sslmode <disable|allow|prefer|require|verify-ca|verify-full> alternatively, set environment variable AAS_DB_SSLMODE</p>
+</li>
+<li>
+<p>db-sslcert path to where the certificate file of database. Only applicable for db-sslmode=\&lt;verify-ca|verify-full. If left empty, the cert will be copied to /etc/authservice/tdcertdb.pem alternatively, set environment variable AAS_DB_SSLCERT</p>
+</li>
+<li>
+<p>db-sslcertsrc <path to where the database ssl/tls certificate file></p>
+</li>
+</ul>
+<p>mandatory if db-sslcert does not already exist alternatively, set environment variable AAS_DB_SSLCERTSRC</p>
+<ul>
+<li>Run this command with environment variable AAS_DB_REPORT_MAX_ROWS and AAS_DB_REPORT_NUM_ROTATIONS can update db rotation arguments</li>
+</ul>
+<h5 id="authservice-setup-server-port">authservice setup server [--port=<port>]</h5>
+<ul>
+<li>
+<p>Setup http server on <port></p>
+</li>
+<li>
+<p>Environment variable AAS_PORT=<port> can be set alternatively authservice setup tls [--force] [--host_names=<host_names>]</p>
+</li>
+<li>
+<p>Use the key and certificate provided in /etc/threat-detection if files exist</p>
+</li>
+<li>
+<p>Otherwise create its own self-signed TLS keypair in /etc/authservice for quality of life</p>
+</li>
+<li>
+<p>Option [--force] overwrites any existing files, and always generate self-signed keypair</p>
+</li>
+<li>
+<p>Argument <host_names> is a list of host names used by local machine, seperated by comma</p>
+</li>
+<li>
+<p>Environment variable AAS_TLS_HOST_NAMES=<host_names> can be set alternatively</p>
+</li>
+</ul>
+<h5 id="authservice-setup-admin-user-pass">authservice setup admin [--user=<username>] [-pass=<password>]</h5>
+<ul>
+<li>
+<p>Environment variable AAS_ADMIN_USERNAME=<username> can be set alternatively</p>
+</li>
+<li>
+<p>Environment variable AAS_ADMIN_PASSWORD=<password> can be set alternatively</p>
+</li>
+</ul>
+<h5 id="authservice-setup-jwt">authservice setup jwt</h5>
+<ul>
+<li>
+<p>Create jwt signing key and jwt certificate signed by CMS</p>
+</li>
+<li>
+<p>Environment variable CMS_BASE_URL=<url> for CMS API url</p>
+</li>
+<li>
+<p>Environment variable AAS_JWT_CERT_CN=<CERTIFICATE SUBJECT> AAS JWT</p>
+</li>
+</ul>
+<p>Certificate Subject</p>
+<ul>
+<li>
+<p>Environment variable AAS_JWT_INCLUDE_KEYID=<KEY ID> AAS include key id in JWT Token</p>
+</li>
+<li>
+<p>Environment variable AAS_JWT_TOKEN_DURATION_MINS=<DURATION> JWT Token validation minutes</p>
+</li>
+<li>
+<p>Environment variable BEARER_TOKEN=<token> for authenticating with CMS</p>
+</li>
+</ul>
+<h3 id="setup-tasks-and-its-configuration-options-for-authentication-and-authorization-service">Setup Tasks and its Configuration Options for Authentication and Authorization Service</h3>
+<div class="highlight"><pre><span></span><code> Available Tasks <span class="k">for</span> setup:
+                all                      Runs all setup tasks
+                download-ca-cert         Download CMS root CA certificate
+                download-cert-tls        Download CA certificate from CMS <span class="k">for</span> tls
+                database                 Setup authservice database
+                admin                    Add authservice admin username and password to database and assign respective
+                                         roles to the user
+                jwt                      Create jwt signing key and jwt certificate signed by CMS
+                update-service-config    Sets or Updates the Service configuration
+
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;download-ca-cert&#39;</span>
+    CMS_BASE_URL                CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    CMS_TLS_CERT_SHA384         SHA384 <span class="nb">hash</span> value of CMS TLS certificate
+
+Following environment variables are required <span class="k">in</span> <span class="s1">&#39;download-cert-tls&#39;</span>
+    CMS_BASE_URL        CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    BEARER_TOKEN        Bearer token <span class="k">for</span> accessing CMS api
+Following environment variables are optionally used <span class="k">in</span> download-cert-tls
+    TLS_CERT_FILE       The file to which certificate is saved
+    TLS_KEY_FILE        The file to which private key is saved
+    TLS_COMMON_NAME     The common name of signed certificate
+
+    TLS_SAN_LIST        Comma separated list of hostnames to add to Certificate, including IP addresses and DNS names
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;Database&#39;</span> related setups:
+    DB_VENDOR                   Vendor of database, or use AAS_DB_VENDOR alternatively
+    DB_HOST                     Database host name, or use AAS_DB_HOSTNAME alternatively
+    DB_USERNAME                 Database username, or use AAS_DB_USERNAME alternatively
+    DB_PASSWORD                 Database password, or use AAS_DB_PASSWORD alternatively
+    DB_SSL_MODE                 Database SSL mode, or use AAS_DB_SSL_MODE alternatively
+    DB_SSL_CERT                 Database SSL certificate, or use AAS_DB_SSLCERT alternatively
+    DB_PORT                     Database port, or use AAS_DB_PORT alternatively
+    DB_NAME                     Database name, or use AAS_DB_NAME alternatively
+    DB_SSL_CERT_SOURCE          Database SSL certificate to be copied from, or use AAS_DB_SSLCERTSRC alternatively
+    DB_CONN_RETRY_ATTEMPTS      Database connection retry attempts
+    DB_CONN_RETRY_TIME          Database connection retry <span class="nb">time</span>
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;admin&#39;</span> setup:
+    AAS_ADMIN_USERNAME  Authentication and Authorization Service Admin Username
+    AAS_ADMIN_PASSWORD  Authentication and Authorization Service Admin Password
+
+Following environment variables are required <span class="k">in</span> <span class="s1">&#39;jwt&#39;</span>
+    CMS_BASE_URL        CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    BEARER_TOKEN        Bearer token <span class="k">for</span> accessing CMS api
+Following environment variables are optionally used <span class="k">in</span> jwt
+    CERT_FILE           The file to which certificate is saved
+    KEY_FILE            The file to which private key is saved
+    COMMON_NAME         The common name of signed certificate
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;update-service-config&#39;</span> setup:
+    AUTH_DEFENDER_LOCKOUT_DURATION_MINS         Auth defender lockout duration <span class="k">in</span> minutes
+    SERVER_MAX_HEADER_BYTES                     Max Length Of Request Header <span class="k">in</span> Bytes
+    JWT_INCLUDE_KID                             Includes JWT Key Id <span class="k">for</span> token validation
+    SERVER_READ_HEADER_TIMEOUT                  Request Read Header Timeout Duration <span class="k">in</span> Seconds
+    AUTH_DEFENDER_MAX_ATTEMPTS                  Auth defender maximum attempts
+    SERVER_PORT                                 The Port on which Server Listens to
+    SERVER_READ_TIMEOUT                         Request Read Timeout Duration <span class="k">in</span> Seconds
+    LOG_MAX_LENGTH                              Max length of log statement
+    LOG_ENABLE_STDOUT                           Enable console log
+    JWT_CERT_COMMON_NAME                        Common Name <span class="k">for</span> JWT Certificate
+    SERVER_WRITE_TIMEOUT                        Request Write Timeout Duration <span class="k">in</span> Seconds
+    SERVER_IDLE_TIMEOUT                         Request Idle Timeout <span class="k">in</span> Seconds
+    LOG_LEVEL                                   Log level
+    JWT_TOKEN_DURATION_MINS                     Validity of token duration
+    AUTH_DEFENDER_INTERVAL_MINS                 Auth defender interval <span class="k">in</span> minutes
+</code></pre></div>
+<h3 id="directory-layout_4">Directory Layout</h3>
+<p>The Authentication and Authorization Service installs by default to /opt/authservice with the following folders.</p>
+<h4 id="bin_4">Bin</h4>
+<p>Contains executable scripts and binaries.</p>
+<h4 id="configuration_4">Configuration</h4>
+<p>This folder /etc/authservice contains certificates, keys, and configuration files.</p>
+<h4 id="logs_4">Logs</h4>
+<p>This folder contains log files: /var/log/authservice</p>
+<h4 id="dbscripts">Dbscripts</h4>
+<p>This folder /opt/authservice/dbscripts Contains database scripts</p>
+<h2 id="key-broker-service">Key Broker Service</h2>
+<h3 id="installation-answer-file-options_5">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Default Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; CMS IP or hostname &gt;:8445/cms/v1/</td>
+<td>Required for generating TLS certificate</td>
+</tr>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; AAS IP or hostname &gt;:8444/aas/v1</td>
+<td>AAS service url</td>
+</tr>
+<tr>
+<td>SQVS_URL</td>
+<td>https://&lt; SQVS IP or hostname &gt;:12000/svs/v1/</td>
+<td>Required to get the SGX Quote verified</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest &gt;</td>
+<td>SHA384 digest of CMS TLS certificate</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>JWT token for installation user</td>
+</tr>
+<tr>
+<td>KBS_SERVICE_USERNAME</td>
+<td>admin@kms</td>
+<td>KBS Service Username</td>
+</tr>
+<tr>
+<td>KBS_SERVICE_PASSWORD</td>
+<td>kmsAdminPass</td>
+<td>KBS Service User Password</td>
+</tr>
+<tr>
+<td>ENDPOINT_URL</td>
+<td>https://&lt; KBS Hostname &gt;:9443/kbs/v1</td>
+<td>KBS Endpoint URL</td>
+</tr>
+<tr>
+<td>TLS_COMMON_NAME</td>
+<td>KBS TLS Certificate</td>
+<td>KBS TLS Certificate common-name</td>
+</tr>
+<tr>
+<td>SERVER_PORT</td>
+<td>9443</td>
+<td>KBS Secure Port</td>
+</tr>
+<tr>
+<td>SKC_CHALLENGE_TYPE</td>
+<td>SGX</td>
+<td>Challenge Type</td>
+</tr>
+<tr>
+<td>TLS_SAN_LIST</td>
+<td>&lt; KBS IP/Hostname &gt;</td>
+<td>IP addresses/hostnames to be included in SAN list.</td>
+</tr>
+<tr>
+<td>KEY_MANAGER</td>
+<td>KMIP</td>
+<td>Key Manager Backend to store keys</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_5">Configuration Options</h3>
+<p>The Key Broker Service configuration is in path /etc/kbs/config.yml.</p>
+<h3 id="command-line-options_5">Command-Line Options</h3>
+<p>The Key Broker Service supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>kbs \&lt;command></p>
+<h4 id="available-commands_5">Available Commands</h4>
+<h4 id="help_5">Help</h4>
+<p>kbs help</p>
+<p>Displays the list of available CLI commands.</p>
+<h4 id="start_5">Start</h4>
+<p>kbs start</p>
+<p>Starts the service</p>
+<h4 id="stop_5">Stop</h4>
+<p>kbs stop</p>
+<p>Stops the service</p>
+<h4 id="status_5">Status</h4>
+<p>kbs status</p>
+<p>Displays the current status of the service.</p>
+<h4 id="uninstall_5">Uninstall</h4>
+<p>kbs uninstall [--purge]</p>
+<p>Removes the service</p>
+<h4 id="version_5">Version</h4>
+<p>kbs version</p>
+<p>Displays the version of the service</p>
+<h4 id="setup-task_5">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>kbs setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-key-broker-service">Setup Tasks and its Configuration Options for Key Broker Service</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+        all                                 Runs all setup tasks
+        download-ca-cert                    Download CMS root CA certificate
+        download-cert-tls                   Download CA certificate from CMS <span class="k">for</span> tls
+        create-default-key-transfer-policy  Create default key transfer policy <span class="k">for</span> KBS
+        update-service-config               Sets or Updates the Service configuration
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;update-service-config&#39;</span> setup:
+    SERVICE_USERNAME            The service username as configured <span class="k">in</span> AAS
+    AAS_BASE_URL                AAS Base URL
+    KMIP_ROOT_CERT_PATH         KMIP Root Certificate path
+    KMIP_SERVER_IP              IP of KMIP server
+    KMIP_CLIENT_KEY_PATH        KMIP Client key path
+    SERVER_READ_TIMEOUT         Request Read Timeout Duration <span class="k">in</span> Seconds
+    SERVER_READ_HEADER_TIMEOUT  Request Read Header Timeout Duration <span class="k">in</span> Seconds
+    SERVER_IDLE_TIMEOUT         Request Idle Timeout <span class="k">in</span> Seconds
+    SQVS_URL                    SQVS URL
+    SESSION_EXPIRY_TIME         Session Expiry Time
+    SERVER_PORT                 The Port on which Server Listens to
+    LOG_LEVEL                   Log level
+    LOG_MAX_LENGTH              Max length of log statement
+    LOG_ENABLE_STDOUT           Enable console log
+    KMIP_SERVER_PORT            PORT of KMIP server
+    KMIP_CLIENT_CERT_PATH       KMIP Client certificate path
+    SERVER_WRITE_TIMEOUT        Request Write Timeout Duration <span class="k">in</span> Seconds
+    SERVER_MAX_HEADER_BYTES     Max Length Of Request Header <span class="k">in</span> Bytes
+    SERVICE_PASSWORD            The service password as configured <span class="k">in</span> AAS
+    SKC_CHALLENGE_TYPE          SKC challenge <span class="nb">type</span>
+
+Following environment variables are required <span class="k">for</span> <span class="s1">&#39;download-ca-cert&#39;</span>
+    CMS_BASE_URL                CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    CMS_TLS_CERT_SHA384         SHA384 <span class="nb">hash</span> value of CMS TLS certificate
+
+Following environment variables are required <span class="k">in</span> <span class="s1">&#39;download-cert-tls&#39;</span>
+    CMS_BASE_URL        CMS base URL <span class="k">in</span> the format https://<span class="o">{{</span>cms<span class="o">}}</span>:<span class="o">{{</span>cms_port<span class="o">}}</span>/cms/v1/
+    BEARER_TOKEN        Bearer token <span class="k">for</span> accessing CMS api
+Following environment variables are optionally used <span class="k">in</span> download-cert-tls
+    TLS_KEY_FILE        The file to which private key is saved
+    TLS_COMMON_NAME     The common name of signed certificate
+    TLS_CERT_FILE       The file to which certificate is saved
+
+    TLS_SAN_LIST        Comma separated list of hostnames to add to Certificate, including IP addresses and DNS names
+</code></pre></div>
+<h3 id="directory-layout_5">Directory Layout</h3>
+<p>The Key Broker Service installs by default to /opt/kbs with the following folders.</p>
+<h4 id="bin_5">Bin</h4>
+<p>Contains executable scripts and binaries.</p>
+<h4 id="configuration_5">Configuration</h4>
+<p>This folder /etc/kbs contains certificates, keys, and configuration files.</p>
+<h4 id="logs_5">Logs</h4>
+<p>This folder contains log files: /var/log/kbs</p>
+<h2 id="sgx-caching-service">SGX Caching Service</h2>
+<h3 id="installation-answer-file-options_6">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; CMS IP or hostname &gt;:8445/cms/v1/</td>
+<td>CMS URL for Certificate Management Service</td>
+</tr>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; AAS IP or hostname &gt;:8444/aas/v1</td>
+<td>API URL for Authentication Authorization Service</td>
+</tr>
+<tr>
+<td>SCS_ADMIN_USERNAME</td>
+<td>scsuser@scs</td>
+<td>SCS Service username</td>
+</tr>
+<tr>
+<td>SCS_ADMIN_PASSWORD</td>
+<td>scspassword</td>
+<td>SCS Service password</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Installation Token from AAS</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest &gt;</td>
+<td>SHA384  Hash sum for verifying the CMS TLS certificate.</td>
+</tr>
+<tr>
+<td>INTEL_PROVISIONING_SERVER</td>
+<td><a href="https://sbx.api.trustedservices.intel.com/sgx/certification/v3">https://sbx.api.trustedservices.intel.com/sgx/certification/v3</a></td>
+<td>Intel pcs server url</td>
+</tr>
+<tr>
+<td>INTEL_PROVISIONING_SERVER_API_KEY</td>
+<td>&lt; Add your API subscription key &gt;</td>
+<td>Intel PCS Server API subscription key</td>
+</tr>
+<tr>
+<td>SCS_REFRESH_HOURS</td>
+<td>1 hour</td>
+<td>Time after which the SGX collaterals in SCS db get refreshed from  Intel PCS server</td>
+</tr>
+<tr>
+<td>RETRY_COUNT</td>
+<td>3</td>
+<td>Number Of times to connect to PCS if PCS service is not accessible</td>
+</tr>
+<tr>
+<td>WAIT_TIME</td>
+<td>1</td>
+<td>Number Of Seconds between retries to connect to PCS</td>
+</tr>
+<tr>
+<td>SCS_DB_HOSTNAME</td>
+<td>localhost</td>
+<td>SCS Databse hostname</td>
+</tr>
+<tr>
+<td>SCS_DB_PORT</td>
+<td>5432</td>
+<td>SCS Database port</td>
+</tr>
+<tr>
+<td>SCS_DB_NAME</td>
+<td>pgscsdb</td>
+<td>SCS Database name</td>
+</tr>
+<tr>
+<td>SCS_DB_USERNAME</td>
+<td>aasdbuser</td>
+<td>SCS Database username</td>
+</tr>
+<tr>
+<td>SCS_DB_PASSWORD</td>
+<td>aasdbpassword</td>
+<td>SCS Database password</td>
+</tr>
+<tr>
+<td>SCS_DB_SSLCERTSRC</td>
+<td>/usr/local/pgsql/data/server.crt</td>
+<td></td>
+</tr>
+<tr>
+<td>SAN_LIST</td>
+<td>127.0.0.1,localhost</td>
+<td>Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration-options_6">Configuration Options</h3>
+<p>The SGX Caching Service configuration can be found in /etc/scs/config.yml.</p>
+<h3 id="command-line-options_6">Command-Line Options</h3>
+<p>The SGX Caching Service supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>scs \&lt;command></p>
+<h4 id="available-commands_6">Available Commands</h4>
+<h4 id="help_6">Help</h4>
+<p>scs help</p>
+<p>Displays the list of available CLI commands.</p>
+<h4 id="start_6">Start</h4>
+<p>scs start</p>
+<p>Starts the SGX Caching Service</p>
+<h4 id="stop_6">Stop</h4>
+<p>scs stop</p>
+<p>Stops the SGX Caching Service</p>
+<h4 id="status_6">Status</h4>
+<p>scs status</p>
+<p>Reports whether the SGX Caching Service is currently running</p>
+<h4 id="uninstall_6">Uninstall</h4>
+<p>scs uninstall [--purge]</p>
+<p>uninstall the SGX Caching Service. --purge option needs to be applied to remove configuration files</p>
+<h4 id="version_6">Version</h4>
+<p>scs version</p>
+<p>Reports the version of the scs</p>
+<h4 id="setup-task_6">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>scs setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-sgx-caching-service">Setup Tasks and its Configuration Options for SGX Caching Service</h3>
+<div class="highlight"><pre><span></span><code> Avaliable Tasks <span class="k">for</span> setup:
+    all                       Runs all setup tasks
+                              Required env variables:
+                                  - get required env variables from all the setup tasks
+                              Optional env variables:
+                                  - get optional env variables from all the setup tasks
+
+    scs setup database
+        - Avaliable arguments are:
+            - SCS_DB_HOSTNAME
+            - SCS_DB_PORT
+            - SCS_DB_USERNAME
+            - SCS_DB_PASSWORD
+            - SCS_DB_NAME
+            - SCS_DB_SSLMODE &lt;disable<span class="p">|</span>allow<span class="p">|</span>prefer<span class="p">|</span>require<span class="p">|</span>verify-ca<span class="p">|</span>verify-full&gt;
+            - SCS_DB_SSLCERT path to where the certificate file of database. Only applicable
+                         <span class="k">for</span> db-sslmode<span class="o">=</span>&lt;verify-ca<span class="p">|</span>verify-full. If left empty, the cert
+                         will be copied to /etc/scs/tdcertdb.pem
+            - SCS_DB_SSLCERTSRC &lt;path to where the database ssl/tls certificate file&gt;
+                         mandatory <span class="k">if</span> db-sslcert does not already exist
+
+    update_service_config    Updates Service Configuration
+                             Required env variables:
+                                 - SCS_PORT                                         : SGX Caching Service port
+                                 - SCS_SERVER_READ_TIMEOUT                          : SGX Caching Service Read Timeout
+                                 - SCS_SERVER_READ_HEADER_TIMEOUT                   : SGX Caching Service Read Header Timeout Duration
+                                 - SCS_SERVER_WRITE_TIMEOUT                         : SGX Caching Service Request Write Timeout Duration
+                                 - SCS_SERVER_IDLE_TIMEOUT                          : SGX Caching Service Request Idle Timeout
+                                 - SCS_SERVER_MAX_HEADER_BYTES                      : SGX Caching Service Max Length Of Request Header Bytes
+                                 - INTEL_PROVISIONING_SERVER                        : Intel ECDSA Provisioning Server URL
+                                 - INTEL_PROVISIONING_SERVER_API_KEY                : Intel ECDSA Provisioning Server API Subscription key
+                                 - SCS_LOGLEVEL                                     : SGX Caching Service Log Level
+                                 - SCS_LOG_MAX_LENGTH                               : SGX Caching Service Log maximum length
+                                 - SCS_ENABLE_CONSOLE_LOG                           : SGX Caching Service Enable standard output
+                                 - SCS_REFRESH_HOURS                                : SCS Automatic Refresh of SGX Data
+                                 - RETRY_COUNT                                      : Number of retry to PCS server
+                                 - WAIT_TIME                                        : Duration Time between each retries to PCS
+                                 - AAS_API_URL                                      : AAS API URL
+
+    download_ca_cert         Download CMS root CA certificate
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;                                : <span class="k">for</span> CMS API url
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;    : to ensure that AAS is talking to the right CMS instance
+
+    download_cert TLS        Generates Key pair and CSR, gets it signed from CMS
+                             Required env variable <span class="k">if</span> <span class="nv">SCS_NOSETUP</span><span class="o">=</span><span class="nb">true</span> or variable not <span class="nb">set</span> <span class="k">in</span> config.yml:
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;      : to ensure that AAS is talking to the right CMS instance
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;               : <span class="k">for</span> CMS API url
+                                 - <span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;token&gt;             : <span class="k">for</span> authenticating with CMS
+                                 - <span class="nv">SAN_LIST</span><span class="o">=</span>&lt;san&gt;                   : list of hosts which needs access to service
+                             Optional env variables specific to setup task are:
+                                 - <span class="nv">KEY_PATH</span><span class="o">=</span>&lt;key_path&gt;              : Path of file where TLS key needs to be stored
+                                 - <span class="nv">CERT_PATH</span><span class="o">=</span>&lt;cert_path&gt;            : Path of file/directory where TLS certificate needs to be stored
+</code></pre></div>
+<h3 id="directory-layout_6">Directory Layout</h3>
+<p>The SGX Caching Service installs by default to /opt/scs with the following folders.</p>
+<h4 id="bin_6">Bin</h4>
+<p>Contains SGX Caching Service executable binary.</p>
+<h4 id="configuration_6">Configuration</h4>
+<p>This folder /etc/scs contains certificates, keys, and configuration files.</p>
+<h4 id="logs_6">Logs</h4>
+<p>This folder contains log files: /var/log/scs</p>
+<h2 id="sgx-quote-verification-service">SGX Quote Verification Service</h2>
+<h3 id="installation-answer-file-options_7">Installation Answer File Options</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Sample Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS_BASE_URL</td>
+<td>https://&lt; CMS IP address or hostname &gt;:8445/cms/v1/</td>
+<td>Defines the base URL for the CMS owned by  the image owner. Note that this CMS  may be different from the CMS used for other components.</td>
+</tr>
+<tr>
+<td>AAS_API_URL</td>
+<td>https://&lt; AAS IP address or hostname &gt;:8444/aas/v1</td>
+<td>Defines the baseurl for the AAS owned by  the image owner. Note that this AAS  may be different from the AAS used for other components.</td>
+</tr>
+<tr>
+<td>SCS_BASE_URL</td>
+<td>https://&lt; SCS IP address or hostname &gt;:9000/scs/sgx/certification/v1/</td>
+<td>The SCS url is needed.</td>
+</tr>
+<tr>
+<td>SGX_TRUSTED_ROOT_CA_PATH</td>
+<td>/tmp/trusted_rootca.pem</td>
+<td>The path to SGX root ca used to verify quote</td>
+</tr>
+<tr>
+<td>CMS_TLS_CERT_SHA384</td>
+<td>&lt; Certificate Management Service TLS digest &gt;</td>
+<td>SHA384 hash of the CMS  TLS certificate</td>
+</tr>
+<tr>
+<td>BEARER_TOKEN</td>
+<td></td>
+<td>Token from CMS with  permissions used for installation.</td>
+</tr>
+<tr>
+<td>SQVS_LOG_LEVEL</td>
+<td>INFO (default), DEBUG</td>
+<td>Defines the log level  for the SQVS. Defaults to INFO.</td>
+</tr>
+<tr>
+<td>SQVS_PORT</td>
+<td>12000</td>
+<td>SQVS Secure Port</td>
+</tr>
+<tr>
+<td>SQVS_NOSETUP</td>
+<td>false</td>
+<td>Skips setup during installation if set to true</td>
+</tr>
+<tr>
+<td>SIGN_QUOTE_RESPONSE</td>
+<td>false</td>
+<td>If set to false, the SQVS response is not signed, signed if set to true</td>
+</tr>
+<tr>
+<td>RESPONSE_SIGNING_KEY_LENGTH</td>
+<td>3072</td>
+<td>if SIGN_QUOTE_RESPONSE is set to true, then create RSA signing key of length defined by RESPONSE_SIGNING_KEY_LENGTH</td>
+</tr>
+</tbody>
+</table>
+<p>| SAN_LIST                 | 127.0.0.1,localhost                                          | Comma-separated list of IP addresses and hostnames that will be valid connection points for the service. Requests sent to the service using an IP or hostname not in this list will be denied, even if it resolves to this service. |
+| SQVS_INCLUDE_TOKEN       | true                                                         | If true, SQVS will authenticate KBS before Quote Verifiation |</p>
+<h3 id="configuration-options_7">Configuration Options</h3>
+<p>The SGX Quote Verification Service configuration can be found in /etc/sqvs/config.yml.</p>
+<h3 id="command-line-options_7">Command-Line Options</h3>
+<p>The SGX Quote Verifiction Service supports several command-line options that can be executed only as the Root user:</p>
+<p>Syntax:</p>
+<p>sqvs \&lt;command></p>
+<h4 id="available-commands_7">Available Commands</h4>
+<h4 id="help_7">Help</h4>
+<p>sqvs help</p>
+<p>Displays the list of available CLI commands.</p>
+<h4 id="start_7">Start</h4>
+<p>sqvs start</p>
+<p>Starts the SGX Quote Verification Service</p>
+<h4 id="stop_7">Stop</h4>
+<p>sqvs stop</p>
+<p>Stops the SGX Quote Verification Service</p>
+<h4 id="status_7">Status</h4>
+<p>sqvs status</p>
+<p>Reports whether the SGX Quote Verification Service is currently running.</p>
+<h4 id="uninstall_7">Uninstall</h4>
+<p>sqvs uninstall [--purge]</p>
+<p>uninstalls the SGX Quote Verification Service. --purge option needs to be applied to remove configuration files</p>
+<h4 id="version_7">Version</h4>
+<p>sqvs version</p>
+<p>Reports the version of the sqvs</p>
+<h4 id="setup-task_7">Setup [task]</h4>
+<p>Runs a specific setup task.</p>
+<p>Syntax:</p>
+<p>sqvs setup [task]</p>
+<h3 id="setup-tasks-and-its-configuration-options-for-sgx-quote-verification-service">Setup Tasks and its Configuration Options for SGX Quote Verification Service</h3>
+<div class="highlight"><pre><span></span><code>Available Tasks <span class="k">for</span> setup:
+                              Required env variables:
+                                  - get required env variables from all the setup tasks
+                              Optional env variables:
+                                  - get optional env variables from all the setup tasks
+
+    update_service_config    Updates Service Configuration
+                             Required env variables:
+                                 - SQVS_PORT                                         : SGX Verification Service port
+                                 - SQVS_SERVER_READ_TIMEOUT                          : SGX Verification Service Read Timeout
+                                 - SQVS_SERVER_READ_HEADER_TIMEOUT                   : SGX Verification Service Read Header Timeout Duration
+                                 - SQVS_SERVER_WRITE_TIMEOUT                         : SGX Verification Service Request Write Timeout Duration
+                                 - SQVS_SERVER_IDLE_TIMEOUT                          : SGX Verification Service Request Idle Timeout
+                                 - SQVS_SERVER_MAX_HEADER_BYTES                      : SGX Verification Service Max Length Of Request Header Bytes
+                                 - SQVS_LOGLEVEL                                    : SGX Verification Service Log Level
+                                 - SQVS_LOG_MAX_LENGTH                               : SGX Verification Service Log maximum length
+                                 - SQVS_ENABLE_CONSOLE_LOG                           : SGX Verification Service Enable standard output
+                                 - SQVS_INCLUDE_TOKEN                                : Boolean value to decide whether to use token based auth or no auth <span class="k">for</span> quote verifier API
+                                 - SGX_TRUSTED_ROOT_CA_PATH                          : SQVS Trusted Root CA
+                                 - SCS_BASE_URL                                      : SGX Caching Service URL
+                                 - AAS_API_URL                                       : AAS API URL
+
+    download_ca_cert         Download CMS root CA certificate
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;                                : <span class="k">for</span> CMS API url
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;    : to ensure that AAS is talking to the right CMS instance
+
+    download_cert TLS        Generates Key pair and CSR, gets it signed from CMS
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;      : to ensure that AAS is talking to the right CMS instance
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;               : <span class="k">for</span> CMS API url
+                                 - <span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;token&gt;             : <span class="k">for</span> authenticating with CMS
+                                 - <span class="nv">SAN_LIST</span><span class="o">=</span>&lt;san&gt;                   : list of hosts which needs access to service
+                             Optional env variables specific to setup task are:
+                                - <span class="nv">KEY_PATH</span><span class="o">=</span>&lt;key_path&gt;              : Path of file where TLS key needs to be stored
+                                - <span class="nv">CERT_PATH</span><span class="o">=</span>&lt;cert_path&gt;            : Path of file/directory where TLS certificate needs to be stored
+
+    create_signing_key_pair  Generates Key pair and CSR and downloads Signing certificate from CMS
+                             - Option <span class="o">[</span>--force<span class="o">]</span> overwrites any existing files and always downloads new Signing cert
+                             Required env variable <span class="k">if</span> <span class="nv">SQVS_NOSETUP</span><span class="o">=</span><span class="nb">true</span> or variable not <span class="nb">set</span> <span class="k">in</span> config.yml:
+                                 - <span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;CMS TLS cert sha384 hash&gt;      : to ensure that AAS is talking to the right CMS instance
+                             Required env variables specific to setup task are:
+                                 - <span class="nv">CMS_BASE_URL</span><span class="o">=</span>&lt;url&gt;               : <span class="k">for</span> CMS API url
+                                 - <span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;token&gt;             : <span class="k">for</span> authenticating with CMS
+</code></pre></div>
+<h3 id="directory-layout_7">Directory Layout</h3>
+<p>The SGX Quote Verification Service installs by default to /opt/sqvs with the following folders.</p>
+<h4 id="bin_7">Bin</h4>
+<p>This folder contains executable scripts.</p>
+<h4 id="configuration_7">Configuration</h4>
+<p>This folder /etc/sqvs contains certificates, keys, and configuration files.</p>
+<h4 id="logs_7">Logs</h4>
+<p>This folder contains log files: /var/log/sqvs</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.indexes", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.37e9125f.min.js"></script>
+      
+    
+  </body>
+</html>
