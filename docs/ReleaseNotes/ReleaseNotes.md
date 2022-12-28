@@ -16,6 +16,16 @@ Foundational Security/Workload Security Use Cases:
 | Trusted-Workload-Placement-Control-Plane          | v5.0.0          |  v5.1.0            |
 | Workload Confidentiality                          | v5.0.0          |  v5.1.0            |
 
+SKC/ SGX Attestation Use Cases:
+
+- All bare-metal binary installation deployments have been deprecated.  
+- Helm deployments are supported for SKC / SGX use cases.
+
+| Usecases                                          | Current Version |  
+| ------------------------------------------------- | :-------------: |  
+| SGX Infrastructure                                | v5.1.0          |  
+| SGX Orchestration                                 | v5.1.0          |  
+| SGX Infrastructure and Orchestration              | v5.1.0          |   
 
 # ***Intel(R) SecL-DC version 5.0 BETA***
 

@@ -52,6 +52,25 @@ nav:
         -  Certificate and Key Management: product-guides/Foundational & Workload Security/120 Certificate and Key Management.md
         -  Upgrades: product-guides/Foundational & Workload Security/130 Upgrades.md
         -  Appendix: product-guides/Foundational & Workload Security/999 Appendix.md
+      - SGX Infrastructure and Orchestration:
+        - Disclaimer: product-guides\SGX Infrastructure and Orchestration\01.md
+        - Introduction: product-guides\SGX Infrastructure and Orchestration\1Introduction.md
+        - SGX Attestation Infrastructure: product-guides\SGX Infrastructure and Orchestration\2.1SGX Attestation Infrastructure.md
+        - Secure Key Caching: product-guides\SGX Infrastructure and Orchestration\2.2Secure Key Caching.md
+        - Building SGX Services Container Images: product-guides\SGX Infrastructure and Orchestration\3Building the SGX Container Images.md
+        - Deploying SGX Use Cases and Individual Services Using Helm:
+            - Prerequisites for Deployment: product-guides\SGX Infrastructure and Orchestration\4.1Prerequisites for Deploying SGX using Helm.md
+            - Deploying SGX Use Cases: product-guides\SGX Infrastructure and Orchestration\4.2Deploying SGX Use Cases Using Helm.md
+            - Deploying Individual Services: product-guides\SGX Infrastructure and Orchestration\4.3Deploying Individual Services Using Helm.md
+        - Intel® Security Libraries Installation: product-guides\SGX Infrastructure and Orchestration\5KBS key-transfer flow validation through SKC library installation.md
+        - Authentication: product-guides\SGX Infrastructure and Orchestration\6Authentication.md
+        - SGX Features Provisioning: product-guides\SGX Infrastructure and Orchestration\7SGX Features Provisioning.md
+        - Setup Task Flows for K8s Deployments: product-guides\SGX Infrastructure and Orchestration\8Setup Task Flows for K8s Deployments.md
+        - Configuration Update Flows for K8s Deployments: product-guides\SGX Infrastructure and Orchestration\9Configuration Update Flows for K8s Deployments.md
+        - Intel Security Libraries Configuration Settings: product-guides\SGX Infrastructure and Orchestration\10SGX services Configuration Settings.md
+        - Appendix: product-guides\SGX Infrastructure and Orchestration\11Appendix.md
+        - Note on Key Transfer Policy: product-guides\SGX Infrastructure and Orchestration\12Note on Key Transfer Policy.md
+        - Note on SKC Library Deployment: product-guides\SGX Infrastructure and Orchestration\13Note on SKC Library Deployment.md
   - Release Notes:
       - Release Notes: ReleaseNotes/ReleaseNotes.md
 theme:
