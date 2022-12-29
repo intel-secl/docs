@@ -1028,6 +1028,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_2_2">
@@ -1333,6 +1335,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14VMware%20Caching%20Service%20Integration/" class="md-nav__link">
+        VMware Caching Service
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1449,9 +1465,6 @@ Following are the steps need to be run for deploying individual charts for SGX-I
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/cleanup-secrets --version $VERSION &amp;&amp; tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
 helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
 
-helm pull isecl-helm/cleanup-jobs --version $VERSION &amp;&amp; tar -xzf cleanup-jobs-$VERSION.tgz cleanup-jobs/values.yaml 
-helm install cleanup-jobs isecl-helm/jobs-secrets --version $VERSION -f cleanup-jobs/values.yaml -n isecl
-
 helm pull isecl-helm/cms --version $VERSION &amp;&amp; tar -xzf cms-$VERSION.tgz cms/values.yaml 
 helm install cms isecl-helm/cms --version $VERSION -f cms/values.yaml -n isecl
 
@@ -1461,20 +1474,20 @@ helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator --version $VER
 helm pull isecl-helm/scsdb-cert-generator --version $VERSION &amp;&amp; tar -xzf scsdb-cert-generator-$VERSION.tgz scsdb-cert-generator/values.yaml 
 helm install scsdb-cert-generator isecl-helm/scsdb-cert-generator --version $VERSION -f scsdb-cert-generator/values.yaml -n isecl
 
-helm pull isecl-helm/sagent-aas-manager --version $VERSION &amp;&amp; tar -xzf sagent-aas-manager-$VERSION.tgz sagent-aas-manager/values.yaml 
-helm install sagent-aas-manager isecl-helm/sagent-aas-manager --version $VERSION -f sagent-aas-manager/values.yaml -n isecl
-
 helm pull isecl-helm/aas --version $VERSION &amp;&amp; tar -xzf aas-$VERSION.tgz aas/values.yaml 
 helm install aas isecl-helm/aas --version $VERSION -f aas/values.yaml -n isecl
+
+helm pull isecl-helm/sagent-aas-manager --version $VERSION &amp;&amp; tar -xzf sagent-aas-manager-$VERSION.tgz sagent-aas-manager/values.yaml 
+helm install sagent-aas-manager isecl-helm/sagent-aas-manager --version $VERSION -f sagent-aas-manager/values.yaml -n isecl
 
 helm pull isecl-helm/scs --version $VERSION &amp;&amp; tar -xzf scs-$VERSION.tgz scs/values.yaml 
 helm install scs isecl-helm/scs --version $VERSION -f scs/values.yaml -n isecl
 
-helm pull isecl-helm/kbs --version $VERSION &amp;&amp; tar -xzf kbs-$VERSION.tgz kbs/values.yaml 
-helm install kbs isecl-helm/kbs --version $VERSION -f kbs/values.yaml -n isecl
-
 helm pull isecl-helm/sqvs --version $VERSION &amp;&amp; tar -xzf sqvs-$VERSION.tgz sqvs/values.yaml 
 helm install sqvs isecl-helm/sqvs --version $VERSION -f sqvs/values.yaml -n isecl
+
+helm pull isecl-helm/kbs --version $VERSION &amp;&amp; tar -xzf kbs-$VERSION.tgz kbs/values.yaml 
+helm install kbs isecl-helm/kbs --version $VERSION -f kbs/values.yaml -n isecl
 
 helm pull isecl-helm/sagent --version $VERSION &amp;&amp; tar -xzf sagent-$VERSION.tgz sagent/values.yaml 
 helm install sagent isecl-helm/sagent --version $VERSION -f sagent/values.yaml -n isecl
@@ -1482,9 +1495,6 @@ helm install sagent isecl-helm/sagent --version $VERSION -f sagent/values.yaml -
 <p>Following are the steps need to be run for deploying individual charts for SGX-Orchestration usecase</p>
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/cleanup-secrets --version $VERSION &amp;&amp; tar -xzf cleanup-secrets-$VERSION.tgz cleanup-secrets/values.yaml 
 helm install cleanup-secrets isecl-helm/cleanup-secrets --version $VERSION -f cleanup-secrets/values.yaml -n isecl
-
-helm pull isecl-helm/cleanup-jobs --version $VERSION &amp;&amp; tar -xzf cleanup-jobs-$VERSION.tgz cleanup-jobs/values.yaml 
-helm install cleanup-jobs isecl-helm/jobs-secrets --version $VERSION -f cleanup-jobs/values.yaml -n isecl
 
 helm pull isecl-helm/cms --version $VERSION &amp;&amp; tar -xzf cms-$VERSION.tgz cms/values.yaml 
 helm install cms isecl-helm/cms --version $VERSION -f cms/values.yaml -n isecl
@@ -1498,11 +1508,11 @@ helm install scsdb-cert-generator isecl-helm/scsdb-cert-generator --version $VER
 helm pull isecl-helm/shvsdb-cert-generator --version $VERSION &amp;&amp; tar -xzf shvsdb-cert-generator-$VERSION.tgz shvsdb-cert-generator/values.yaml 
 helm install shvsdb-cert-generator isecl-helm/shvsdb-cert-generator --version $VERSION -f shvsdb-cert-generator/values.yaml -n isecl
 
-helm pull isecl-helm/sagent-aas-manager --version $VERSION &amp;&amp; tar -xzf sagent-aas-manager-$VERSION.tgz sagent-aas-manager/values.yaml 
-helm install sagent-aas-manager isecl-helm/sagent-aas-manager --version $VERSION -f sagent-aas-manager/values.yaml -n isecl
-
 helm pull isecl-helm/aas --version $VERSION &amp;&amp; tar -xzf aas-$VERSION.tgz aas/values.yaml 
 helm install aas isecl-helm/aas --version $VERSION -f aas/values.yaml -n isecl
+
+helm pull isecl-helm/sagent-aas-manager --version $VERSION &amp;&amp; tar -xzf sagent-aas-manager-$VERSION.tgz sagent-aas-manager/values.yaml 
+helm install sagent-aas-manager isecl-helm/sagent-aas-manager --version $VERSION -f sagent-aas-manager/values.yaml -n isecl
 
 helm pull isecl-helm/scs --version $VERSION &amp;&amp; tar -xzf scs-$VERSION.tgz scs/values.yaml 
 helm install scs isecl-helm/scs --version $VERSION -f scs/values.yaml -n isecl

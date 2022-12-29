@@ -1028,6 +1028,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_2_2">
@@ -1412,6 +1414,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14VMware%20Caching%20Service%20Integration/" class="md-nav__link">
+        VMware Caching Service
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1588,11 +1604,12 @@
 <li>
 <p>Pre-requisite for deploying sgx-agent: <br />
   sgx drivers must be installed.<br />
-  For Ubuntu 20.04: 
-   <code>apt-get install build-essential ocaml automake autoconf libtool wget python libssl-dev dkms  
-  wget https://download.01.org/intel-sgx/latest/dcap-latest/linux/distro/${distro_name}/sgx_linux_x64_driver_${version}.bin  
-  chmod 777 sgx_linux_x64_driver_${version}.bin  
-  ./sgx_linux_x64_driver_${version}.bin</code> </p>
+  For Ubuntu 20.04:
+  <div class="highlight"><pre><span></span><code>apt-get install build-essential ocaml automake autoconf libtool wget python libssl-dev dkms  
+wget https://download.01.org/intel-sgx/latest/dcap-latest/linux/distro/${distro_name}/sgx_linux_x64_driver_${version}.bin  
+chmod 777 sgx_linux_x64_driver_${version}.bin  
+./sgx_linux_x64_driver_${version}.bin  
+</code></pre></div></p>
 </li>
 </ul>
 <p>Detailed instructions for different OS are in : <br />
@@ -1698,7 +1715,7 @@ e.g For 3 node cluster with FQDN names control-plane.com(control plane), node1.c
 <span class="nt">Opt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;NFS-vol-base-path&gt;/isecl/kbs/kbs/opt</span><span class="w"></span>
 
 <span class="c1">#SGX Agent:</span><span class="w"></span>
-<span class="nt">Config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/sgx_agent/v5.1.0/</span><span class="w"></span>
+<span class="nt">Config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/sgx_agent/</span><span class="w"></span>
 <span class="nt">Logs</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">/var/log/sgx_agent/</span><span class="w"></span>
 </code></pre></div>
 <p><strong><em>NOTE:</em></strong> 

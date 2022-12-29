@@ -1028,6 +1028,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_2_2">
@@ -1325,6 +1327,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sgx-vmware" class="md-nav__link">
+    SGX-VMWare
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX-VMWare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_3" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postinstallation" class="md-nav__link">
+    PostInstallation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bringing-up-sgx-agent" class="md-nav__link">
+    Bringing Up SGX Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Bringing Up SGX Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-reqs" class="md-nav__link">
+    Pre-Reqs:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_4" class="md-nav__link">
+    Installation:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-sgx-agent-installation" class="md-nav__link">
+    Post SGX Agent Installation:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usecase-workflows-api-collections" class="md-nav__link">
     Usecase Workflows API Collections
   </a>
@@ -1508,6 +1571,20 @@
     <li class="md-nav__item">
       <a href="../13Note%20on%20SKC%20Library%20Deployment/" class="md-nav__link">
         Note on SKC Library Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14VMware%20Caching%20Service%20Integration/" class="md-nav__link">
+        VMware Caching Service
       </a>
     </li>
   
@@ -1729,6 +1806,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sgx-vmware" class="md-nav__link">
+    SGX-VMWare
+  </a>
+  
+    <nav class="md-nav" aria-label="SGX-VMWare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_3" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postinstallation" class="md-nav__link">
+    PostInstallation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bringing-up-sgx-agent" class="md-nav__link">
+    Bringing Up SGX Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Bringing Up SGX Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-reqs" class="md-nav__link">
+    Pre-Reqs:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_4" class="md-nav__link">
+    Installation:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-sgx-agent-installation" class="md-nav__link">
+    Post SGX Agent Installation:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#usecase-workflows-api-collections" class="md-nav__link">
     Usecase Workflows API Collections
   </a>
@@ -1857,7 +1995,7 @@
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/SGX-Infrastructure --version $VERSION &amp;&amp; tar -xzf SGX-Infrastructure-$VERSION.tgz SGX-Infrastructure/values.yaml
 </code></pre></div>
 <p>Fill the values.yaml file with appropriate values by following the instructions provided for each key.</p>
-<div class="highlight"><pre><span></span><code>helm install SGX-Infrastructure isecl-helm/SGX-Infrastructure --version $VERSION -f SGX-Infrastructure/values.yaml -n &lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>helm install sgx-infrastructure isecl-helm/SGX-Infrastructure --version $VERSION -f SGX-Infrastructure/values.yaml -n &lt;namespace&gt;
 </code></pre></div>
 <h2 id="sgx-orchestration">SGX-Orchestration:</h2>
 <h3 id="prerequisites_1">Prerequisites</h3>
@@ -1892,7 +2030,7 @@ kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/SGX-Orchestration --version $VERSION &amp;&amp; tar -xzf SGX-Orchestration-$VERSION.tgz SGX-Orchestration/values.yaml
 </code></pre></div>
 <p>Fill the values.yaml file with appropriate values by following the instructions provided for each key.</p>
-<div class="highlight"><pre><span></span><code>helm install SGX-Orchestration isecl-helm/SGX-Orchestration --version $VERSION -f SGX-Orchestration/values.yaml -n &lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>helm install sgx-orchestration isecl-helm/SGX-Orchestration --version $VERSION -f SGX-Orchestration/values.yaml -n &lt;namespace&gt;
 </code></pre></div>
 <h2 id="sgx-infrastructure-orchestration">SGX-Infrastructure-Orchestration</h2>
 <h3 id="prerequisites_2">Prerequisites</h3>
@@ -1901,8 +2039,34 @@ kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/SGX-Infrastructure-Orchestration --version $VERSION &amp;&amp; tar -xzf SGX-Infrastructure-Orchestration-$VERSION.tgz SGX-Infrastructure-Orchestration/values.yaml
 </code></pre></div>
 <p>Fill the values.yaml file with appropriate values by following the instructions provided for each key.</p>
-<div class="highlight"><pre><span></span><code>helm install SGX-Infrastructure-Orchestration isecl-helm/SGX-Infrastructure-Orchestration --version $VERSION -f SGX-Infrastructure-Orchestration/values.yaml -n &lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>helm install sgx-infrastructure-orchestration isecl-helm/SGX-Infrastructure-Orchestration --version $VERSION -f SGX-Infrastructure-Orchestration/values.yaml -n &lt;namespace&gt;
 </code></pre></div>
+<h2 id="sgx-vmware">SGX-VMWare</h2>
+<h3 id="installation_3">Installation</h3>
+<div class="highlight"><pre><span></span><code>helm pull isecl-helm/SGX-VMWare --version $VERSION &amp;&amp; tar -xzf SGX-VMWare-$VERSION.tgz SGX-VMWare/values.yaml
+</code></pre></div>
+<p>Fill the values.yaml file with appropriate values by following the instructions provided for each key.</p>
+<div class="highlight"><pre><span></span><code>helm install sgx-vmware isecl-helm/SGX-VMWare --version $VERSION -f SGX-VMware/values.yaml -n &lt;namespace&gt;
+</code></pre></div>
+<h3 id="postinstallation">PostInstallation</h3>
+<p>After ISecl services - cms,aas and scs installation completed, follow the steps mentioned in <code>VMware Caching Service Integration</code> for bringing up tcs-client.</p>
+<h3 id="bringing-up-sgx-agent">Bringing Up SGX Agent</h3>
+<h5 id="pre-reqs">Pre-Reqs:</h5>
+<ul>
+<li>Once TCS client is installed,it will request VCenter to register its host in case of TCB recovery or if the host is not yet registered.</li>
+<li>Upon successfull registration, a vm needs be spawned on registred host.</li>
+<li>Once vm is ready, it needs to be installed and configured to act as k8s worker nodes which will be added to exisitng k8s cluster where ISecL services like cms, aas and scs are running as part of above SGX-VMWare installation.</li>
+<li>Post attaching the vm as worker node, the node needs to be labeled as SGX-ENABLED.(eg:<code>kubectl label node &lt;vm_hostname&gt; node.type=SGX-ENABLED</code>)</li>
+</ul>
+<h5 id="installation_4">Installation:</h5>
+<ul>
+<li>Once the worker node is labeled, sgx-agent will be deployed because sgx agent deployment is running as daemon-set and it was waiting for worker node with <code>SGX-ENABLED</code> label.</li>
+</ul>
+<h5 id="post-sgx-agent-installation">Post SGX Agent Installation:</h5>
+<ul>
+<li>SGX Agent gathers platform collateral and push them to SCS. Please note that since registration of platform has already been taken place hence when SGX Agent pushes data no registration takes place.</li>
+<li>Upon second iteration when TCS Client runs, for hosts(irrespective of status) not present in its database/newly registered it makes a REST Call to SCS and download/update PCK Certs. Since platform data is pushed by SGX Agent, pck certs are also refreshed.</li>
+</ul>
 <h2 id="usecase-workflows-api-collections">Usecase Workflows API Collections</h2>
 <p>The below allow to get started with workflows within SGX Infrastructure and Orchestration Usecases. More details available in <a href="https://github.com/intel-secl/utils/tree/v5.1/develop/tools/api-collections">API Collections</a> repository</p>
 <h3 id="pre-requisites">Pre-requisites</h3>

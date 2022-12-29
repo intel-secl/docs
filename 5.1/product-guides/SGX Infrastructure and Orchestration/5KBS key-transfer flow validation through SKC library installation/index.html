@@ -1028,6 +1028,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_2_2">
@@ -1385,6 +1387,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14VMware%20Caching%20Service%20Integration/" class="md-nav__link">
+        VMware Caching Service
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1546,45 +1562,46 @@
 <li>
 <p>Do <code>cd k8s/manifests/</code> and update <code>isecl-skc-k8s.env</code> with appropriate values. Below are the list keys available in the file,</p>
 </li>
-<li><code>K8S_DISTRIBUTION=</code> # K8s distribution microk8s/kubeadm</li>
-<li><code>K8S_CONTROL_PLANE_IP=</code> #Control plane IP</li>
-<li><code>K8S_CONTROL_PLANE_HOSTNAME=</code> #controlplane hostname</li>
-<li><code>AAS_ADMIN_USERNAME=</code> #AAS admin user name</li>
-<li><code>AAS_ADMIN_PASSWORD=</code> #AAS admin password</li>
-<li><code>CCC_ADMIN_USERNAME=</code> #enterprise AAS admin user name</li>
-<li><code>CCC_ADMIN_PASSWORD=</code> #enterprize AAS admin password</li>
-<li><code>AAS_PORT=</code>30444 #AAS default node port</li>
-<li><code>CMS_PORT=</code>30445 #CMS default node port</li>
-<li><code>KBS_PORT=</code>30448 #KBS default node port</li>
-<li><code>AAS_IP=</code> #AAS IP</li>
-<li><code>KBS_IP=</code> #KBS IP</li>
-<li><code>SCS_IP=</code> #SCS IP</li>
-<li><code>SCS_PORT=</code> </li>
-<li><code>KBS_HOSTNAME=</code></li>
-<li><code>CMS_IP=</code> #CMS IP</li>
-<li><code>CSP_SCS_IP=</code> #SCS IP on CSP</li>
-<li><code>CSP_SCS_PORT=</code> #SCS Port on CSP</li>
-<li><code>CSP_CMS_IP=</code> #CMS IP on CSP</li>
-<li><code>CSP_CMS_PORT=</code>30445 #CMS Port on CSP</li>
-<li><code>SKC_USER=</code> #SKC username</li>
-<li><code>SKC_USER_PASSWORD=</code> #SKC user password</li>
-<li><code>USE_SECURE_CERT=</code>false #set this to false by default</li>
-<li><code>SKC_LIBRARY_IMAGE_NAME=</code> #SKC Library oci/harbour image url</li>
-<li><code>SKC_LIBRARY_IMAGE_TAG=</code> #SKC Library oci/harbour image version</li>
-<li><code>SKC_LIBRARY_IMAGE_PULL_SECRET=</code> #SKC Library image pull secret</li>
-<li><code>CTK_ENCLAVE_MEASUREMENT=</code> #Get CTK Enclave measurement,prod id, isv svn values refer PG SGX Infrastructure/Note on SKC Library Deployment Appendix section</li>
-<li><code>CTK_SIGNER_MEASUREMENT=</code> #GET CTK MR Signer measurement</li>
-<li><code>PROD_ID=</code> #SGX Node prod id</li>
-<li><code>ISV_SVN=</code> #SGX Node isv-svn</li>
-<li><code>TCB_UPDATE=</code> #SGX Node TCB Update value</li>
-<li><code>SKC_DEBUG=</code>false #SKC Library npm/sgx module debug enable</li>
-<li><code>KMIP_IP=</code> #kmip server ip</li>
-<li><code>KMIP_CLIENT_CERT=</code>/etc/pykmip/client_certificate.pem #KMIP client certificate path</li>
-<li><code>KMIP_CLIENT_KEY=</code>/etc/pykmip/client_key.pem #KMIP client key path</li>
-<li><code>KMIP_CLIENT_ROOTCA=</code>/etc/pykmip/root_certificate.pem #KMIP root CA cert path</li>
-<li><code>MODE=</code> #Attestion mode passport/background.</li>
-<li><code>NODE_LABEL=</code> #node label of SGX host where SKC has to deploy</li>
 </ul>
+<div class="highlight"><pre><span></span><code> K8S_DISTRIBUTION= # K8s distribution microk8s/kubeadm
+ K8S_CONTROL_PLANE_IP= #Control plane IP
+ K8S_CONTROL_PLANE_HOSTNAME= #controlplane hostname
+ AAS_ADMIN_USERNAME= #AAS admin user name
+ AAS_ADMIN_PASSWORD= #AAS admin password
+ CCC_ADMIN_USERNAME= #enterprise AAS admin user name
+ CCC_ADMIN_PASSWORD= #enterprize AAS admin password
+ AAS_PORT=30444 #AAS default node port
+ CMS_PORT=30445 #CMS default node port
+ KBS_PORT=30448 #KBS default node port
+ AAS_IP= #AAS IP
+ KBS_IP= #KBS IP
+ SCS_IP= #SCS IP
+ SCS_PORT= #SCS Port
+ KBS_HOSTNAME= #Hostname of KBS installed machine
+ CMS_IP= #CMS IP
+ CSP_SCS_IP= #SCS IP on CSP
+ CSP_SCS_PORT= #SCS Port on CSP
+ CSP_CMS_IP= #CMS IP on CSP
+ CSP_CMS_PORT=30445 #CMS Port on CSP
+ SKC_USER= #SKC username
+ SKC_USER_PASSWORD= #SKC user password
+ USE_SECURE_CERT=false #set this to false by default
+ SKC_LIBRARY_IMAGE_NAME= #SKC Library oci/harbour image url
+ SKC_LIBRARY_IMAGE_TAG= #SKC Library oci/harbour image version
+ SKC_LIBRARY_IMAGE_PULL_SECRET= #SKC Library image pull secret
+ CTK_ENCLAVE_MEASUREMENT= #Get CTK Enclave measurement,prod id, isv svn values refer PG SGX Infrastructure/Note on SKC Library Deployment Appendix section
+ CTK_SIGNER_MEASUREMENT= #GET CTK MR Signer measurement
+ PROD_ID= #SGX Node prod id
+ ISV_SVN= #SGX Node isv-svn
+ TCB_UPDATE= #SGX Node TCB Update value
+ SKC_DEBUG=false #SKC Library npm/sgx module debug enable
+ KMIP_IP= #kmip server ip
+ KMIP_CLIENT_CERT=/etc/pykmip/client_certificate.pem #KMIP client certificate path
+ KMIP_CLIENT_KEY=/etc/pykmip/client_key.pem #KMIP client key path
+ KMIP_CLIENT_ROOTCA=/etc/pykmip/root_certificate.pem #KMIP root CA cert path
+ MODE= #Attestion mode passport/background.
+ NODE_LABEL= #node label of SGX host where SKC has to deploy
+</code></pre></div>
 <h3 id="deploying-skc-library-and-initiate-key-transfer-flow">Deploying SKC Library and Initiate key transfer flow</h3>
 <ul>
 <li>Do <code>./skc-bootstrap.sh install</code> to deploy SKC library and make sure deployment is successful</li>
