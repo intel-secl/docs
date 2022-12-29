@@ -71,6 +71,7 @@ nav:
         - Appendix: product-guides\SGX Infrastructure and Orchestration\11Appendix.md
         - Note on Key Transfer Policy: product-guides\SGX Infrastructure and Orchestration\12Note on Key Transfer Policy.md
         - Note on SKC Library Deployment: product-guides\SGX Infrastructure and Orchestration\13Note on SKC Library Deployment.md
+        - VMWare Caching ServiceIntegration: product-guides\SGX Infrastructure and Orchestration\14VMware Caching Service Integration.md
   - Release Notes:
       - Release Notes: ReleaseNotes/ReleaseNotes.md
 theme:

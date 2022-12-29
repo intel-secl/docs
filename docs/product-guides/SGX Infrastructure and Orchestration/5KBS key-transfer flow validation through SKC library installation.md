@@ -13,44 +13,47 @@ Below steps to be followed post successful deployment with Single-Node/Multi-Nod
 * Do `make skc_library_k8s_deploy` and make sure new folder named k8s has been created.
 
 * Do `cd k8s/manifests/` and update `isecl-skc-k8s.env` with appropriate values. Below are the list keys available in the file,
-  * `K8S_DISTRIBUTION=` # K8s distribution microk8s/kubeadm
-  * `K8S_CONTROL_PLANE_IP=` #Control plane IP
-  * `K8S_CONTROL_PLANE_HOSTNAME=` #controlplane hostname
-  * `AAS_ADMIN_USERNAME=` #AAS admin user name
-  * `AAS_ADMIN_PASSWORD=` #AAS admin password
-  * `CCC_ADMIN_USERNAME=` #enterprise AAS admin user name
-  * `CCC_ADMIN_PASSWORD=` #enterprize AAS admin password
-  * `AAS_PORT=`30444 #AAS default node port
-  * `CMS_PORT=`30445 #CMS default node port
-  * `KBS_PORT=`30448 #KBS default node port
-  * `AAS_IP=` #AAS IP
-  * `KBS_IP=` #KBS IP
-  * `SCS_IP=` #SCS IP
-  * `SCS_PORT=` 
-  * `KBS_HOSTNAME=`
-  * `CMS_IP=` #CMS IP
-  * `CSP_SCS_IP=` #SCS IP on CSP
-  * `CSP_SCS_PORT=` #SCS Port on CSP
-  * `CSP_CMS_IP=` #CMS IP on CSP
-  * `CSP_CMS_PORT=`30445 #CMS Port on CSP
-  * `SKC_USER=` #SKC username
-  * `SKC_USER_PASSWORD=` #SKC user password
-  * `USE_SECURE_CERT=`false #set this to false by default
-  * `SKC_LIBRARY_IMAGE_NAME=` #SKC Library oci/harbour image url
-  * `SKC_LIBRARY_IMAGE_TAG=` #SKC Library oci/harbour image version
-  * `SKC_LIBRARY_IMAGE_PULL_SECRET=` #SKC Library image pull secret
-  * `CTK_ENCLAVE_MEASUREMENT=` #Get CTK Enclave measurement,prod id, isv svn values refer PG SGX Infrastructure/Note on SKC Library Deployment Appendix section
-  * `CTK_SIGNER_MEASUREMENT=` #GET CTK MR Signer measurement
-  * `PROD_ID=` #SGX Node prod id
-  * `ISV_SVN=` #SGX Node isv-svn
-  * `TCB_UPDATE=` #SGX Node TCB Update value
-  * `SKC_DEBUG=`false #SKC Library npm/sgx module debug enable
-  * `KMIP_IP=` #kmip server ip
-  * `KMIP_CLIENT_CERT=`/etc/pykmip/client_certificate.pem #KMIP client certificate path
-  * `KMIP_CLIENT_KEY=`/etc/pykmip/client_key.pem #KMIP client key path
-  * `KMIP_CLIENT_ROOTCA=`/etc/pykmip/root_certificate.pem #KMIP root CA cert path
-  * `MODE=` #Attestion mode passport/background.
-  * `NODE_LABEL=` #node label of SGX host where SKC has to deploy
+
+  ```
+   K8S_DISTRIBUTION= # K8s distribution microk8s/kubeadm
+   K8S_CONTROL_PLANE_IP= #Control plane IP
+   K8S_CONTROL_PLANE_HOSTNAME= #controlplane hostname
+   AAS_ADMIN_USERNAME= #AAS admin user name
+   AAS_ADMIN_PASSWORD= #AAS admin password
+   CCC_ADMIN_USERNAME= #enterprise AAS admin user name
+   CCC_ADMIN_PASSWORD= #enterprize AAS admin password
+   AAS_PORT=30444 #AAS default node port
+   CMS_PORT=30445 #CMS default node port
+   KBS_PORT=30448 #KBS default node port
+   AAS_IP= #AAS IP
+   KBS_IP= #KBS IP
+   SCS_IP= #SCS IP
+   SCS_PORT= #SCS Port
+   KBS_HOSTNAME= #Hostname of KBS installed machine
+   CMS_IP= #CMS IP
+   CSP_SCS_IP= #SCS IP on CSP
+   CSP_SCS_PORT= #SCS Port on CSP
+   CSP_CMS_IP= #CMS IP on CSP
+   CSP_CMS_PORT=30445 #CMS Port on CSP
+   SKC_USER= #SKC username
+   SKC_USER_PASSWORD= #SKC user password
+   USE_SECURE_CERT=false #set this to false by default
+   SKC_LIBRARY_IMAGE_NAME= #SKC Library oci/harbour image url
+   SKC_LIBRARY_IMAGE_TAG= #SKC Library oci/harbour image version
+   SKC_LIBRARY_IMAGE_PULL_SECRET= #SKC Library image pull secret
+   CTK_ENCLAVE_MEASUREMENT= #Get CTK Enclave measurement,prod id, isv svn values refer PG SGX Infrastructure/Note on SKC Library Deployment Appendix section
+   CTK_SIGNER_MEASUREMENT= #GET CTK MR Signer measurement
+   PROD_ID= #SGX Node prod id
+   ISV_SVN= #SGX Node isv-svn
+   TCB_UPDATE= #SGX Node TCB Update value
+   SKC_DEBUG=false #SKC Library npm/sgx module debug enable
+   KMIP_IP= #kmip server ip
+   KMIP_CLIENT_CERT=/etc/pykmip/client_certificate.pem #KMIP client certificate path
+   KMIP_CLIENT_KEY=/etc/pykmip/client_key.pem #KMIP client key path
+   KMIP_CLIENT_ROOTCA=/etc/pykmip/root_certificate.pem #KMIP root CA cert path
+   MODE= #Attestion mode passport/background.
+   NODE_LABEL= #node label of SGX host where SKC has to deploy
+  ```
 
 ### Deploying SKC Library and Initiate key transfer flow
 
