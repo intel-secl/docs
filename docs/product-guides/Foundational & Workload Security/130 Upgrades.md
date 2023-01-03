@@ -84,6 +84,11 @@ base scheduler. This can be done by configuring in manifest of kube-scheduler as
 
 Uncomment the *--config* option once upgrade is complete and all service pods are successfully running and jobs are completed.
 
+Restart Kubelet which restart all the k8s services including kube base scheduler
+```console
+	systemctl restart kubelet
+```
+
 ### Rollback Services
 Rollback is supported using helm rollback mechanism. The data at NFS will be automatically backed up using upgrade jobs during upgrade process, 
 the backed up data will be stored in a versioned directory. The init containers at every pod will ensure that the versioned 

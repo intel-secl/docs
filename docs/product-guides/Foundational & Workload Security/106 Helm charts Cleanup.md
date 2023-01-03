@@ -14,6 +14,22 @@ helm list -A
    * Uninstall all the chart deployments.
    * Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)
    * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
+   * For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the *--config* option
+   ```
+   containers:
+   - command:
+     - kube-scheduler
+     - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+     - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+     - --bind-address=127.0.0.1
+     - --kubeconfig=/etc/kubernetes/scheduler.conf
+     - --leader-elect=true
+     #- --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
+   ```
+   * Restart Kubelet which restart all the k8s services including kube base scheduler
+   ```console
+	   systemctl restart kubelet
+   ```
 
 **Note**: 
 ```

@@ -74,9 +74,11 @@ For each registered host in a cluster, VCenter stores its information(PPID,times
     ```
 - user requires `sudo` access to run below mentioned scripts.
 
-1) DB Setup:
+To run setup and create DB run the following commands:
+
+1. DB Setup:
     run postgres script `./install_pgdb.sh` under scripts folder
-2) Create DB: 
+2. Create DB: 
     `./create_db.sh <db name> <db user> <db password>` in scripts folder
 
 >**NOTE**
@@ -84,8 +86,9 @@ DB Setup and Create DB steps needs to be executed only once.
 Use `db name`,`db user` and `db password` same as mentioned in `tcs-client.env` file.
 
 To install TCS-Client run the following command
-1) populate tcs_client.env and place in home directory. Refer Setup section below.
-2) run `./scripts/install.sh`
+
+1. populate tcs_client.env and place in home directory. Refer Setup section below.
+2. run `./scripts/install.sh`
 
 ###### To Check status:
 > tcs-client status
@@ -111,13 +114,15 @@ LOG_LEVEL=debug #TCS Client Log Level
 
 >**NOTE**
 For `TCS_URL`, ip address and port needs to point to the scs service running as part of SGX-VMWare deployment mentioned in `Deploying SGX Use Cases Using Helm` section
-    Eg: `https://<cluster_master_ip>:30502/scs/sgx/certification/v1/pckcert`
-
+```
+Eg: `https://<cluster_master_ip>:30502/scs/sgx/certification/v1/pckcert`
+```
 
 On installation TCS Client will do following:
+
 1. Gets clusters in a VCenter.
-2.  For each cluster get it's hosts.
-3.  For each host get its HostSgxRegistrationInfo(includes ppid, status and timestamp).
+2. For each cluster get it's hosts.
+3. For each host get its HostSgxRegistrationInfo(includes ppid, status and timestamp).
     * If the status of host is incomplete TCS Client requests VCenter to register it
     * TCS Client sends the ppid to SCS(this is for all hosts irrespective of the status).
     * SCS checks in its database for the host. If host exists then it uses host's collateral to fetch updated PCK Certs and stores them. This flow facilitates sgx-attestaion.
@@ -134,7 +139,7 @@ TCS Client -> SCS
 
 ![TCS Client SCS Flow](images/tcsclient-tcs.png)
 
- ````markdown
+````markdown
  URL: /scs/sgx/certification/v1/pckcert
  Method: PUT
  Headers: "Accept" : "application/json"
@@ -152,18 +157,20 @@ A new PUT API in SCS to check if the host's PPID is present in its database. If 
 
 ##### Command Line Interface
 The compiled TCS Client binary shall be labeled "TCSClient". Here is a full list of TCSClient CLI commands:
+```
 start
 stop
 status
 version
 help
 uninstall [--purge]
+```
 
 The CLI will support the following systemd daemon functionality:
 
-> start
-> stop
-> status
+- start
+- stop
+- status
 
 Example:
 > tcs-client start
@@ -174,11 +181,13 @@ The CLI will support a command to get the Version of TCS Client service. This co
 
 ##### Logging
 Logs pertaining to the TCS Client daemon shall be logged in journalctl. Logs should be able to be viewed by running the command:
-> journalctl -u tcsclient
+`journalctl -u tcsclient`
 
->**NOTE**
+>**NOTE**:
 tcs-client logs are placed under `/var/log/tcs-client/`
-scs logs are placed under NFS path - `/mnt/nfs_share/isecl/scs/logs`
+
+scs logs are placed under NFS path `/mnt/nfs_share/isecl/scs/logs`
+
 sgx-agent logs are placed under `/var/log/sgx_agent/` in the SGX host
 
 
