@@ -1701,6 +1701,9 @@ base scheduler. This can be done by configuring in manifest of kube-scheduler as
       #- --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
 </code></pre></div></p>
 <p>Uncomment the <em>--config</em> option once upgrade is complete and all service pods are successfully running and jobs are completed.</p>
+<p>Restart Kubelet which restart all the k8s services including kube base scheduler
+<div class="highlight"><pre><span></span><code><span class="go">    systemctl restart kubelet</span>
+</code></pre></div></p>
 <h3 id="rollback-services">Rollback Services</h3>
 <p>Rollback is supported using helm rollback mechanism. The data at NFS will be automatically backed up using upgrade jobs during upgrade process, 
 the backed up data will be stored in a versioned directory. The init containers at every pod will ensure that the versioned 

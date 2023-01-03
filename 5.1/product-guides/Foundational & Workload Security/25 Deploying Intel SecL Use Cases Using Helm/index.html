@@ -654,6 +654,19 @@
     Workload Security
   </a>
   
+    <nav class="md-nav" aria-label="Workload Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-kube-scheduler-to-establish-communication-with-isecl-scheduler-after-successful-deployment" class="md-nav__link">
+    Configure kube-scheduler to establish communication with isecl-scheduler after successful deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1574,6 +1587,19 @@
     Workload Security
   </a>
   
+    <nav class="md-nav" aria-label="Workload Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-kube-scheduler-to-establish-communication-with-isecl-scheduler-after-successful-deployment" class="md-nav__link">
+    Configure kube-scheduler to establish communication with isecl-scheduler after successful deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1648,6 +1674,71 @@ helm install twp-control-plane isecl-helm/Twp-Control-Plane --version $VERSION -
 <div class="highlight"><pre><span></span><code>helm pull isecl-helm/Workload-Security --version $VERSION &amp;&amp; tar -xzf Workload-Security-$VERSION.tgz Workload-Security/values.yaml
 helm install workload-security isecl-helm/Workload-Security --version $VERSION -f Workload-Security/values.yaml --create-namespace -n &lt;namespace&gt;
 </code></pre></div>
+<h4 id="configure-kube-scheduler-to-establish-communication-with-isecl-scheduler-after-successful-deployment">Configure kube-scheduler to establish communication with isecl-scheduler after successful deployment</h4>
+<ul>
+<li>
+<p>Create a file called kube-scheduler-configuration.yml
+<div class="highlight"><pre><span></span><code><span class="nn">---</span><span class="w"></span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubescheduler.config.k8s.io/v1beta2</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeSchedulerConfiguration</span><span class="w"></span>
+<span class="nt">clientConnection</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">kubeconfig</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/etc/kubernetes/scheduler.conf&quot;</span><span class="w"></span>
+<span class="nt">profiles</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">plugins</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">filter</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NodePorts&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NodeResourcesFit&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VolumeBinding&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NodeAffinity&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NodeName&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">score</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NodeResourcesBalancedAllocation&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="nt">extenders</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">urlPrefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://127.0.0.1:30888/&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">filterVerb</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;filter&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w"></span>
+<span class="w">    </span><span class="nt">enableHTTPS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Make directory /opt/isecl-k8s-extensions and copy kube-scheduler-configuration.yaml file into this newly created directory</p>
+</li>
+<li>
+<p>Add kube-scheduler-configuration.yml under kube-scheduler section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
+<div class="highlight"><pre><span></span><code><span class="go">    spec:</span>
+<span class="go">          containers:</span>
+<span class="go">      - command:</span>
+<span class="go">            - kube-scheduler</span>
+<span class="go">            - --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Add mount path for isecl extended scheduler under container section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
+<div class="highlight"><pre><span></span><code><span class="go">    containers:</span>
+<span class="go">        - mountPath: /opt/isecl-k8s-extensions</span>
+<span class="go">        name: extendedsched</span>
+<span class="go">        readOnly: true</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Add volume path for isecl extended scheduler under volumes section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
+<div class="highlight"><pre><span></span><code><span class="go">    spec:</span>
+<span class="go">    volumes:</span>
+<span class="go">    - hostPath:</span>
+<span class="go">        path: /opt/isecl-k8s-extensions</span>
+<span class="go">        type: &quot;&quot;</span>
+<span class="go">        name: extendedsched</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Restart Kubelet which restart all the k8s services including kube base scheduler
+<div class="highlight"><pre><span></span><code><span class="go">    systemctl restart kubelet</span>
+</code></pre></div></p>
+</li>
+</ul>
 <h3 id="admission-controller">Admission Controller</h3>
 <p>when a new worker node is joined/rebooted in the cluster, below steps can be done, to taint such nodes, by labelling it as untrusted, intiatially. Tainiting, doesn't allow scheduling of any pods on that worker node.</p>
 <p>IHUB pulls the data from HVS, and pushes to ISECL Controller, based on the report status of the node, if the worker node is trusted, then that node will be untainted.</p>

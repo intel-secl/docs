@@ -1462,6 +1462,20 @@
 <li>Uninstall all the chart deployments.</li>
 <li>Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)</li>
 <li>Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment <code>kubectl delete ns &lt;namespace&gt;</code>. </li>
+<li>For charts Trusted-Workload-Placement and Trusted-Workload-Placement-Cloud-Service-Provider, ISecl-Scheduler should be disconnected from K8s base scheduler. This can be done by configuring in manifest of kube-scheduler as mentioned below, by commenting the <em>--config</em> option
+   <div class="highlight"><pre><span></span><code>containers:
+- command:
+  - kube-scheduler
+  - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+  - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+  - --bind-address=127.0.0.1
+  - --kubeconfig=/etc/kubernetes/scheduler.conf
+  - --leader-elect=true
+  #- --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
+</code></pre></div></li>
+<li>Restart Kubelet which restart all the k8s services including kube base scheduler
+   <div class="highlight"><pre><span></span><code><span class="go">    systemctl restart kubelet</span>
+</code></pre></div></li>
 </ul>
 <p><strong>Note</strong>: 
 <div class="highlight"><pre><span></span><code>Before redeploying any of the chart please check the pv and pvc of corresponding deployments are removed. Suppose if you want to redeploy aas, make sure that aas-logs-pv, aas-logs-pvc, aas-config-pv, aas-config-pvc, aas-db-pv, aas-db-pvc, aas-base-pvc are removed successfully.

@@ -1820,18 +1820,23 @@ TCS Client will run as a daemon. At the time of installation it will connect to 
 </code></pre></div></li>
 <li>user requires <code>sudo</code> access to run below mentioned scripts.</li>
 </ul>
-<p>1) DB Setup:
-    run postgres script <code>./install_pgdb.sh</code> under scripts folder
-2) Create DB: 
-    <code>./create_db.sh &lt;db name&gt; &lt;db user&gt; &lt;db password&gt;</code> in scripts folder</p>
+<p>To run setup and create DB run the following commands:</p>
+<ol>
+<li>DB Setup:
+    run postgres script <code>./install_pgdb.sh</code> under scripts folder</li>
+<li>Create DB: 
+    <code>./create_db.sh &lt;db name&gt; &lt;db user&gt; &lt;db password&gt;</code> in scripts folder</li>
+</ol>
 <blockquote>
 <p><strong>NOTE</strong>
 DB Setup and Create DB steps needs to be executed only once.
 Use <code>db name</code>,<code>db user</code> and <code>db password</code> same as mentioned in <code>tcs-client.env</code> file.</p>
 </blockquote>
-<p>To install TCS-Client run the following command
-1) populate tcs_client.env and place in home directory. Refer Setup section below.
-2) run <code>./scripts/install.sh</code></p>
+<p>To install TCS-Client run the following command</p>
+<ol>
+<li>populate tcs_client.env and place in home directory. Refer Setup section below.</li>
+<li>run <code>./scripts/install.sh</code></li>
+</ol>
 <h6 id="to-check-status">To Check status:</h6>
 <blockquote>
 <p>tcs-client status</p>
@@ -1856,48 +1861,54 @@ Use <code>db name</code>,<code>db user</code> and <code>db password</code> same 
 <blockquote>
 <p><strong>NOTE</strong>
 For <code>TCS_URL</code>, ip address and port needs to point to the scs service running as part of SGX-VMWare deployment mentioned in <code>Deploying SGX Use Cases Using Helm</code> section
-    Eg: <code>https://&lt;cluster_master_ip&gt;:30502/scs/sgx/certification/v1/pckcert</code></p>
+<div class="highlight"><pre><span></span><code>Eg: `https://&lt;cluster_master_ip&gt;:30502/scs/sgx/certification/v1/pckcert`
+</code></pre></div></p>
 </blockquote>
-<p>On installation TCS Client will do following:
-1. Gets clusters in a VCenter.
-2.  For each cluster get it's hosts.
-3.  For each host get its HostSgxRegistrationInfo(includes ppid, status and timestamp).
-    * If the status of host is incomplete TCS Client requests VCenter to register it
-    * TCS Client sends the ppid to SCS(this is for all hosts irrespective of the status).
-    * SCS checks in its database for the host. If host exists then it uses host's collateral to fetch updated PCK Certs and stores them. This flow facilitates sgx-attestaion.</p>
+<p>On installation TCS Client will do following:</p>
+<ol>
+<li>Gets clusters in a VCenter.</li>
+<li>For each cluster get it's hosts.</li>
+<li>For each host get its HostSgxRegistrationInfo(includes ppid, status and timestamp).<ul>
+<li>If the status of host is incomplete TCS Client requests VCenter to register it</li>
+<li>TCS Client sends the ppid to SCS(this is for all hosts irrespective of the status).</li>
+<li>SCS checks in its database for the host. If host exists then it uses host's collateral to fetch updated PCK Certs and stores them. This flow facilitates sgx-attestaion.</li>
+</ul>
+</li>
+</ol>
 <p>After t th hour TCS Client will repeat the process mentioned above (the case holds same in case of restarting the client). It will get all the hosts from vcenter. Host related information is sent to SCS. For incomplete status hosts above mentioned flow is triggered.</p>
 <h5 id="tcs-client-to-scs-flow">TCS Client to SCS flow:</h5>
 <p>Once host is registered successfully or a new host with status=complete and no record in db is found, TCS Client will provide PPID to SCS so that it can get updated PCK Certs.</p>
 <h5 id="rest-api-calls">REST API Calls</h5>
 <p>TCS Client -&gt; SCS</p>
 <p><img alt="TCS Client SCS Flow" src="../images/tcsclient-tcs.png" /></p>
-<p><code>markdown
- URL: /scs/sgx/certification/v1/pckcert
+<div class="highlight"><pre><span></span><code> URL: /scs/sgx/certification/v1/pckcert
  Method: PUT
- Headers: "Accept" : "application/json"
+ Headers: &quot;Accept&quot; : &quot;application/json&quot;
  URL Params: N/A
  Data Params: {ppid: &lt;&gt;}
  Code: 200 OK/ 404 NotFound
 Content:
 {
-  Status: "Successful"
-}</code></p>
+  Status: &quot;Successful&quot;
+}
+</code></pre></div>
 <h5 id="scs-design">SCS Design</h5>
 <p>A new PUT API in SCS to check if the host's PPID is present in its database. If yes then SCS will fetch the corresponding updated PCK Certificate from PCS and update in its database. If not it will return "Not Found"</p>
 <h5 id="command-line-interface">Command Line Interface</h5>
 <p>The compiled TCS Client binary shall be labeled "TCSClient". Here is a full list of TCSClient CLI commands:
-start
+<div class="highlight"><pre><span></span><code>start
 stop
 status
 version
 help
-uninstall [--purge]</p>
+uninstall [--purge]
+</code></pre></div></p>
 <p>The CLI will support the following systemd daemon functionality:</p>
-<blockquote>
-<p>start
-stop
-status</p>
-</blockquote>
+<ul>
+<li>start</li>
+<li>stop</li>
+<li>status</li>
+</ul>
 <p>Example:</p>
 <blockquote>
 <p>tcs-client start</p>
@@ -1907,14 +1918,14 @@ status</p>
 <p>tcs-client version</p>
 </blockquote>
 <h5 id="logging">Logging</h5>
-<p>Logs pertaining to the TCS Client daemon shall be logged in journalctl. Logs should be able to be viewed by running the command:</p>
+<p>Logs pertaining to the TCS Client daemon shall be logged in journalctl. Logs should be able to be viewed by running the command:
+<code>journalctl -u tcsclient</code></p>
 <blockquote>
-<p>journalctl -u tcsclient</p>
-<p><strong>NOTE</strong>
-tcs-client logs are placed under <code>/var/log/tcs-client/</code>
-scs logs are placed under NFS path - <code>/mnt/nfs_share/isecl/scs/logs</code>
-sgx-agent logs are placed under <code>/var/log/sgx_agent/</code> in the SGX host</p>
+<p><strong>NOTE</strong>:
+tcs-client logs are placed under <code>/var/log/tcs-client/</code></p>
 </blockquote>
+<p>scs logs are placed under NFS path <code>/mnt/nfs_share/isecl/scs/logs</code></p>
+<p>sgx-agent logs are placed under <code>/var/log/sgx_agent/</code> in the SGX host</p>
 <h4 id="database-design">DataBase Design</h4>
 <p>The client's database consists of a single table:</p>
 <p>| Status | ppid | created_on | updated_on | registered_time |</p>
