@@ -1,0 +1,4863 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../images/isecl-logo.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.3">
+    
+    
+      
+        <title>Intel® Security Libraries Binary Installation - Intel® SecL-DC</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7a952b86.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Helvetica:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Helvetica";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#intel-security-libraries-binary-installation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Intel® SecL-DC" class="md-header__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intel® SecL-DC
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Intel® Security Libraries Binary Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-tabs__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../01/" class="md-tabs__link md-tabs__link--active">
+        Product Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-tabs__link">
+        Supplementary Guide
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-tabs__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Intel® SecL-DC" class="md-nav__button md-logo" aria-label="Intel® SecL-DC" data-md-component="logo">
+      
+  <img src="../../../images/isecl-logo.png" alt="logo">
+
+    </a>
+    Intel® SecL-DC
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/intel-secl/intel-secl" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    intel-secl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../..">Home</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Quick Start Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Quick Start Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          Foundational & Workload Security - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational & Workload Security - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational & Workload Security - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/3Rpms%20%26%20Debs%20Requirement/" class="md-nav__link">
+        Rpms & Debs Requirement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/2Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/3Build%20Services%20and%20packages/" class="md-nav__link">
+        Build Services and packages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/4Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/5Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/Foundational%20%26%20Workload%20Security/6Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          SGX Infrastructure - Containerization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure - Containerization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure - Containerization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/1Hardware%20%26%20OS%20Requirements/" class="md-nav__link">
+        Hardware & OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/2Network%20Requirements/" class="md-nav__link">
+        Network Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/3RHEL%20RPMs%20Requirements/" class="md-nav__link">
+        RHEL RPMs Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/4Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/5Build/" class="md-nav__link">
+        Build
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/6Deployment/" class="md-nav__link">
+        Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/7Default%20Service%20and%20Agent%20Mount%20Paths/" class="md-nav__link">
+        Default Service and Agent Mount Paths
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/8Default%20Service%20Ports/" class="md-nav__link">
+        Default Service Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/9Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure%20-%20Containerization/10Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_4" type="checkbox" id="__nav_2_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_4">
+          SGX Infrastructure
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/2Hardware%20Requirements/" class="md-nav__link">
+        Hardware Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/3OS%20Requirements/" class="md-nav__link">
+        OS Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/4Build%20Services/" class="md-nav__link">
+        Build Services
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/5Deployment%20Model/" class="md-nav__link">
+        Deployment Model
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/6Deployment/" class="md-nav__link">
+         Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/7Usecase%20Workflows%20API%20Collections/" class="md-nav__link">
+        Usecase Workflows API Collections
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/8System%20User%20Configuration/" class="md-nav__link">
+        System User Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quick-start-guides/SGX%20Infrastructure/9Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Product Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Product Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Product Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          Foundational and Workload Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Foundational and Workload Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Foundational and Workload Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20%20Intel%C2%AE%20Security%20Libraries%20Components/" class="md-nav__link">
+        Intel® Security Libraries Components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22%20Building%20Binary%20Installers/" class="md-nav__link">
+        Building Binary Installers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23%20Hardware%20Considerations/" class="md-nav__link">
+        Hardware Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24%20Recommended%20Service%20Layout/" class="md-nav__link">
+        Recommended Service Layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_7" type="checkbox" id="__nav_3_1_7" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_7">
+          Intel Security Libraries Binary Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Binary Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Binary Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Intel® Security Libraries Binary Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Intel® Security Libraries Binary Installation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intel-security-libraries-binary-installation" class="md-nav__link">
+    Intel® Security Libraries Binary Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-host-verification-service" class="md-nav__link">
+    Installing the Host Verification Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Host Verification Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-service" class="md-nav__link">
+    Installing the Workload Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_1" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_1" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_1" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-trust-agent-for-linux" class="md-nav__link">
+    Installing the Trust Agent for Linux
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Trust Agent for Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_2" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_1" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_2" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_2" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tboot-installation" class="md-nav__link">
+    Tboot Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-mode-vs-http-mode" class="md-nav__link">
+    NATS Mode vs HTTP Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-agent" class="md-nav__link">
+    Installing the Workload Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_3" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_3" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_3" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_3" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-agent-provisioning" class="md-nav__link">
+    Trust Agent Provisioning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-agent-registration" class="md-nav__link">
+    Trust Agent Registration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importing-the-host_unique-flavor" class="md-nav__link">
+    Importing the HOST_UNIQUE Flavor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-intel-secl-kubernetes-extensions-and-integration-hub" class="md-nav__link">
+    Installing the Intel® SecL Kubernetes Extensions and Integration Hub
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-intel-secl-custom-controller" class="md-nav__link">
+    Deploy Intel® SecL Custom Controller
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-intel-secl-integration-hub" class="md-nav__link">
+    Installing the Intel® SecL Integration Hub
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Intel® SecL Integration Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_4" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-architecture-considerations-for-the-hub" class="md-nav__link">
+    Deployment Architecture Considerations for the Hub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_4" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_2" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_4" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_2" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-integration-hub" class="md-nav__link">
+    Installing the Integration Hub
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-intel-secl-extended-scheduler" class="md-nav__link">
+    Deploy Intel® SecL Extended Scheduler
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy Intel® SecL Extended Scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler" class="md-nav__link">
+    Configuring kube-scheduler to establish communication with isecl-scheduler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-key-broker-service" class="md-nav__link">
+    Installing the Key Broker Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Key Broker Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_5" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_5" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_3" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_5" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_3" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_4" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-the-key-broker-to-use-a-kmip-compliant-key-management-server" class="md-nav__link">
+    Configure the Key Broker to use a KMIP-compliant Key Management Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importing-verification-service-certificates" class="md-nav__link">
+    Importing Verification Service Certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Importing Verification Service Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-saml-certificate" class="md-nav__link">
+    Importing a SAML certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-privacyca-certificate" class="md-nav__link">
+    Importing a PrivacyCA Certificate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-policy-manager" class="md-nav__link">
+    Installing the Workload Policy Manager
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Policy Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_6" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_4" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_6" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_4" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_5" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.0%20Using%20NATS%20with%20Intel%20SecL/" class="md-nav__link">
+        Using NATS with Intel SecL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.1%20Installing%20and%20Configuring%20the%20Database/" class="md-nav__link">
+        Installing/Configuring the Database
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.2%20Installing%20the%20Certificate%20Management%20Service/" class="md-nav__link">
+        Installing the Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.3%20Installing%20the%20Authentication%20and%20Authorization%20Service/" class="md-nav__link">
+        Installing the Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.4%20Installing%20the%20Host%20Verification%20Service/" class="md-nav__link">
+        Installing the Host Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.6%20Installing%20the%20Workload%20Service/" class="md-nav__link">
+        Installing the Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.7%20Installing%20the%20Trust%20Agent%20for%20Linux/" class="md-nav__link">
+        Installing the Trust Agent for Linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.8%20Installing%20the%20Workload%20Agent/" class="md-nav__link">
+        Installing the Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.9%20Provisioning%20the%20Trust%20Agent/" class="md-nav__link">
+        Trust Agent Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.10%20Installing%20the%20Intel%20SecL%20Kubernetes%20Extensions%20and%20Integration%20Hub/" class="md-nav__link">
+        Installing the Intel® SecL Kubernetes Extensions and Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.11%20Installing%20the%20Key%20Broker%20Service/" class="md-nav__link">
+        Installing the Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25.12%20Installing%20the%20Workload%20Policy%20Manager/" class="md-nav__link">
+        Installing the Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30%20Intel%C2%AE%20Security%20Libraries%20Container%20Deployment/" class="md-nav__link">
+        Intel® Security Libraries Container Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40%20Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../50%20Connection%20Strings/" class="md-nav__link">
+        Connection Strings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../60%20Platform%20Integrity%20Attestation/" class="md-nav__link">
+        Platform Integrity Attestation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../65%20Cloud%20Platform%20Integration/" class="md-nav__link">
+        Cloud Platform Integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../70%20Workload%20Confidentiality/" class="md-nav__link">
+        Workload Confidentiality
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../80%20Trusted%20Virtual%20Kubernetes%20Worker%20Nodes/" class="md-nav__link">
+        Trusted Virtual Kubernetes Worker Nodes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../90%20Flavor%20Management/" class="md-nav__link">
+        Flavor Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../100%20Scalability%20and%20Sizing/" class="md-nav__link">
+        Scalability and Sizing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1_17" type="checkbox" id="__nav_3_1_17" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_1_17">
+          Intel Security Libraries Configuration Settings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Intel Security Libraries Configuration Settings" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_1_17">
+          <span class="md-nav__icon md-icon"></span>
+          Intel Security Libraries Configuration Settings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings1/" class="md-nav__link">
+        Verification Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings2/" class="md-nav__link">
+        Trust Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings3/" class="md-nav__link">
+        Integration Hub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings4/" class="md-nav__link">
+        Certificate Management Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings5/" class="md-nav__link">
+        Authentication and Authorization Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings6/" class="md-nav__link">
+        Workload Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings7/" class="md-nav__link">
+        Key Broker Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings8/" class="md-nav__link">
+        Workload Agent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../110%20Intel%20Security%20Libraries%20Configuration%20Settings9/" class="md-nav__link">
+        Workload Policy Manager
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../120%20Certificate%20and%20Key%20Management/" class="md-nav__link">
+        Certificate and Key Management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../130%20Upgrades/" class="md-nav__link">
+        Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../999%20Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          SGX Infrastructure and Secure Key Caching
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SGX Infrastructure and Secure Key Caching" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          SGX Infrastructure and Secure Key Caching
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/01/" class="md-nav__link">
+        Product Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/1Introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2SGX%20Attestation%20Infrastructure/" class="md-nav__link">
+        SGX Attestation Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/2.1Secure%20Key%20Caching/" class="md-nav__link">
+        Secure Key Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/3Intel%C2%AE%20Security%20Libraries%20Installation/" class="md-nav__link">
+        Intel® Security Libraries Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/4Authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/5SGX%20Features%20Provisioning/" class="md-nav__link">
+        SGX Features Provisioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/6Setup%20Task%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Setup Task Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/7Configuration%20Update%20Flows%20for%20K8s%20Deployments/" class="md-nav__link">
+        Configuration Update Flows for K8s Deployments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/8Intel%20Security%20Libraries%20Configuration%20Settings/" class="md-nav__link">
+        Intel Security Libraries Configuration Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/9Uninstallation/" class="md-nav__link">
+        Uninstallation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/10Binary%20Upgrades/" class="md-nav__link">
+        Binary Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/11Container%20Upgrades/" class="md-nav__link">
+        Container Upgrades
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/12Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/13KBS%20key-transfer%20flow%20validation/" class="md-nav__link">
+        KBS key-transfer flow validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/14Note%20on%20Key%20Transfer%20Policy/" class="md-nav__link">
+        Note on Key Transfer Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SGX%20Infrastructure/15Note%20on%20SKC%20Library%20Deployment/" class="md-nav__link">
+        Note on SKC Library Deployment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Supplementary Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supplementary Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Common Cluster Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Common Cluster Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Common Cluster Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/1Pre-requisites/" class="md-nav__link">
+        Pre-requisites
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/2Deployment%20Architecture/" class="md-nav__link">
+        Deployment Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/3Deployment%20Steps/" class="md-nav__link">
+        Deployment Steps
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/4Workload%20POD%20Launch%20Validation/" class="md-nav__link">
+        Workload POD Launch Validation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../supplementary-guides/Common%20Cluster%20Deployment%20Guide/5Appendix/" class="md-nav__link">
+        Appendix
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Release Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Release Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ReleaseNotes/ReleaseNotes/" class="md-nav__link">
+        Intel Security Libraries for Data Center
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intel-security-libraries-binary-installation" class="md-nav__link">
+    Intel® Security Libraries Binary Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-host-verification-service" class="md-nav__link">
+    Installing the Host Verification Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Host Verification Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-service" class="md-nav__link">
+    Installing the Workload Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_1" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_1" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_1" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_1" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-trust-agent-for-linux" class="md-nav__link">
+    Installing the Trust Agent for Linux
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Trust Agent for Linux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_2" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_1" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_2" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_2" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tboot-installation" class="md-nav__link">
+    Tboot Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-mode-vs-http-mode" class="md-nav__link">
+    NATS Mode vs HTTP Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_2" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-agent" class="md-nav__link">
+    Installing the Workload Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_3" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_3" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_3" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_3" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-agent-provisioning" class="md-nav__link">
+    Trust Agent Provisioning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-agent-registration" class="md-nav__link">
+    Trust Agent Registration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importing-the-host_unique-flavor" class="md-nav__link">
+    Importing the HOST_UNIQUE Flavor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-intel-secl-kubernetes-extensions-and-integration-hub" class="md-nav__link">
+    Installing the Intel® SecL Kubernetes Extensions and Integration Hub
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-intel-secl-custom-controller" class="md-nav__link">
+    Deploy Intel® SecL Custom Controller
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-intel-secl-integration-hub" class="md-nav__link">
+    Installing the Intel® SecL Integration Hub
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Intel® SecL Integration Hub">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_4" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-architecture-considerations-for-the-hub" class="md-nav__link">
+    Deployment Architecture Considerations for the Hub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_4" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_2" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_4" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_2" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-integration-hub" class="md-nav__link">
+    Installing the Integration Hub
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-intel-secl-extended-scheduler" class="md-nav__link">
+    Deploy Intel® SecL Extended Scheduler
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy Intel® SecL Extended Scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler" class="md-nav__link">
+    Configuring kube-scheduler to establish communication with isecl-scheduler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-key-broker-service" class="md-nav__link">
+    Installing the Key Broker Service
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Key Broker Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_5" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites_5" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_3" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_5" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_3" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_4" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-the-key-broker-to-use-a-kmip-compliant-key-management-server" class="md-nav__link">
+    Configure the Key Broker to use a KMIP-compliant Key Management Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importing-verification-service-certificates" class="md-nav__link">
+    Importing Verification Service Certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Importing Verification Service Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-saml-certificate" class="md-nav__link">
+    Importing a SAML certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importing-a-privacyca-certificate" class="md-nav__link">
+    Importing a PrivacyCA Certificate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-the-workload-policy-manager" class="md-nav__link">
+    Installing the Workload Policy Manager
+  </a>
+  
+    <nav class="md-nav" aria-label="Installing the Workload Policy Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-for_6" class="md-nav__link">
+    Required For
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-dependencies_4" class="md-nav__link">
+    Package Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operating-systems_6" class="md-nav__link">
+    Supported Operating Systems
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-hardware_4" class="md-nav__link">
+    Recommended Hardware
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation_5" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/intel-secl/intel-secl/edit/master/docs/product-guides/Foundational & Workload Security/25 Intel Security Libraries Binary Installation.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>Intel® Security Libraries Binary Installation</h1>
+
+<h2 id="intel-security-libraries-binary-installation">Intel® Security Libraries Binary Installation</h2>
+<p>Intel® SecL services can be deployed as direct binary installations (on bare metal or in VMs), or can be deployed as containers.  This section details the binary-based installation of Intel SecL services; the next major section details container-based deployments.</p>
+<p>It is recommended to deploy all control-plane services (CMS, AAS, HVS, WLS) as either containers or binaries, and not a mix of the two.</p>
+<p>The Trust Agent/Workload Agent, KBS, and WPM can be installed as binaries or deployed as containers regardless of the installation method used for the control plane.  However, adjustments may be needed to the Kubernetes deployment files provided to allow network access outside of the Intel SecL deployment.</p>
+<h2 id="installing-the-host-verification-service">Installing the Host Verification Service</h2>
+<p>This section details how to install the Intel® SecL-DC services. For instructions on running these services as containers, see the following section.</p>
+<h3 id="required-for">Required For</h3>
+<p>The Host Verification Service is REQUIRED for all use cases.</p>
+<ul>
+<li>
+<p>Platform Integrity with Data Sovereignty and Signed Flavors</p>
+</li>
+<li>
+<p>Application Integrity</p>
+</li>
+<li>
+<p>Workload Confidentiality (both VMs and Containers)</p>
+</li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>The following must be completed before installing the Verification Service:</p>
+<ul>
+<li>
+<p>The Certificate Management Service must be installed and available</p>
+</li>
+<li>
+<p>The Authentication and Authorization Service must be installed and available</p>
+</li>
+<li>The Verification Service database must be available</li>
+</ul>
+<h3 id="package-dependencies">Package Dependencies</h3>
+<p>The Intel® Security Libraries Verification Service requires the following packages and their dependencies:</p>
+<ul>
+<li>logback</li>
+<li>Postgres* client and server 11.6 (server component optional if an external Postgres database is used)</li>
+<li>unzip</li>
+<li>zip</li>
+<li>openssl</li>
+<li>wget</li>
+<li>net-tools</li>
+<li>python3-policycoreutils</li>
+</ul>
+<p>If they are not already installed, the Verification Service installer attempts to install these automatically using the package manager. Automatic installation requires access to package repositories (the RHEL subscription repositories, the EPEL repository, or a suitable mirror), which may require an Internet connection. If the packages are to be installed from the package repository, be sure to update the repository package lists before installation.</p>
+<h3 id="supported-operating-systems">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Verification Service supports:</p>
+<ul>
+<li>
+<p>Red Hat Enterprise Linux 8.4</p>
+</li>
+<li>
+<p>Ubuntu 20.04</p>
+</li>
+</ul>
+<h3 id="recommended-hardware">Recommended Hardware</h3>
+<ul>
+<li>
+<p>4 vCPUs</p>
+</li>
+<li>
+<p>RAM: 8 GB</p>
+</li>
+<li>
+<p>100 GB</p>
+</li>
+<li>
+<p>One network interface with network access to all managed servers</p>
+</li>
+<li>
+<p>(Optional) One network interface for Asset Tag provisioning (only required for “pull” tag provisioning; required to provision Asset Tags to VMware ESXi servers).</p>
+</li>
+</ul>
+<h3 id="installation">Installation</h3>
+<p>To install the Verification Service, follow these steps:</p>
+<ul>
+<li>
+<p>Copy the Verification Service installation binary to the <code>/root</code> directory.</p>
+</li>
+<li>
+<p>Create the <code>hvs.env</code> installation answer file.</p>
+</li>
+</ul>
+<p>A sample minimal hvs.env file is provided below. For all configuration options and their descriptions, refer to the Intel® SecL Configuration section  on the Verification Service.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Authentication URL and service account credentials</span>
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://isecl-aas:8444/aas/v1
+<span class="nv">HVS_SERVICE_USERNAME</span><span class="o">=</span>&lt;username&gt;
+<span class="nv">HVS_SERVICE_PASSWORD</span><span class="o">=</span>&lt;password&gt;
+
+<span class="c1"># CMS URL and CMS webserivce TLS hash for server verification</span>
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://isecl-cms:8445/cms/v1
+<span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;digest&gt;
+
+<span class="c1"># TLS Configuration</span>
+<span class="nv">SAN_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1,192.168.1.1,hvs.server.com <span class="c1">#comma-separated list of IP addresses and hostnames for the HVS to be used in the Subject Alternative Names list in the TLS Certificate</span>
+
+<span class="c1"># Installation admin bearer token for CSR approval request to CMS</span>
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>eyJhbGciOiJSUzM4NCIsImtpZCI6ImE…
+
+<span class="c1"># Database</span>
+<span class="nv">HVS_DB_NAME</span><span class="o">=</span>&lt;database name&gt;
+<span class="nv">HVS_DB_USERNAME</span><span class="o">=</span>&lt;database username&gt;
+<span class="nv">HVS_DB_PASSWORD</span><span class="o">=</span>&lt;database password&gt;
+<span class="nv">HVS_DB_SSLCERTSRC</span><span class="o">=</span>/tmp/dbcert.pem  <span class="c1"># Not required if VS_DB_SSLCERT is given</span>
+</code></pre></div>
+<ul>
+<li>Execute the installer binary.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>./hvs-v4.1.1.bin
+</code></pre></div>
+<p>When the installation completes, the Verification Service is available. The services can be verified by running <strong>hvs status</strong> from the Verification Service command line.</p>
+<div class="highlight"><pre><span></span><code>hvs status
+</code></pre></div>
+<h2 id="installing-the-workload-service">Installing the Workload Service</h2>
+<h3 id="required-for_1">Required For</h3>
+<p>The WLS is REQUIRED for the following use cases.</p>
+<ul>
+<li>Workload Confidentiality (both VMs and Containers)</li>
+</ul>
+<h3 id="prerequisites_1">Prerequisites</h3>
+<p>The following must be completed before installing the Workload Service:</p>
+<ul>
+<li>
+<p>The Certificate Management Service must be installed and available</p>
+</li>
+<li>
+<p>The Authentication and Authorization Service must be installed and available</p>
+</li>
+<li>
+<p>The Verification Service must be installed and available</p>
+</li>
+<li>
+<p>The Workload Service database must be available</p>
+</li>
+</ul>
+<h3 id="supported-operating-systems_1">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Workload Service supports:</p>
+<ul>
+<li>
+<p>Red Hat Enterprise Linux 8.4</p>
+</li>
+<li>
+<p>Ubuntu 20.04</p>
+</li>
+</ul>
+<h3 id="recommended-hardware_1">Recommended Hardware</h3>
+<h3 id="installation_1">Installation</h3>
+<ul>
+<li>
+<p>Copy the Workload Service installation binary to the <code>/root</code> directory.</p>
+</li>
+<li>
+<p>Create the <code>workload-service.env</code> installation answer file</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">WLS_DB_USERNAME</span><span class="o">=</span>&lt;database username&gt;
+<span class="nv">WLS_DB_PASSWORD</span><span class="o">=</span>&lt;database password&gt;
+<span class="nv">WLS_DB_HOSTNAME</span><span class="o">=</span>&lt;IP or hostname of database server&gt;
+<span class="nv">WLS_DB_PORT</span><span class="o">=</span>&lt;Database port<span class="p">;</span> <span class="m">5432</span> by default&gt;
+<span class="nv">WLS_DB</span><span class="o">=</span>&lt;name of the WLS database&gt;
+<span class="nv">WLS_DB_SSLCERTSRC</span><span class="o">=</span>&lt;path to database TLS certificate<span class="p">;</span> the default location is typically /usr/local/pgsql/data/server.crt &gt;
+<span class="nv">HVS_URL</span><span class="o">=</span>https://&lt;Ip address or hostname of the Host verification Service&gt;:8443/hvs/v2/
+<span class="nv">WLS_SERVICE_USERNAME</span><span class="o">=</span>&lt;username <span class="k">for</span> WLS service account&gt;
+<span class="nv">WLS_SERVICE_PASSWORD</span><span class="o">=</span>&lt;password <span class="k">for</span> WLS service account&gt;
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://&lt;IP or hostname to CMS&gt;:8445/cms/v1/
+<span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;sha384 of CMS TLS certificate&gt;
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://&lt;IP or hostname to AAS&gt;:8444/aas/v1/
+<span class="nv">SAN_LIST</span><span class="o">=</span>&lt;comma-separated list of IPs and hostnames <span class="k">for</span> the WLS&gt;
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;Installation token from populate-users script&gt;
+</code></pre></div>
+<ul>
+<li>Execute the WLS installer binary:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>./wls-v4.1.1.bin
+</code></pre></div>
+<h2 id="installing-the-trust-agent-for-linux">Installing the Trust Agent for Linux</h2>
+<h3 id="required-for_2">Required For</h3>
+<p>The Trust Agent for Linux is REQUIRED for all use cases.</p>
+<ul>
+<li>
+<p>Platform Integrity with Data Sovereignty and Signed Flavors</p>
+</li>
+<li>
+<p>Application Integrity</p>
+</li>
+<li>
+<p>Workload Confidentiality (both VMs and Containers)</p>
+</li>
+</ul>
+<h3 id="package-dependencies_1">Package Dependencies</h3>
+<p>The Trust Agent requires the following packages and their dependencies:</p>
+<ul>
+<li>
+<p>Tboot (Optional, for TXT-based deployments <strong>without</strong> UEFI SecureBoot only)</p>
+</li>
+<li>
+<p>openssl</p>
+</li>
+<li>
+<p>tar</p>
+</li>
+<li>
+<p>redhat-lsb</p>
+</li>
+</ul>
+<p>If they are not already installed, the Trust Agent installer attempts to install these automatically using the package manager. Automatic installation requires access to package repositories (the RHEL subscription repositories, the EPEL repository, or a suitable mirror), which may require an Internet connection. If the packages are to be installed from the package repository, be sure to update the repository package lists before installation.</p>
+<p>Tboot will not be installed automatically. Instructions for installing and configuring tboot are documented later in this section.</p>
+<h3 id="supported-operating-systems_2">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Trust Agent for Linux supports:</p>
+<ul>
+<li>
+<p>Red Hat Enterprise Linux 8.4</p>
+</li>
+<li>
+<p>Ubuntu 20.04</p>
+</li>
+</ul>
+<h3 id="prerequisites_2">Prerequisites</h3>
+<p>The following must be completed before installing the Trust Agent:</p>
+<ul>
+<li>
+<p>Supported server hardware including an Intel® Xeon® processor with Intel Trusted Execution Technology activated in the system BIOS.</p>
+</li>
+<li>
+<p>Trusted Platform Module (version 2.0) installed and activated in the system BIOS, with cleared ownership status OR a known TPM ownership secret.</p>
+</li>
+</ul>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Starting in Intel SecL-DV 4.0, the Trust Agent will now default to using a null TPM owner secret, and does not require ownership permissions except during the provisioning step.   If ownership has already been taken when the Trust Agent will be provisioned, it will be necessary to either provide the ownership secret or clear the TPM ownership before provisioning.</p>
+</details>
+<ul>
+<li>
+<p>System must be booted to a tboot boot option OR use UEFI SecureBoot.</p>
+</li>
+<li>
+<p>(Provisioning step only) Intel® SecL Verification Service server installed and active.</p>
+</li>
+<li>(Required for NATS mode only) A NATS server must be configured and available</li>
+<li>(REQUIRED for servers configured with TXT and tboot only) If the server is installed using an LVM, the LVM name must be identical for all Trust Agent systems. The Grub bootloader line that calls the Linux kernel will contain the LVM name of the root volume, and this line with all arguments is part of what is measured in the TXT/Tboot boot process. This will cause the OS Flavor measurements to differ between two otherwise identical hosts if their LVM names are different. Simply using a uniform name for the LVM during OS installation will resolve this possible discrepancy.</li>
+<li>(Optional, REQUIRED for Virtual Machine Confidentiality only):</li>
+<li>QEMU/KVM must be installed</li>
+<li>Libvirt must be installed</li>
+</ul>
+<h3 id="tboot-installation">Tboot Installation</h3>
+<p>Tboot is required to build a complete Chain of Trust for Intel® TXT systems that are not using UEFI Secure Boot. Tboot acts to initiate the Intel® TXT SINIT ACM (Authenticated Code Module), which populates several TPM measurements including measurement of the kernel, grub command line, and initrd. Without either tboot or UEFI Secure Boot, the Chain of Trust will be broken because the OS-related components will be neither measured nor signature-verified prior to execution. Because tboot acts to initiate the Intel® TXT SINIT ACM, tboot is only required for platforms using Intel® TXT, and is not required for platforms using another hardware Root of Trust technology like Intel® Boot Guard.</p>
+<p><strong>Important Note:</strong> SGX Attestation fails when SGX is enabled on a host booted using tboot</p>
+<p><strong>Root Cause:</strong> tboot requires the "noefi" kernel parameter to be passed during boot, in order to not use unmeasured EFI runtime services. As a result, the kernel does not expose EFI variables to user-space. SGX Attestation requires these EFI variables to fetch Platform Manifest data.</p>
+<p><strong>Workaround:</strong></p>
+<p>The EFI variables required by SGX are only needed during the SGX provisioning/registration phase. Once this step is completed successfully, access to the EFI variables is no longer required. This means this issue can be worked around by installing the SGX agent without booting to tboot, then rebooting the system to tboot. SGX attestation will then work as expected while booted to tboot.</p>
+<ol>
+<li>
+<p>Enable SGX and TXT in the platform BIOS</p>
+</li>
+<li>
+<p>Perform SGX Factory Reset and boot into the “plain” distribution kernel (without tboot or TCB)</p>
+</li>
+<li>
+<p>Install tboot and ISecL components (SGX Agent, Trust Agent and Workload Agent)</p>
+</li>
+<li>
+<p>The SGX Agent installation fetches the SGX Platform Manifest data and caches it</p>
+</li>
+<li>
+<p>Reboot the system into the tboot kernel mode.</p>
+</li>
+<li>
+<p>Verify that TXT measured launch was successful:</p>
+<p>txt-stat |grep "TXT measured launch"</p>
+</li>
+<li>
+<p>The SGX and Platform Integrity Attestation use cases should now work as normal.</p>
+</li>
+</ol>
+<p>Intel® SecL-DC requires tboot 1.10.1 or greater. This may be a later version of tboot than is available on public software repositories.  </p>
+<p>The most current version of tboot can be found here:</p>
+<p><a href="https://sourceforge.net/projects/tboot/files/tboot/">https://sourceforge.net/projects/tboot/files/tboot/</a></p>
+<p>Tboot requires configuration of the grub boot loader after installation. To install and configure tboot:</p>
+<ul>
+<li>Install tboot</li>
+</ul>
+<div class="highlight"><pre><span></span><code>yum install tboot
+</code></pre></div>
+<p>If the package manager does not support a late enough version of tboot, it will need to be compiled from source and installed manually.  Instructions can be found here:</p>
+<p><a href="https://sourceforge.net/p/tboot/wiki/Home/">https://sourceforge.net/p/tboot/wiki/Home/</a></p>
+<p>Note that the step "copy platform SINIT to /boot" should not be required, as datacenter platforms include the SINIT in the system BIOS package.</p>
+<ul>
+<li>Ensure that <code>multiboot2.mod</code> and <code>relocator.mod</code> are available for grub2</li>
+</ul>
+<p>This step may not be necessary for all OS versions, for instance, this step is NA in case of Tboot installation on Ubuntu 20.04. In order to utilize tboot, grub2 requires these two modules from the grub2-efi-x64-modules package to be located in the correct directory (if they're absent, the host will throw a grub error when it tries to boot using tboot).</p>
+<p>These files must be present in this directory:</p>
+<div class="highlight"><pre><span></span><code>/boot/efi/EFI/redhat/x86_64-efi/multiboot2.mod
+/boot/efi/EFI/redhat/x86_64-efi/relocator.mod
+</code></pre></div>
+<p>If the files are not present in this directory, they can be moved from their installation location:</p>
+<div class="highlight"><pre><span></span><code>cp /usr/lib/grub/x86_64-efi/multiboot2.mod /boot/efi/EFI/redhat/x86_64-efi/
+cp /usr/lib/grub/x86_64-efi/relocator.mod /boot/efi/EFI/redhat/x86_64-efi/
+</code></pre></div>
+<p>Make a backup of your current <code>grub.cfg</code> file</p>
+<p>The below examples assume a RedHat OS that has been installed on a platform using UEFI boot mode. The grub path will be slightly different for platforms using a non-RedHat OS.</p>
+<div class="highlight"><pre><span></span><code>cp /boot/efi/EFI/redhat/grub.cfg /boot/efi/EFI/redhat/grub.cfg.bak
+</code></pre></div>
+<ul>
+<li>
+<p>Generate a new <code>grub.cfg</code> with the tboot boot option</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For RHEL</span>
+grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+
+<span class="c1"># For Ubuntu</span>
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div>
+</li>
+<li>
+<p>Update the default boot option</p>
+</li>
+</ul>
+<p>Ensure that the <code>GRUB_DEFAULT</code> value is set to the tboot option.</p>
+<p>a. Update <code>/etc/default/grub</code> and set the GRUB_DEFAULT value to <code>'tboot-1.10.1'</code></p>
+<div class="highlight"><pre><span></span><code>GRUB_DEFAULT=&#39;tboot-1.10.1&#39;
+</code></pre></div>
+<p>c. Regenerate <code>grub.cfg</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For RHEL</span>
+grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+
+<span class="c1"># For Ubuntu</span>
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div>
+<ul>
+<li>Reboot the system</li>
+</ul>
+<p>Because measurement happens at system boot, a reboot is needed to boot to the tboot boot option and populate measurements in the TPM.</p>
+<ul>
+<li>Verify a successful trusted boot with tboot</li>
+</ul>
+<p>Tboot provides the <code>txt-stat</code> command to show the tboot log. The first part of the output of this command can be used to verify a successful trusted launch. In the output below, note the “TXT measured launch” and “secrets flag set” at the bottom. Both of these should show "<strong>TRUE</strong>" if the tboot measured launch was successful. If either of these show "<strong>FALSE</strong>" the measured launch has failed. This usually simply indicates that the tboot boot option was not selected during boot.</p>
+<p>If the measured launch was successful, proceed to install the Trust Agent.</p>
+<div class="highlight"><pre><span></span><code>Intel(r) TXT Configuration Registers:
+        STS: 0x0001c091
+            senter_done: TRUE
+            sexit_done: FALSE
+            mem_config_lock: FALSE
+            private_open: TRUE
+            locality_1_open: TRUE
+            locality_2_open: TRUE
+        ESTS: 0x00
+            txt_reset: FALSE
+        E2STS: 0x0000000000000006
+            secrets: TRUE
+        ERRORCODE: 0x00000000
+        DIDVID: 0x00000001b0078086
+            vendor_id: 0x8086
+            device_id: 0xb007
+            revision_id: 0x1
+        FSBIF: 0xffffffffffffffff
+        QPIIF: 0x000000009d003000
+        SINIT.BASE: 0x6fec0000
+        SINIT.SIZE: 262144B (0x40000)
+        HEAP.BASE: 0x6ff00000
+        HEAP.SIZE: 1048576B (0x100000)
+        DPR: 0x0000000070000051
+            lock: TRUE
+            top: 0x70000000
+            size: 5MB (5242880B)
+        PUBLIC.KEY:
+            9c 78 f0 d8 53 de 85 4a 2f 47 76 1c 72 b8 6a 11
+            16 4a 66 a9 84 c1 aa d7 92 e3 14 4f b7 1c 2d 11
+
+***********************************************************
+         TXT measured launch: TRUE
+         secrets flag set: TRUE
+***********************************************************
+</code></pre></div>
+<h3 id="nats-mode-vs-http-mode">NATS Mode vs HTTP Mode</h3>
+<p>The Trust Agent can operate in either HTTP mode (default) or NATS mode.  This distinction controls how the Agent communicates with the HVS.  In HTTP mode, the TAgent presents a set of API endpoints for the HVS to access via individual TLS requests.  In NATS mode, the Agent and HVS are connected via a persistent session maintained via a NATS server; in this mode, the Trust Agent will not listen on any HTTP ports.</p>
+<h3 id="installation_2">Installation</h3>
+<p>Installation of the Trust Agent is split into two major steps: Installation, which covers the creation of system files and folders, and Provisioning, which involves the creation of keys and secrets and links the Trust Agent to a specific Verification Service. Both operations can be performed at the same time using an installation answer file. Without the answer file, the Trust Agent can be installed and left in an un-provisioned state regardless of whether a Verification Service is up and running, until such time as the datacenter administrator is ready to run the provisioning step and link the Trust Agent to a Verification Service.</p>
+<p>To install the Trust Agent for Linux:</p>
+<ul>
+<li>
+<p>Copy the Trust Agent installation binary to the /root/ directory.</p>
+</li>
+<li>
+<p>(Optional; required to perform Provisioning and Installation at the same time.) Create the<code>trustagent.env</code> answer file in the <code>/root</code> directory (for full configuration options, see section 9.2). The minimum configuration options for installation are provided below.</p>
+</li>
+</ul>
+<p>For Platform Attestation only, provide the following in <code>trustagent.env</code></p>
+<p><code>shell
+  HVS_URL=https://&lt;Verification Service IP or Hostname&gt;:8443/hvs/v2
+  PROVISION_ATTESTATION=y
+  GRUB_FILE=&lt;path to grub.cfg&gt;
+  CURRENT_IP=&lt;Trust Agent IP address&gt;
+  CMS_TLS_CERT_SHA384=&lt;CMS TLS digest&gt;
+  BEARER_TOKEN=&lt;Installation token from populate-users script&gt;
+  AAS_API_URL=https://&lt;AAS IP or Hostname&gt;:8444/aas/v1
+  CMS_BASE_URL=https://&lt;CMS IP or Hostname&gt;:8445/cms/v1
+  SAN_LIST=&lt;Comma-separated list of IP addresses and hostnames for the TAgent matching the SAN list specified in the populate-users script; may include wildcards&gt;</code></p>
+<p>For Workload Confidentiality with VM Encryption, add the following (<strong>in addition to</strong> the basic Platform Attestation sample):</p>
+<p><code>shell
+  WLA_SERVICE_USERNAME=&lt;Username for the WLA service user&gt;
+  WLA_SERVICE_PASSWORD=&lt;Username for the WLA service user&gt;
+  WLS_API_URL=https://&lt;WLS IP address or hostname&gt;:5000/wls/</code></p>
+<p>For Workload Confidentiality with Container Encryption, add the following (<strong>in addition to</strong> the basic Platform Attestation sample):</p>
+<p><code>shell
+  WLA_SERVICE_USERNAME=&lt;Username for the WLA service user&gt;
+  WLA_SERVICE_PASSWORD=&lt;Username for the WLA service user&gt;
+  WLS_API_URL=https://&lt;WLS IP address or hostname&gt;:5000/wls/
+  REGISTRY_SCHEME_TYPE=https
+  ##For the CRI-O container runtime:
+  WA_WITH_CONTAINER_SECURITY_CRIO=yes</code></p>
+<p>For NATS mode, add the following (in addition to the basic Platform Attestation sample and any other optional features):</p>
+<div class="highlight"><pre><span></span><code>TA_SERVICE_MODE=outbound
+NATS_SERVERS=&lt;nats-server-ip&gt;:4222
+TA_HOST_ID=&lt;Any unique identifier for the host; this could be the server FQDN, a UUID, or any other unique identifier&gt;
+</code></pre></div>
+<p>Note that the TA_HOST_ID unique identifier will also be the ID used as part of the connection string to reach this Trust Agent host in NATS mode.</p>
+<ul>
+<li>Execute the Trust Agent installer and wait for the installation to complete.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>./trustagent-v4.1.1.bin
+</code></pre></div>
+<p>If the <code>trustagent.env</code> answer file was provided with the minimum required options, the Trust Agent will be installed and also Provisioned to the Verification Service specified in the answer file.</p>
+<p>If no answer file was provided, the Trust Agent will be installed, but will not be Provisioned. TPM-related functionality will not be available from the Trust Agent until the Provisioning step is completed.</p>
+<p>The Trust Agent will add a new grub menu entry for application measurement. This new entry will include tboot if the existing grub contains tboot as the default boot option.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>If the Linux Trust Agent is installed without being Provisioned, the Trust Agent process will not actually run until the Provisioning step has been completed.</p>
+</details>
+<ul>
+<li>Legacy BIOS systems using tboot ONLY) Update the grub boot loader:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>grub2-mkconfig -o /boot/grub2/grub.cfg
+</code></pre></div>
+<ul>
+<li>After Provisioning is completed, the Linux Trust Agent must be rebooted so that the default SOFTWARE Flavor manifest can be measured and extended to the TPM. If the Workload Agent will also be installed on the system (see the next section), wait to reboot the server until after the Workload Agent has been installed, as this modifies the default SOFTWARE Flavor manifest.</li>
+</ul>
+<h2 id="installing-the-workload-agent">Installing the Workload Agent</h2>
+<h3 id="required-for_3">Required For</h3>
+<ul>
+<li>Workload Confidentiality (both VMs and Containers)</li>
+</ul>
+<h3 id="supported-operating-systems_3">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Workload Agent supports:</p>
+<ul>
+<li>
+<p>Red Hat Enterprise</p>
+</li>
+<li>
+<p>Linux 8.4</p>
+</li>
+</ul>
+<h3 id="prerequisites_3">Prerequisites</h3>
+<p>The following must be completed before installing the Workload Agent:</p>
+<ul>
+<li>
+<p>Intel® SecL Trust Agent installed and active.</p>
+</li>
+<li>
+<p>cryptsetup</p>
+</li>
+<li>
+<p>(REQUIRED for Virtual Machine Confidentiality only):</p>
+</li>
+<li>
+<p>QEMU/KVM must be installed</p>
+</li>
+<li>
+<p>libvirt must be installed</p>
+</li>
+</ul>
+<h3 id="installation_3">Installation</h3>
+<ul>
+<li>
+<p>Copy the Workload Agent installation binary to the /root/ directory</p>
+</li>
+<li>
+<p>Verify that the <code>trustagent.env</code> answer file is present. This file was
+  necessary for installing/provisioning the Trust Agent. Note that the
+  additional content required for Workload Confidentiality with either
+  VM Encryption or Container Encryption must be included in the
+  <code>trustagent.env</code> file (samples provided in the previous section) for
+  use by the Workload Agent.</p>
+</li>
+<li>
+<p>Execute the Workload Agent installer binary.</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>./workload-agent-v4.1.1.bin
+</code></pre></div>
+<ul>
+<li>Reboot the server. The Workload Agent populates files that are
+  needed for the default <code>SOFTWARE</code> Flavor, and a reboot is required for
+  those measurements to happen.</li>
+</ul>
+<h2 id="trust-agent-provisioning">Trust Agent Provisioning</h2>
+<p>"Provisioning" the Trust Agent involves connecting to a Verification
+Service to download the Verification Service PrivacyCA certificate,
+create a new Attestation Identity Keypair in the TPM, and verify or
+create the TPM Endorsement Certificate and Endorsement Key. The
+Verification Service PrivacyCA root certificate is used to sign the EC,
+and the EC is used to generate the Attestation Identity Keypair. The AIK
+is used by the Verification Service to verify the integrity of quotes
+from the host’s TPM.  </p>
+<p>Provisioning is the only time that the Trust Agent requires TPM ownership permissions.  If no TPM ownership secret is provided in the trustagent.env file, the Agent will use a null ownership secret to perform the provisioning steps.  If a TPM ownership secret is provided in the trustagent.env answer file, the Agent will attempt to use the specified secret.  If TPM ownership is in a clear state, the Agent will take ownership if a secret is specified.  If the TPM is already "owned," the Agent will try to use the specified secret; if the specified secret does not match the actual ownership password, the provisioning will fail.</p>
+<p>Intel recommends using the default "null" ownership secret, as this makes it easy for other applications to also use the Trust Agent, and can prevent the need to clear ownership in the case of a need to re-provision.</p>
+<p>Provisioning can be performed separately from installation (meaning you
+can install the Trust Agent without Provisioning, and then Provision
+later). If the <code>trustagent.env</code> answer file is present and has the
+required Verification Service information during installation, the Agent
+will automatically run the Provisioning steps.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The <code>trustagent.env</code> answer file must contain user credentials for a user with sufficient privileges. The minimum role required for performing provisioning is the "AttestationRegister" role.</p>
+</details>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>If the Linux Trust Agent is installed without being Provisioned, the Trust Agent process will not actually run until the Provisioning step has been completed.</p>
+</details>
+<p>If the answer file is not present during installation, the Agent can be
+provisioned later by adding the <code>trustagent.env</code> file and running the
+following command:</p>
+<p><code>tagent setup -f &lt;trustagent.env file
+path&gt;</code></p>
+<h2 id="trust-agent-registration">Trust Agent Registration</h2>
+<p>Registration creates a host record with connectivity details and other
+host information in the Verification Service database. This host record
+will be used by the Verification Service to retrieve TPM attestation
+quotes from the Trust Agent to generate an attestation report.</p>
+<p>The Trust Agent can register the host with a Verification Service by
+running the following command (the trustagent.env
+answer file must be present in the current working directory):</p>
+<p><code>tagent setup create-host</code></p>
+<p>Hosts can also be registered using a REST API request to the
+Verification Service:</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST &lt;https://verification.service.com:8443/hvs/v2/hosts&gt;</span>
+
+<span class="err">{</span>
+<span class="err">    &quot;host_name&quot;: &quot;&lt;hostname of host to be registered&gt;&quot;</span>
+<span class="err">    &quot;connection_string&quot;: &quot;intel:https://&lt;hostname or IP address&gt;:1443&quot;,</span>
+<span class="err">    &quot;flavorgroup_names&quot;: [],</span>
+<span class="err">    &quot;description&quot;: &quot;&lt;description&gt;&quot;</span>
+<span class="err">}</span>
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>When a new host is registered, the Verification Service will automatically attempt to match the host to appropriate Flavors. If appropriate Flavors are not found, the host will still be registered, but will be in an Untrusted state until/unless appropriate Flavors are added to the Verification Service.</p>
+</details>
+<p><img alt="ta-registration" src="../images/ta_registration.png" /></p>
+<h2 id="importing-the-host_unique-flavor">Importing the HOST_UNIQUE Flavor</h2>
+<p>RHEL and VMWare ESXi hosts have measured components that are unique to
+each host. This means that a special HOST_UNIQUE flavor part needs to
+be imported for each RHEL and ESXi host, in addition to any other OS or
+Platform Flavors.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>Importing a Flavor requires user credentials for a user with sufficient privileges. The minimum role required for creating the HOST_UNIQUE Flavor part is the “host_unique_flavor_creator” role. This role can only create HOST_UNIQUE Flavor parts, and cannot create any other Flavors.</p>
+</details>
+<p>On Red Hat Enterprise Linux hosts with the Trust Agent, this can be
+performed from the Trust Agent command line (this requires the
+trustagent.env answer file to be present in the current working
+directory):</p>
+<div class="highlight"><pre><span></span><code>tagent setup create-host-unique-flavor
+</code></pre></div>
+<p>This can also be performed using a REST API (required for VMWare ESXi
+hosts):</p>
+<div class="highlight"><pre><span></span><code><span class="err">POST https://verification.service.com:8443/hvs/v2/flavors</span>
+
+<span class="err">{</span>
+<span class="err">    &quot;connection_string&quot;: &quot;&lt;Connection string&gt;&quot;,</span>
+<span class="err">    &quot;partial_flavor_types&quot;: [&quot;HOST_UNIQUE&quot;]</span>
+<span class="err">}</span>
+</code></pre></div>
+<h2 id="installing-the-intel-secl-kubernetes-extensions-and-integration-hub">Installing the Intel® SecL Kubernetes Extensions and Integration Hub</h2>
+<p>Intel® SecL uses Custom Resource Definitions to add the ability to base
+orchestration decisions on Intel® SecL security attributes to
+Kubernetes. These CRDs allow Kubernetes administrators to configure pods
+to require specific security attributes so that the Kubernetes Control Plane
+Node will schedule those pods only on Worker Nodes that match the
+specified attributes.</p>
+<p>Two CRDs are required for integration with Intel® SecL – an extension
+for the Control Plane nodes, and a scheduler extension. The extensions are deployed as a Kubernetes
+deployment in the <code>isecl</code> namespace.</p>
+<h2 id="deploy-intel-secl-custom-controller">Deploy Intel® SecL Custom Controller</h2>
+<pre><code>#Install skopeo to load container image for controller and scheduler from archive
+dnf install -y skopeo
+</code></pre>
+<ul>
+<li>
+<p>Copy <code>isecl-k8s-extensions-*.tar.gz</code> to Kubernetes Control plane machine and extract the contents</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#Copy</span>
+scp /&lt;build_path&gt;/binaries/isecl-k8s-extensions-*.tar.gz &lt;user&gt;@&lt;k8s_controller_machine&gt;:/&lt;path&gt;/
+
+<span class="c1">#Extract</span>
+tar -xvzf /&lt;path&gt;/isecl-k8s-extensions-*.tar.gz
+<span class="nb">cd</span> /&lt;path&gt;/isecl-k8s-extensions/
+</code></pre></div>
+</li>
+<li>
+<p>Create <code>hostattributes.crd.isecl.intel.com</code> CRD</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#1.17&lt;=k8s_version&lt;=1.22</span>
+kubectl apply -f yamls/crd-1.17.yaml
+</code></pre></div>
+</li>
+<li>
+<p>Check whether the CRD is created</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl get crds
+</code></pre></div>
+<ul>
+<li>Load the <code>isecl-controller</code> container image</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /&lt;path&gt;/isecl-k8s-extensions/
+skopeo copy oci-archive:&lt;isecl-k8s-controller-*.tar&gt; docker://&lt;docker_private_registry_server&gt;:5000/&lt;imageName&gt;:&lt;tagName&gt;
+</code></pre></div>
+<ul>
+<li>
+<p>Update image name as above in controller yaml "/opt/isecl-k8s-extensions/yamls/isecl-controller.yaml"
+   <div class="highlight"><pre><span></span><code>   containers:
+     - name: isecl-controller
+       image: &lt;docker_private_registry_server&gt;:5000/&lt;imageName&gt;:&lt;tagName&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>Deploy <code>isecl-controller</code></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl apply -f yamls/isecl-controller.yaml
+</code></pre></div>
+<ul>
+<li>Check whether the isecl-controller is up and running</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl get deploy -n isecl
+</code></pre></div>
+<ul>
+<li>Create clusterRoleBinding for ihub to get access to cluster nodes</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl create clusterrolebinding isecl-clusterrole --clusterrole<span class="o">=</span>system:node --user<span class="o">=</span>system:serviceaccount:isecl:isecl
+</code></pre></div>
+<ul>
+<li>Fetch token required for ihub installation</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl get secrets -n isecl
+
+<span class="c1">#The below token will be used for ihub installation to update &#39;KUBERNETES_TOKEN&#39; in ihub.env when configured with Kubernetes Tenant</span>
+kubectl describe secret default-token-&lt;name&gt; -n isecl
+</code></pre></div>
+<ul>
+<li>Additional Optional Configurable fields for isecl-controller configuration in <code>isecl-controller.yaml</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOG_LEVEL</td>
+<td><code>Optional</code></td>
+<td><code>string</code></td>
+<td>INFO</td>
+<td>Determines the log level</td>
+</tr>
+<tr>
+<td>LOG_MAX_LENGTH</td>
+<td><code>Optional</code></td>
+<td><code>int</code></td>
+<td>1500</td>
+<td>Determines the maximum length of characters in a line in log file</td>
+</tr>
+<tr>
+<td>TAG_PREFIX</td>
+<td><code>Optional</code></td>
+<td><code>string</code></td>
+<td>isecl</td>
+<td>A custom prefix which can be applied to isecl attributes that are pushed from IH. For example, if the tag-prefix is <strong>isecl.</strong> and <strong>trusted</strong> attribute in CRD becomes <strong>isecl.trusted</strong>.</td>
+</tr>
+<tr>
+<td>TAINT_UNTRUSTED_NODES</td>
+<td><code>Optional</code></td>
+<td><code>string</code></td>
+<td>false</td>
+<td>If set to true. NoExec taint applied to the nodes for which trust status is set to false, Applicable only for HVS based attestation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="installing-the-intel-secl-integration-hub">Installing the Intel® SecL Integration Hub</h2>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The Integration Hub is only required to integrate Intel® SecL with third-party scheduler services, such as OpenStack Nova or Kubernetes. The Hub is not required for usage models that do not require Intel® SecL security attributes to be pushed to an integration endpoint.</p>
+</details>
+<h3 id="required-for_4">Required For</h3>
+<p>The Hub is REQUIRED for the following use cases.</p>
+<ul>
+<li>Workload Confidentiality (both VMs and Containers)</li>
+</ul>
+<p>The Hub is OPTIONAL for the following use cases (used only if
+orchestration or other integration support is needed):</p>
+<ul>
+<li>Platform Integrity with Data Sovereignty and Signed Flavors</li>
+<li>Application Integrity</li>
+</ul>
+<h3 id="deployment-architecture-considerations-for-the-hub">Deployment Architecture Considerations for the Hub</h3>
+<p>A separate Hub instance is REQUIRED for each Cloud environment (also referred to as a Hub "tenant").  For example, if a single datacenter will have an OpenStack cluster and also two separate Kubernetes clusters, a total of three Hub instances must be installed, though additional instances of other Intel SecL services are not required (in the same example, only a single Verification Service is required).  Each Hub will manage a single orchestrator environment.  Each Hub instance should be installed on a separate VM or physical server</p>
+<h3 id="prerequisites_4">Prerequisites</h3>
+<p>The Intel® Security Libraries Integration Hub can be run as a VM or as a
+bare-metal server. The Hub may be installed on the same server (physical
+or VM) as the Verification Service.</p>
+<ul>
+<li>The Verification Service must be installed and available</li>
+<li>The Authentication and Authorization Service must be installed and
+    available</li>
+<li>The Certificate Management Service must be installed and available</li>
+<li>(REQUIRED for Kubernetes integration only) The Intel SecL Custom Resource Definitions must be installed and available (see the Integration section for details)</li>
+</ul>
+<h3 id="package-dependencies_2">Package Dependencies</h3>
+<p>The Intel® SecL Integration Hub requires a number of packages and their
+dependencies:</p>
+<p>If these are not already installed, the Integration Hub installer
+attempts to install these packages automatically using the package
+manager. Automatic installation requires access to package repositories
+(the RHEL subscription repositories, the EPEL repository, or a suitable
+mirror), which may require an Internet connection. If the packages are
+to be installed from the package repository, be sure to update your
+repository package lists before installation.</p>
+<h3 id="supported-operating-systems_4">Supported Operating Systems</h3>
+<p>The Intel Security Libraries Integration Hub supports Red Hat Enterprise
+Linux 8.4</p>
+<h3 id="recommended-hardware_2">Recommended Hardware</h3>
+<ul>
+<li>
+<p>1 vCPUs</p>
+</li>
+<li>
+<p>RAM: 2 GB</p>
+</li>
+<li>
+<p>1 GB free space to install the Verification Service services.
+    Additional free space is needed for the Integration Hub database and
+    logs (database and log space requirements are dependent on the
+    number of managed servers).</p>
+</li>
+<li>
+<p>One network interface with network access to the Verification
+    Service.</p>
+</li>
+<li>
+<p>One network interface with network access to any integration
+    endpoints (for example, OpenStack Nova).</p>
+</li>
+</ul>
+<h3 id="installing-the-integration-hub">Installing the Integration Hub</h3>
+<p>To install the Integration Hub, follow these steps:</p>
+<ul>
+<li>Copy the API Server certificate of the Kubernetes Controller to machine where Integration Hub will be installed to <code>/root/</code> directory</li>
+</ul>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>In most  Kubernetes distributions the Kubernetes certificate and key is normally present under <code>/etc/kubernetes/pki</code>. However this might differ in case of some specific Kubernetes distributions.</p>
+<p>In ihub.env <code>KUBERNETES_TOKEN</code> token can be retrieved from Kubernetes using the following command:</p>
+<p><div class="highlight"><pre><span></span><code>kubectl get secrets -n isecl -o jsonpath=&quot;{.items[?(@.metadata.annotations[&#39;kubernetes\.io/service-account\.name&#39;]==&#39;default&#39;)].data.token}&quot;|base64 --decode
+</code></pre></div>
+<code>KUBERNETES_CERT_FILE=/&lt;any_path&gt;/apiserver.crt</code> in this path can be specified any ex: <code>/root</code> which can taken care by IHUB during installation and copied to '/etc/ihub' directory.</p>
+</details>
+<ul>
+<li>Create the <code>ihub.env</code> installation answer file. See the
+    sample file below.</li>
+</ul>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># Authentication URL and service account credentials</span>
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://isecl-aas:8444/aas/v1
+<span class="nv">IHUB_SERVICE_USERNAME</span><span class="o">=</span>&lt;Username <span class="k">for</span> the Hub service user&gt;
+<span class="nv">IHUB_SERVICE_PASSWORD</span><span class="o">=</span>&lt;Password <span class="k">for</span> the Hub service user&gt;
+
+<span class="c1"># CMS URL and CMS webserivce TLS hash for server verification</span>
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://isecl-cms:8445/cms/v1
+<span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;TLS hash&gt;
+
+<span class="c1"># TLS Configuration</span>
+<span class="nv">TLS_SAN_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1,192.168.1.1,hub.server.com <span class="c1">#comma-separated list of IP addresses and hostnames for the Hub to be used in the Subject Alternative Names list in the TLS Certificate</span>
+
+<span class="c1"># Verification Service URL</span>
+<span class="nv">HVS_BASE_URL</span><span class="o">=</span>https://isecl-hvs:8443/hvs/v2
+<span class="nv">ATTESTATION_TYPE</span><span class="o">=</span>HVS
+
+<span class="c1">#Integration tenant type.  Currently supported values are &quot;KUBENETES&quot; or &quot;OPENSTACK&quot;</span>
+<span class="nv">TENANT</span><span class="o">=</span>&lt;KUBERNETES or OPENSTACK&gt;
+
+<span class="c1"># OpenStack Integration Credentials - required for OpenStack integration only</span>
+<span class="nv">OPENSTACK_AUTH_URL</span><span class="o">=</span>&lt;OpenStack Keystone URL<span class="p">;</span> typically http://openstack-ip:5000/&gt;
+<span class="nv">OPENSTACK_PLACEMENT_URL</span><span class="o">=</span>&lt;OpenStack Nova API URL<span class="p">;</span> typically http://openstack-ip:8778/&gt;
+<span class="nv">OPENSTACK_USERNAME</span><span class="o">=</span>&lt;OpenStack username&gt;
+<span class="nv">OPENSTACK_PASSWORD</span><span class="o">=</span>&lt;OpenStack password&gt;
+
+<span class="c1"># Kubernetes Integration Credentials - required for Kubernetes integration only</span>
+<span class="nv">KUBERNETES_URL</span><span class="o">=</span>https://kubernetes:6443/
+<span class="nv">KUBERNETES_CRD</span><span class="o">=</span>custom-isecl
+<span class="nv">KUBERNETES_CERT_FILE</span><span class="o">=</span>/root/apiserver.crt
+<span class="nv">KUBERNETES_TOKEN</span><span class="o">=</span>eyJhbGciOiJSUzI1NiIsImtpZCI6Ik......
+
+<span class="c1"># Installation admin bearer token for CSR approval request to CMS - mandatory</span>
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>eyJhbGciOiJSUzM4NCIsImtpZCI6ImE…
+</code></pre></div>
+* Update the token obtained in  Step 8 of <code>Deploy Intel® SecL Custom Controller</code> along with other relevant tenant configuration options in <code>ihub.env</code></p>
+<ul>
+<li>Copy the Integration Hub installation binary to the <code>/root</code>
+    directory &amp; execute the installer binary.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>./ihub-v4.1.1.bin
+</code></pre></div>
+<ul>
+<li>Copy the <code>/etc/ihub/ihub_public_key.pem</code> to Kubernetes Controller machine to <code>/&lt;path&gt;/secrets/</code> directory</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#On K8s-Controller machine</span>
+mkdir -p /&lt;path&gt;/secrets
+
+<span class="c1">#On IHUB machine, copy</span>
+scp /etc/ihub/ihub_public_key.pem &lt;user&gt;@&lt;k8s_controller_machine&gt;:/&lt;path&gt;/secrets/hvs_ihub_public_key.pem
+</code></pre></div>
+<p>After installation, the Hub must be configured to integrate with a Cloud orchestration platform (for example, OpenStack or Kubernetes).  See the Integration section for details.</p>
+<h2 id="deploy-intel-secl-extended-scheduler">Deploy Intel® SecL Extended Scheduler</h2>
+<ul>
+<li>Install <code>cfssl</code> and <code>cfssljson</code> on Kubernetes Control Plane</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">#Install wget</span>
+dnf install wget -y
+
+<span class="c1">#Download cfssl to /usr/local/bin/</span>
+wget -O /usr/local/bin/cfssl http://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+chmod +x /usr/local/bin/cfssl
+
+<span class="c1">#Download cfssljson to /usr/local/bin</span>
+wget -O /usr/local/bin/cfssljson http://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x /usr/local/bin/cfssljson
+</code></pre></div>
+<ul>
+<li>Create TLS key-pair for <code>isecl-scheduler</code> service which is signed by Kubernetes <code>apiserver.crt</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /&lt;path&gt;/isecl-k8s-extensions/
+chmod +x create_k8s_extsched_cert.sh
+
+<span class="c1">#Set K8s_CONTROLLER_IP,HOSTNAME</span>
+<span class="nb">export</span> <span class="nv">CONTROLLER_IP</span><span class="o">=</span>&lt;k8s_machine_ip&gt;
+<span class="nb">export</span> <span class="nv">HOSTNAME</span><span class="o">=</span>&lt;k8s_machine_hostname&gt;
+
+<span class="c1">#Create TLS key-pair</span>
+./create_k8s_extsched_cert.sh -n <span class="s2">&quot;K8S Extended Scheduler&quot;</span> -s <span class="s2">&quot;</span><span class="nv">$CONTROLLER_IP</span><span class="s2">&quot;</span>,<span class="s2">&quot;</span><span class="nv">$HOSTNAME</span><span class="s2">&quot;</span> -c &lt;k8s_ca_authority_cert&gt; -k &lt;k8s_ca_authority_key&gt;
+</code></pre></div>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>In most  Kubernetes distributions the Kubernetes certificate and key is normally present under <code>/etc/kubernetes/pki</code>. However this might differ in case of some specific Kubernetes distributions.</p>
+</details>
+<ul>
+<li>Copy the TLS key-pair generated to <code>/&lt;path&gt;/secrets/</code> directory</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cp /&lt;path&gt;/isecl-k8s-extensions/server.key /&lt;path&gt;/secrets/
+cp /&lt;path&gt;/isecl-k8s-extensions/server.crt /&lt;path&gt;/secrets/
+</code></pre></div>
+<ul>
+<li>Load the <code>isecl-scheduler</code> container image</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /&lt;path&gt;/isecl-k8s-extensions/
+skopeo copy oci-archive:&lt;isecl-k8s-scheduler-*.tar&gt; docker://&lt;docker_private_registry_server&gt;:5000/&lt;imageName&gt;:&lt;tagName&gt;
+</code></pre></div>
+<ul>
+<li>
+<p>Update image name as above in scheduler yaml "/opt/isecl-k8s-extensions/yamls/isecl-scheduler.yaml"
+   <div class="highlight"><pre><span></span><code>   containers:
+     - name: isecl-scheduler
+       image: &lt;docker_private_registry_server&gt;:5000/&lt;imageName&gt;:&lt;tagName&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>Create scheduler-secret for isecl-scheduler</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /&lt;path&gt;/
+kubectl create secret generic scheduler-certs --namespace isecl --from-file<span class="o">=</span>secrets
+</code></pre></div>
+<ul>
+<li>The <code>isecl-scheduler.yaml</code> file includes support for both SGX and Workload Security put together. For only working with Workload Security scenarios , the following line needs to be made empty in the yaml file. The scheduler and controller yaml files are located under <code>/&lt;path&gt;/isecl-k8s-extensions/yamls</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SGX_IHUB_PUBLIC_KEY_PATH</span><span class="w"></span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+</code></pre></div>
+<ul>
+<li>Deploy <code>isecl-scheduler</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /&lt;path&gt;/isecl-k8s-extensions/
+kubectl apply -f yamls/isecl-scheduler.yaml      
+</code></pre></div>
+<ul>
+<li>Check whether the <code>isecl-scheduler</code> is up and running</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl get deploy -n isecl
+</code></pre></div>
+<ul>
+<li>Additional optional fields for isecl-scheduler configuration in <code>isecl-scheduler.yaml</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOG_LEVEL</td>
+<td><code>Optional</code></td>
+<td><code>string</code></td>
+<td>INFO</td>
+<td>Determines the log level</td>
+</tr>
+<tr>
+<td>LOG_MAX_LENGTH</td>
+<td><code>Optional</code></td>
+<td><code>int</code></td>
+<td>1500</td>
+<td>Determines the maximum length of characters in a line in log file</td>
+</tr>
+<tr>
+<td>TAG_PREFIX</td>
+<td><code>Optional</code></td>
+<td><code>string</code></td>
+<td>isecl.</td>
+<td>A custom prefix which can be applied to isecl attributes that are pushed from IH. For example, if the tag-prefix is <strong><em>*isecl.*</em></strong> and <strong><em>*trusted*</em></strong> attribute in CRD becomes <strong><em>*isecl.trusted*</em></strong>.</td>
+</tr>
+<tr>
+<td>PORT</td>
+<td><code>Optional</code></td>
+<td><code>int</code></td>
+<td>8888</td>
+<td>ISecl scheduler service port</td>
+</tr>
+<tr>
+<td>HVS_IHUB_PUBLIC_KEY_PATH</td>
+<td><code>Required</code></td>
+<td><code>string</code></td>
+<td></td>
+<td>Required for IHub with HVS Attestation</td>
+</tr>
+<tr>
+<td>SGX_IHUB_PUBLIC_KEY_PATH</td>
+<td><code>Required</code></td>
+<td><code>string</code></td>
+<td></td>
+<td>Required for IHub with SGX Attestation</td>
+</tr>
+<tr>
+<td>TLS_CERT_PATH</td>
+<td><code>Required</code></td>
+<td><code>string</code></td>
+<td></td>
+<td>Path of tls certificate signed by kubernetes CA</td>
+</tr>
+<tr>
+<td>TLS_KEY_PATH</td>
+<td><code>Required</code></td>
+<td><code>string</code></td>
+<td></td>
+<td>Path of tls key</td>
+</tr>
+</tbody>
+</table>
+<h4 id="configuring-kube-scheduler-to-establish-communication-with-isecl-scheduler">Configuring kube-scheduler to establish communication with isecl-scheduler</h4>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>The below is a sample when using <code>kubeadm</code> as the Kubernetes distribution, the scheduler configuration files would be different for any other Kubernetes distributions being used.</p>
+</details>
+<ul>
+<li>
+<p>Add a mount path to the
+    <code>/etc/kubernetes/manifests/kube-scheduler.yaml</code> file for the Intel
+    SecL scheduler extension:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/&lt;path&gt;/isecl-k8s-extensions/</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extendedsched</span><span class="w"></span>
+<span class="w">  </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+</code></pre></div>
+</li>
+<li>
+<p>Add a volume path to the
+   <code>/etc/kubernetes/manifests/kube-scheduler.yaml</code> file for the Intel
+   SecL scheduler extension:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostPath</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/&lt;path&gt;/isecl-k8s-extensions/</span><span class="w"></span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">extendedsched</span><span class="w"></span>
+</code></pre></div>
+</li>
+<li>
+<p>Add <code>policy-config-file</code> path in the
+   <code>/etc/kubernetes/manifests/kube-scheduler.yaml</code> file under <code>command</code> section:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-scheduler</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--policy-config-file=/&lt;path&gt;/isecl-k8s-extensions/scheduler-policy.json</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--bind-address=127.0.0.1</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--kubeconfig=/etc/kubernetes/scheduler.conf</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--leader-elect=true</span><span class="w"></span>
+</code></pre></div>
+<ul>
+<li>Restart kubelet</li>
+</ul>
+<div class="highlight"><pre><span></span><code>systemctl restart kubelet
+</code></pre></div>
+<p>Logs will be appended to older logs in</p>
+<pre><code>/var/log/isecl-k8s-extensions
+</code></pre>
+<ul>
+<li>
+<p>Whenever the CRD's are deleted and restarted for updates, the CRD's
+    using the yaml files present under <code>/opt/isecl-k8s-extensions/yamls/</code>.
+    Kubernetes Version 1.17-1.22 uses
+    <code>crd-1.17.yaml</code></p>
+<div class="highlight"><pre><span></span><code>kubectl delete crd hostattributes.crd.isecl.intel.com
+kubectl apply -f /opt/isecl-k8s-extensions/yamls/crd-&lt;version&gt;.yaml
+</code></pre></div>
+</li>
+<li>
+<p>(Optional) Verify that the Intel ® SecL K8s extensions
+    have been started:</p>
+<p>To verify the Intel SecL CRDs have been deployed:</p>
+<div class="highlight"><pre><span></span><code>kubectl get -o json hostattributes.crd.isecl.intel.com
+</code></pre></div>
+</li>
+</ul>
+<h2 id="installing-the-key-broker-service">Installing the Key Broker Service</h2>
+<h3 id="required-for_5">Required For</h3>
+<p>The KBS is REQUIRED for the following use cases:</p>
+<ul>
+<li>Workload Confidentiality (both VMs and Containers)</li>
+</ul>
+<h3 id="prerequisites_5">Prerequisites</h3>
+<p>The following must be completed before installing the Key Broker:</p>
+<ul>
+<li>The Verification Service must be installed and available</li>
+<li>The Authentication and Authorization Service must be installed and
+    available</li>
+<li>The Certificate Management Service must be installed and available</li>
+<li>(Recommended; Required if a 3<sup>rd</sup>-party Key Management Server will
+    be used) A KMIP 2.0-compliant 3<sup>rd</sup>-party Key management Server must
+    be available.</li>
+<li>The Key Broker will require the KMIP server’s client
+        certificate, client key and root ca certificate.</li>
+<li>The KMIP server's client certificate must contain a Subject Alternative Name that includes the KMIP server's hostname.</li>
+<li>The Key Broker uses the gemalto kmip-go client to connect to a KMIP
+        server</li>
+<li>The Key Broker has been validated using the pykmip 0.9.1 KMIP
+        server as a 3<sup>rd</sup>-party Key Management Server. While any general
+        KMIP 2.0-compliant Key Management Server should work,
+        implementation differences among KMIP providers may prevent
+        functionality with specific providers.</li>
+</ul>
+<h3 id="package-dependencies_3">Package Dependencies</h3>
+<h3 id="supported-operating-systems_5">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Key Broker Service supports:</p>
+<p>Red Hat Enterprise Linux 8.4</p>
+<p>Ubuntu 20.04</p>
+<h3 id="recommended-hardware_3">Recommended Hardware</h3>
+<h3 id="installation_4">Installation</h3>
+<ul>
+<li>
+<p>Copy the Key Broker installation binary to the /root/ directory.</p>
+</li>
+<li>
+<p>Create the installation answer file kbs.env:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">AAS_API_URL</span><span class="o">=</span>https://&lt;AAS IP or hostname&gt;:8444/aas/v1
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://&lt;CMS IP or hostname&gt;:8445/cms/v1/
+<span class="nv">ENDPOINT_URL</span><span class="o">=</span>https://&lt;KBS IP or hostname&gt;:9443/kbs/v1/
+<span class="nv">SAN_LIST</span><span class="o">=</span>&lt;comma-separated list of hostnames and IP addresses <span class="k">for</span> the Key Broker&gt;
+<span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;SHA384 <span class="nb">hash</span> of CMS TLS certificate&gt;
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;Installation token from populate-users script&gt;
+
+<span class="c1">### OPTIONAL - KMIP configuration only</span>
+<span class="nv">KEY_MANAGER</span><span class="o">=</span>KMIP
+<span class="nv">KMIP_SERVER_IP</span><span class="o">=</span>&lt;IP address of KMIP server&gt;
+<span class="nv">KMIP_SERVER_PORT</span><span class="o">=</span>&lt;Port number of KMIP server&gt;
+<span class="nv">KMIP_VERSION</span><span class="o">=</span>&lt;KMIP protocol version&gt;
+<span class="nv">KMIP_USERNAME</span><span class="o">=</span>&lt;Username of KMIP server&gt;
+<span class="nv">KMIP_PASSWORD</span><span class="o">=</span>&lt;Password of KMIP server&gt;
+<span class="c1">### KMIP_HOSTNAME must be used to provide, KMIP server certificate&#39;s SAN(IP/DNS) or valid COMMON NAME. Only FQDN names are allowed.</span>
+<span class="nv">KMIP_HOSTNAME</span><span class="o">=</span>&lt;Hostname of KMIP server&gt;
+<span class="c1">### Retrieve the following certificates and keys from the KMIP server</span>
+<span class="nv">KMIP_CLIENT_KEY_PATH</span><span class="o">=</span>&lt;path&gt;/client_key.pem
+<span class="nv">KMIP_ROOT_CERT_PATH</span><span class="o">=</span>&lt;path&gt;/root_certificate.pem
+<span class="nv">KMIP_CLIENT_CERT_PATH</span><span class="o">=</span>&lt;path&gt;/client_certificate.pem
+</code></pre></div>
+<ul>
+<li>
+<p>Execute the KBS installer.</p>
+<div class="highlight"><pre><span></span><code>./kbs-4.1.0.bin
+</code></pre></div>
+</li>
+</ul>
+<h4 id="configure-the-key-broker-to-use-a-kmip-compliant-key-management-server">Configure the Key Broker to use a KMIP-compliant Key Management Server</h4>
+<p>The Key Broker must be configured to use a 3<sup>rd</sup>-party KMIP key manager as part of installation using kbs.env installation variables.</p>
+<p>To configure the Key Broker to point to a 3<sup>rd</sup>-party KMIP-compliant Key Management Server:</p>
+<ol>
+<li>
+<p>Copy the KMIP server’s client certificate, client key and root ca
+    certificate to the Key Broker system</p>
+</li>
+<li>
+<p>Configure the variables in kbs.env for kmip support as below during installation</p>
+<div class="highlight"><pre><span></span><code><span class="nv">KEY_MANAGER</span><span class="o">=</span>KMIP
+<span class="nv">KMIP_SERVER_IP</span><span class="o">=</span>&lt;IP address of KMIP server&gt;
+<span class="nv">KMIP_SERVER_PORT</span><span class="o">=</span>&lt;Port number of KMIP server&gt;
+<span class="nv">KMIP_HOSTNAME</span><span class="o">=</span>&lt;hostname of the KMIP server.  Must match the hostname used <span class="k">in</span> the Subject Alternative Name fort eh KMIP server client certificate.&gt;
+
+<span class="c1">## KMIP_VERSION variable can be used to mention KMIP protocol version.</span>
+<span class="c1">## This is an OPTIONAL field, default value is set to &#39;2.0&#39;. KBS supports KMIP version &#39;1.4&#39; and &#39;2.0&#39;.</span>
+<span class="nv">KMIP_VERSION</span><span class="o">=</span>&lt;KMIP protocol version&gt;
+
+<span class="c1">## KMIP_HOSTNAME can be used to configure TLS config with ServerName.</span>
+<span class="c1">## KMIP server certificate should contain SAN(IP/DNS) or valid COMMON NAME and this value can be provided in KMIP_HOSTNAME. Only FQDN names are allowed.</span>
+<span class="c1">## This is an OPTIONAL field, if KMIP_HOSTNAME is not provided then KMIP_SERVER_IP will be considered as ServerName in TLS configuration.</span>
+<span class="nv">KMIP_HOSTNAME</span><span class="o">=</span>&lt;Hostname of KMIP server&gt;
+
+<span class="c1">## KMIP supports authentication mechanism to authenticate requestor. This is an OPTIONAL field.</span>
+<span class="c1">## This feature can be added to KBS by updating kbs.env with KMIP_USERNAME and KMIP_PASSWORD.</span>
+<span class="c1">## These are OPTIONAL variables. PyKMIP doesn&#39;t supports this feature. This feature is validated in Thales cipher trust manager.</span>
+<span class="nv">KMIP_USERNAME</span><span class="o">=</span>&lt;Username of KMIP server&gt;
+<span class="nv">KMIP_PASSWORD</span><span class="o">=</span>&lt;Password of KMIP server&gt;
+
+<span class="c1">### Retrieve the following certificates and keys from the KMIP server</span>
+<span class="nv">KMIP_CLIENT_KEY_PATH</span><span class="o">=</span>&lt;path&gt;/client_key.pem
+<span class="nv">KMIP_ROOT_CERT_PATH</span><span class="o">=</span>&lt;path&gt;/root_certificate.pem
+<span class="nv">KMIP_CLIENT_CERT_PATH</span><span class="o">=</span>&lt;path&gt;/client_certificate.pem
+</code></pre></div>
+</li>
+<li>
+<p>The KBS configuration can be found in <code>/etc/kbs/config.yml</code>, KMIP configuration can be updated in this configuration</p>
+<p><code>shell
+kmip:
+  version: "2.0"
+  server-ip: "127.0.0.1"
+  server-port: "5696"
+  hostname: "localhost"
+  kmip-username: "&lt;kmip-username&gt;"
+  kmip-password: "&lt;kmip-password&gt;"
+  client-key-path: "&lt;path&gt;/client-key.pem"
+  client-cert-path: "&lt;path&gt;/client-certificate.pem"
+  root-cert-path: "&lt;path&gt;/root-certificate.pem"</code></p>
+</li>
+<li>
+<p>Restart the Key Broker for the settings to take effect</p>
+<div class="highlight"><pre><span></span><code>kbs stop
+kbs start
+</code></pre></div>
+</li>
+</ol>
+<h3 id="importing-verification-service-certificates">Importing Verification Service Certificates</h3>
+<p>After installation, the Key Broker must import the SAML and PrivacyCA
+certificates from any Verification Services it will trust. This provides
+the Key Broker a way to ensure that only attestations that come from a
+“known” Verification Service. The SAML and PrivacyCA certificates needed
+can be found on the Verification Service.</p>
+<h4 id="importing-a-saml-certificate">Importing a SAML certificate</h4>
+<p>Display the SAML certificate:</p>
+<div class="highlight"><pre><span></span><code>cat /etc/hvs/certs/trustedca/saml-crt.pem
+</code></pre></div>
+<p>Use the SAML certificate output in the following POST call to the Key
+Broker:</p>
+<div class="highlight"><pre><span></span><code>POST https://&lt;Key Broker IP address or hostname&gt;:9443/kbs/v1/saml-certificates
+Content-Type: application/x-pem-file
+-----BEGIN CERTIFICATE-----
+MIID9TCCAl2gAwIBAgIBCTANBgkqhkiG9w0BAQwFADBQMQswCQYDVQQGEwJVUzEL
+MAkGA1UECBMCU0YxCzAJBgNVBAcTAlNDMQ4wDAYDVQQKEwVJTlRFTDEXMBUGA1UE
+AxMOQ01TIFNpZ25pbmcgQ0EwHhcNMTkxMjExMTkzOTU1WhcNMjAxMjExMTkzOTU1
+WjAYMRYwFAYDVQQDEw1tdHdpbHNvbi1zYW1sMIIBojANBgkqhkiG9w0BAQEFAAOC
+AY8AMIIBigKCAYEArbrDpzR4Ry0MVhSJULHZoiVL020YqtyRH+R2NlVXTpJzqmEA
+Ep2utfcP8+mSCT7DLpGBO6KACPCz3pmqj3wZyqZNTrG7IF2Z4Fuf641fPcxA3WVH
+3lXz0L5Ep4jOUdfT8kj4hHxHJVJhDsW4J2fds2RGnn8bZG/QbmmGNRfqdxht0zMh
+63ik8jBWNWHxYSRbck27FyTj9hDU+z+rFfIdNv1SiQ9FyndgOytK/m7ijoAetkSF
+bCsauzUL7DFdRzTmB2GCF/Zd957V51GNpvan6uwqDTL6T4NFX2sqoVduu/WIyTpO
+/6D2aA741CR3Bmk9945TSeDKZNz2HkihuE+d8ES68W1t4rvox/Noi74e0k35AqcQ
+Q3P0DZpD+XaRapz5CHcOPwOpZ3A/8wN2f+CS2HqDx8FwABkh7l8OdiIWs8+TDQZe
+1x4e/50jE/8zMR/tsAy1EXkm3OTOVxih0u18J84x4OT+rHAIcoQ+TOJ40aHrWGHg
+kVCfiCUzYYT/W/RBAgMBAAGjEjAQMA4GA1UdDwEB/wQEAwIGwDANBgkqhkiG9w0B
+AQwFAAOCAYEAP/ABHdPquBNrMOCU+v7SfMLmIfJymA15mCorMEiKZ1d7oNnoPP0G
+pfyRA4TUiyFLCOLi4jIXWuu4Lt6RUz6bnzn8JRWD5ocIJGGxWjOA66xyS3o9iG7G
+otOh1pzp5wlwPG7r8ZJ7Q26J+NuHpN1GW5U5Vjww1J9rEKnsKp45QHkG2nXEujdx
+YXmKXtEG2gOMVjaLiqromf6VxbdNoKHZGEfqU3H5ymMgqIrnXl3MivA30CymCDLl
+rJGRQSwOfzywPCnUOAVptBwLs2kwOtdvnq+BTK3q/dKKoNiFURj/mQ70egquW9ly
+TOkYivmKqMZxZlq0//cre4K35aCW3ZArzGgNM8Pk0V/hZp8ZHrWLNAdo4w/Pj1oC
+Yq7R0RQ8jQerkewYBfrv3O3e9c22h48fsHnun6F3sbcDjws/sWJIOcrPyqJE26HY
+DmIKpvjqc0jI31ndBBwkb+RIBFkz1Ycob9rsW16uVqbjBFDjJ5QKOdXxhqulyboa
+JAF53vmU+1jE
+-----END CERTIFICATE-----
+</code></pre></div>
+<h4 id="importing-a-privacyca-certificate">Importing a PrivacyCA Certificate</h4>
+<p>Use OpenSSL to display the PrivacyCA certificate content:</p>
+<div class="highlight"><pre><span></span><code>openssl x509 -in /etc/hvs/certs/trustedca/privacy-ca/privacy-ca-cert.pem
+</code></pre></div>
+<p>Use the PrivacyCA certificate output in the following POST call to the
+Key Broker:</p>
+<div class="highlight"><pre><span></span><code>POST https://&lt;Key Broker IP address or hostname&gt;:9443/kbs/v1/tpm-identity-certificates
+Content-Type: application/x-pem-file
+-----BEGIN CERTIFICATE-----
+MIIHaDCCBdCgAwIBAgIGAW72eWZ9MA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMT
+EG10d2lsc29uLXBjYS1haWswHhcNMTkxMjExMTkzOTQxWhcNMjkxMjEwMTkzOTQx
+WjAbMRkwFwYDVQQDExBtdHdpbHNvbi1wY2EtYWlrMIIBojANBgkqhkiG9w0BAQEF
+AAOCAY8AMIIBigKCAYEAmWqBr2YiycZbF/QgFbxTr4YiHtueWBdW0sibtH1QRSbI
+KtkbFsmr6J6QiLBaXcF7KVN6DaD0j5sU4cZSttqKwlSUnn07xjWJRP1EcvSaufO1
+MarewgBpFQcI2T6aTs1ziV77BoKz0kWteURz1jT1KSwuattxTelpmgucDp98MqW/
+uWsliHUVxh51JTE1yn7Vf1QCWz3a+NDH98Lgr5ks337yx3VBK59Dwtsmfsrd5tMn
+IuV9Jw0Y2UEdDi004FXI4q64MsMpWA7t5ONRAU+VNU0Y3saXeNBDg9J363imOHIH
+haP8ixDhqZ+Xb/TGafgFeEHBkJTv6bWpDqodbWVDbgZloxJzcNgtimQw3RbyrB3C
+KijlEo5BQY6bOcdMG7gCq77u/fbOvLb5IXzS8ZDpwuwCQNnBP4UJXwAflO7COG7P
+mpj9bTV1OtFiPtYFc4JdGdaf1Pl2zWGeR0c3PIzYQxqvtTVtFX+oRWRsgaEdxKf7
+LJx4aIjXwP2s6PIiOSalAgMBAAGjggOwMIIDrDCCAbMGA1UdDgSCAaoEggGmMIIB
+ojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAmWqBr2YiycZbF/QgFbxTr4Yi
+HtueWBdW0sibtH1QRSbIKtkbFsmr6J6QiLBaXcF7KVN6DaD0j5sU4cZSttqKwlSU
+nn07xjWJRP1EcvSaufO1MarewgBpFQcI2T6aTs1ziV77BoKz0kWteURz1jT1KSwu
+attxTelpmgucDp98MqW/uWsliHUVxh51JTE1yn7Vf1QCWz3a+NDH98Lgr5ks337y
+x3VBK59Dwtsmfsrd5tMnIuV9Jw0Y2UEdDi004FXI4q64MsMpWA7t5ONRAU+VNU0Y
+3saXeNBDg9J363imOHIHhaP8ixDhqZ+Xb/TGafgFeEHBkJTv6bWpDqodbWVDbgZl
+oxJzcNgtimQw3RbyrB3CKijlEo5BQY6bOcdMG7gCq77u/fbOvLb5IXzS8ZDpwuwC
+QNnBP4UJXwAflO7COG7Pmpj9bTV1OtFiPtYFc4JdGdaf1Pl2zWGeR0c3PIzYQxqv
+tTVtFX+oRWRsgaEdxKf7LJx4aIjXwP2s6PIiOSalAgMBAAEwDwYDVR0TAQH/BAUw
+AwEB/zCCAeAGA1UdIwSCAdcwggHTgIIBpjCCAaIwDQYJKoZIhvcNAQEBBQADggGP
+ADCCAYoCggGBAJlqga9mIsnGWxf0IBW8U6+GIh7bnlgXVtLIm7R9UEUmyCrZGxbJ
+q+iekIiwWl3BeylTeg2g9I+bFOHGUrbaisJUlJ59O8Y1iUT9RHL0mrnztTGq3sIA
+aRUHCNk+mk7Nc4le+waCs9JFrXlEc9Y09SksLmrbcU3paZoLnA6ffDKlv7lrJYh1
+FcYedSUxNcp+1X9UAls92vjQx/fC4K+ZLN9+8sd1QSufQ8LbJn7K3ebTJyLlfScN
+GNlBHQ4tNOBVyOKuuDLDKVgO7eTjUQFPlTVNGN7Gl3jQQ4PSd+t4pjhyB4Wj/IsQ
+4amfl2/0xmn4BXhBwZCU7+m1qQ6qHW1lQ24GZaMSc3DYLYpkMN0W8qwdwioo5RKO
+QUGOmznHTBu4Aqu+7v32zry2+SF80vGQ6cLsAkDZwT+FCV8AH5Tuwjhuz5qY/W01
+dTrRYj7WBXOCXRnWn9T5ds1hnkdHNzyM2EMar7U1bRV/qEVkbIGhHcSn+yyceGiI
+18D9rOjyIjkmpQIDAQABoR+kHTAbMRkwFwYDVQQDExBtdHdpbHNvbi1wY2EtYWlr
+ggYBbvZ5Zn0wDQYJKoZIhvcNAQELBQADggGBAC3PEB8Av0PBJgrJMxzMbuf1FCdD
+AUrfYmP81Hs0/v70efviMEF2s3GAyLHD9v+1nNFCQrjcNCar18k45BlcodBEmxKA
+DZoioFykRtlha6ByVvuN6wD93KQbKsXPKhUp8X67fLuOcQgfc3BoDRlw/Ha1Ib6X
+fliE+rQzLCOgClK7ZdTwl9Ok0VbR7Mbal/xShIqr2WopjBtal9p4RsnIxilTHI+m
+qzbV8zvZXYfYtEb3MMMT5EnjIV8O498KKOjxohD2vqaxqItd58pOi6z/q5f4pLHc
+DvdsJecJEoWb2bxWQdBgthMjX6AUV/B5G/LTfaPwVbTLdEc+S6Nrobf/TFYV0pvG
+OzF3ltYag0fupuYJ991s/JhVwgJhCGq7YourDGkNIWAjt0Z2FWuQKnxWvmResgkS
+WTeXt+1HCFSo5WcAZWV8R9FYv7tzFxPY8aoLj82sgrOE4IwRqaA8KMbq3anF4RCk
++D8k6etqMcNHFS8Fj6GlCd80mb4Q3sxuCiBvZw==
+-----END CERTIFICATE-----
+</code></pre></div>
+<h2 id="installing-the-workload-policy-manager">Installing the Workload Policy Manager</h2>
+<h3 id="required-for_6">Required For</h3>
+<p>The WPM is REQUIRED for the following use cases.</p>
+<ul>
+<li>Workload Confidentiality (both VMs and Containers)</li>
+</ul>
+<h3 id="package-dependencies_4">Package Dependencies</h3>
+<h3 id="supported-operating-systems_6">Supported Operating Systems</h3>
+<p>The Intel® Security Libraries Workload Policy Manager supports:</p>
+<ul>
+<li>
+<p>Red Hat Enterprise Linux 8.4</p>
+</li>
+<li>
+<p>Ubuntu 20.04</p>
+</li>
+</ul>
+<h3 id="recommended-hardware_4">Recommended Hardware</h3>
+<ul>
+<li>
+<p>2 vCPUs</p>
+</li>
+<li>
+<p>RAM: 8 GB</p>
+</li>
+<li>
+<p>100 GB</p>
+</li>
+<li>
+<p>One network interface with network access to the Key Broker and
+    Workload Service</p>
+</li>
+<li>
+<p>Additional memory and disk space may be required depending on the
+    size of images to be encrypted</p>
+</li>
+</ul>
+<h3 id="installation_5">Installation</h3>
+<ul>
+<li>
+<p>Copy the WPM installer to the <code>/root</code> directory</p>
+</li>
+<li>
+<p>Create the <code>wpm.env</code> answer file:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">KBS_BASE_URL</span><span class="o">=</span>https://&lt;IP address or hostname of the KBS&gt;:9443/kbs/v1/
+<span class="nv">WPM_SERVICE_USERNAME</span><span class="o">=</span>&lt;WPM_Service username from populate-users script&gt;
+<span class="nv">WPM_SERVICE_PASSWORD</span><span class="o">=</span>&lt;WPM Service password from populate-users script&gt;
+<span class="nv">CMS_TLS_CERT_SHA384</span><span class="o">=</span>&lt;Sha384 <span class="nb">hash</span> of the CMS TLS certificate&gt;
+<span class="nv">CMS_BASE_URL</span><span class="o">=</span>https://&lt;IP address or hostname <span class="k">for</span> CMS&gt;:8445/cms/v1/
+<span class="nv">AAS_API_URL</span><span class="o">=</span>https://&lt;Hostname or IP address of the AAS&gt;:8444/aas/v1
+<span class="nv">BEARER_TOKEN</span><span class="o">=</span>&lt;Installation token from populate-users script&gt;
+</code></pre></div>
+<p>For  Container Encryption only, add the following line to the
+   wpm.env installation answer file:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">##For the CRI-O container runtime:</span>
+<span class="nv">WPM_WITH_CONTAINER_SECURITY_CRIO</span><span class="o">=</span>yes
+</code></pre></div>
+<ul>
+<li>
+<p>Execute the WPM installer:</p>
+<div class="highlight"><pre><span></span><code>./wpm-v4.1.1.bin
+</code></pre></div>
+</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../24%20Recommended%20Service%20Layout/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Recommended Service Layout" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Recommended Service Layout
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../25.0%20Using%20NATS%20with%20Intel%20SecL/" class="md-footer__link md-footer__link--next" aria-label="Next: Using NATS with Intel SecL" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Using NATS with Intel SecL
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.indexes", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.37e9125f.min.js"></script>
+      
+    
+  </body>
+</html>

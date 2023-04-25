@@ -1,0 +1,237 @@
+basePath: /
+definitions:
+  IdentityRequest:
+    properties:
+      nonce:
+        type: string
+        x-go-name: Nonce
+    type: object
+    x-go-package: github.com/intel-secl/sample-sgx-attestation/v4/swagger
+  IdentityResponse:
+    properties:
+      quote:
+        type: string
+        x-go-name: Quote
+      user-data:
+        $ref: '#/definitions/UserData'
+    type: object
+    x-go-package: github.com/intel-secl/sample-sgx-attestation/v4/swagger
+  UserData:
+    properties:
+      public-key:
+        type: string
+        x-go-name: Publickey
+    type: object
+    x-go-package: github.com/intel-secl/sample-sgx-attestation/v4/swagger
+  WrappedMessage:
+    properties:
+      Message:
+        type: string
+    type: object
+    x-go-package: github.com/intel-secl/sample-sgx-attestation/v4/swagger
+  WrappedSWK:
+    properties:
+      SWK:
+        type: string
+    type: object
+    x-go-package: github.com/intel-secl/sample-sgx-attestation/v4/swagger
+host: attestedapp.com:9000
+info:
+  description: |-
+    The project demonstrates several fundamental usages of Intel® Software Guard Extensions (Intel® SGX) SDK such as
+    Initializing and destroying a SGX enclave hosted in an attestedApp
+    Generate a signed SGX Report and public/private key pair inside the enclave
+    Generate a quote using SCS with Intel® DCAP APIs
+    Verify the SGX quote using SGX Quote Verification Service (SQVS) by a separate attestingApp
+    Verify that the quote complies with a user-defined quote policy by the attestingApp
+    Generate a Symmetric Wrapping Key (SWK) in the attestingApp, wrap it with enclave's public key and share it with the enclave
+    Exchange encrypted secrets between the attestingApp and the enclave using the SWK.
+  license:
+    name: 'Copyright (C) 2021 Intel Corporation. SPDX-License-Identifier: BSD-3-Clause'
+  title: SGX Sample Attestation
+  version: "1"
+paths:
+  /id:
+    get:
+      consumes:
+      - application/json
+      description: |
+        The Attesting App uses this API to get the Quote and Public Key from Attested App.
+      operationId: httpGetQuotePubkey
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/IdentityRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully generated and shared the Quote and Public
+          schema:
+            $ref: '#/definitions/IdentityResponse'
+      security:
+      - bearerAuth: []
+      tags:
+      - Identity
+      x-sample-call-endpoint: https://attestingapp.com:9000/id
+      x-sample-call-input: |
+        {
+           "nonce": "123456789123443254356452"
+        }
+      x-sample-call-output: |
+        {
+           "quote": "AwACAAAAAAAFAAoAk5pyM/ecTKmUCg2zlX8GB/y/7wwGmaw8r/y3PiGFP7IAAAAAAgIAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAADnAAAAAAAAAL1pu8OVCjNA7g6+ufBtcLLQYAp4eZGjG+FEuzSxGHe
+            bAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACD1xnnferKFHD2uvYqTXdDA8iZ22kCD5xw7h38CMfOngAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC
+            tmD7bIT8VbgD04oun685pRwpEZm7iyLk2K5lDFbs8fwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1BAAAOTsF9FD/C7
+            Z+8zndDiX3wizl7mgpmx/4HORGXrH7AmTbtvNPzyV7/KWfB5g2ExuNyHQDeTtHroiUSRYTlkmHXvyln2bkmggbxFu600NlbxLy4Q
+            n2qBgkh9ErAglqdbiymIG9NF0bQRnlHexm42iiwkpsLnljRj4mzWSUCB8tJEWAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAFQAAAAAAAADnAAAAAAAAAGDYWvKL6NHECgjZiwCdX4rME4Sjhc9GCADkeHkdGpecAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACMT1d115ZQPpYTf3fGioKaAFasje1wFAsIGwlEkMV7/wAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAEABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACbFTL1Vk4Cqt8
+            S85uugAR3m6AGbPjzgGI2DokelZM3iwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASc5VrFu5PzGWT5lOZPVzirNw78/
+            fKS8YPqhhvJCfnHGG1d6WbiS5dOn308t8hKBseJn90oEB+bnnLkoLbo9xBSAAAAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxw
+            dHh8FAGwOAAAtLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS0KTUlJRTlEQ0NCSnFnQXdJQkFnSVVSR3NrUFl1ME16SUNZV3RqWTV
+            VL0R0R1Q5SW93Q2dZSUtvWkl6ajBFQXdJd2NERWlNQ0FHQTFVRQpBd3daU1c1MFpXd2dVMGRZSUZCRFN5QlFiR0YwWm05eWJTQkR
+            RVEVhTUJnR0ExVUVDZ3dSU1c1MFpXd2dRMjl5Y0c5eVlYUnBiMjR4CkZEQVNCZ05WQkFjTUMxTmhiblJoSUVOc1lYSmhNUXN3Q1F
+            ZRFZRUUlEQUpEUVRFTE1Ba0dBMVVFQmhNQ1ZWTXdIaGNOTWpFd05qSTAKTURZeE5UVXpXaGNOTWpnd05qSTBNRFl4TlRVeldqQnd
+            NU0l3SUFZRFZRUUREQmxKYm5SbGJDQlRSMWdnVUVOTElFTmxjblJwWm1sagpZWFJsTVJvd0dBWURWUVFLREJGSmJuUmxiQ0JEYjN
+            Kd2IzSmhkR2x2YmpFVU1CSUdBMVVFQnd3TFUyRnVkR0VnUTJ4aGNtRXhDekFKCkJnTlZCQWdNQWtOQk1Rc3dDUVlEVlFRR0V3SlZ
+            VekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCQnU1YlQwc2tSdHoKT3dzdnB0MTA5QUU4UzZtUHRjKzRzNStmeWR
+            QLzdjTWlvTm9Rb3YzZEJPYVhQSm5wdmQ5azUvVHFrWjlEcHBkTkcxL3Qvait1U1F5agpnZ01RTUlJREREQWZCZ05WSFNNRUdEQVd
+            nQlJaSTlPblNxaGpWQzQ1Y0szZ0R3Y3JWeVFxdHpCdkJnTlZIUjhFYURCbU1HU2dZcUJnCmhsNW9kSFJ3Y3pvdkwzTmllQzVoY0d
+            rdWRISjFjM1JsWkhObGNuWnBZMlZ6TG1sdWRHVnNMbU52YlM5elozZ3ZZMlZ5ZEdsbWFXTmgKZEdsdmJpOTJNeTl3WTJ0amNtdy9
+            ZMkU5Y0d4aGRHWnZjbTBtWlc1amIyUnBibWM5WkdWeU1CMEdBMVVkRGdRV0JCUmp0QlFNeGJYaQpZdmMxYmdiQkkyQ0t5eTU5Smp
+            BT0JnTlZIUThCQWY4RUJBTUNCc0F3REFZRFZSMFRBUUgvQkFJd0FEQ0NBamtHQ1NxR1NJYjRUUUVOCkFRU0NBaW93Z2dJbU1CNEd
+            DaXFHU0liNFRRRU5BUUVFRUlsMW5LUTd0ZGJxbUNkMUo5bXoyUzh3Z2dGakJnb3Foa2lHK0UwQkRRRUMKTUlJQlV6QVFCZ3NxaGt
+            pRytFMEJEUUVDQVFJQkFqQVFCZ3NxaGtpRytFMEJEUUVDQWdJQkFqQVFCZ3NxaGtpRytFMEJEUUVDQXdJQgpBREFRQmdzcWhraUc
+            rRTBCRFFFQ0JBSUJBREFRQmdzcWhraUcrRTBCRFFFQ0JRSUJBREFRQmdzcWhraUcrRTBCRFFFQ0JnSUJBREFRCkJnc3Foa2lHK0U
+            wQkRRRUNCd0lCQURBUUJnc3Foa2lHK0UwQkRRRUNDQUlCQURBUUJnc3Foa2lHK0UwQkRRRUNDUUlCQURBUUJnc3EKaGtpRytFMEJ
+            EUUVDQ2dJQkFEQVFCZ3NxaGtpRytFMEJEUUVDQ3dJQkFEQVFCZ3NxaGtpRytFMEJEUUVDREFJQkFEQVFCZ3NxaGtpRworRTBCRFF
+            FQ0RRSUJBREFRQmdzcWhraUcrRTBCRFFFQ0RnSUJBREFRQmdzcWhraUcrRTBCRFFFQ0R3SUJBREFRQmdzcWhraUcrRTBCCkRRRUN
+            FQUlCQURBUUJnc3Foa2lHK0UwQkRRRUNFUUlCQ2pBZkJnc3Foa2lHK0UwQkRRRUNFZ1FRQWdJQUFBQUFBQUFBQUFBQUFBQUEKQUR
+            BUUJnb3Foa2lHK0UwQkRRRURCQUlBQURBVUJnb3Foa2lHK0UwQkRRRUVCQVlRWUdvQUFBQXdEd1lLS29aSWh2aE5BUTBCQlFvQgp
+            BVEFlQmdvcWhraUcrRTBCRFFFR0JCQkNSejFLcnc3bXMzbU1vVUxUaVZTbU1FUUdDaXFHU0liNFRRRU5BUWN3TmpBUUJnc3Foa2l
+            HCitFMEJEUUVIQVFFQi96QVFCZ3NxaGtpRytFMEJEUUVIQWdFQkFEQVFCZ3NxaGtpRytFMEJEUUVIQXdFQi96QUtCZ2dxaGtqT1B
+            RUUQKQWdOSUFEQkZBaUVBbWVEb3ZZanNoK002V3B6U1kwWDhpaWs0K0xQdUlCeU8yeDRseUZRdHVKQUNJRjFxSUlZbEY3MHhrY1p
+            uZDBWaQpDZ01aTEFuQnByNzVuSVZsTGdkampuMkIKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLS0tLS0tQkVHSU4gQ0VSVElGSUN
+            BVEUtLS0tLQpNSUlDbWpDQ0FrQ2dBd0lCQWdJVVdTUFRwMHFvWTFRdU9YQ3Q0QThISzFja0tyY3dDZ1lJS29aSXpqMEVBd0l3CmF
+            ERWFNQmdHQTFVRUF3d1JTVzUwWld3Z1UwZFlJRkp2YjNRZ1EwRXhHakFZQmdOVkJBb01FVWx1ZEdWc0lFTnYKY25CdmNtRjBhVzl
+            1TVJRd0VnWURWUVFIREF0VFlXNTBZU0JEYkdGeVlURUxNQWtHQTFVRUNBd0NRMEV4Q3pBSgpCZ05WQkFZVEFsVlRNQjRYRFRFNU1
+            UQXpNVEV5TXpNME4xb1hEVE0wTVRBek1URXlNek0wTjFvd2NERWlNQ0FHCkExVUVBd3daU1c1MFpXd2dVMGRZSUZCRFN5QlFiR0Y
+            wWm05eWJTQkRRVEVhTUJnR0ExVUVDZ3dSU1c1MFpXd2cKUTI5eWNHOXlZWFJwYjI0eEZEQVNCZ05WQkFjTUMxTmhiblJoSUVOc1l
+            YSmhNUXN3Q1FZRFZRUUlEQUpEUVRFTApNQWtHQTFVRUJoTUNWVk13V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVF
+            3cCtMYytUVUJ0ZzFICitVOEpJc01zYmpIakNrVHRYYjhqUE02cjJkaHU5eklibGhEWjdJTmZxdDNJeDhYY0ZLRDhrME5FWHJrWjY
+            2cUoKWGExS3pMSUtvNEcvTUlHOE1COEdBMVVkSXdRWU1CYUFGT25vUkZKVE5seExHSm9SL0VNWUxLWGNJSUJJTUZZRwpBMVVkSHd
+            SUE1FMHdTNkJKb0VlR1JXaDBkSEJ6T2k4dmMySjRMV05sY25ScFptbGpZWFJsY3k1MGNuVnpkR1ZrCmMyVnlkbWxqWlhNdWFXNTB
+            aV3d1WTI5dEwwbHVkR1ZzVTBkWVVtOXZkRU5CTG1SbGNqQWRCZ05WSFE0RUZnUVUKV1NQVHAwcW9ZMVF1T1hDdDRBOEhLMWNrS3J
+            jd0RnWURWUjBQQVFIL0JBUURBZ0VHTUJJR0ExVWRFd0VCL3dRSQpNQVlCQWY4Q0FRQXdDZ1lJS29aSXpqMEVBd0lEU0FBd1JRSWh
+            BSjFxK0ZUeitnVXVWZkJRdUNnSnNGckwyVFRTCmUxYUJaNTNPNTJUakZpZTZBaUFyaVBhUmFoVVg5T2E5a0dMbEFjaFdYS1Q2ajR
+            SV1NSNTBCcWhyTjNVVDRBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQotLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS0KTUl
+            JQ2xEQ0NBam1nQXdJQkFnSVZBT25vUkZKVE5seExHSm9SL0VNWUxLWGNJSUJJTUFvR0NDcUdTTTQ5QkFNQwpNR2d4R2pBWUJnTlZ
+            CQU1NRVVsdWRHVnNJRk5IV0NCU2IyOTBJRU5CTVJvd0dBWURWUVFLREJGSmJuUmxiQ0JECmIzSndiM0poZEdsdmJqRVVNQklHQTF
+            VRUJ3d0xVMkZ1ZEdFZ1EyeGhjbUV4Q3pBSkJnTlZCQWdNQWtOQk1Rc3cKQ1FZRFZRUUdFd0pWVXpBZUZ3MHhPVEV3TXpFd09UUTV
+            NakZhRncwME9URXlNekV5TXpVNU5UbGFNR2d4R2pBWQpCZ05WQkFNTUVVbHVkR1ZzSUZOSFdDQlNiMjkwSUVOQk1Sb3dHQVlEVlF
+            RS0RCRkpiblJsYkNCRGIzSndiM0poCmRHbHZiakVVTUJJR0ExVUVCd3dMVTJGdWRHRWdRMnhoY21FeEN6QUpCZ05WQkFnTUFrTkJ
+            NUXN3Q1FZRFZRUUcKRXdKVlV6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJFLzZELzFXSE5yV3dQbU5NSXlCS01
+            XNQpKNkp6TXNqbzZ4UDJ2a0sxY2RaR2IxUEdSUC9DLzhFQ2dpRGtta2xtendMekxpKzAwMG03TExydEtKQTNvQzJqCmdiOHdnYnd
+            3SHdZRFZSMGpCQmd3Rm9BVTZlaEVVbE0yWEVzWW1oSDhReGdzcGR3Z2dFZ3dWZ1lEVlIwZkJFOHcKVFRCTG9FbWdSNFpGYUhSMGN
+            ITTZMeTl6WW5ndFkyVnlkR2xtYVdOaGRHVnpMblJ5ZFhOMFpXUnpaWEoyYVdObApjeTVwYm5SbGJDNWpiMjB2U1c1MFpXeFRSMWh
+            TYjI5MFEwRXVaR1Z5TUIwR0ExVWREZ1FXQkJUcDZFUlNVelpjClN4aWFFZnhER0N5bDNDQ0FTREFPQmdOVkhROEJBZjhFQkFNQ0F
+            RWXdFZ1lEVlIwVEFRSC9CQWd3QmdFQi93SUIKQVRBS0JnZ3Foa2pPUFFRREFnTkpBREJHQWlFQXp3OXpkVWlVSFBNVWQwQzRteDQ
+            xamxGWmtyTTN5NWYxbGduVgpPN0Ziak9vQ0lRQ29HdFVtVDRjWHQ3Vit5U0hiSjhIb2I5QWFucHZYTkgxRVIrL2daRitvcFE9PQo
+            tLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==",
+           "user-data": {
+               "public-key": "AQABAEEoj+Rpeo5pnKPLCZ+YaTA/vJEWwwv7dQrnljKnNqXhe2or/E/G57pTPHvWWi1JNh0khl
+                                       yn+XyxYYynGD76owy5tQt3/bVBSIX0a73yDnlTz7nAd4i5XCdRFCus1itg+iUng7p17D8QYHOJAemBturjeruLdfNWHX0boEB8EC
+                                       kE6wfXZtg+wYhRxzHTPVoEyGfRvOOTNdLDKZOCTWR52ActN+uKiCKEQqhgs5X03WcZ53zTpBX8mCyCk7Ip3dRGLumzDBahFc4WoV
+                                       XlRHOG/t6apCDRT6AIlGa2+XkK2GQW/91yW1sLK5HSR7aI0lai8MMnVEcEvfKdZgNcZjhUeL2yzKe0z/TOKn5rBeCq3JH5sF0/Wx
+                                       f1UX50oKCHZSRbW9kGvL3C38l6f/yMxos8tAptYCX8z5sbR08s6hBNK9DrtSu5fFAkBrbaPdvd0SDvPN38Hf02712BMsq8KmKzX8
+                                       B4UxYyhjgiPwRp4vxHK2men7uWwrwjIkDnAo4PG113hA=="
+           }
+        }
+  /wrapped_message:
+    post:
+      consumes:
+      - application/json
+      description: |
+        The Attesting App uses this API to share the encrypted message with the Attested App
+      operationId: httpReceiveWrappedMessage
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/WrappedMessage'
+      produces:
+      - application/text
+      responses:
+        "200":
+          description: Encrypted message is successfully received.
+      security:
+      - bearerAuth: []
+      tags:
+      - Message
+      x-sample-call-endpoint: https://attestingapp.com:9000/wrapped_message
+      x-sample-call-input: |
+        {
+           "message": "pgj4F3G6Zdb7tB1fUBjM36XmRuGfGperaBCjQj6IOAGdoaE4xmpgnorG"
+        }
+      x-sample-call-output: |
+        "Unable to decrypt message."
+  /wrapped_swk:
+    post:
+      consumes:
+      - application/json
+      description: |
+        The Attesting App uses this API to share the wrapped SWK with the Attested App.
+      operationId: httpReceiveWrappedSWK
+      parameters:
+      - in: body
+        name: request body
+        required: true
+        schema:
+          $ref: '#/definitions/WrappedSWK'
+      produces:
+      - application/text
+      responses:
+        "200":
+          description: Wrapped SWK is successfully shared
+      security:
+      - bearerAuth: []
+      tags:
+      - SWK
+      x-sample-call-endpoint: https://attestingapp.com:9000/wrapped_swk
+      x-sample-call-input: |
+        {
+           "swk": "pgj4F3G6Zdb7tB1fUBjM36XmRuGfGperaBCjQj6IOAGdoaE4xmpgnorG"
+        }
+      x-sample-call-output: |
+        "Unwrapping of SWK failed.."
+responses:
+  StatusResponse:
+    description: IDResp response payload
+    schema:
+      $ref: '#/definitions/IdentityResponse'
+  WrappedMsgResp:
+    description: WrappedMsgResp response payload
+    schema:
+      $ref: '#/definitions/WrappedMessage'
+  WrappedSWKResp:
+    description: WrappedSWKResp response payload
+    schema:
+      $ref: '#/definitions/WrappedSWK'
+schemes:
+- https
+securityDefinitions:
+  bearerAuth:
+    description: Enter your bearer token in the format **Bearer &lt;token&gt;**
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
