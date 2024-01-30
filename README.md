@@ -57,7 +57,7 @@ Using the SKC Client -- a set of libraries -- applications can retrieve keys fro
 
 [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause)
 
-## Contributing
+## Contributing 
 
 <https://github.com/intel-secl/intel-secl/>
 
